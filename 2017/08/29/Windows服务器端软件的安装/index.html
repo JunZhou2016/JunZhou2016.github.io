@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>Windows服务器端软件的安装 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="*Windows服务器端软件的安装*MYSQL的操作安装 1.将下载下载的包解压到指定目录，（本人）解压到：D:\Program Files (x86) 目录下。因此，MySQL的(安装)包的完整路径为：D:\Program Files (x86)\mysql-5.7.18-winx642.2.解压后，配置好系统环境变量。新增系统环境变量：键名：MYSQL_HOME值为：D:\Program Fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows服务器端软件的安装">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/Windows服务器端软件的安装/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="*Windows服务器端软件的安装*MYSQL的操作安装 1.将下载下载的包解压到指定目录，（本人）解压到：D:\Program Files (x86) 目录下。因此，MySQL的(安装)包的完整路径为：D:\Program Files (x86)\mysql-5.7.18-winx642.2.解压后，配置好系统环境变量。新增系统环境变量：键名：MYSQL_HOME值为：D:\Program Fi">
+<meta property="og:image" content="http://img.blog.csdn.net/20170709223332467?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170709222659854?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-08-29T01:00:27.231Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="Windows服务器端软件的安装">
+<meta name="twitter:description" content="*Windows服务器端软件的安装*MYSQL的操作安装 1.将下载下载的包解压到指定目录，（本人）解压到：D:\Program Files (x86) 目录下。因此，MySQL的(安装)包的完整路径为：D:\Program Files (x86)\mysql-5.7.18-winx642.2.解压后，配置好系统环境变量。新增系统环境变量：键名：MYSQL_HOME值为：D:\Program Fi">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170709223332467?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -149,84 +156,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-父类和子类的相互转换及父类调用子类的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Windows服务器端软件的安装" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">父类和子类的相互转换及父类调用子类的方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.218Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>父类和子类的相互转换及父类调用子类的方法</strong></p>
-<ol>
-<li>父类转换为子类的前提条件是：<strong>父类引用指向子类</strong>;<br>Parent   p=new   Son()<br>Son   s=(Son)p;  –正确<br>Parent   p=new   Parent()<br>Son   s=(Son)p;  –错误搜索  </li>
-</ol>
-<hr>
-<p>根本原因：因为继承的概念就是<strong>子孙类会越来越比祖先类详细</strong>，所以可以将子孙类强制转换成祖先类，因为祖先有的行为子孙类示例都有了（重新定义的或者是默认的）；但是当将祖先类示例强制转换成子孙类示例的时候，一些<strong>子孙类有的行为祖先是没有的</strong>（即使的是默认的实现也没有）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Windows服务器端软件的安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Windows服务器端软件的安装/">Windows服务器端软件的安装</a>
+    <h1 class="article-title" itemprop="name">
+      Windows服务器端软件的安装
     </h1>
   
 
@@ -268,6 +205,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -275,16 +233,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Windows服务器端软件的安装/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/29/Windows服务器端软件的安装/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          父类和子类的相互转换及父类调用子类的方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/29/tomcat配置外部静态资源映射路径/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tomcat配置外部静态资源映射路径</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -304,999 +330,12 @@
 
 
 
-
-  
-    <article id="post-tomcat配置外部静态资源映射路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/tomcat配置外部静态资源映射路径/">tomcat配置外部静态资源映射路径</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/tomcat配置外部静态资源映射路径/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.213Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="tomcat配置外部静态资源映射路径"><a href="#tomcat配置外部静态资源映射路径" class="headerlink" title="tomcat配置外部静态资源映射路径"></a>tomcat配置外部静态资源映射路径</h2><p>修改apache-tomcat-7.0.56\conf文件夹下的server.xml即可；<br><em>注意修改服务器中的配置文件的过程中切忌出现中文，注释中文可能导致服务无法启动</em></p>
-<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;localhost&quot; appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- SingleSignOn valve, share authentication between web applications Documentation at: /docs/config/valve.html --&gt;</div><div class="line">&lt;!--</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- Access log processes all example.Documentation at: /docs/config/valve.html Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;</div><div class="line">　　　　prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;</div><div class="line">　　　　pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;</div><div class="line">　　</div><div class="line"></div><div class="line">　　&lt;!-- 增加的静态资源映射配置 --&gt;</div><div class="line">　　&lt;Context path=&quot;/RecordFile&quot; docBase=&quot;/home/lings/recordings&quot; reloadable=&quot;true&quot; crossContext=&quot;true&quot;&gt;&lt;/Context&gt;</div><div class="line"></div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
-<p>红色那一行就是增加的静态资源映射配置。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/tomcat配置外部静态资源映射路径/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Struts2中接收表单数据的三种驱动方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">Struts2中接收表单数据的三种驱动方式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.210Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Struts2中接收表单数据的三种驱动方式</strong><br>  1.属性驱动<br>   前台表单中字段的name和后台action中的属性字段的名称必须保持一致；</p>
-<p>2.域驱动<br>前台表单中字段的name应该为：objectName.attribute的形式;<br>后台action中以object为单位进行数据的接收，前台页面的取值方式为：</p>
-<p>3.模型驱动<br>前台表单中字段的name应该为：attribute的形式;<br>后台action实行ModelDriven接口，并重写getModel方法；前台页面的取值方式为：<br>${attribute};</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Shiro的学习Helloworld" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Shiro的学习Helloworld/">Shiro的学习Helloworld</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Shiro的学习Helloworld/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Shiro的学习Helloworld"><a href="#Shiro的学习Helloworld" class="headerlink" title="Shiro的学习Helloworld"></a>Shiro的学习Helloworld</h2><p>8月 18, 2017   框架相关, 权限管理</p>
-<ol>
-<li>Apache Shiro是Java的一个安全框架<br>1.1. Shiro可以帮助我们完成：认证、授权、加密、会话管理、与Web集成、缓存等</li>
-<li>Shiro基本功能</li>
-<li>1.身份认证</li>
-<li>2.权限认证<br>4.1. 核心要素：（资源，）权限，角色，用户</li>
-<li>3.集成web进行测试<br>5.0.1. 1.新建一个maven的web项目<br>5.0.1.1. 1.authc.loginUrl配置身份认证不通过(未登录时)跳转的地址…(loginUrl是authc的一个属性)<br>5.0.1.2. 2.roles.unauthorizeUrl配置角色认证不通过跳转的地址…(noAuth.jsp页面目前只有一行字)<br>5.0.1.3. 3.perms.unauthorizeUrl配置权限认证不通过跳转的地址<br>5.0.1.4. 4.[users]下配置用户身份信息以及用户角色<br>5.0.1.5. 5.[roles]下配置角色以及角色的控制权限<br>5.0.1.6. 6.[urls]下配置访问地址所需的权限, 其中值为”anon过滤器”表示地址不需要登录即可访问; “authc过滤器”表示地址登录才能访问<br>5.0.1.7. 7.值为 roles[admin] 表示 必须有角色为admin的用户才能范围<br>5.0.1.8. 8.值为 perms[“student:create”] 表示 必须有权限为”student:create”的用户才能范围<br>5.0.1.9. 9.多个过滤器用”,”隔开 而且相互为”且”的关系(必须同时满足才能访问)<br>5.0.1.10. 10.地址可以使用?表示匹配单个任意字符(eg: /home?=authc 表示可过滤 /home1; /homef…..)<br>5.0.1.11. 11.地址可以使用表示匹配任意个任意字符(eg: /home=authc 表示可过滤 /home123; /homeef…..)<br>5.0.1.12. 12.地址可以使用表示匹配多路径(eg: /home/=authc 表示可过滤 /home/abc; /home/aaa/bbb…..)<br>5.0.2. 2.编写sevlet代码<br>5.0.3. 3.启动项目<br>5.0.3.1. 测试身份认证<br>5.0.3.2. 测试角色认证<br>5.0.3.3. 测试权限认证</li>
-<li>—<br>6.0.1. 自定义Realm<br>6.0.1.1. 测试开发步骤<br>6.0.1.2. 1.myRealm指向自定义Realm的位置<br>6.0.1.3. 2.securityManager.realms指向自定义Realm的引用(表明使用自定义Realms进行安全认证),可以指向多个,用”,”隔开<br>Apache Shiro是Java的一个安全框架<br>Shiro可以帮助我们完成：认证、授权、加密、会话管理、与Web集成、缓存等<br>图片说明<br>Shiro基本功能<br>Authentication：身份认证/登录，验证用户是不是拥有相应的身份；</li>
-</ol>
-<p>Authorization：授权，即权限验证，验证某个已认证的用户是否拥有某个权限；即判断用户是否能做事情，常见的如：验证某个用户是否拥有某个角色。或者细粒度的验证某个用户对某个资源是否具有某个权限；</p>
-<p>Session Manager：会话管理，即用户登录后就是一次会话，在没有退出之前，它的所有信息都在会话中；会话可以是普通JavaSE环境的，也可以是如Web环境的；</p>
-<p>Cryptography：加密，保护数据的安全性，如密码加密存储到数据库，而不是明文存储；</p>
-<p>Web Support：Web支持，可以非常容易的集成到Web环境；</p>
-<p>Caching：缓存，比如用户登录后，其用户信息、拥有的角色/权限不必每次去查，这样可以提高效率；</p>
-<p>Concurrency：shiro支持多线程应用的并发验证，即如在一个线程中开启另一个线程，能把权限自动传播过去；</p>
-<p>Testing：提供测试支持；</p>
-<p>Run As：允许一个用户假装为另一个用户（如果他们允许）的身份进行访问；</p>
-<p>Remember Me：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了。</p>
-<hr>
-<p>1.身份认证<br>配置文件：</p>
-<pre><code>********************************
-[users]
-zj2626=123456
-ay2626=456789
-********************************
-</code></pre><p>package com.em;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.authc.UsernamePasswordToken;<br>import org.apache.shiro.config.IniSecurityManagerFactory;<br>import org.apache.shiro.mgt.SecurityManager;<br>import org.apache.shiro.subject.Subject;<br>import org.apache.shiro.util.Factory;</p>
-<p>public class Hello {</p>
-<pre><code>public static void main(String args[]) {
-    //初始化SecurityManager工厂      读取配置文件中的用户名密码
-    Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);
-    //获取SecurityManager实例
-    SecurityManager manager = factory.getInstance();
-    //把SecurityManager实例绑定到SecurityUtils
-    SecurityUtils.setSecurityManager(manager);
-    //得到当前执行的用户
-    Subject subject = SecurityUtils.getSubject();
-    //创建token令牌, 用户/密码
-    UsernamePasswordToken token = new UsernamePasswordToken(&quot;zj2626&quot;, &quot;123456&quot;);
-
-    try {
-        //身份认证 登录
-        subject.login(token);
-
-        System.out.println(&quot;登录成功&quot;);
-    } catch (Exception e) {
-        System.out.println(&quot;登录失败&quot;);
-        e.printStackTrace();
-    }
-
-    subject.logout();
-}
-
-/*
-    Subject: 认证主体
-    Principals:  身份: 用户名
-    Credentials: 凭证: 密码
-
-    Realm: 域
-        1.jdbc realm | 2.jndi realm | 3.text realm
-
- */
-</code></pre><p>}<br>从数据库中读取用户名密码 实现登录</p>
-<p>1.配置文件: jdbc_realm.ini （代码只需把读取的文件改成此文件即可测试使用）</p>
-<p>[main]<br>jdbcRealm=org.apache.shiro.realm.jdbc.JdbcRealm<br>dataSource=com.mchange.v2.c3p0.ComboPooledDataSource<br>dataSource.driverClass=com.mysql.jdbc.Driver<br>dataSource.jdbcUrl=jdbc:mysql://127.0.0.1:3306/test<br>dataSource.user=root<br>dataSource.password=123456<br>jdbcRealm.dataSource=$dataSource<br>securityManager.realms=$jdbcRealm<br>2.权限认证<br>核心要素：（资源，）权限，角色，用户<br>用户–（分配）–&gt;角色–（拥有）–&gt;权限–（控制）—-&gt;资源</p>
-<p>用户代表访问系统的用户，即subject。<br>三种授权方式</p>
-<ol>
-<li>编程式授权<br> 1.1. 基于角色的访问控制<br> 1.2. 基于权限的访问控制</li>
-<li>注解式授权<br>3.JSP标签授权<br>####步骤1: 封装一个工具类</li>
-</ol>
-<p>public class ShiroUtils {<br>    public static Subject login(String conf, String username, String passowrd) {<br>        //初始化SecurityManager工厂 conf是配置文件名称<br>        Factory<securitymanager> factory = new IniSecurityManagerFactory(“classpath:” + conf + “.ini”);<br>        //获取SecurityManager实例<br>        SecurityManager manager = factory.getInstance();<br>        //把SecurityManager实例绑定到SecurityUtils<br>        SecurityUtils.setSecurityManager(manager);<br>        //得到当前执行的用户<br>        Subject subject = SecurityUtils.getSubject();<br>        //创建token令牌, 用户/密码<br>        UsernamePasswordToken token = new UsernamePasswordToken(username, passowrd);</securitymanager></p>
-<pre><code>    try {
-        //身份认证 登录
-        subject.login(token);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return subject;
-}
-</code></pre><p>}</p>
-<p>####步骤2: 测试多种访问控制</p>
-<p>/*<br>    基于角色的访问控制方式1</p>
-<pre><code>配置文件：shiro_role.ini
-******************************
-[users]
-zj2626=123456,role1,role2
-py2626=123456,role1
-ay2626=456789,role3
-******************************
- */
-@Test
-public void testHas() {
-    Subject sub = ShiroUtils.login(&quot;shiro_config/shiro_role&quot;, &quot;zj2626&quot;, &quot;123456&quot;);
-
-    //判断有没有权限 返回布尔 表示验证的成功与否
-    boolean bool = sub.hasRole(&quot;role1&quot;);
-    if (bool) {
-        System.out.println(&quot;HAS&quot;);
-    }
-
-    //判断有没有权限,一次多个分别判断 返回布尔数组
-    boolean[] booleans = sub.hasRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;));
-    int i = 0;
-    while (booleans[i]) {
-        i++;
-
-        if (booleans.length &lt;= i) {
-            break;
-        }
-    }
-
-    //所有的角色都有才返回true
-    System.out.println(sub.hasAllRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;)));
-
-    //判断有没有权限 没有则抛异常
-    sub.checkRole(&quot;role1&quot;);
-    sub.checkRole(&quot;role3&quot;);
-
-    //判断多个权限 有一个没有就抛异常 (2种参数形式)
-    sub.checkRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;));
-    sub.checkRoles(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;);
-
-    //退出登陆
-    sub.logout();
-}
-
-/*
-基于权限的访问控制方式(过程同上)
-
-配置文件：shiro_permision.ini
-******************************
-[users]
-zj2626=123456,role1,role2
-py2626=123456,role1
-ay2626=456789,role3
-[roles]
-role1=user:select
-role2=user:add,user:update,user:delete
-******************************
- */
-@Test
-public void testPermition() {
-    Subject sub = ShiroUtils.login(&quot;shiro_config/shiro_permision&quot;, &quot;py2626&quot;, &quot;123456&quot;);
-
-    System.out.println(&quot;用户是否有权限 user:select:&quot; + sub.isPermitted(&quot;user:select&quot;));    //true
-    System.out.println(&quot;用户是否有权限 user:update:&quot; + sub.isPermitted(&quot;user:update&quot;));    //false
-
-    boolean[] booleans = sub.isPermitted(&quot;user:add&quot;, &quot;user:select&quot;);
-    System.out.println(booleans[0] + &quot;____&quot; + booleans[1]);
-
-    System.out.println(sub.isPermittedAll(&quot;user:add&quot;, &quot;user:select&quot;));
-
-    //没有会抛出异常
-    sub.checkPermission(&quot;user:select&quot;);
-    sub.checkPermissions(&quot;user:select&quot;, &quot;user:update&quot;);
-
-    sub.logout();
-}
-</code></pre><p>3.集成web进行测试<br>1.新建一个maven的web项目</p>
-<p>项目目录文件</p>
-<p>web.xml 配置shiro的必须的配置: 监听器,过滤器</p>
-<p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
-<p><web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"><br>    <display-name>Archetype Created Web Application</display-name></web-app></p>
-<pre><code>&lt;!--三个servlet配置   /login跳转到登陆页面  /home跳转到主页,即登陆成功页面 /admin用来测试角色和权限--&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;loginServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.LoginServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;loginServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/login&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;homeServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.HomeServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;homeServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/home&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;adminServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.AdminServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;adminServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/admin&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-
-&lt;!--shiro监听--&gt;
-&lt;listener&gt;
-    &lt;listener-class&gt;org.apache.shiro.web.env.EnvironmentLoaderListener&lt;/listener-class&gt;
-&lt;/listener&gt;
-
-&lt;!--shiro过滤器 这里过滤所有的地址 并且指定权限配置文件(一般项目中权限的配置存放在数据库中)--&gt;
-&lt;filter&gt;
-    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
-    &lt;filter-class&gt;org.apache.shiro.web.servlet.ShiroFilter&lt;/filter-class&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;config&lt;/param-name&gt;
-        &lt;param-value&gt;classpath:shiro.ini&lt;/param-value&gt;
-    &lt;/init-param&gt;
-&lt;/filter&gt;
-&lt;filter-mapping&gt;
-    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
-    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;
-</code></pre><p><br>pom.xml :所需依赖</p>
-<p><dependencies><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-web</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-core</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-spring</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.tomcat</groupid><br>        <artifactid>tomcat-servlet-api</artifactid><br>        <version>8.5.4</version><br>        <scope>provided</scope><br>    </dependency><br>    <dependency><br>        <groupid>org.slf4j</groupid><br>        <artifactid>slf4j-log4j12</artifactid><br>        <version>1.7.7</version><br>        <scope>compile</scope><br>    </dependency><br>    <dependency><br>        <groupid>commons-logging</groupid><br>        <artifactid>commons-logging</artifactid><br>        <version>1.2</version><br>    </dependency><br>    <dependency><br>        <groupid>commons-beanutils</groupid><br>        <artifactid>commons-beanutils</artifactid><br>        <version>1.9.3</version><br>    </dependency><br>    <dependency><br>        <groupid>commons-collections</groupid><br>        <artifactid>commons-collections</artifactid><br>        <version>3.2.1</version><br>    </dependency><br>    <dependency><br>        <groupid>jstl</groupid><br>        <artifactid>jstl</artifactid><br>        <version>1.2</version><br>    </dependency><br></dependencies><br>shiro.ini: 权限配置文件,配置什么用户有什么角色,什么角色有什么权限</p>
-<p>[main]<br>authc.loginUrl=/login<br>perms.unauthorizedUrl=/noAuth.jsp<br>roles.unauthorizedUrl=/noAuth.jsp<br>[users]<br>zj2626=123456,admin<br>ay2626=456789,student<br>[roles]<br>admin=user:<em>,student:select<br>student:student:</em><br>[urls]<br>/login=anon<br>/home=authc<br>/admin=roles[admin]<br>1.authc.loginUrl配置身份认证不通过(未登录时)跳转的地址…(loginUrl是authc的一个属性)</p>
-<p>2.roles.unauthorizeUrl配置角色认证不通过跳转的地址…(noAuth.jsp页面目前只有一行字)</p>
-<p>3.perms.unauthorizeUrl配置权限认证不通过跳转的地址</p>
-<p>4.[users]下配置用户身份信息以及用户角色</p>
-<p>5.[roles]下配置角色以及角色的控制权限</p>
-<p>6.[urls]下配置访问地址所需的权限, 其中值为”anon过滤器”表示地址不需要登录即可访问; “authc过滤器”表示地址登录才能访问</p>
-<p>7.值为 roles[admin] 表示 必须有角色为admin的用户才能范围</p>
-<p>8.值为 perms[“student:create”] 表示 必须有权限为”student:create”的用户才能范围</p>
-<p>9.多个过滤器用”,”隔开 而且相互为”且”的关系(必须同时满足才能访问)</p>
-<p>10.地址可以使用?表示匹配单个任意字符(eg: /home?=authc 表示可过滤 /home1; /homef…..)</p>
-<p>11.地址可以使用表示匹配任意个任意字符(eg: /home=authc 表示可过滤 /home123; /homeef…..)</p>
-<p>12.地址可以使用表示匹配多路径(eg: /home/=authc 表示可过滤 /home/abc; /home/aaa/bbb…..)</p>
-<p>2.编写sevlet代码</p>
-<p>LoginServlet.java :身份验证地址</p>
-<p>package com.servlet;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.authc.UsernamePasswordToken;<br>import org.apache.shiro.subject.Subject;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br><em>/<br>public class LoginServlet extends HttpServlet {<br> /*</em></p>
-<ul>
-<li>跳转登录界面<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“user no login”);<br> resp.sendRedirect(“login.jsp”);<br>}</p>
-<p>/**</p>
-</li>
-<li>进行登录<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“登录”);<br> String userName = req.getParameter(“userName”);<br> String password = req.getParameter(“password”);</p>
-<p> Subject subject = SecurityUtils.getSubject();<br> //创建token令牌, 用户/密码<br> UsernamePasswordToken token = new UsernamePasswordToken(userName, password);<br> try {</p>
-<pre><code>//身份认证 登录
-subject.login(token);
-System.out.println(&quot;登录成功&quot;);
-resp.sendRedirect(&quot;success.jsp&quot;);
-</code></pre><p> } catch (Exception e) {</p>
-<pre><code>System.out.println(&quot;账号密码不对&quot;);
-e.printStackTrace();
-resp.sendRedirect(&quot;login.jsp&quot;);
-</code></pre><p> }<br>}<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>//<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>login.jsp</p>
-<p>&lt;%@ page language=”java” pageEncoding=”UTF-8” %&gt;<br>&lt;%@ taglib uri=”<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="external">http://java.sun.com/jsp/jstl/core</a>“ prefix=”c” %&gt;<br>&lt;!DOCTYPE HTML&gt;</p>
-<p><html></html></p>
-<p><body></body></p>
-<p></p><h2>Hello World</h2><br>登录:<p></p>
-<p><form action="/login" method="post"><br>    <input type="text" value="" name="userName"><br>    <input type="password" value="" name="password"><br>    <input type="submit" value="登录"><br></form><br><br><br>HomeServlet.java :登录成功以及退出登录地址</p>
-<p>package com.servlet;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.subject.Subject;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br><em>/<br>public class HomeServlet extends HttpServlet {<br> /*</em></p>
-<ul>
-<li>进入主页(登陆成功界面)<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“主页 get”);</p>
-<p> req.getRequestDispatcher(“success.jsp”).forward(req, resp);</p>
-<p>}</p>
-<p>/**</p>
-</li>
-<li>用来退出登陆<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“主页 post”);</p>
-<p> System.out.println(“login out”);</p>
-<p> //退出登录<br> Subject subject = SecurityUtils.getSubject();<br> subject.logout();</p>
-<p> resp.sendRedirect(“login.jsp”);<br>}<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>//<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>success.jsp</p>
-<p>&lt;%@ page contentType=”text/html;charset=UTF-8” language=”java” %&gt;</p>
-<p><html></html></p>
-<p><body></body></p>
-<p></p><h2>Hello World!</h2> 成功!!!<p></p>
-<p><form action="/home" method="post"><br>    <input type="submit" value="退出登陆"><br></form><br><br><br>AdminServlet.java</p>
-<p>package com.servlet;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br>*/<br>public class AdminServlet extends HttpServlet {<br> protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</p>
-<pre><code>System.out.println(&quot;ADMIN GET&quot;);
-</code></pre><p> }</p>
-<p> protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</p>
-<pre><code>System.out.println(&quot;ADMIN POST&quot;);
-</code></pre><p> }<br>}<br>3.启动项目</p>
-</li>
-</ul>
-<p>测试身份认证</p>
-<p>不登录情况下输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到 /login地址转向的jsp页面</p>
-<p>输入正确的用户名(ay2626)密码 点击登录 成功; 再次输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到成功的jsp</p>
-<p>点击退出登录 成功; 再次输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到 /login地址转向的jsp页面</p>
-<p>测试角色认证</p>
-<p>登录 :进行其他认证前先进行身份认证 使用ay2626用户登录(其角色只有student) 登录成功 跳转到success.jsp</p>
-<p>输入地址<a href="http://localhost:8080/admin" target="_blank" rel="external">http://localhost:8080/admin</a> 跳转到 <a href="http://localhost:8080/noAuth.jsp" target="_blank" rel="external">http://localhost:8080/noAuth.jsp</a> 表示没有权限访问此地址</p>
-<p>退出登录 用zj2626再次登录测试 登录成功 再次输入<a href="http://localhost:8080/admin" target="_blank" rel="external">http://localhost:8080/admin</a> 控制台打印”ADMIN POST” 表示访问成功</p>
-<p>测试权限认证</p>
-<p>可把配置文件中 /admin的过滤器改为 /admin=perms[“student:create”] 进行测试</p>
-<p>测试发现 有权限的ay2626用户可以访问而没有权限的zj2626不能访问</p>
-<p>—<br>自定义Realm</p>
-<p>实际开发中用户权限的配置要存放在数据库,so需要使用自定义realm来读取数据库中权限配置然后为用户赋予权限</p>
-<p>测试开发步骤</p>
-<p>1.添加数据库依赖</p>
-<p><dependency><br>    <groupid>mysql</groupid><br>    <artifactid>mysql-connector-java</artifactid><br>    <version>5.1.39</version><br>    <scope>compile</scope><br></dependency><br>2.设计构建测试的数据库表:有三个表:分别存储用户,角色,权限 并其他两个都与角色关联, 然后存入部分数据 ,再根据三个表建立对应实体(简单实体)</p>
-<p>3.添加数据库操作类(写的并不完善 仅测试使用)</p>
-<p>package com.servlet;</p>
-<p>import java.sql.*;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/11.<br>*/<br>public class DBUtil {</p>
-<p> //获取数据库连接<br> private static Connection getConnection() {</p>
-<pre><code>try {
-    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
-
-    Connection connection = DriverManager.getConnection(&quot;jdbc:mysql://127.0.0.1:3306/test&quot;, &quot;root&quot;, &quot;fangshuoit&quot;);
-
-    return connection;
-} catch (ClassNotFoundException | SQLException e) {
-    e.printStackTrace();
-}
-return null;
-</code></pre><p> }</p>
-<p> /**</p>
-<ul>
-<li>通过用户名获取用户信息<br>*</li>
-<li>@param name</li>
-<li>@return</li>
-<li><p>@throws SQLException<br><em>/<br>public static User getByUserName(String name) throws SQLException {<br> String sql = “select </em> from ay_user where loginName = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setString(1, name);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>return new User(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;loginName&quot;), resultSet.getString(&quot;password&quot;));
-</code></pre><p> }</p>
-<p> return null;<br>}</p>
-<p>/**</p>
-</li>
-<li>通过用户名获取用户角色<br>*</li>
-<li>@param name</li>
-<li>@return</li>
-<li><p>@throws SQLException<br>*/<br>public static Role getRolesByUserName(String name) throws SQLException {<br> String sql = “select roleId from ay_user where loginName = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setString(1, name);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>Integer id = resultSet.getInt(&quot;roleId&quot;);
-
-sql = &quot;select * from ay_role where id = ?&quot;;
-preparedStatement = getConnection().prepareStatement(sql);
-preparedStatement.setInt(1, id);
-resultSet = preparedStatement.executeQuery();
-if (resultSet.next()) {
-    return new Role(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;name&quot;));
-}
-</code></pre><p> }</p>
-<p> return null;<br>}</p>
-<p>/**</p>
-</li>
-<li>通过角色id获取角色权限<br>*</li>
-<li>@param roleId</li>
-<li>@return</li>
-<li><p>@throws SQLException<br><em>/<br>public static Perms getPermsByRole(Integer roleId) throws SQLException {<br> String sql = “select </em> from ay_perms where roleId = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setInt(1, roleId);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>return new Perms(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;name&quot;), resultSet.getInt(&quot;roleId&quot;));
-</code></pre><p> }</p>
-<p> return null;<br>}<br>}<br>3.编写自定义的Realm类 需要AuthorizingRealm类并实现两个方法; 第一个是用来身份验证,第二是用来角色权限验证</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>public class MyRealm extends AuthorizingRealm {</p>
-<pre><code>/**
- * 验证当前登录的用户(身份认证), 不再需要在配置文件中配置用户的信息和其角色信息
- * 
- * @param token 封装有用户的信息
- * @return
- * @throws AuthenticationException
- */
-@Override
-protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-    String userName = (String) token.getPrincipal();
-
-    System.out.println(&quot;要登录的用户 : &quot; + userName);
-
-    try {
-        User user = DBUtil.getByUserName(userName);//这里只是通过用户名验证并获取用户信息,实际开发中需要用户名以及加密的密码
-        if (user != null) {
-            return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(), &quot;XX&quot;);//返回登录信息
-        } else
-            return null;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return null;
-}
-
-/**( 身份验证(登录)以后 )
- * 为当前用户授予角色和权限(根据登录的用户名,读取数据库中其角色和权限)
- *
- * @param principals 封装了身份信息
- * @return
- */
-@Override
-protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-    String userName = (String) principals.getPrimaryPrincipal();
-    System.out.println(&quot;要权限的用户 : &quot; + userName);
-
-    SimpleAuthorizationInfo authenticationInfo = new SimpleAuthorizationInfo();
-
-    try {
-        Role role = DBUtil.getRolesByUserName(userName);
-        if (null != role) {
-            Set&lt;String&gt; set = new HashSet&lt;&gt;();
-            System.out.println(&quot;获得的角色: &quot;+ role.getName());
-            set.add(role.getName());
-            authenticationInfo.setRoles(set);//赋予角色
-
-            Perms perms = DBUtil.getPermsByRole(role.getId());
-            Set&lt;String&gt; set2 = new HashSet&lt;&gt;();
-            set2.add(perms.getName());
-            System.out.println(&quot;获得的权限: &quot;+ perms.getName());
-            authenticationInfo.setStringPermissions(set2);//赋予权限
-
-            return authenticationInfo;
-        }
-    } catch (SQLException e) {
-
-    }
-
-    return null;
-}
-</code></pre><p>}<br>4.修改配置文件shiro.ini ,引入自定义Realms,并去掉原来的 [users]和[roles]下的配置</p>
-<p>[main]<br>authc.loginUrl=/login<br>perms.unauthorizedUrl=/noAuth.jsp<br>roles.unauthorizedUrl=/noAuth.jsp</p>
-<p>myRealm=com.servlet.MyRealm<br>securityManager.realms=$myRealm<br>[urls]<br>/login=anon<br>/home=authc<br>/admin=roles[admin]<br>1.myRealm指向自定义Realm的位置</p>
-<p>2.securityManager.realms指向自定义Realm的引用(表明使用自定义Realms进行安全认证),可以指向多个,用”,”隔开</p>
-<p>5.启动项目测试 发现:使用zj2626登录可以访问 /admin地址;而ay2626登录不能访问(没有user角色);而且每次请求都会进行认证(控制台打印信息)</p>
-<p>Shiro</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Shiro的学习Helloworld/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-POI的基本使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/POI的基本使用/">POI的基本使用</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/POI的基本使用/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.206Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em>POI的基本使用</em></p>
-<p>首先，理解一下一个Excel的文件的组织形式，一个Excel文件对应于一个workbook(HSSFWorkbook)，一个workbook可以有多个sheet（HSSFSheet）组成，一个sheet是由多个row（HSSFRow）组成，一个row是由多个cell（HSSFCell）组成。 </p>
-<p>POI可以到www.apache.org下载到。实际运行时，需要有poi包就可以了。HSSF提供给用户使用的对象在<em>rg.apache.poi.hssf.usermodel</em>包中,主要部分包括Excel对象，样式和格式，还有辅助操作。有以下几种对象</p>
-<p><img src="http://img.blog.csdn.net/20170707174737152?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<p><strong>下面详细介绍POI操作的具体实例和思路:</strong></p>
-<hr>
-<p><strong><em>导出大体思路如下：</em></strong><br>1.先创建文件对象，<br>2.文件对象创建sheet页对象，<br>3.sheet页对象创建行对象，<br>4.行对象创建单元格填入数据<br>5.保存文档使用流将文件导出到服务器中转站<br>6.在由服务器中转站导出（下载功能）到指定文件夹<br>7.导出完成</p>
-<p>实际操作poi报表进行导出excel文档时的实例如下：<br>第一步，创建一个webbook，对应一个Excel文件<br>步骤1：HSSFWorkbook wb = new HSSFWorkbook();<br>第二步，在webbook中添加一个sheet页,对应Excel文件中的sheet页</p>
-<p>以下createSheet中填写sheet页名称  并非文件名称<br>步骤2：HSSFSheet sheet = wb.createSheet(“学生表一”);<br>第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short<br>步骤3：HSSFRow row = sheet.createRow((int) 0);<br>第四步，创建一个居中格式，在创建单元格是设置居中格式<br>步骤4：<br>HSSFCellStyle style = wb.createCellStyle();<br>style.setAlignment(HSSFCellStyle.ALIGN_CENTER);<br>第五步，创建单元格填入数据并设置居中格式<br>步骤5：<br>①创建单元格：<br>HSSFCell cell = row.createCell((short) 0);<br>②设置单元格内容：<br>cell.setCellValue(“内容”);<br>③将以上创建好的居中格式添加进单元格：cell.setCellStyle(style);<br>第六步，使用字节输出流将文件存入指定路径<br>FileOutputStream fout = new FileOutputStream(“指定路径”);<br>wb.write(fout);<br>fout.close();</p>
-<p>注意：区分创建行使用（int）创建列使用（short）<br>基本操作：<br>创建Excel对象：new HSSFWorkbook();<br>创建sheet页：<strong>(Excel对象).createSheet(“学生表一”);<br>创建行：</strong>（sheet对象）.createRow((int) 0);<br>创建列：<strong>(行对象).createCell((short) 0);<br>创建一个样式对象：</strong>（Excel对象）.createCellStyle();<br>添加居中格式：**（样式对象）.setAlignment(HSSFCellStyle.ALIGN_CENTER);</p>
-<hr>
-<p><strong><em>导入大体思路如下</em></strong><br>1.使用 BufferedInputStream输入流 读取Excel文档<br>2.得到文件后采用POIFSFileSystem 进行解析并转为HSSFWorkbook对象<br>3.使用HSSFWorkbook对象.getSheetAt(0);获取该Excel的第一个sheet页<br>4.Sheet. getLastRowNum()获取该sheet页的数据条数进行for循环每一条数据【for（int i= 0 ； i&lt; Sheet. getLastRowNum();i++）】<br>5.HSSFRow row =Sheet.getRow(i)获取此行数据<br>6.Row. getLastCellNum()获取本行有N条数据<br>7.row.getCell(columnIndex);获取单元格并导出值存入相应的对象中<br>8.使用存好的对象进行数据库添加操作<br>9.导入完成</p>
-<p>具体导入操作实例：<br>第一步、创建输入流并转换为HSSFWorkbook对象<br>1、BufferedInputStream  in = new<br>BufferedInputStream(new FileInputStream(new File(“文件路径”)));<br>2、POIFSFileSystem fs = new POIFSFileSystem(in);<br>3、HSSFWorkbook wb = new HSSFWorkbook(fs);<br>第二步、用HSSFWorkbook获取第一个sheet页（sheet页下标从0开始）<br>HSSFSheet st = wb.getSheetAt(0);<br>第三步使用for循环循环每条数据（行）并获取行对象<br>for (int rowIndex = 0; rowIndex &lt;= st.getLastRowNum(); rowIndex++) {<br>            HSSFRow row = st.getRow(rowIndex);<br>}<br>第四步循环行对象并获取单元格对象<br>for (short columnIndex = 0, size = row.getLastCellNum(); columnIndex &lt;= size; columnIndex++) {<br>                cell = row.getCell(columnIndex);<br>}<br>第五步将单元格中不同格式的的值以不同方式导出（可以直接复制使用）最终value为单元中的值可进行任意操作<br>if (cell != null) {<br>                    switch (cell.getCellType()) {<br>                    case HSSFCell.CELL_TYPE_STRING:<br>                        value = cell.getStringCellValue();<br>                        break;<br>                    case HSSFCell.CELL_TYPE_NUMERIC:<br>                        if (HSSFDateUtil.isCellDateFormatted(cell)) {<br>                            Date date = cell.getDateCellValue();<br>                            if (date != null) {<br>                                value = new SimpleDateFormat(“yyyy-MM-dd HH:mm:SS”)<br>                                .format(date);<br>                            } else {<br>                                value = “”;<br>                            }<br>                        } else {<br>                            value = new DecimalFormat(“0”).format(cell<br>                                    .getNumericCellValue());<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_FORMULA:<br>                        // 导入时如果为公式生成的数据则无值<br>                        if (!cell.getStringCellValue().equals(“”)) {<br>                            value = cell.getStringCellValue();<br>                        } else {<br>                            value = cell.getNumericCellValue() + “”;<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BLANK:<br>                        break;<br>                    case HSSFCell.CELL_TYPE_ERROR:<br>                        value = “”;<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BOOLEAN:<br>                        value = (cell.getBooleanCellValue() == true ? “Y”<br>                                : “N”);<br>                        break;<br>                    default:<br>                        value = “”;<br>                    }</p>
-<p>} </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/POI的基本使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mysql中文乱码的解决方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/mysql中文乱码的解决方法/">mysql中文乱码的解决方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/mysql中文乱码的解决方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.203Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>mysql中文乱码的解决方法</strong></p>
-<pre><code>请参考博客：http://blog.csdn.net/tomcat_2014/article/details/75006600
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/mysql中文乱码的解决方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java中类和类之间的关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/java中类和类之间的关系/">java中类和类之间的关系</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/java中类和类之间的关系/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.201Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>java中类和类之间的关系</strong><br>       <em>(如下图所示)：</em><br>       <img src="http://img.blog.csdn.net/20170726102604990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/java中类和类之间的关系/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-J2EE中连接池的深入理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/J2EE中连接池的深入理解/">J2EE中连接池的深入理解</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/J2EE中连接池的深入理解/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.198Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>  <em>首先介绍使用连接池的好处</em><br>      在WEB开发中，使用连接池相对于普通的jdbc方式访问数据库可以成倍的增加数据库的访问效率。</p>
-<p>   <em>JDBC方式访问数据库较慢的原因</em><br>   使用JDBC方式访问数据库的时候，每次访问都必须要和数据库建立连接，而连接是可以被复用的，因此，JDBC方式在这个过程中浪费了时间，从而访问效率降低.</p>
-<p> <em>连接池增加数据访问效率的原理</em><br>      使用连接池的时候，可以通过配置web.xml文件使得服务器在启动的时候即创建一定数量的连接【相当于设计模式中的饿汉模式】并存储于连接池中【一块存储区域，这里只是有个名称而已，没有特殊的含义】，因此当需要使用的时候可以直接从连接池中获取实例，用完后必须要释放连接实例【只是将连接放回了连接池，并没有真正的关闭这个和数据库的连接】，因为数据库的连接是有限的;</p>
-<hr>
-<p><em>使用连接池时需要注意的问题</em></p>
-<p><em>使用连接池的时候需要手动关闭连接？</em><br>    首先确定以下几个概念:<br>1、连接池即使回收Connection，也不是马上释放，而是会过一阵子才释放；<br>2、连接池概念本身是代为管理Connection,当我们使用close()关闭连接时，只是把该连接放回了连接池中，并没有真正的关闭这个连接；<br>3、Connection Pool在有外来请求，而没有空闲的Connection时，会按照时间顺序回收Connection,而不是全部回收；<br>因此，基于连接池数量有限的前提，即使是连接池中的连接，在使用完毕之后也要手动进行关闭。</p>
-<p><em>下面将通过图解的方式对连接池和JDBC两种方式进行说明</em><br><img src="http://img.blog.csdn.net/20170525215239419?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>案例链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">Oracel连接池案例代码</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/J2EE中连接池的深入理解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-7.springmvc与struts2不同" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/7.springmvc与struts2不同/">springmvc与struts2不同</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/7.springmvc与struts2不同/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.190Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="springmvc与struts2不同"><a href="#springmvc与struts2不同" class="headerlink" title="springmvc与struts2不同"></a>springmvc与struts2不同</h2><p>1、springmvc的入口是一个servlet即前端控制器，而struts2入口是一个filter过滤器。</p>
-<p>2、springmvc是基于方法开发(一个url对应一个方法)，请求参数传递到方法的形参，可以设计为单例或多例(建议单例)，struts2是基于类开发，传递参数是通过类的属性，只能设计为多例。</p>
-<p>3.Struts采用值栈存储请求和响应的数据，通过OGNL存取数据， springmvc通过参数解析器是将request请求内容解析，并给方法形参赋值，将数据和视图封装成ModelAndView对象，最后又将ModelAndView中的模型数据通过request域传输到页面。Jsp视图解析器默认使用jstl。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/7.springmvc与struts2不同/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -1319,8 +358,8 @@ protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
