@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/8 | Blog4Jun</title>
+  <title>Spring+quartz实现任务调度的小例子 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/2017/08/index.html">
+  <meta name="description" content="实现任务调度分为三大模块：1.任务调度器Scheduler;                                            2.触发器cronTrigger；                                            3.自定义任务JobtTask；  123456789101112131415161718192021222324*自定义任务J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring+quartz实现任务调度的小例子">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/Spring+quartz实现任务调度的小例子/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="实现任务调度分为三大模块：1.任务调度器Scheduler;                                            2.触发器cronTrigger；                                            3.自定义任务JobtTask；  123456789101112131415161718192021222324*自定义任务J">
+<meta property="og:updated_time" content="2017-08-29T03:12:36.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="Spring+quartz实现任务调度的小例子">
+<meta name="twitter:description" content="实现任务调度分为三大模块：1.任务调度器Scheduler;                                            2.触发器cronTrigger；                                            3.自定义任务JobtTask；  123456789101112131415161718192021222324*自定义任务J">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -149,295 +153,160 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Spring+quartz实现任务调度的小例子" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Spring+quartz实现任务调度的小例子
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
+
+        
+        <a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
   	<time datetime="2017-08-29T03:11:50.899Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">Spring+quartz实现任务调度的小例子</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>实现任务调度分为三大模块：1.任务调度器Scheduler;<br>                                            2.触发器cronTrigger；<br>                                            3.自定义任务JobtTask；</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">*自定义任务JobtTask*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.quartz.Job;</div><div class="line">import org.quartz.JobExecutionContext;</div><div class="line">import org.quartz.JobExecutionException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 自定义任务;</div><div class="line"> */</div><div class="line">public class MyJob implements Job &#123;</div><div class="line">	// 自定义任务Task;</div><div class="line">	public void execute(JobExecutionContext context) throws JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;当前任务开始执行: &quot; +</div><div class="line">	     new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;)</div><div class="line">	     .format(new Date()));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">*测试类*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line">import java.text.ParseException;</div><div class="line"></div><div class="line">import org.quartz.JobExecutionException;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line">/**</div><div class="line"> *  测试类</div><div class="line"> */</div><div class="line">public class Test &#123;</div><div class="line">	@SuppressWarnings(&quot;resource&quot;)</div><div class="line">	public static void main(String[] args) throws ParseException, JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;--------------------------------&quot;);</div><div class="line">		new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">配置文件</div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans  </div><div class="line">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </div><div class="line">	http://www.springframework.org/schema/context  </div><div class="line">	http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;</div><div class="line">	default-autowire=&quot;byName&quot;&gt;</div><div class="line"></div><div class="line">	&lt;!-- 调度器 --&gt;</div><div class="line">	&lt;bean class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;triggers&quot;&gt;</div><div class="line">			&lt;list&gt;</div><div class="line">				&lt;!-- 触发器列表 --&gt;</div><div class="line">				&lt;ref bean=&quot;cronTrigger&quot; /&gt;</div><div class="line">			&lt;/list&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;!-- 加载配置文件, 如果不配置, 将会使用quartz默认的配置 --&gt;</div><div class="line">		&lt;property name=&quot;configLocation&quot; value=&quot;classpath:quartz.properties&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- 触发器 --&gt;</div><div class="line">	&lt;bean id=&quot;cronTrigger&quot; class=&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;&gt;</div><div class="line">		&lt;!-- 指向我们的任务 --&gt;</div><div class="line">		&lt;property name=&quot;jobDetail&quot; ref=&quot;myJobtTask&quot; /&gt;</div><div class="line">		&lt;!-- 每天11点1分到59分,每分钟运行一次 --&gt;</div><div class="line">		&lt;property name=&quot;cronExpression&quot; value=&quot;0 0/1 9 * * ?&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 处理类 --&gt;</div><div class="line">	&lt;bean name=&quot;myJobtTask&quot; class=&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;jobClass&quot; value=&quot;com.zjt.quartz.MyJob&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">*quartz.properties*</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure Main Scheduler Properties  </div><div class="line">#============================================================================</div><div class="line">org.quartz.scheduler.instanceName = DefaultQuartzScheduler</div><div class="line">org.quartz.scheduler.instanceId = AUTO</div><div class="line">org.quartz.scheduler.rmi.export = false</div><div class="line">org.quartz.scheduler.rmi.proxy = false</div><div class="line">org.quartz.scheduler.wrapJobExecutionInUserTransaction = false</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure ThreadPool  </div><div class="line">#============================================================================</div><div class="line">org.quartz.threadPool.threadCount = 10</div><div class="line">org.quartz.threadPool.threadPriority = 5</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure JobStore  </div><div class="line">#============================================================================</div><div class="line">org.quartz.jobStore.misfireThreshold = 60000</div></pre></td></tr></table></figure>
+<p><strong>下载链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">http://download.csdn.net/my</a></strong></p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/29/Spring+quartz实现任务调度的小例子/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/使用hexo+github搭建个人微博/" class="archive-article-date">
-  	<time datetime="2017-08-29T02:39:50.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/29/使用hexo+github搭建个人微博/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo+github搭建个人博客</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/使用hexo+github搭建个人微博/">hexo+github搭建个人博客</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.218Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">父类和子类的相互转换及父类调用子类的方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/Windows服务器端软件的安装/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.215Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/Windows服务器端软件的安装/">Windows服务器端软件的安装</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/tomcat配置外部静态资源映射路径/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.213Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/tomcat配置外部静态资源映射路径/">tomcat配置外部静态资源映射路径</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.210Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">Struts2中接收表单数据的三种驱动方式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/Shiro的学习Helloworld/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/Shiro的学习Helloworld/">Shiro的学习Helloworld</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/POI的基本使用/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.206Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/POI的基本使用/">POI的基本使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/mysql中文乱码的解决方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.203Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/mysql中文乱码的解决方法/">mysql中文乱码的解决方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/java中类和类之间的关系/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.201Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/java中类和类之间的关系/">java中类和类之间的关系</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2017/08/page/2/">2</a><a class="extend next" rel="next" href="/archives/2017/08/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -461,8 +330,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
