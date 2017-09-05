@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Linux 下虚拟机克隆步骤（CentOS） | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络三方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里">
+  <meta name="description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里虚">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 下虚拟机克隆步骤（CentOS）">
 <meta property="og:url" content="http://yoursite.com/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/index.html">
 <meta property="og:site_name" content="Blog4Jun">
-<meta property="og:description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络三方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里">
+<meta property="og:description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里虚">
 <meta property="og:image" content="http://img.blog.csdn.net/20170905161029126?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170905161335542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170905161358161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170905161756674?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-09-05T08:23:37.882Z">
+<meta property="og:updated_time" content="2017-09-05T08:26:30.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 下虚拟机克隆步骤（CentOS）">
-<meta name="twitter:description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络三方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里">
+<meta name="twitter:description" content="当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；   linux虚拟机克隆主要涉及网络方面的问题： 1.关闭要克隆的Linux 关机命令： 1init 0  或者  shutdown -h now 2.新建快照，给母本一个备份,如下图所示: 3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：  在这里要选择创建完整的克隆  在这里虚">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20170905161029126?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；<br>   linux虚拟机克隆主要涉及网络三方面的问题：</p>
+        <p>当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；<br>   linux虚拟机克隆主要涉及网络方面的问题：</p>
 <p><strong>1.关闭要克隆的Linux 关机命令：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init 0  或者  shutdown -h now</div></pre></td></tr></table></figure>
 <p><strong>2.新建快照，给母本一个备份,如下图所示:</strong><br><img src="http://img.blog.csdn.net/20170905161029126?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
