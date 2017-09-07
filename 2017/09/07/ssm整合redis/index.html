@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>ssm整合redis | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="说明   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。 redis的使用前提：   (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;  (2.)为应用程序添加必要的配置：例如mysql中的四要素;  (3.)配置redis相关的AOP【基于方法拦截】;  (4.)使用redis相关的AP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssm整合redis">
+<meta property="og:url" content="http://yoursite.com/2017/09/07/ssm整合redis/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="说明   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。 redis的使用前提：   (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;  (2.)为应用程序添加必要的配置：例如mysql中的四要素;  (3.)配置redis相关的AOP【基于方法拦截】;  (4.)使用redis相关的AP">
+<meta property="og:updated_time" content="2017-09-07T03:17:40.116Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="ssm整合redis">
+<meta name="twitter:description" content="说明   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。 redis的使用前提：   (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;  (2.)为应用程序添加必要的配置：例如mysql中的四要素;  (3.)配置redis相关的AOP【基于方法拦截】;  (4.)使用redis相关的AP">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -149,241 +153,163 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ssm整合redis" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ssm整合redis
+    </h1>
+  
+
+        
+        <a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
+  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>说明</strong><br>   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。</p>
+<p><strong>redis的使用前提：</strong></p>
+<p>  (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;<br>  (2.)为应用程序添加必要的配置：例如mysql中的四要素;<br>  (3.)配置redis相关的AOP【基于方法拦截】;<br>  (4.)使用redis相关的API；</p>
+<p><strong>Spring整合redis的相关配置:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;!-- jedis 配置 --&gt;</div><div class="line">	&lt;bean id=&quot;poolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</div><div class="line">		&lt;property name=&quot;maxIdle&quot; value=&quot;$&#123;redis.maxIdle&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;maxWaitMillis&quot; value=&quot;$&#123;redis.maxWait&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;testOnBorrow&quot; value=&quot;$&#123;redis.testOnBorrow&#125;&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;!-- redis服务器中心 --&gt;</div><div class="line">	&lt;bean id=&quot;connectionFactory&quot;</div><div class="line">		class=&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;&gt;</div><div class="line">		&lt;property name=&quot;poolConfig&quot; ref=&quot;poolConfig&quot; /&gt;</div><div class="line">		&lt;property name=&quot;port&quot; value=&quot;$&#123;redis.port&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;hostName&quot; value=&quot;$&#123;redis.host&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;password&quot; value=&quot;$&#123;redis.password&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;timeout&quot; value=&quot;$&#123;redis.timeout&#125;&quot;&gt;&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.RedisTemplate&quot;&gt;</div><div class="line">		&lt;property name=&quot;connectionFactory&quot; ref=&quot;connectionFactory&quot; /&gt;</div><div class="line">		&lt;property name=&quot;keySerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;valueSerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.JdkSerializationRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- cache配置 --&gt;</div><div class="line">	&lt;bean id=&quot;methodCacheInterceptor&quot; class=&quot;com.crossoverJie.intercept.MethodCacheInterceptor&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisUtil&quot; ref=&quot;redisUtil&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisUtil&quot; class=&quot;com.crossoverJie.util.RedisUtil&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisTemplate&quot; ref=&quot;redisTemplate&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line"></div><div class="line">	&lt;bean id=&quot;dataSourceExchange&quot; class=&quot;com.crossoverJie.util.DataSourceExchange&quot; /&gt;</div><div class="line">	&lt;!--配置切面拦截方法 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">	</div><div class="line">		&lt;!--将com.crossoverJie.service包下的所有select开头的方法加入拦截 去掉select则加入所有方法 --&gt;</div><div class="line">		&lt;aop:pointcut id=&quot;controllerMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.service.*.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line"></div><div class="line">		&lt;aop:pointcut id=&quot;selectMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.dao..*Mapper.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;aop:advisor advice-ref=&quot;methodCacheInterceptor&quot;</div><div class="line">			pointcut-ref=&quot;controllerMethodPointcut&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;!--所有数据库操作的方法加入切面 --&gt;</div><div class="line">		&lt;aop:aspect ref=&quot;dataSourceExchange&quot;&gt;</div><div class="line">			&lt;aop:pointcut id=&quot;dataSourcePointcut&quot;</div><div class="line">				expression=&quot;execution(* com.crossoverJie.service.*.*(..))&quot; /&gt;</div><div class="line">			&lt;aop:before pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;before&quot; /&gt;</div><div class="line">			&lt;aop:after pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;after&quot; /&gt;</div><div class="line">		&lt;/aop:aspect&gt;</div><div class="line"></div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
+<p><strong>编码方法拦截器MethodInterceptor</strong></p>
+<pre><code>方法拦截器在目标方法被调用的时候被触发，作为增强业务逻辑存在，方法拦截器主要任务是将需要加入redis中数据添加进redis中;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line">package com.crossoverJie.intercept;</div><div class="line"></div><div class="line">import com.crossoverJie.util.RedisUtil;</div><div class="line">import org.aopalliance.intercept.MethodInterceptor;</div><div class="line">import org.aopalliance.intercept.MethodInvocation;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by chenjie on 2016/11/16.</div><div class="line"> */</div><div class="line">public class MethodCacheInterceptor implements MethodInterceptor &#123;</div><div class="line">    private Logger logger = LoggerFactory.getLogger(MethodCacheInterceptor.class);</div><div class="line">    private RedisUtil redisUtil;</div><div class="line">    private List&lt;String&gt; targetNamesList; // 不加入缓存的service名称</div><div class="line">    private List&lt;String&gt; methodNamesList; // 不加入缓存的方法名称</div><div class="line">    private Long defaultCacheExpireTime; // 缓存默认的过期时间</div><div class="line">    private Long xxxRecordManagerTime; //</div><div class="line">    private Long xxxSetRecordManagerTime; //</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 初始化读取不需要加入缓存的类名和方法名称</div><div class="line">     */</div><div class="line">    public MethodCacheInterceptor() &#123;</div><div class="line">        try &#123;</div><div class="line">            // 分割字符串 这里没有加入任何方法</div><div class="line">        	//</div><div class="line">            String[] targetNames = &#123;&#125;;</div><div class="line">            String[] methodNames = &#123;&#125;;</div><div class="line"></div><div class="line">            // 加载过期时间设置</div><div class="line">            defaultCacheExpireTime = 3600L;</div><div class="line">            xxxRecordManagerTime = 60L;</div><div class="line">            xxxSetRecordManagerTime = 60L;</div><div class="line">            // 创建list</div><div class="line">            targetNamesList = new ArrayList&lt;String&gt;(targetNames.length);</div><div class="line">            methodNamesList = new ArrayList&lt;String&gt;(methodNames.length);</div><div class="line">            Integer maxLen = targetNames.length &gt; methodNames.length ? targetNames.length</div><div class="line">                    : methodNames.length;</div><div class="line">            // 将不需要缓存的类名和方法名添加到list中</div><div class="line">            for (int i = 0; i &lt; maxLen; i++) &#123;</div><div class="line">                if (i &lt; targetNames.length) &#123;</div><div class="line">                    targetNamesList.add(targetNames[i]);</div><div class="line">                &#125;</div><div class="line">                if (i &lt; methodNames.length) &#123;</div><div class="line">                    methodNamesList.add(methodNames[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Object invoke(MethodInvocation invocation) throws Throwable &#123;</div><div class="line">        Object value = null;</div><div class="line"></div><div class="line">        String targetName = invocation.getThis().getClass().getName();</div><div class="line">        String methodName = invocation.getMethod().getName();</div><div class="line">        // 不需要缓存的内容</div><div class="line">        //if (!isAddCache(StringUtil.subStrForLastDot(targetName), methodName)) &#123;</div><div class="line">        if (!isAddCache(targetName, methodName)) &#123;</div><div class="line">            // 执行方法返回结果</div><div class="line">            return invocation.proceed();</div><div class="line">        &#125;</div><div class="line">        Object[] arguments = invocation.getArguments();</div><div class="line">        String key = getCacheKey(targetName, methodName, arguments);</div><div class="line">        logger.debug(&quot;redisKey: &quot; + key);</div><div class="line">        try &#123;</div><div class="line">            // 判断是否有缓存</div><div class="line">            if (redisUtil.exists(key)) &#123;</div><div class="line">                return redisUtil.get(key);</div><div class="line">            &#125;</div><div class="line">            // 写入缓存</div><div class="line">            value = invocation.proceed();</div><div class="line">            if (value != null) &#123;</div><div class="line">                final String tkey = key;</div><div class="line">                final Object tvalue = value;</div><div class="line">                new Thread(new Runnable() &#123;</div><div class="line">                    @Override</div><div class="line">                    public void run() &#123;</div><div class="line">                        if (tkey.startsWith(&quot;com.service.impl.xxxRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxRecordManagerTime);</div><div class="line">                        &#125; else if (tkey.startsWith(&quot;com.service.impl.xxxSetRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxSetRecordManagerTime);</div><div class="line">                        &#125; else &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, defaultCacheExpireTime);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).start();</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            if (value == null) &#123;</div><div class="line">                return invocation.proceed();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 是否加入缓存</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    private boolean isAddCache(String targetName, String methodName) &#123;</div><div class="line">        boolean flag = true;</div><div class="line">        if (targetNamesList.contains(targetName)</div><div class="line">                || methodNamesList.contains(methodName)) &#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 创建缓存key</div><div class="line">     *</div><div class="line">     * @param targetName</div><div class="line">     * @param methodName</div><div class="line">     * @param arguments</div><div class="line">     */</div><div class="line">    private String getCacheKey(String targetName, String methodName,</div><div class="line">                               Object[] arguments) &#123;</div><div class="line">        StringBuffer sbu = new StringBuffer();</div><div class="line">        sbu.append(targetName).append(&quot;_&quot;).append(methodName);</div><div class="line">        if ((arguments != null) &amp;&amp; (arguments.length != 0)) &#123;</div><div class="line">            for (int i = 0; i &lt; arguments.length; i++) &#123;</div><div class="line">                sbu.append(&quot;_&quot;).append(arguments[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return sbu.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setRedisUtil(RedisUtil redisUtil) &#123;</div><div class="line">        this.redisUtil = redisUtil;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">参考博客</a></p>
+<p><a href="https://github.com/JunZhou2016/SSM" target="_blank" rel="external">案例代码，参考其中的SSM-WEB</a></p>
+<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">附加pageHelper使用案例</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/mysql中文乱码的解决方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.203Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/mysql中文乱码的解决方法/">mysql中文乱码的解决方法</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/09/07/ssm整合redis/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/java中类和类之间的关系/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.201Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">redis启动出错</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/java中类和类之间的关系/">java中类和类之间的关系</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/J2EE中连接池的深入理解/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.198Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/J2EE中连接池的深入理解/">J2EE中连接池的深入理解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/7.springmvc与struts2不同/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.190Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/7.springmvc与struts2不同/">springmvc与struts2不同</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/用JAVA判断一个URL是否有效/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/用JAVA判断一个URL是否有效/">用JAVA判断一个URL是否有效</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/J2EE中session的深入理解/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:49:30.097Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/J2EE中session的深入理解/">J2EE中session的深入理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/FirstBlog/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:00:21.715Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/FirstBlog/">Hello JunZhou</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/hello-world/" class="archive-article-date">
-  	<time datetime="2017-08-28T23:52:51.266Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
   
 
 
@@ -407,8 +333,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
