@@ -151,6 +151,125 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linux运维常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/05/linux运维常用命令/">linux运维常用命令</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/05/linux运维常用命令/" class="archive-article-date">
+  	<time datetime="2017-09-05T03:23:54.403Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>1.目录操作</strong></p>
+<p><em>使用 mkdir 命令创建目录</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir $HOME/testFolder</div></pre></td></tr></table></figure></p>
+<p><em>切换目录</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 cd 命令切换目录</div><div class="line"></div><div class="line">cd $HOME/testFolder</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 cd ../ 命令切换到上一级目录</div><div class="line"></div><div class="line">cd ../</div></pre></td></tr></table></figure>
+<p><em>移动目录</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 mv 命令移动目录</div><div class="line"></div><div class="line">mv $HOME/testFolder /var/tmp</div></pre></td></tr></table></figure>
+<p><em>删除目录</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 rm -rf 命令删除目录</div><div class="line"></div><div class="line">rm -rf /var/tmp/testFolder</div></pre></td></tr></table></figure>
+<p><em>查看目录下的文件</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls /etc</div></pre></td></tr></table></figure>
+<p><strong>2.文件操作</strong></p>
+<p><em>创建文件</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 touch 命令创建文件</div><div class="line"></div><div class="line">touch ~/testFile</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">执行 ls 命令, 可以看到刚才新建的 testFile 文件</div><div class="line"></div><div class="line">ls ~</div></pre></td></tr></table></figure>
+<p><em>复制文件</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 cp 命令复制文件</div><div class="line"></div><div class="line">cp ~/testFile ~/testNewFile</div></pre></td></tr></table></figure>
+<p><em>删除文件</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 rm 命令删除文件, 输入 y 后回车确认删除</div><div class="line"></div><div class="line">rm ~/testFile</div></pre></td></tr></table></figure>
+<p><em>查看文件内容</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">使用 cat 命令查看 .bash_history 文件内容</div><div class="line"></div><div class="line">cat ~/.bash_history</div></pre></td></tr></table></figure>
+<p><strong>3.过滤, 管道与重定向</strong></p>
+<p><em>过滤</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">过滤出 /etc/passwd 文件中包含 root 的记录</div><div class="line"></div><div class="line">grep &apos;root&apos; /etc/passwd</div><div class="line"></div><div class="line">递归地过滤出 /var/log/ 目录中包含 linux 的记录</div><div class="line"></div><div class="line">grep -r &apos;linux&apos; /var/log/</div></pre></td></tr></table></figure>
+<p><em>管道</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">简单来说, Linux 中管道的作用是将上一个命令的输出作为下一个命令的输入, 像 pipe 一样将各个命令串联起来执行, 管道的操作符是 |</div><div class="line">比如, 我们可以将 cat 和 grep 两个命令用管道组合在一起</div><div class="line"></div><div class="line">cat /etc/passwd | grep &apos;root&apos;</div><div class="line"></div><div class="line">过滤出 /etc 目录中名字包含 ssh 的目录(不包括子目录)</div><div class="line"></div><div class="line">ls /etc | grep &apos;ssh&apos;</div></pre></td></tr></table></figure>
+<p><em>重定向</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">可以使用 &gt; 或 &lt; 将命令的输出重定向到一个文件中</div><div class="line"></div><div class="line">echo &apos;Hello World&apos; &gt; ~/test.txt</div></pre></td></tr></table></figure>
+<p><strong>4.运维常用命令</strong></p>
+<p><em>ping 命令</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">对 cloud.tencent.com 发送 4 个 ping 包, 检查与其是否联通</div><div class="line"></div><div class="line">ping -c 4 cloud.tencent.com</div></pre></td></tr></table></figure></p>
+<p><em>netstat 命令</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">netstat 命令用于显示各种网络相关信息，如网络连接, 路由表, 接口状态等等</div><div class="line">列出所有处于监听状态的tcp端口</div><div class="line"></div><div class="line">netstat -lt</div><div class="line"></div><div class="line">查看所有的端口信息, 包括 PID 和进程名称</div><div class="line"></div><div class="line">netstat -tulpn</div></pre></td></tr></table></figure>
+<p><em>ps 命令</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">过滤得到当前系统中的 ssh 进程信息</div><div class="line"></div><div class="line">ps -aux | grep &apos;ssh&apos;</div></pre></td></tr></table></figure>
+<p><strong>5.Linux ssh登录命令</strong></p>
+<blockquote>
+<p>ssh命令用于远程登录上Linux主机。</p>
+<p>常用格式：ssh [-l login_name] [-p port] [user@]hostname 更详细的可以用ssh -h查看。</p>
+<p>举例</p>
+<p>不指定用户：</p>
+<p>ssh 192.168.0.11</p>
+<p>指定用户：</p>
+<p>ssh -l root 192.168.0.11</p>
+<p>ssh root@192.168.0.11</p>
+<p>如果修改过ssh登录端口的可以：</p>
+<p>ssh -p 12333 192.168.0.11</p>
+<p>ssh -l root -p 12333 216.230.230.114</p>
+<p>ssh -p 12333 root@216.230.230.114</p>
+<p>另外修改配置文件/etc/ssh/sshd_config，可以改ssh登录端口和禁止root登录。改端口可以防止被端口扫描。</p>
+<p>编辑配置文件：</p>
+<p>vim /etc/ssh/sshd_config</p>
+<p>找到#Port 22，去掉注释，修改成一个五位的端口：</p>
+<p>Port 12333</p>
+<p>找到#PermitRootLogin yes，去掉注释，修改为：</p>
+<p>PermitRootLogin no</p>
+<p>重启sshd服务：</p>
+<p>service sshd restart</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/05/linux运维常用命令/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Intellij Idea 创建Web项目入门(非Maven项目)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1101,74 +1220,9 @@
 
 
   
-    <article id="post-Struts2中接收表单数据的三种驱动方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">Struts2中接收表单数据的三种驱动方式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.211Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Struts2中接收表单数据的三种驱动方式</strong><br>  1.属性驱动<br>   前台表单中字段的name和后台action中的属性字段的名称必须保持一致；</p>
-<p>2.域驱动<br>前台表单中字段的name应该为：objectName.attribute的形式;<br>后台action中以object为单位进行数据的接收，前台页面的取值方式为：</p>
-<p>3.模型驱动<br>前台表单中字段的name应该为：attribute的形式;<br>后台action实行ModelDriven接口，并重写getModel方法；前台页面的取值方式为：<br>${attribute};</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
