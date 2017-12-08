@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>React中常见的坑 之 React中XXX is not an absolute  path! | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="React中常见的坑 之 React中XXX is not an absolute  path!本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该">
+  <meta name="description" content="本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该更改webpack.config.js中的相关属性，并将其设置为绝对路径;本次错误中做的修改如下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog4Jun">
+<meta property="og:title" content="React中常见的坑 之 React中XXX is not an absolute  path!">
 <meta property="og:url" content="http://yoursite.com/2017/12/08/React中XXX is not an absolute  path!/index.html">
 <meta property="og:site_name" content="Blog4Jun">
-<meta property="og:description" content="React中常见的坑 之 React中XXX is not an absolute  path!本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该">
+<meta property="og:description" content="本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该更改webpack.config.js中的相关属性，并将其设置为绝对路径;本次错误中做的修改如下">
 <meta property="og:image" content="http://img.blog.csdn.net/20171207164914387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20171208090929061?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-12-08T01:10:50.573Z">
+<meta property="og:updated_time" content="2017-12-08T01:17:20.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
-<meta name="twitter:description" content="React中常见的坑 之 React中XXX is not an absolute  path!本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该">
+<meta name="twitter:title" content="React中常见的坑 之 React中XXX is not an absolute  path!">
+<meta name="twitter:description" content="本周学习react中遇到了如下问题:            根据提示，The provided value  &amp;quot;node_modules&amp;quot; is not an absolute path!        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该更改webpack.config.js中的相关属性，并将其设置为绝对路径;本次错误中做的修改如下">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20171207164914387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
@@ -159,10 +159,25 @@
             <article id="post-React中XXX is not an absolute  path!" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React中常见的坑 之 React中XXX is not an absolute  path!
+    </h1>
+  
+
+        
+        <a href="/2017/12/08/React中XXX is not an absolute  path!/" class="archive-article-date">
+  	<time datetime="2017-12-08T01:09:50.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-08</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h2 id="React中常见的坑-之-React中XXX-is-not-an-absolute-path"><a href="#React中常见的坑-之-React中XXX-is-not-an-absolute-path" class="headerlink" title="React中常见的坑 之 React中XXX is not an absolute  path!"></a>React中常见的坑 之 React中XXX is not an absolute  path!</h2><p>本周学习react中遇到了如下问题:<br>         <img src="http://img.blog.csdn.net/20171207164914387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>   根据提示，<code>The provided value  &quot;node_modules&quot; is not an absolute path!</code>        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该更改webpack.config.js中的相关属性，并将其设置为绝对路径;本次错误中做的修改如下所示:<br>     <img src="http://img.blog.csdn.net/20171208090929061?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>本周学习react中遇到了如下问题:<br>         <img src="http://img.blog.csdn.net/20171207164914387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>   根据提示，<code>The provided value  &quot;node_modules&quot; is not an absolute path!</code>        [你所提供的值“node_mudules”不是一个局对路径    ],所以应该更改webpack.config.js中的相关属性，并将其设置为绝对路径;本次错误中做的修改如下所示:<br>     <img src="http://img.blog.csdn.net/20171208090929061?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 
       
 
