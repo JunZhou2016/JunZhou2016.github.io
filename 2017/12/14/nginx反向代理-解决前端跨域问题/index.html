@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/12 | Blog4Jun</title>
+  <title>Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="nginx反向代理-解决前端跨域问题            1.定义 跨域是指a页面想获取b页面资源，如果a、b页面的协议、域名、端口、子域名不同，所进行的访问行动都是跨域的，而浏览器为了安全问题一般都限制了跨域访问，也就是不允许跨域请求资源。注意：跨域限制访问，其实是浏览器的限制。理解这一点很重要！！！2.跨域访问示例假设有两个网站，A网站部署在：http://localhost:81 即本地">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/2017/12/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/12/14/nginx反向代理-解决前端跨域问题/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="nginx反向代理-解决前端跨域问题            1.定义 跨域是指a页面想获取b页面资源，如果a、b页面的协议、域名、端口、子域名不同，所进行的访问行动都是跨域的，而浏览器为了安全问题一般都限制了跨域访问，也就是不允许跨域请求资源。注意：跨域限制访问，其实是浏览器的限制。理解这一点很重要！！！2.跨域访问示例假设有两个网站，A网站部署在：http://localhost:81 即本地">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/678708/201702/678708-20170213170036207-1918573233.png">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif">
+<meta property="og:image" content="http://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/678708/201702/678708-20170213173216222-601271339.png">
+<meta property="og:updated_time" content="2017-12-14T06:07:09.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:description" content="nginx反向代理-解决前端跨域问题            1.定义 跨域是指a页面想获取b页面资源，如果a、b页面的协议、域名、端口、子域名不同，所进行的访问行动都是跨域的，而浏览器为了安全问题一般都限制了跨域访问，也就是不允许跨域请求资源。注意：跨域限制访问，其实是浏览器的限制。理解这一点很重要！！！2.跨域访问示例假设有两个网站，A网站部署在：http://localhost:81 即本地">
+<meta name="twitter:image" content="http://common.cnblogs.com/images/copycode.gif">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -149,205 +162,141 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-nginx反向代理-解决前端跨域问题" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="nginx反向代理-解决前端跨域问题"><a href="#nginx反向代理-解决前端跨域问题" class="headerlink" title="nginx反向代理-解决前端跨域问题"></a>nginx反向代理-解决前端跨域问题</h2><p><div class="postBody"><br>            <div id="cnblogs_post_body" class="blogpost-body"><h1>1.定义</h1></div></div></p>
+<p>跨域是指a页面想获取b页面资源，如果a、b页面的协议、域名、端口、子域名不同，所进行的访问行动都是跨域的，而浏览器为了安全问题一般都限制了跨域访问，也就是不允许跨域请求资源。<span style="color: #ff0000">注意：跨域限制访问，其实是浏览器的限制</span>。理解这一点很重要！！！</p><br><h1>2.跨域访问示例</h1><br><p>假设有两个网站，A网站部署在：<a href="http://localhost:81" target="_blank" rel="external">http://localhost:81</a> 即本地ip端口81上；B网站部署在：<a href="http://localhost:82" target="_blank" rel="external">http://localhost:82</a> 即本地ip端口82上。</p><br><p>现在A网站的页面想去访问B网站的信息，A网站页面的代码如下（这里使用jquery的异步请求）：</p><br><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码" target="_blank" rel="external"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div><br><pre><span style="color: #0000ff">&lt;</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span>Index<span style="color: #0000ff">&lt;/</span><span style="color: #800000">h2</span><span style="color: #0000ff">&gt;</span><br><span style="color: #0000ff">&lt;</span><span style="color: #800000">div </span><span style="color: #ff0000">id</span><span style="color: #0000ff">=”show”</span><span style="color: #0000ff">&gt;&lt;/</span><span style="color: #800000">div</span><span style="color: #0000ff">&gt;</span><br><span style="color: #0000ff">&lt;</span><span style="color: #800000">script </span><span style="color: #ff0000">type</span><span style="color: #0000ff">=”text/javascript”</span><span style="color: #0000ff">&gt;</span><span style="background-color: #f5f5f5; color: #000000"><br>        $(</span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> () {<br>            $.get(</span><span style="background-color: #f5f5f5; color: #000000">“</span><span style="background-color: #f5f5f5; color: #000000"><a href="http://localhost:82/api/values" target="_blank" rel="external">http://localhost:82/api/values</a></span><span style="background-color: #f5f5f5; color: #000000">“</span><span style="background-color: #f5f5f5; color: #000000">, {</span><span style="background-color: #f5f5f5; color: #000000">}, </span><span style="background-color: #f5f5f5; color: #0000ff">function</span><span style="background-color: #f5f5f5; color: #000000"> (result) {<br>                $(</span><span style="background-color: #f5f5f5; color: #000000">“</span><span style="background-color: #f5f5f5; color: #000000">#show</span><span style="background-color: #f5f5f5; color: #000000">“</span><span style="background-color: #f5f5f5; color: #000000">).html(result);<br>            })<br>        })</span></pre><br><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码" target="_blank" rel="external"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div></div><br><p>这是浏览器会提示如下错误信息：</p><br><p><img src="http://images2015.cnblogs.com/blog/678708/201702/678708-20170213170036207-1918573233.png" alt=""></p><br><h1>3.nginx反向代理解决跨域问题</h1><br><h2>3.1nginx配置</h2><br><p>关于nginx的配置可以查看另一篇博文：<a href="http://www.cnblogs.com/renjing/p/6126284.html。找到nginx的配置文件“nginx.conf”，修改一下信息" target="_blank" rel="external">http://www.cnblogs.com/renjing/p/6126284.html。找到nginx的配置文件“nginx.conf”，修改一下信息</a></p><br><div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码" target="_blank" rel="external"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div><br><pre>server {<br>        listen       80; #监听80端口，可以改成其他端口<br>        server_name  localhost; # 当前服务的域名<br><br>        #charset koi8-r;<br><br>        #access_log  logs/host.access.log  main;<br><br>        location / {<br>            proxy_pass <a href="http://localhost:81" target="_blank" rel="external">http://localhost:81</a>;<br>            proxy_redirect default;<br>        }<br><br>        location /apis { #添加访问目录为/apis的代理配置<br>            rewrite  ^/apis/(.<em>)$ /$1 break;<br>            proxy_pass   <a href="http://localhost:82" target="_blank" rel="external">http://localhost:82</a>;<br>       }<br>#以下配置省略</em></pre><br><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码" target="_blank" rel="external"><img src="//common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></span></div></div><br><p>配置解释：</p><br><p>1.由配置信息可知，我们让nginx监听localhost的80端口，网站A与网站B的访问都是经过localhost的80端口进行访问。</p><br><p>2.我们特殊配置了一个“/apis”目录的访问，并且对url执行了重写，最后使以“/apis”开头的地址都转到“<a href="http://localhost:82”进行处理。" target="_blank" rel="external">http://localhost:82”进行处理。</a></p><br><p>3.rewrite &nbsp;^/apis/(.)$ /$1 break;&nbsp;</p><br><p>代表重写拦截进来的请求，并且只能对域名后边以“/apis”开头的起作用，例如www.a.com/apis/msg?x=1重写。只对/apis重写。</p><br><p>　　rewrite后面的参数是一个简单的正则 ^/apis/(.*)$ ,$1代表正则中的第一个(),$2代表第二个()的值,以此类推。</p><br><p>　　break代表匹配一个之后停止匹配。</p><br><h2>3.2 访问地址修改</h2><br><p>既然配置了nginx，那么所有的访问都要走nginx，而不是走网站原本的地址（A网站localhost:81,B网站localhost:82）。所以要修改A网站中的ajax访问地址，把访问地址由</p><br><p>“<a href="http://localhost:82/api/values”改成》》》“/apis/api/values”。如下代码：" target="_blank" rel="external">http://localhost:82/api/values”改成》》》“/apis/api/values”。如下代码：</a></p><br><div class="cnblogs_code"><img id="code_img_closed_f50c4daa-176e-4675-ba5d-a2defd055d68" class="code_img_closed" src="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_f50c4daa-176e-4675-ba5d-a2defd055d68" class="code_img_opened" style="display: none" src="http://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""><br><div id="cnblogs_code_open_f50c4daa-176e-4675-ba5d-a2defd055d68" class="cnblogs_code_hide"><br><pre>&lt;h2&gt;Index&lt;/h2&gt;<br>&lt;div id=”show”&gt;&lt;/div&gt;<br><br>&lt;script type=”text/javascript”&gt;<br>        $(function () {<br>            $.get(“/apis/api/values”, {}, function (result) {<br>                $(“#show”).html(result);<br>            })<br>        })<br>&lt;/script&gt;</pre><br></div><br><span class="cnblogs_code_collapse">View Code</span></div><br><h1>&nbsp;4.网站的访问</h1><br><p><img src="http://images2015.cnblogs.com/blog/678708/201702/678708-20170213173216222-601271339.png" alt=""></p><br><h1>5.总结</h1><br><p>浏览器跨域的解决方式有很多种：</p><br><p>1.jsonp 需要目标服务器配合一个callback函数。</p><br><p>　　2.window.name+iframe 需要目标服务器响应window.name。</p><br><p>　　3.window.location.hash+iframe 同样需要目标服务器作处理。</p><br><p>　　4.html5的 postMessage+ifrme 这个也是需要目标服务器或者说是目标页面写一个postMessage，主要侧重于前端通讯。</p><br><p>　　5.<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS" target="_blank">CORS</a>&nbsp;&nbsp;需要服务器设置header ：<code class=" language-shell">Access-Control-Allow-Origin。</code></p><br><p><span style="color: #ff0000">　　6.<strong>nginx反向代理</strong>&nbsp;这个方法一般很少有人提及，但是他可以不用目标服务器配合，不过需要你搭建一个中转nginx服务器，用于转发请求。</span></p><br><p><span style="font-size: 18px; color: #000000"><strong><span style="color: #ff0000">个人觉得6才是正规的解决方案</span></strong></span></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/14/nginx反向代理-解决前端跨域问题/" class="archive-article-date">
-  	<time datetime="2017-12-14T06:06:14.197Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-14</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/12/14/nginx反向代理-解决前端跨域问题/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/13/react中常见问题的汇总，收藏别人的/" class="archive-article-date">
-  	<time datetime="2017-12-13T09:34:37.591Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/13/react中常见问题的汇总，收藏别人的/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">react中常见问题的汇总，收藏别人的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/13/react中常见问题的汇总，收藏别人的/">react中常见问题的汇总，收藏别人的</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/13/React中es5与es6写法对比/" class="archive-article-date">
-  	<time datetime="2017-12-13T09:27:57.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/13/React中es5与es6写法对比/">React中es5与es6写法对比</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/13/国内优秀npm镜像推荐使用/" class="archive-article-date">
-  	<time datetime="2017-12-13T09:24:19.053Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/13/国内优秀npm镜像推荐使用/">国内优秀npm镜像推荐使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/08/React中XXX is not an absolute  path!/" class="archive-article-date">
-  	<time datetime="2017-12-08T01:09:50.807Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/08/React中XXX is not an absolute  path!/">React中常见的坑 之 React中XXX is not an absolute  path!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/06/React高频询问/" class="archive-article-date">
-  	<time datetime="2017-12-06T13:01:15.755Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/06/React高频询问/">react中的常见问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/" class="archive-article-date">
-  	<time datetime="2017-12-03T13:03:16.778Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">明天就要学转前端了，收集了一些资料放这里了</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -370,8 +319,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
