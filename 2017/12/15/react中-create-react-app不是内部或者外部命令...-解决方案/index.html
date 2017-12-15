@@ -8,22 +8,22 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法   1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm">
+  <meta name="description" content="1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm的环境变量一般配置的是默认路径：)，采用默认路径一般是在系统盘，这样不太好，下面将详细介绍自定义环境">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法">
 <meta property="og:url" content="http://yoursite.com/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/index.html">
 <meta property="og:site_name" content="Blog4Jun">
-<meta property="og:description" content="react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法   1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm">
+<meta property="og:description" content="1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm的环境变量一般配置的是默认路径：)，采用默认路径一般是在系统盘，这样不太好，下面将详细介绍自定义环境">
 <meta property="og:image" content="http://img.blog.csdn.net/20171215161443549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20171215161847450?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170322224905671?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170322225147238?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170322225344460?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20171215163304642?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-12-15T08:35:08.216Z">
+<meta property="og:updated_time" content="2017-12-15T08:38:02.384Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法">
-<meta name="twitter:description" content="react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法   1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm">
+<meta name="twitter:description" content="1.分析问题的原因：           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置； 2解决方案:         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm的环境变量一般配置的是默认路径：)，采用默认路径一般是在系统盘，这样不太好，下面将详细介绍自定义环境">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20171215161443549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
@@ -180,8 +180,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> <strong>react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法</strong> </p>
-<hr>
+        <hr>
 <p>1.分析问题的原因：<br>           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置；<br> 2解决方案:<br>         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm的环境变量一般配置的是默认路径：<img src="http://img.blog.csdn.net/20171215161443549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述">)，采用默认路径一般是在系统盘，这样不太好，下面将详细介绍自定义环境变,通过对比当前的安装路径：<img src="http://img.blog.csdn.net/20171215161847450?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述">，会发现两者确实不同，只要将命令安装路径和命令运行路径（环境变量指向的路径）统一即可。<br>       (2.)  通过命令：<code>npm config set prefix &quot;D:\XXXXXX\XXXXX\XXX&quot;</code>即可设置命令的安装路径（该路径和环境变量指向的路径应该保持一致）；</p>
 <hr>
 <p><strong>node.js的自定义配置：</strong></p>
