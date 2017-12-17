@@ -1,5 +1,4 @@
 define([], function () {
-	alert('Hello JunZhou');
         return {
             page: 1,
             offset: 20,
@@ -13,14 +12,15 @@ define([], function () {
             },
 
             render: function (page, data) {
+				alert('Hello');
                 var begin = (page - 1) * this.offset;
                 var end = page * this.offset;
                 if (begin >= data.length) return;
                 var html, li = "";
                 for (var i = begin; i < end && i < data.length; i++) {
                     li += '<li><div class="img-box">' +
-                        '<a class="img-bg" rel="example_group" href="https://github.com/JunZhou2016/JunZhou2016.github.io/blob/master/photos/' + data[i] + '?raw=true"></a>' +
-                        '<img lazy-src="https://github.com/JunZhou2016/JunZhou2016.github.io/blob/master/photos/' + data[i] + '?raw=true" />' +
+                        '<a class="img-bg" rel="example_group" href="https://github.com/lwzhang/blog/blob/master/photos/' + data[i] + '?raw=true"></a>' +
+                        '<img lazy-src="https://github.com/lwzhang/blog/blob/master/photos/' + data[i] + '?raw=true" />' +
                         '</li>';
                 }
 
