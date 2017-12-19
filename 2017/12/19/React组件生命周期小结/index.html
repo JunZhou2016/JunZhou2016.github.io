@@ -14,12 +14,10 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/19/React组件生命周期小结/index.html">
 <meta property="og:site_name" content="Blog4Jun">
 <meta property="og:description" content="React组件生命周期小结                    这篇博客是我在简书上看到的，写的实在是太好了，这是原文地址。          下面所写的，只适合前端的React。（React也支持后端渲染，而且和前端有点小区别，不过我没用过。） 相关函数 简单地说，React Component通过其定义的几个函数来控制组件在生命周期的各个阶段的动作。 在ES6中，一个Reac">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1814354-4bf62e54553a32b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
-<meta property="og:updated_time" content="2017-12-19T04:43:18.469Z">
+<meta property="og:updated_time" content="2017-12-19T04:47:54.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React组件生命周期小结">
 <meta name="twitter:description" content="React组件生命周期小结                    这篇博客是我在简书上看到的，写的实在是太好了，这是原文地址。          下面所写的，只适合前端的React。（React也支持后端渲染，而且和前端有点小区别，不过我没用过。） 相关函数 简单地说，React Component通过其定义的几个函数来控制组件在生命周期的各个阶段的动作。 在ES6中，一个Reac">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1814354-4bf62e54553a32b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -231,13 +229,9 @@ class TodoList extends React.Component {
 <li>调用this.forceUpdate</li>
 </ol>
 <p>下面是我对React组件四条更新路径地总结：</p>
-<div class="image-package">
-<div class="image-container" style="max-width: 700px; max-height: 723px; background-color: transparent;">
-<div class="image-container-fill" style="padding-bottom: 103.35000000000001%;"></div>
-<div class="image-view" data-width="807" data-height="834"><img data-original-src="//upload-images.jianshu.io/upload_images/1814354-4bf62e54553a32b7.png" data-original-width="807" data-original-height="834" data-original-format="image/png" data-original-filesize="75667" class="" style="cursor: zoom-in;" src="//upload-images.jianshu.io/upload_images/1814354-4bf62e54553a32b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700"></div>
-</div>
+![这里写图片描述](http://img.blog.csdn.net/20171219124717199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 <div class="image-caption">React组件更新路径.png</div>
-</div>
+
 <p>注意，如果在shouldComponentUpdate里面返回false可以提前退出更新路径。</p>
 <h1>一个React组件生命周期的测试例子</h1>
 <p>代码比较简单，没有逻辑，只是在每个相关函数里面alert一下。&lt;h1&gt;<a href="https://link.jianshu.com?t=http://wximg.gtimg.com/shake_tv/test/lifeCycle2113.html" target="_blank" rel="nofollow">点击链接</a>来试试这个例子。&lt;/h1&gt;<br>
