@@ -157,6 +157,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java实现二叉树的前序、中序、后序以及层次遍历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">建立一颗二叉排序树，并输出它的前序、中序、后序以及层次遍历结</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/" class="archive-article-date">
+  	<time datetime="2017-09-13T15:22:07.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">5</div><div class="line">6 9 1 5 8</div><div class="line">输出：</div><div class="line">6 1 5 9 8 //前序</div><div class="line">1 5 6 8 9 //中序</div><div class="line">5 1 8 9 6 //后序</div><div class="line">6 1 9 5 8 //层次</div></pre></td></tr></table></figure>
+<p><code class="java"><span class="hljs-comment">//Main函数</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);<br>        <span class="hljs-keyword">while</span>(scanner.hasNextInt()){<br>            <span class="hljs-keyword">int</span> num = scanner.nextInt();<br>            <span class="hljs-keyword">int</span>[] array = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[num];<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num; i++){<br>                array[i] = scanner.nextInt();<br>            }<br>            TreeNode root = <span class="hljs-keyword">new</span> TreeNode(array[<span class="hljs-number">0</span>]);<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; num; i++){<br>                buildBST(root,array[i]);<br>            }<br>            DLR(root);<span class="hljs-comment">//前序遍历</span><br>            System.out.println();<br>            LDR(root);<span class="hljs-comment">//中序遍历</span><br>            System.out.println();<br>            LRD(root);<span class="hljs-comment">//后序遍历</span><br>            System.out.println();<br>            levelOrder(root);<span class="hljs-comment">//层次遍历</span><br>            System.out.println();<br>        }<br>    }<br><span class="hljs-comment">//前序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DLR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>            Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>            stack.push(node);<br>            <span class="hljs-keyword">while</span>(!stack.isEmpty()){<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)stack.push(node.right);<br>                <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)stack.push(node.left);<br>            }<br>        }<br>    }<br><span class="hljs-comment">//中序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LDR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>      Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> || !stack.isEmpty()){<br>            <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<span class="hljs-keyword">else</span>{<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                node = node.right;<br>            }<br>        }<br>    }<br><span class="hljs-comment">//后序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LRD</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        TreeNode pre = node;<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span>){<br>            <span class="hljs-keyword">while</span>(node.left!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<br>            <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> &amp;&amp; (node.right==<span class="hljs-keyword">null</span> || node.right==pre)){<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                pre = node;<br>                <span class="hljs-keyword">if</span>(stack.isEmpty()) <span class="hljs-keyword">return</span>;<br>                node = stack.pop();<br>            }<br>            stack.push(node);<br>            node = node.right;<br>        }<br>    }<br><span class="hljs-comment">//层次遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">levelOrder</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Queue&lt;TreeNode&gt; queue = <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;TreeNode&gt;();<br>        queue.offer(node);<br>        <span class="hljs-keyword">while</span>(!queue.isEmpty()){<br>            node = queue.poll();<br>            System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>            <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)queue.add(node.left);<br>            <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)queue.add(node.right);<br>        }<br>    }<br><span class="hljs-comment">//构建二叉排序树</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buildBST</span><span class="hljs-params">(TreeNode node,<span class="hljs-keyword">int</span> val)</span></span>{<br>        <span class="hljs-keyword">if</span>(node.val == val) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-keyword">if</span>(val &lt; node.val){<br>            <span class="hljs-keyword">if</span>(node.left==<span class="hljs-keyword">null</span>) node.left = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.left,val);<br>        }<span class="hljs-keyword">else</span>{<br>            <span class="hljs-keyword">if</span>(node.right==<span class="hljs-keyword">null</span>) node.right = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.right,val);<br>        }<br>    }<br></code></p>
+<p><code class="java"><span class="hljs-comment">//二叉树节点结构</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span></span>{<br> <span class="hljs-keyword">int</span> val = <span class="hljs-number">0</span>;<br>TreeNode left = <span class="hljs-keyword">null</span>;<br>TreeNode right = <span class="hljs-keyword">null</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span></span>{<br><span class="hljs-keyword">this</span>.val = val;<br>}<br>}```</code></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Mysql优化之索引类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -922,73 +989,6 @@ return returnValue;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/07/ssm整合redis/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
-  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>windows下安装redis第一次启动报错：
-</code></pre><p>[2368] 21 Apr 02:57:05.611 # Creating Server TCP listening socket 127.0.0.1:6379: bind: No error</p>
-<p>解决方法：在命令行中运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">redis-cli.exe</div><div class="line">//如果设置了密码,则此处需要先输入认证即密码:</div><div class="line">127.0.0.1:6379&gt;auth yourpassword</div><div class="line">127.0.0.1:6379&gt;shutdown</div><div class="line">not connected&gt;exit</div></pre></td></tr></table></figure>
-<p>然后重新运行redis-server.exe redis.windows.conf 【–maxmemory 200M】，启动成功！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">展开全文 >></a>
         </p>
       
 
