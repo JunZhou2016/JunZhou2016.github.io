@@ -157,6 +157,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-React中es5与es6写法对比" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/13/React中es5与es6写法对比/">React中es5与es6写法对比</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/13/React中es5与es6写法对比/" class="archive-article-date">
+  	<time datetime="2017-12-13T09:27:57.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><p>1.引入与导出方式不同</p><p></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES5</span></li></p>
+<p><li>var&nbsp;React&nbsp;=&nbsp;require(<span class="string">“react”</span>);</li><br></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES6</span></li></p>
+<p><li><span class="keyword">import</span>&nbsp;React,&nbsp;{&nbsp;Component,&nbsp;PropTypes&nbsp;}&nbsp;from&nbsp;‘react</li><br></p>
+<p></p><p>2.导入： ES5使用require导入，而ES6使用了import</p><p></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES5</span></li></p>
+<p><li>module.exports&nbsp;=&nbsp;Test;</li><br></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES6</span></li></p>
+<p><li>export&nbsp;<span class="keyword">default</span>&nbsp;Test;</li><br></p>
+<p></p><p>3.创建组件的方式不同</p><p></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES5</span></li></p>
+<p><li>var&nbsp;Test&nbsp;=&nbsp;React.createClass(&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;……….</li></p>
+<p><li>}&nbsp;);</li><br></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES6</span></li></p>
+<p><li><span class="keyword">class</span>&nbsp;Test&nbsp;<span class="keyword">extends</span>&nbsp;Component&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;……….</li></p>
+<p><li>}</li><br></p>
+<p></p><p>4.初始化组件属性的方式以及限制组件属性类型的方式不同</p><p></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES5</span></li></p>
+<p><li>var&nbsp;Test&nbsp;=&nbsp;React.createClass({</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getDefaultProps:&nbsp;function()&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;<span class="number">10</span></li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propTypes:&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;React.PropTypes.number.&nbsp;isRequired</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</li></p>
+<p><li>});</li></p>
+<p><li></li></p>
+<p><li><span class="comment">//ES6</span></li></p>
+<p><li><span class="keyword">class</span>&nbsp;Test&nbsp;<span class="keyword">extends</span>&nbsp;Component&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static</span>&nbsp;defaultProps&nbsp;=&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;<span class="number">10</span></li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
+<p><li></li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static</span>&nbsp;propTypes&nbsp;=&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;React.PropTypes.number.&nbsp;isRequired</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
+<p><li>}</li><br></p>
+<p></p><p>5.初始化方法不同</p><p></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li><span class="comment">//ES5</span></li></p>
+<p><li>getInitialState:&nbsp;function()&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;………..</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myState:&nbsp;<span class="number">10</span></li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</li></p>
+<p><li>}</li><br></p>
+<p><ol class="dp-j" start="1"></ol></p>
+<p><li>//ES6</li></p>
+<p><li>constructor(props){</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(props);</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.state&nbsp;=&nbsp;{</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myState:&nbsp;<span class="number">10</span></li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
+<p><li>&nbsp;&nbsp;&nbsp;&nbsp;}</li><br></p>
+<p></p><p>&nbsp;</p><br>            <!-- .entry-content --><p></p>
+<pre><code>&lt;footer class=&quot;entry-footer&quot;&gt;
+        &lt;/footer&gt;&lt;!-- .entry-footer --&gt;
+</code></pre><p></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/13/React中es5与es6写法对比/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-国内优秀npm镜像推荐使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -827,73 +959,6 @@ Mysql中索引的方法:
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/10/Servlet的生命周期/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-B-S和C-S的含义及其区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/10/B-S和C-S的含义及其区别/">B/S和C/S的含义及其区别</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/10/B-S和C-S的含义及其区别/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:08:56.503Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>B/S结构，即Browser/Server(浏览器/服务器)结构，是随着Internet技术的兴起，对C/S结构的一种变化或者改进的结构。在这种结构下，用户界面完全通过WWW浏览器实现，一部分事务逻辑在前端实现，但是主要事务逻辑在服务器端实现，节约了开发成本，便于软件维护。<br>区别</p>
-<blockquote>
-<p>1、C/S是建立在局域网的基础上的。B/S是建立在广域网的基础上的，但并不是说B/S结构不能在局域网上使用。<br>2、<strong>B/S业务扩展简单方便，通过增加页面即可增加服务器功能。C/S的客户端还需要安装专用的客户端软件，不利于扩展。</strong><br>3、<strong>B/S维护简单方便。开发、维护等几乎所有工作也都集中在服务器端，当企业对网络应用进行升级时，只需更新服务器端的软件就可以，这减轻了异地用户系统维护与升级的成本。</strong><br><strong>4、B/S响应速度不及C/S；</strong><br><strong>5、B/S用户体验效果不是很理想</strong></p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/10/B-S和C-S的含义及其区别/">展开全文 >></a>
         </p>
       
 
