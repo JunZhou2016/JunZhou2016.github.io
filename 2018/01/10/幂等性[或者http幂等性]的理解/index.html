@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>幂等性[或者http幂等性]的理解 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="怎么理解幂等性理解要点 幂等性是系统的接口对外一种承诺(而不是实现), 承诺只要调用接口成功,   外部多次调用对系统的影响是一致的  . 声明为幂等的接口会认为外部调用失败是常态, 并且  失败之后必然会有重试.   声明为幂等性的API，多次调用后对调用资源产生影响或作用结果和一次调用产生的结果是相同的，幂等性API强调安全，不会因为多次的重复调用对系统资源产生错误的操作，正在金融业务中尤为重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="幂等性[或者http幂等性]的理解">
+<meta property="og:url" content="http://yoursite.com/2018/01/10/幂等性[或者http幂等性]的理解/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="怎么理解幂等性理解要点 幂等性是系统的接口对外一种承诺(而不是实现), 承诺只要调用接口成功,   外部多次调用对系统的影响是一致的  . 声明为幂等的接口会认为外部调用失败是常态, 并且  失败之后必然会有重试.   声明为幂等性的API，多次调用后对调用资源产生影响或作用结果和一次调用产生的结果是相同的，幂等性API强调安全，不会因为多次的重复调用对系统资源产生错误的操作，正在金融业务中尤为重">
+<meta property="og:updated_time" content="2018-01-10T14:33:52.375Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="幂等性[或者http幂等性]的理解">
+<meta name="twitter:description" content="怎么理解幂等性理解要点 幂等性是系统的接口对外一种承诺(而不是实现), 承诺只要调用接口成功,   外部多次调用对系统的影响是一致的  . 声明为幂等的接口会认为外部调用失败是常态, 并且  失败之后必然会有重试.   声明为幂等性的API，多次调用后对调用资源产生影响或作用结果和一次调用产生的结果是相同的，幂等性API强调安全，不会因为多次的重复调用对系统资源产生错误的操作，正在金融业务中尤为重">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,305 +159,168 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-幂等性[或者http幂等性]的理解" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      幂等性[或者http幂等性]的理解
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
+
+        
+        <a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
   	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+        
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/09/reflux的学习总结/" class="archive-article-date">
-  	<time datetime="2018-01-09T05:15:05.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/09/reflux的学习总结/">习reflux的总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/07/移动端学习之初始化-angular4的学习/" class="archive-article-date">
-  	<time datetime="2018-01-07T13:58:30.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/07/移动端学习之初始化-angular4的学习/">移动端学习之初始化-angular4的学习</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/06/create-reate-app项目中proxy代理的配置/" class="archive-article-date">
-  	<time datetime="2018-01-06T09:10:40.008Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/06/create-reate-app项目中proxy代理的配置/">create-reate-app项目中proxy代理的配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
+        <p></p><h2 id="怎么理解幂等性"><a href="#怎么理解幂等性" class="headerlink" title="怎么理解幂等性"><br></a>怎么理解幂等性</h2><br><strong>理解要点</strong><p></p>
+<p>幂等性是系统的接口对外一种承诺(而不是实现), 承诺只要调用接口成功, </p>
+<blockquote>
+<p>外部多次调用对系统的影响是一致的</p>
+</blockquote>
+<p>. 声明为幂等的接口会认为外部调用失败是常态, 并且</p>
+<blockquote>
+<p>失败之后必然会有重试.</p>
+</blockquote>
+<hr>
+<p>声明为幂等性的API，多次调用后对调用资源产生影响或作用结果和一次调用产生的结果是相同的，幂等性API强调安全，不会因为多次的重复调用对系统资源产生错误的操作，正在金融业务中尤为重要。</p>
+<hr>
+<p>HTTP幂等方法，是指无论调用多少次都不会有不同结果的 HTTP 方法。不管你调用一次，还是调用一百次，一千次，结果都是相同的。</p><br><p>还是以之前的博文的例子为例。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 获取ticket列表</span></li><li class="L1"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 查看某个具体的ticket</span></li><li class="L2"><span class="pln">POST    </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 新建一个ticket</span></li><li class="L3"><span class="pln">PUT     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li><li class="L4"><span class="pln">PATCH   </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li><li class="L5"><span class="pln">DELETE  </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 删除ticekt 12</span></li></ol></pre><br><br><h3 id="HTTP-GET方法"><a href="#HTTP-GET方法" class="headerlink" title="HTTP GET方法"></a>HTTP GET方法</h3><p>HTTP GET方法，用于获取资源，不管调用多少次接口，结果都不会改变，所以是幂等的。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 获取ticket列表</span></li><li class="L1"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 查看某个具体的ticket</span></li></ol></pre><br><br><p>只是查询数据，不会影响到资源的变化，因此我们认为它幂等。</p><br><p>值得注意，幂等性指的是作用于结果而非资源本身。怎么理解呢？例如，这个HTTP GET方法可能会每次得到不同的返回内容，但并不影响资源。</p><br><p>可能你会问有这种情况么？当然有咯。例如，我们有一个接口获取当前时间，我们就应该设计成</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">service_time </span><span class="com"># 获取服务器当前时间</span></li></ol></pre><br><br><p>它本身不会对资源本身产生影响，因此满足幂等性。</p><br><h3 id="HTTP-POST方法"><a href="#HTTP-POST方法" class="headerlink" title="HTTP POST方法"></a>HTTP POST方法</h3><p>HTTP POST方法是一个非幂等方法，因为调用多次，都将产生新的资源。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">POST    </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 新建一个ticket</span></li></ol></pre><br><br><p>因为它会对资源本身产生影响，每次调用都会有新的资源产生，因此不满足幂等性。</p><br><h3 id="HTTP-PUT方法"><a href="#HTTP-PUT方法" class="headerlink" title="HTTP PUT方法"></a>HTTP PUT方法</h3><p>HTTP PUT方法是不是幂等的呢？我们来看下</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">PUT     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li></ol></pre><br><br><p>因为它直接把实体部分的数据替换到服务器的资源，我们多次调用它，只会产生一次影响，但是有相同结果的 HTTP 方法，所以满足幂等性。</p><br><h3 id="HTTP-PATCH方法"><a href="#HTTP-PATCH方法" class="headerlink" title="HTTP PATCH方法"></a>HTTP PATCH方法</h3><p>HTTP PATCH方法是非幂等的。HTTP POST方法和HTTP PUT方法可能比较好理解，但是HTTP PATCH方法只是更新部分资源，怎么是非幂等的呢?</p><br><p>因为，PATCH提供的实体则需要根据程序或其它协议的定义，解析后在服务器上执行，以此来修改服务器上的资源。换句话说，PATCH请求是会执行某个程序的，如果重复提交，程序可能执行多次，对服务器上的资源就可能造成额外的影响，这就可以解释它为什么是非幂等的了。</p><br><p>可能你还不能理解这点。我们举个例子</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">PATCH   </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li></ol></pre><br><br><p>此时，我们服务端对方法的处理是，当调用一次方法，更新部分字段，将这条ticket记录的操作记录加一，这次，每次调用的资源是不是变了呢，所以它是有可能是非幂等的操作。</p><br><h3 id="HTTP-DELETE方法"><a href="#HTTP-DELETE方法" class="headerlink" title="HTTP DELETE方法"></a>HTTP DELETE方法</h3><p>HTTP DELETE方法用于删除资源，会将资源删除。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">DELETE  </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 删除ticekt 12</span></li></ol></pre><br><br><p>调用一次和多次对资源产生影响是相同的，所以也满足幂等性。</p><br><h2 id="如何设计符合幂等性的高质量RESTful-API"><a href="#如何设计符合幂等性的高质量RESTful-API" class="headerlink" title="如何设计符合幂等性的高质量RESTful API"></a>如何设计符合幂等性的高质量RESTful API</h2><h3 id="HTTP-GET方法-vs-HTTP-POST方法"><a href="#HTTP-GET方法-vs-HTTP-POST方法" class="headerlink" title="HTTP GET方法 vs HTTP POST方法"></a>HTTP GET方法 vs HTTP POST方法</h3><p>也许，你会想起一个面试题。HTTP请求的GET与POST方式有什么区别？你可能会回答到：GET方式通过URL提交数据，数据在URL中可以看到；POST方式，数据放置在HTML HEADER内提交。但是，我们现在从RESTful的资源角度来看待问题，HTTP GET方法是幂等的，所以它适合作为查询操作，HTTP POST方法是非幂等的，所以用来表示新增操作。</p><br><p>但是，也有例外，我们有的时候可能需要把查询方法改造成HTTP POST方法。比如，超长（1k）的GET URL使用POST方法来替代，因为GET受到URL长度的限制。虽然，它不符合幂等性，但是它是一种折中的方案。</p><br><h3 id="HTTP-POST方法-vs-HTTP-PUT方法"><a href="#HTTP-POST方法-vs-HTTP-PUT方法" class="headerlink" title="HTTP POST方法 vs HTTP PUT方法"></a>HTTP POST方法 vs HTTP PUT方法</h3><p>对于HTTP POST方法和TTP PUT方法，我们一般的理解是POST表示创建资源，PUT表示更新资源。当然，这个是正确的理解。</p><br><p>但是，实际上，两个方法都用于创建资源，更为本质的差别是在幂等性。HTTP POST方法是非幂等，所以用来表示创建资源，HTTP PUT方法是幂等的，因此表示更新资源更加贴切。</p><br><h3 id="HTTP-PUT方法-vs-HTTP-PATCH方法"><a href="#HTTP-PUT方法-vs-HTTP-PATCH方法" class="headerlink" title="HTTP PUT方法 vs HTTP PATCH方法"></a>HTTP PUT方法 vs HTTP PATCH方法</h3><p>此时，你看会有另外一个问题。HTTP PUT方法和HTTP PATCH方法，都是用来表述更新资源，它们之间有什么区别呢？我们一般的理解是PUT表示更新全部资源，PATCH表示更新部分资源。首先，这个是我们遵守的第一准则。根据上面的描述，PATCH方法是非幂等的，因此我们在设计我们服务端的RESTful API的时候，也需要考虑。如果，我们想要明确的告诉调用者我们的资源是幂等的，我的设计更倾向于使用 HTTP PUT 方法。</p>
+
+<pre><code>    (完)
+=
+</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/26/react中深层原理解析/" class="archive-article-date">
-  	<time datetime="2017-12-26T15:11:54.782Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/26/react中深层原理解析/">react中router底层原理结合参考资料的分析</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/01/10/幂等性[或者http幂等性]的理解/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/24/自己对react中flux框架部分底层原理的理解/" class="archive-article-date">
-  	<time datetime="2017-12-24T09:14:36.389Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-24</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/09/reflux的学习总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">习reflux的总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">自己对react中flux框架部分底层原理的理解</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/" class="archive-article-date">
-  	<time datetime="2017-12-21T01:38:27.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">nginx反向代理机制解决跨域问题详解【windows上的】</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/20/Object.assign() 方法详解/" class="archive-article-date">
-  	<time datetime="2017-12-20T13:38:21.131Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/20/Object.assign() 方法详解/">Object.assign() 方法详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/19/React组件生命周期小结/" class="archive-article-date">
-  	<time datetime="2017-12-19T03:37:45.889Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/19/React组件生命周期小结/">React组件生命周期小结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/" class="archive-article-date">
-  	<time datetime="2017-12-15T08:33:29.264Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/">react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -477,8 +344,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
