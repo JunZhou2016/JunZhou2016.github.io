@@ -157,6 +157,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-nginx解决跨域问题详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
+  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看了一篇nginx跨域原理的文章，还没有验证过，先记下，文章的链接是：<br><a href="http://www.liuyiqi.cn/2015/12/17/nginx-cross-domain/，另外，今天感冒好了，感觉自己萌萌哒。" target="_blank" rel="external">http://www.liuyiqi.cn/2015/12/17/nginx-cross-domain/，另外，今天感冒好了，感觉自己萌萌哒。</a><br><img src="http://img.blog.csdn.net/20180114221627751?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/14/nginx解决跨域问题详解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Nginx实现文件下载的限速功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -813,237 +876,6 @@ console<span class="token punctuation">.</span><span class="token function">log<
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/20/Object.assign() 方法详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-React组件生命周期小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/19/React组件生命周期小结/">React组件生命周期小结</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/19/React组件生命周期小结/" class="archive-article-date">
-  	<time datetime="2017-12-19T03:37:45.889Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p><em>这篇博客是我在简书上看到的，写的实在是太好了，<a href="http://www.jianshu.com/p/4784216b8194" target="_blank" rel="external">这是原文地址</a>。</em><br>          </p><p><strong>下面所写的，只适合前端的React。（React也支持后端渲染，而且和前端有点小区别，不过我没用过。）</strong></p><p></p>
-<p></p><h1>相关函数</h1><p></p>
-<p></p><p>简单地说，React Component通过其定义的几个函数来控制组件在生命周期的各个阶段的动作。</p><p></p>
-<p></p><p>在ES6中，一个React组件是用一个class来表示的（具体可以参考<a href="https://link.jianshu.com?t=http://facebook.github.io/react/docs/reusable-components.html#es6-classes" target="_blank" rel="nofollow">官方文档</a>），如下：</p><p></p>
-<pre class="hljs undefined"><code>// 定义一个TodoList的React组件，通过继承React.Component来实现
-class TodoList extends React.Component {
-  ...
-}
-</code></pre>
-<p>这几个生命周期相关的函数有：</p>
-<pre class="hljs undefined"><code>constructor(props, context)
-</code></pre>
-<p>构造函数，在创建组件的时候调用一次。</p>
-<pre class="hljs undefined"><code>void componentWillMount()
-</code></pre>
-<p>在组件挂载之前调用一次。如果在这个函数里面调用setState，本次的render函数可以看到更新后的state，并且只渲染一次。</p>
-<pre class="hljs undefined"><code>void componentDidMount()
-</code></pre>
-<p>在组件挂载之后调用一次。这个时候，子主键也都挂载好了，可以在这里使用refs。</p>
-<pre class="hljs undefined"><code>void componentWillReceiveProps(nextProps)
-</code></pre>
-<p>props是父组件传递给子组件的。父组件发生render的时候子组件就会调用componentWillReceiveProps（不管props有没有更新，也不管父子组件之间有没有数据交换）。</p>
-<pre class="hljs undefined"><code>bool shouldComponentUpdate(nextProps, nextState)
-</code></pre>
-<p>组件挂载之后，每次调用setState后都会调用shouldComponentUpdate判断是否需要重新渲染组件。默认返回true，需要重新render。在比较复杂的应用里，有一些数据的改变并不影响界面展示，可以在这里做判断，优化渲染效率。</p>
-<pre class="hljs undefined"><code>void componentWillUpdate(nextProps, nextState)
-</code></pre>
-<p>shouldComponentUpdate返回true或者调用forceUpdate之后，componentWillUpdate会被调用。</p>
-<pre class="hljs undefined"><code>void componentDidUpdate()
-</code></pre>
-<p>除了首次render之后调用componentDidMount，其它render结束之后都是调用componentDidUpdate。</p>
-<p>componentWillMount、componentDidMount和componentWillUpdate、componentDidUpdate可以对应起来。区别在于，前者只有在挂载的时候会被调用；而后者在以后的每次更新渲染之后都会被调用。</p>
-<pre class="hljs undefined"><code>ReactElement render()
-</code></pre>
-<p>render是一个React组件所必不可少的核心函数（上面的其它函数都不是必须的）。记住，不要在render里面修改state。</p>
-<pre class="hljs undefined"><code>void componentWillUnmount()
-</code></pre>
-<p>组件被卸载的时候调用。一般在componentDidMount里面注册的事件需要在这里删除。</p>
-<h1>更新方式</h1>
-<p>在react中，触发render的有4条路径。</p>
-<p><strong>以下假设shouldComponentUpdate都是按照默认返回true的方式。</strong></p>
-<ol>
-<li>首次渲染Initial Render</li>
-<li>调用this.setState （并不是一次setState会触发一次render，React可能会合并操作，再一次性进行render）</li>
-<li>父组件发生更新（一般就是props发生改变，但是就算props没有改变或者父子组件之间没有数据交换也会触发render）</li>
-<li>调用this.forceUpdate</li>
-</ol>
-<p></p>
-<img src="http://img.blog.csdn.net/20171219130718397?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-React组件更新路径.png
-
-<p>注意，如果在shouldComponentUpdate里面返回false可以提前退出更新路径。</p>
-<h1>一个React组件生命周期的测试例子</h1>
-<p>代码比较简单，没有逻辑，只是在每个相关函数里面alert一下。&lt;h1&gt;<a href="https://link.jianshu.com?t=http://wximg.gtimg.com/shake_tv/test/lifeCycle2113.html" target="_blank" rel="nofollow">点击链接</a>来试试这个例子。&lt;/h1&gt;<br>
-源码：</p>
-<pre class="hljs undefined"><code>class LifeCycle extends React.Component {
-    constructor(props) {
-        super(props);
-        alert("Initial render");
-        alert("constructor");
-        this.state = {str: "hello"};
-    }
-
-    componentWillMount() {
-        alert("componentWillMount");
-    }
-
-    componentDidMount() {
-        alert("componentDidMount");
-    }
-
-    componentWillReceiveProps(nextProps) {
-        alert("componentWillReceiveProps");
-    }
-
-    shouldComponentUpdate() {
-        alert("shouldComponentUpdate");
-        return true;        // 记得要返回true
-    }
-
-    componentWillUpdate() {
-        alert("componentWillUpdate");
-    }
-
-    componentDidUpdate() {
-        alert("componentDidUpdate");
-    }
-
-    componentWillUnmount() {
-        alert("componentWillUnmount");
-    }
-
-    setTheState() {
-        let s = "hello";
-        if (this.state.str === s) {
-            s = "HELLO";
-        }
-        this.setState({
-            str: s
-        });
-    }
-
-    forceItUpdate() {
-        this.forceUpdate();
-    }
-
-    render() {
-        alert("render");
-        return(
-            &lt;div&gt;
-                &lt;span&gt;{"Props:"}&lt;h2&gt;{parseInt(this.props.num)}&lt;/h2&gt;&lt;/span&gt;
-                &lt;br /&gt;
-                &lt;span&gt;{"State:"}&lt;h2&gt;{this.state.str}&lt;/h2&gt;&lt;/span&gt;
-            &lt;/div&gt;
-        );
-    }
-}
-
-class Container  extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            num: Math.random() * 100
-        };
-    }
-
-    propsChange() {
-        this.setState({
-            num: Math.random() * 100
-        });
-    }
-
-    setLifeCycleState() {
-        this.refs.rLifeCycle.setTheState();
-    }
-
-    forceLifeCycleUpdate() {
-        this.refs.rLifeCycle.forceItUpdate();
-    }
-
-    unmountLifeCycle() {
-        // 这里卸载父组件也会导致卸载子组件
-        React.unmountComponentAtNode(document.getElementById("container"));
-    }
-
-    parentForceUpdate() {
-        this.forceUpdate();
-    }
-
-    render() {
-        return (
-            &lt;div&gt;
-                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.propsChange.bind(this)}&gt;propsChange&lt;/a&gt;
-                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.setLifeCycleState.bind(this)}&gt;setState&lt;/a&gt;
-                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.forceLifeCycleUpdate.bind(this)}&gt;forceUpdate&lt;/a&gt;
-                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.unmountLifeCycle.bind(this)}&gt;unmount&lt;/a&gt;
-                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.parentForceUpdate.bind(this)}&gt;parentForceUpdateWithoutChange&lt;/a&gt;
-                &lt;LifeCycle ref="rLifeCycle" num={this.state.num}&gt;&lt;/LifeCycle&gt;
-            &lt;/div&gt;
-        );
-    }
-}
-
-ReactDom.render(
-    &lt;Container&gt;&lt;/Container&gt;,
-    document.getElementById('container')
-);
-
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/19/React组件生命周期小结/">展开全文 >></a>
         </p>
       
 
