@@ -157,6 +157,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mybatis中#{}【占位符】和${}【字符串】拼接的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">mybatis中#{}【占位符】和${}【字符串】拼接的区别</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/" class="archive-article-date">
+  	<time datetime="2017-11-06T03:32:05.504Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#&#123;&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>表示一个占位符号，通过#{}可以实现 preparedStatement 向占      位符中设置值， 自动进行 java<br>类型和 jdbc 类型转换。#{}可以有效防止 sql 注入。 #{}可以接 收简单类型值或 pojo 属性值。 如果<br>parameterType 传输单个简单类型值，#{} 括号中可以是 value 或其它名称。</p>
+</blockquote>
+<hr>
+<p>   ${}</p>
+<blockquote>
+<p>  表示拼接 sql 串，通过${}可以将 parameterType 传入的内容拼接在 sql 中 且不进行 jdbc 类型转换，<br>${}可以接收简单类型值或 pojo 属性值，如果 parameterType 传输单个简单类型值，${}括号中只能是 value。</p>
+</blockquote>
+<hr>
+<p>  <strong><em>使用占位符的形式</em></strong>最终会将Java中的字符串类型数据”%王%”转换为  jdbc中的数据类型【通配符的形式】<em>%王%</em>，最终形成的sql语句为<br>  SELECT * FROM <code>user</code> WHERE username LIKE %王%<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 如果返回多个结果，mybatis 会自动把返回的结果放在 list 容器中 --&gt;</div><div class="line">&lt;!-- resultType 的配置和返回一个结果的配置一样 --&gt;</div><div class="line">&lt;select id=&quot;queryUserByUsername1&quot; parameterType=&quot;string&quot;</div><div class="line">resultType=&quot;cn.itcast.mybatis.pojo.User&quot;&gt;</div><div class="line">SELECT * FROM `user` WHERE username LIKE #&#123;username&#125;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 查询多条数据使用 selectList 方法</div><div class="line">List&lt;Object&gt; list =</div><div class="line">sqlSession.selectList(&quot;queryUserByUsername1&quot;, &quot;%王%&quot;);</div></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 如果传入的参数是简单数据类型，$&#123;&#125;里面必须写 value --&gt;</div><div class="line">&lt;select id=&quot;queryUserByUsername2&quot; parameterType=&quot;string&quot;</div><div class="line">resultType=&quot;cn.itcast.mybatis.pojo.User&quot;&gt;</div><div class="line">SELECT * FROM `user` WHERE username LIKE &apos;%$&#123;value&#125;%&apos;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 查询多条数据使用 selectList 方法</div><div class="line">List&lt;Object&gt; list = sqlSession.selectList(&quot;queryUserByUsername2&quot;, &quot;</div><div class="line">王&quot;);</div></pre></td></tr></table></figure>
+<p>  <strong><em>使用字符串拼接的形式</em></strong>  不会进行数据类型的转化，最终解析出来的数据相当于带有“‘”号，此处传值的时候需要进行注意，最终形成的sql语句为<br>  SELECT * FROM <code>user</code> WHERE username LIKE %王%</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java实现二叉树的前序、中序、后序以及层次遍历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -916,79 +995,6 @@ return returnValue;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ssm整合redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/ssm整合redis/">ssm整合redis</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
-  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>说明</strong><br>   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。</p>
-<p><strong>redis的使用前提：</strong></p>
-<p>  (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;<br>  (2.)为应用程序添加必要的配置：例如mysql中的四要素;<br>  (3.)配置redis相关的AOP【基于方法拦截】;<br>  (4.)使用redis相关的API；</p>
-<p><strong>Spring整合redis的相关配置:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;!-- jedis 配置 --&gt;</div><div class="line">	&lt;bean id=&quot;poolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</div><div class="line">		&lt;property name=&quot;maxIdle&quot; value=&quot;$&#123;redis.maxIdle&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;maxWaitMillis&quot; value=&quot;$&#123;redis.maxWait&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;testOnBorrow&quot; value=&quot;$&#123;redis.testOnBorrow&#125;&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;!-- redis服务器中心 --&gt;</div><div class="line">	&lt;bean id=&quot;connectionFactory&quot;</div><div class="line">		class=&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;&gt;</div><div class="line">		&lt;property name=&quot;poolConfig&quot; ref=&quot;poolConfig&quot; /&gt;</div><div class="line">		&lt;property name=&quot;port&quot; value=&quot;$&#123;redis.port&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;hostName&quot; value=&quot;$&#123;redis.host&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;password&quot; value=&quot;$&#123;redis.password&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;timeout&quot; value=&quot;$&#123;redis.timeout&#125;&quot;&gt;&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.RedisTemplate&quot;&gt;</div><div class="line">		&lt;property name=&quot;connectionFactory&quot; ref=&quot;connectionFactory&quot; /&gt;</div><div class="line">		&lt;property name=&quot;keySerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;valueSerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.JdkSerializationRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- cache配置 --&gt;</div><div class="line">	&lt;bean id=&quot;methodCacheInterceptor&quot; class=&quot;com.crossoverJie.intercept.MethodCacheInterceptor&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisUtil&quot; ref=&quot;redisUtil&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisUtil&quot; class=&quot;com.crossoverJie.util.RedisUtil&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisTemplate&quot; ref=&quot;redisTemplate&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line"></div><div class="line">	&lt;bean id=&quot;dataSourceExchange&quot; class=&quot;com.crossoverJie.util.DataSourceExchange&quot; /&gt;</div><div class="line">	&lt;!--配置切面拦截方法 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">	</div><div class="line">		&lt;!--将com.crossoverJie.service包下的所有select开头的方法加入拦截 去掉select则加入所有方法 --&gt;</div><div class="line">		&lt;aop:pointcut id=&quot;controllerMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.service.*.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line"></div><div class="line">		&lt;aop:pointcut id=&quot;selectMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.dao..*Mapper.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;aop:advisor advice-ref=&quot;methodCacheInterceptor&quot;</div><div class="line">			pointcut-ref=&quot;controllerMethodPointcut&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;!--所有数据库操作的方法加入切面 --&gt;</div><div class="line">		&lt;aop:aspect ref=&quot;dataSourceExchange&quot;&gt;</div><div class="line">			&lt;aop:pointcut id=&quot;dataSourcePointcut&quot;</div><div class="line">				expression=&quot;execution(* com.crossoverJie.service.*.*(..))&quot; /&gt;</div><div class="line">			&lt;aop:before pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;before&quot; /&gt;</div><div class="line">			&lt;aop:after pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;after&quot; /&gt;</div><div class="line">		&lt;/aop:aspect&gt;</div><div class="line"></div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
-<p><strong>编码方法拦截器MethodInterceptor</strong></p>
-<pre><code>方法拦截器在目标方法被调用的时候被触发，作为增强业务逻辑存在，方法拦截器主要任务是将需要加入redis中数据添加进redis中;
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line">package com.crossoverJie.intercept;</div><div class="line"></div><div class="line">import com.crossoverJie.util.RedisUtil;</div><div class="line">import org.aopalliance.intercept.MethodInterceptor;</div><div class="line">import org.aopalliance.intercept.MethodInvocation;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by chenjie on 2016/11/16.</div><div class="line"> */</div><div class="line">public class MethodCacheInterceptor implements MethodInterceptor &#123;</div><div class="line">    private Logger logger = LoggerFactory.getLogger(MethodCacheInterceptor.class);</div><div class="line">    private RedisUtil redisUtil;</div><div class="line">    private List&lt;String&gt; targetNamesList; // 不加入缓存的service名称</div><div class="line">    private List&lt;String&gt; methodNamesList; // 不加入缓存的方法名称</div><div class="line">    private Long defaultCacheExpireTime; // 缓存默认的过期时间</div><div class="line">    private Long xxxRecordManagerTime; //</div><div class="line">    private Long xxxSetRecordManagerTime; //</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 初始化读取不需要加入缓存的类名和方法名称</div><div class="line">     */</div><div class="line">    public MethodCacheInterceptor() &#123;</div><div class="line">        try &#123;</div><div class="line">            // 分割字符串 这里没有加入任何方法</div><div class="line">        	//</div><div class="line">            String[] targetNames = &#123;&#125;;</div><div class="line">            String[] methodNames = &#123;&#125;;</div><div class="line"></div><div class="line">            // 加载过期时间设置</div><div class="line">            defaultCacheExpireTime = 3600L;</div><div class="line">            xxxRecordManagerTime = 60L;</div><div class="line">            xxxSetRecordManagerTime = 60L;</div><div class="line">            // 创建list</div><div class="line">            targetNamesList = new ArrayList&lt;String&gt;(targetNames.length);</div><div class="line">            methodNamesList = new ArrayList&lt;String&gt;(methodNames.length);</div><div class="line">            Integer maxLen = targetNames.length &gt; methodNames.length ? targetNames.length</div><div class="line">                    : methodNames.length;</div><div class="line">            // 将不需要缓存的类名和方法名添加到list中</div><div class="line">            for (int i = 0; i &lt; maxLen; i++) &#123;</div><div class="line">                if (i &lt; targetNames.length) &#123;</div><div class="line">                    targetNamesList.add(targetNames[i]);</div><div class="line">                &#125;</div><div class="line">                if (i &lt; methodNames.length) &#123;</div><div class="line">                    methodNamesList.add(methodNames[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Object invoke(MethodInvocation invocation) throws Throwable &#123;</div><div class="line">        Object value = null;</div><div class="line"></div><div class="line">        String targetName = invocation.getThis().getClass().getName();</div><div class="line">        String methodName = invocation.getMethod().getName();</div><div class="line">        // 不需要缓存的内容</div><div class="line">        //if (!isAddCache(StringUtil.subStrForLastDot(targetName), methodName)) &#123;</div><div class="line">        if (!isAddCache(targetName, methodName)) &#123;</div><div class="line">            // 执行方法返回结果</div><div class="line">            return invocation.proceed();</div><div class="line">        &#125;</div><div class="line">        Object[] arguments = invocation.getArguments();</div><div class="line">        String key = getCacheKey(targetName, methodName, arguments);</div><div class="line">        logger.debug(&quot;redisKey: &quot; + key);</div><div class="line">        try &#123;</div><div class="line">            // 判断是否有缓存</div><div class="line">            if (redisUtil.exists(key)) &#123;</div><div class="line">                return redisUtil.get(key);</div><div class="line">            &#125;</div><div class="line">            // 写入缓存</div><div class="line">            value = invocation.proceed();</div><div class="line">            if (value != null) &#123;</div><div class="line">                final String tkey = key;</div><div class="line">                final Object tvalue = value;</div><div class="line">                new Thread(new Runnable() &#123;</div><div class="line">                    @Override</div><div class="line">                    public void run() &#123;</div><div class="line">                        if (tkey.startsWith(&quot;com.service.impl.xxxRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxRecordManagerTime);</div><div class="line">                        &#125; else if (tkey.startsWith(&quot;com.service.impl.xxxSetRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxSetRecordManagerTime);</div><div class="line">                        &#125; else &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, defaultCacheExpireTime);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).start();</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            if (value == null) &#123;</div><div class="line">                return invocation.proceed();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 是否加入缓存</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    private boolean isAddCache(String targetName, String methodName) &#123;</div><div class="line">        boolean flag = true;</div><div class="line">        if (targetNamesList.contains(targetName)</div><div class="line">                || methodNamesList.contains(methodName)) &#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 创建缓存key</div><div class="line">     *</div><div class="line">     * @param targetName</div><div class="line">     * @param methodName</div><div class="line">     * @param arguments</div><div class="line">     */</div><div class="line">    private String getCacheKey(String targetName, String methodName,</div><div class="line">                               Object[] arguments) &#123;</div><div class="line">        StringBuffer sbu = new StringBuffer();</div><div class="line">        sbu.append(targetName).append(&quot;_&quot;).append(methodName);</div><div class="line">        if ((arguments != null) &amp;&amp; (arguments.length != 0)) &#123;</div><div class="line">            for (int i = 0; i &lt; arguments.length; i++) &#123;</div><div class="line">                sbu.append(&quot;_&quot;).append(arguments[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return sbu.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setRedisUtil(RedisUtil redisUtil) &#123;</div><div class="line">        this.redisUtil = redisUtil;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">参考博客</a></p>
-<p><a href="https://github.com/JunZhou2016/SSM" target="_blank" rel="external">案例代码，参考其中的SSM-WEB</a></p>
-<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">附加pageHelper使用案例</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/ssm整合redis/">展开全文 >></a>
         </p>
       
 
