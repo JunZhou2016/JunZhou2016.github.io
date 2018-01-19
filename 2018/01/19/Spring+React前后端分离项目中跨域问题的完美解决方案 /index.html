@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="springboot+react前后端分离项目中，跨域问题必然存在，解决方案有三种类型:1、前端解决：  在package.json中添加如下代码: 12345678910111213141516171819202122232425&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;myproject1&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.1.0&amp;">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/7/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/19/Spring+React前后端分离项目中跨域问题的完美解决方案 /index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="springboot+react前后端分离项目中，跨域问题必然存在，解决方案有三种类型:1、前端解决：  在package.json中添加如下代码: 12345678910111213141516171819202122232425&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;myproject1&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.1.0&amp;">
+<meta property="og:updated_time" content="2018-01-19T06:06:35.743Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:description" content="springboot+react前后端分离项目中，跨域问题必然存在，解决方案有三种类型:1、前端解决：  在package.json中添加如下代码: 12345678910111213141516171819202122232425&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;myproject1&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;0.1.0&amp;">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,79 +159,141 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Spring+React前后端分离项目中跨域问题的完美解决方案 " class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>springboot+react前后端分离项目中，跨域问题必然存在，解决方案有三种类型:<br>1、前端解决：<br>  在package.json中添加如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject1&quot;,</div><div class="line">  &quot;version&quot;: &quot;0.1.0&quot;,</div><div class="line">  &quot;private&quot;: true,</div><div class="line">  **&quot;proxy&quot;: &quot;http://localhost:9090&quot;,**</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;antd&quot;: &quot;^3.0.3&quot;,</div><div class="line">    &quot;fetch&quot;: &quot;^1.1.0&quot;,</div><div class="line">    &quot;flux&quot;: &quot;^3.1.3&quot;,</div><div class="line">    &quot;react&quot;: &quot;^15.4.1&quot;,</div><div class="line">    &quot;react-addons-css-transition-group&quot;: &quot;^15.6.2&quot;,</div><div class="line">    &quot;react-dom&quot;: &quot;^15.4.1&quot;,</div><div class="line">    &quot;react-router&quot;: &quot;^3.0.0&quot;,</div><div class="line">    &quot;react-scripts&quot;: &quot;1.0.17&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;start&quot;: &quot;react-scripts start&quot;,</div><div class="line">    &quot;build&quot;: &quot;react-scripts build&quot;,</div><div class="line">    &quot;test&quot;: &quot;react-scripts test --env=jsdom&quot;,</div><div class="line">    &quot;eject&quot;: &quot;react-scripts eject&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;reqwest&quot;: &quot;^2.0.5&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>缺点：由于域名部分是固定的，无法解决跨多个网站请求资源的跨域;<br>2.后端解决方案:<br>2.1、<a href="https://www.jianshu.com/p/c6ea21b64f6e" target="_blank" rel="external">参考文章；</a><br>2.2、原理:添加SpringMVC底层实现的Web配置适配器,增加CORS相关的配置信息;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.webconfig;</div><div class="line"></div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.web.servlet.config.annotation.CorsRegistry;</div><div class="line">import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</div><div class="line">@Configuration</div><div class="line">public class CORSConfiguration extends WebMvcConfigurerAdapter</div><div class="line">&#123;</div><div class="line">    @Override</div><div class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</div><div class="line">        registry</div><div class="line">                .addMapping(&quot;/**&quot;)</div><div class="line">                .allowedMethods(&quot;*&quot;)</div><div class="line">                .allowedOrigins(&quot;*&quot;)</div><div class="line">                .allowedHeaders(&quot;*&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.3、添加代理服务器,如nginx配置,前面讲过;</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/FirstBlog/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:00:21.716Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/FirstBlog/">Hello JunZhou</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/01/19/Spring+React前后端分离项目中跨域问题的完美解决方案 /" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/hello-world/" class="archive-article-date">
-  	<time datetime="2017-08-28T23:52:51.266Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Des加密中错误Input length not multiple of 8 bytes的解决办法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/6/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span>
-    </nav>
   
 
 
@@ -251,8 +317,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
