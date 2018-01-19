@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>DES加密算法探究【Java版本】 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/4/index.html">
+  <meta name="description" content="1、参考文章:1.1对称加密算法;1.2DES算法详细设计;2、参考代码2.1、DESUtils2.2、Encryp-Demo3.对称加密算法3.1 定义 对称加密算法是应用较早的加密算法，技术成熟。在对称加密算法中，数据发信方将明文（原始数据）和加密密钥（mi yue）一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DES加密算法探究【Java版本】">
+<meta property="og:url" content="http://yoursite.com/2018/01/19/DES加密算法探究【Java版本】/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="1、参考文章:1.1对称加密算法;1.2DES算法详细设计;2、参考代码2.1、DESUtils2.2、Encryp-Demo3.对称加密算法3.1 定义 对称加密算法是应用较早的加密算法，技术成熟。在对称加密算法中，数据发信方将明文（原始数据）和加密密钥（mi yue）一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的">
+<meta property="og:updated_time" content="2018-01-19T01:42:52.158Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="DES加密算法探究【Java版本】">
+<meta name="twitter:description" content="1、参考文章:1.1对称加密算法;1.2DES算法详细设计;2、参考代码2.1、DESUtils2.2、Encryp-Demo3.对称加密算法3.1 定义 对称加密算法是应用较早的加密算法，技术成熟。在对称加密算法中，数据发信方将明文（原始数据）和加密密钥（mi yue）一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +159,167 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-DES加密算法探究【Java版本】" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DES加密算法探究【Java版本】
+    </h1>
+  
+
+        
+        <a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
+  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、参考文章:<br>1.1<a href="http://blog.csdn.net/chengzi28/article/details/51086252" target="_blank" rel="external">对称加密算法;</a><br>1.2<a href="http://blog.csdn.net/mingyf/article/details/78168106" target="_blank" rel="external">DES算法详细设计;</a><br>2、参考代码<br>2.1、<a href="https://github.com/idsyn/Encrypt/blob/master/java/src/com/jm/DESUtil.java" target="_blank" rel="external">DESUtils</a><br>2.2、<a href="https://github.com/LiuJunb/Encryp-Demo/blob/master/src/com/xmg/EncryptUtil.java" target="_blank" rel="external">Encryp-Demo</a><br>3.对称加密算法<br>3.1 定义</p>
+<p>对称加密算法是应用较早的加密算法，技术成熟。在对称加密算法中，数据发信方将明文（原始数据）和加密密钥（mi yue）一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的逆算法对密文进行解密，才能使其恢复成可读明文。在对称加密算法中，使用的密钥只有一个，发收信双方都使用这个密钥对数据进行加密和解密，这就要求解密方事先必须知道加密密钥。</p>
+<p>3.2 优缺点</p>
+<pre><code>优点：算法公开、计算量小、加密速度快、加密效率高。
+
+缺点：
+</code></pre><p>（1）交易双方都使用同样钥匙，安全性得不到保证。</p>
+<p>（2）每对用户每次使用对称加密算法时，都需要使用其他人不知道的惟一钥匙，这会使得发收信双方所拥有的钥匙数量呈几何级数增长，密钥管理成为用户的负担。对称加密算法在分布式网络系统上使用较为困难，主要是因为密钥管理困难，使用成本较高。</p>
+<p>3.3 常用对称加密算法</p>
+<p>基于“对称密钥”的加密算法主要有DES、3DES（TripleDES）、AES、RC2、RC4、RC5和Blowfish等。本文只介绍最常用的对称加密算法DES、3DES（TripleDES）和AES。<br>3.4、DES加密算法的几种模式:<br>3.4.1、<a href="http://blog.csdn.net/chy555chy/article/details/51821938" target="_blank" rel="external">参考文章 ;</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">AES/CBC/NoPadding (128) </div><div class="line">AES/CBC/PKCS5Padding (128) </div><div class="line">AES/ECB/NoPadding (128) </div><div class="line">AES/ECB/PKCS5Padding (128) </div><div class="line">DES/CBC/NoPadding (56) </div><div class="line">DES/CBC/PKCS5Padding (56) </div><div class="line">DES/ECB/NoPadding (56) </div><div class="line">DES/ECB/PKCS5Padding (56) </div><div class="line"> </div><div class="line">（DESede实际上是3-DES） </div><div class="line">DESede/CBC/NoPadding (168) </div><div class="line">DESede/CBC/PKCS5Padding (168) </div><div class="line">DESede/ECB/NoPadding (168) </div><div class="line">DESede/ECB/PKCS5Padding (168)</div></pre></td></tr></table></figure></p>
+<p>3.4.2:需要留意的坑:</p>
+<blockquote>
+<p>由于加密时会自动填充到8字节(64bit),那么在我们进行字节数组到字串的转化过程中，可以把它填补的不可见字符改变了,所以解密时会导致异常,用base64解决</p>
+</blockquote>
+<p>4、代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div></pre></td><td class="code"><pre><div class="line">package com.jm;</div><div class="line"></div><div class="line">import java.io.UnsupportedEncodingException;</div><div class="line">import java.security.MessageDigest;</div><div class="line">import java.security.NoSuchAlgorithmException;</div><div class="line"></div><div class="line">import javax.crypto.Cipher;</div><div class="line">import javax.crypto.SecretKey;</div><div class="line">import javax.crypto.SecretKeyFactory;</div><div class="line">import javax.crypto.spec.DESKeySpec;</div><div class="line">import javax.crypto.spec.IvParameterSpec;</div><div class="line"></div><div class="line">import org.apache.commons.codec.binary.Hex;</div><div class="line"></div><div class="line">/**</div><div class="line"> * @Createtime 2014年12月5日 14:22:00</div><div class="line"> * @author Lxz</div><div class="line"> * </div><div class="line"> */</div><div class="line">public class DESUtil &#123;</div><div class="line">	/**</div><div class="line">	 * UTF-8编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_UTF8 = &quot;UTF-8&quot;;</div><div class="line">	/**</div><div class="line">	 * GBK编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_GBK = &quot;GBK&quot;;</div><div class="line">	/**</div><div class="line">	 * GB2312编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_GB2312 = &quot;GB2312&quot;;</div><div class="line">	/**</div><div class="line">	 * ISO8859-1编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_ISO88591 = &quot;ISO8859-1&quot;;</div><div class="line">	/**</div><div class="line">	 * ASCII编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_ASCII = &quot;ASCII&quot;;</div><div class="line">	/**</div><div class="line">	 * UNICODE编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_UNICODE = &quot;UNICODE&quot;;</div><div class="line">	/**</div><div class="line">	 * CBC加密模式</div><div class="line">	 */</div><div class="line">	public static final String CIPHER_INSTANCE_CBC = &quot;DES/CBC/PKCS5Padding&quot;;</div><div class="line">	/**</div><div class="line">	 * ECB加密模式</div><div class="line">	 */</div><div class="line">	public static final String CIPHER_INSTANCE_ECB = &quot;DES/ECB/PKCS5Padding&quot;;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES加密</div><div class="line">	 * </div><div class="line">	 * @param HexString</div><div class="line">	 *            字符串（16位16进制字符串）</div><div class="line">	 * @param keyStr</div><div class="line">	 *            密钥16个1</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String ENCRYPTMethod(String HexString, String keyStr)</div><div class="line">			throws Exception &#123;</div><div class="line">		String jmstr = &quot;&quot;;</div><div class="line">		try &#123;</div><div class="line">			byte[] theKey = null;</div><div class="line">			//从给定的密钥中截取生成真正的密钥来源，保证加密解密算法的唯一性，避免数据的轻易可逆;</div><div class="line">			String jqstr = getstrByte(keyStr).substring(0,8).toUpperCase();</div><div class="line">			theKey = jqstr.getBytes(ENCODED_ASCII);</div><div class="line">			//Ciper[名词]:零、暗号、密码本;</div><div class="line">			//获取CIPHER_INSTANCE_CBC模式下的密码本;</div><div class="line">			Cipher cipher = Cipher.getInstance(CIPHER_INSTANCE_CBC);</div><div class="line">			//生成secrecKey;</div><div class="line">			DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">			IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line">			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);</div><div class="line">			byte[] theCph = cipher.doFinal(HexString.getBytes(ENCODED_GB2312));</div><div class="line">			jmstr = toHexString(theCph).toUpperCase();</div><div class="line">			jmstr = toHexString(theCph);</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">		return jmstr;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static String getstrByte(String str)&#123;</div><div class="line">		if(null == str)&#123;</div><div class="line">			throw new IllegalArgumentException(</div><div class="line">			&quot;str is null!&quot;);</div><div class="line">		&#125;</div><div class="line">		MessageDigest messageDigest = getMessageDigest();</div><div class="line">		byte[] digest;</div><div class="line">		try &#123;</div><div class="line">			digest = messageDigest.digest(str.getBytes(&quot;ASCII&quot;));</div><div class="line">		&#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">			throw new IllegalStateException(&quot;ASCII not supported!&quot;);</div><div class="line">		&#125;</div><div class="line">		return new String(Hex.encodeHex(digest));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	protected static final MessageDigest getMessageDigest() &#123;</div><div class="line">		String algorithm = &quot;MD5&quot;;</div><div class="line">		try &#123;</div><div class="line">			return MessageDigest.getInstance(algorithm);</div><div class="line">		&#125; catch (NoSuchAlgorithmException e) &#123;</div><div class="line">			throw new IllegalArgumentException(&quot;No such algorithm [&quot;</div><div class="line">					+ algorithm + &quot;]&quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES加密</div><div class="line">	 * @param HexString 字符串（16位16进制字符串）</div><div class="line">	 * @param keyStr 密钥16个1</div><div class="line">	 * @param keyENCODED  Keybyte转换编码</div><div class="line">	 * @param HexStringENCODED 要加密值的转换byte编码</div><div class="line">	 * @param CipherInstanceType 需要加密类型</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String ENCRYPTMethod(String HexString, String keyStr,String keyENCODED,String HexStringENCODED,String CipherInstanceType)</div><div class="line">			throws Exception &#123;</div><div class="line">		String jmstr = &quot;&quot;;</div><div class="line">		try &#123;</div><div class="line">			byte[] theKey = null;</div><div class="line">			String jqstr = getstrByte(keyStr).substring(0,8).toUpperCase();</div><div class="line">			theKey = jqstr.getBytes(keyENCODED);</div><div class="line">			Cipher cipher = Cipher.getInstance(CipherInstanceType);</div><div class="line">			DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">			IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line">			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);</div><div class="line">			byte[] theCph = cipher.doFinal(HexString.getBytes(HexStringENCODED));</div><div class="line">			jmstr = toHexString(theCph).toUpperCase();</div><div class="line">			jmstr = toHexString(theCph);</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">		return jmstr;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static String toHexString(byte b[]) &#123;</div><div class="line">		StringBuffer hexString = new StringBuffer();</div><div class="line">		for (int i = 0; i &lt; b.length; i++) &#123;</div><div class="line">			String plainText = Integer.toHexString(0xff &amp; b[i]);</div><div class="line">			if (plainText.length() &lt; 2)</div><div class="line">				plainText = &quot;0&quot; + plainText;</div><div class="line">			hexString.append(plainText);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		return hexString.toString();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES解密方法</div><div class="line">	 * @param message 需要解密字符串</div><div class="line">	 * @param key 解密需要的KEY</div><div class="line">	 * @param keyENCODED  解密KEY转换编码</div><div class="line">	 * @param HexStringENCODED  解密字符串转换编码</div><div class="line">	 * @param CipherInstanceType 解密类型</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String decrypt(String message, String key,String keyENCODED,String HexStringENCODED,String CipherInstanceType) throws Exception &#123;</div><div class="line"></div><div class="line">		byte[] bytesrc = convertHexString(message);</div><div class="line">		byte[] theKey = null;</div><div class="line">		String jqstr = getstrByte(key).substring(0,</div><div class="line">				8).toUpperCase();</div><div class="line">		theKey = jqstr.getBytes(keyENCODED);</div><div class="line">		Cipher cipher = Cipher.getInstance(CipherInstanceType);</div><div class="line">		DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">		SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">		IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line"></div><div class="line">		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);</div><div class="line"></div><div class="line">		byte[] retByte = cipher.doFinal(bytesrc);</div><div class="line">		return new String(retByte,HexStringENCODED);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES解密方法,解密方法和加密方法应该是对称的;</div><div class="line">	 * @param message</div><div class="line">	 * @param key</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String decrypt(String message, String key) throws Exception &#123;</div><div class="line">       </div><div class="line">		byte[] bytesrc = convertHexString(message);</div><div class="line">		byte[] theKey = null;</div><div class="line">		String jqstr = getstrByte(key).substring(0,</div><div class="line">				8).toUpperCase();</div><div class="line">		theKey = jqstr.getBytes(ENCODED_ASCII);</div><div class="line">		Cipher cipher = Cipher.getInstance(CIPHER_INSTANCE_CBC);</div><div class="line">		DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">		SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">		IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line"></div><div class="line">		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);</div><div class="line"></div><div class="line">		byte[] retByte = cipher.doFinal(bytesrc);</div><div class="line">		return new String(retByte,ENCODED_GB2312);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static byte[] convertHexString(String ss) &#123;</div><div class="line">		byte digest[] = new byte[ss.length() / 2];</div><div class="line">		for (int i = 0; i &lt; digest.length; i++) &#123;</div><div class="line">			String byteString = ss.substring(2 * i, 2 * i + 2);</div><div class="line">			int byteValue = Integer.parseInt(byteString, 16);</div><div class="line">			digest[i] = (byte) byteValue;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		return digest;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		String key = &quot;27650099-564A-4869-99B3-363F8129C0CD&quot;;</div><div class="line">		String value = &quot;张三内部购房百分点办法对你表白&quot;;</div><div class="line">		String jiami = value;</div><div class="line"></div><div class="line">		System.out.println(&quot;加密数据:&quot; + jiami);</div><div class="line">		String a = ENCRYPTMethod(jiami, key).toUpperCase();</div><div class="line"></div><div class="line">		System.out.println(&quot;加密后的数据为:&quot; + a);</div><div class="line">		String b = decrypt(a, key);</div><div class="line">		System.out.println(&quot;解密后的数据:&quot; + b);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/单例模式的几种实现方式/" class="archive-article-date">
-  	<time datetime="2017-09-07T10:58:17.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/单例模式的几种实现方式/">单例模式的几种实现方式</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/01/19/DES加密算法探究【Java版本】/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/" class="archive-article-date">
-  	<time datetime="2017-09-07T05:19:24.254Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">react结合d3.js和svg绘制条形统计图</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">CentOS 中 nginx 负载均衡和反向代理的搭建</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
-  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/ssm整合redis/">ssm整合redis</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
-  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
-  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:20:05.460Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">Linux(Centos)之安装tomcat并且部署Java Web项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux部署Java web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T09:02:33.925Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux部署Java web项目/">Linux部署Java web项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/" class="archive-article-date">
-  	<time datetime="2017-09-05T08:22:34.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">Linux 下虚拟机克隆步骤（CentOS）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/linux运维常用命令/" class="archive-article-date">
-  	<time datetime="2017-09-05T03:23:54.403Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/linux运维常用命令/">linux运维常用命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/5/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
