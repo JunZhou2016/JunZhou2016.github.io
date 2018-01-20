@@ -157,6 +157,76 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-J2EE中session的深入理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/J2EE中session的深入理解/">J2EE中session的深入理解</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/J2EE中session的深入理解/" class="archive-article-date">
+  	<time datetime="2017-08-29T00:49:30.098Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>在学习J2EE的过程中,session和cookie是极为重要的部分，下面谈谈我对session和cookie的理解：<br> <em>首先介绍两者的相同点</em><br><strong>相同点</strong><br>1.session和cookie都是生存周期有限的数据存储方式【此处不考虑生命周期无限大的情况】，即临时数据文件;<br>2.session和cookie都是由服务器端控制和产生的;</p>
+<ol>
+<li>session和cookie都可以理解为<code>Map&lt;name,value&gt;</code>，都采用键值对的方式存储数据；</li>
+<li>不同的网站session和cookie是不能通用的，根本原因是：cookie在生成的时候有效作用范围是被限定的，所以说在一定的成都上cookie和session是安全的。</li>
+</ol>
+<hr>
+<p><strong>不同点</strong><br>1.session和cookie的存储位置是不同的，session存在于服务器端，而cookie存在于客户端，cookie可以被用户手动清理掉，所以，重要的不可或缺的数据一般不会保存在cookie中;<br>2.创建cookie和session时生成的数据不同，在创建cookie的时候，仅仅在客户端生成cookie形式的<code>Map&lt;name,value&gt;</code>的键值对，而在生成session的形式，会在客户端生成cookie用于保存sessionID并且在服务器端生成session数据【这两者的本质都是<code>Map&lt;name,value&gt;</code>】;<br>3.两者的访问形式不一样;<br><em>详细解见下图</em><br><img src="http://img.blog.csdn.net/20170525121244032?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/J2EE中session的深入理解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-FirstBlog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
