@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>Java中对List中的存储对象根据属性进行排序的办法 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现ComparableT接口，或者使用匿名比较器的方式实现比较。先看一个简单的例子：1、简单数据12345678910public static void main(String[] ar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中对List中的存储对象根据属性进行排序的办法">
+<meta property="og:url" content="http://yoursite.com/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现ComparableT接口，或者使用匿名比较器的方式实现比较。先看一个简单的例子：1、简单数据12345678910public static void main(String[] ar">
+<meta property="og:updated_time" content="2018-01-27T13:48:30.288Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="Java中对List中的存储对象根据属性进行排序的办法">
+<meta name="twitter:description" content="有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现ComparableT接口，或者使用匿名比较器的方式实现比较。先看一个简单的例子：1、简单数据12345678910public static void main(String[] ar">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +159,167 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Java中对List中的存储对象根据属性进行排序的办法" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java中对List中的存储对象根据属性进行排序的办法
+    </h1>
+  
+
+        
+        <a href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/" class="archive-article-date">
+  	<time datetime="2018-01-27T13:46:23.893Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现Comparable<t>T接口，或者使用匿名比较器的方式实现比较。<br>先看一个简单的例子：<br>1、简单数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;  </div><div class="line">    List&lt;Integer&gt; nums = new ArrayList&lt;Integer&gt;();  </div><div class="line">        nums.add(3);  </div><div class="line">        nums.add(5);  </div><div class="line">        nums.add(1);  </div><div class="line">        nums.add(0);  </div><div class="line">        System.out.println(nums);  </div><div class="line">        Collections.sort(nums);  </div><div class="line">        System.out.println(nums);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></t></p>
+<blockquote>
+<p>输出结果：<br>[3, 5, 1, 0]<br>[0, 1, 3, 5]<br>稍微复杂的List里面放一个复杂的对象</p>
+</blockquote>
+<p>2、复杂数据<br>(1、)通过实现接口进行比较</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class User implements Comparable&lt;User&gt;&#123;  </div><div class="line">      </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">      </div><div class="line">    public User(int score, int age)&#123;  </div><div class="line">        super();  </div><div class="line">        this.score = score;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public int compareTo(User o) &#123;  </div><div class="line">        int i = this.getAge() - o.getAge();//先按照年龄排序  </div><div class="line">        if(i == 0)&#123;  </div><div class="line">            return this.score - o.getScore();//如果年龄相等了再用分数进行排序  </div><div class="line">        &#125;  </div><div class="line">        return i;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;User&gt; users = new ArrayList&lt;User&gt;();  </div><div class="line">        users.add(new User(78, 26));  </div><div class="line">        users.add(new User(67, 23));  </div><div class="line">        users.add(new User(34, 56));  </div><div class="line">        users.add(new User(55, 23));  </div><div class="line">        Collections.sort(users);  </div><div class="line">        for(User user : users)&#123;  </div><div class="line">            System.out.println(user.getScore() + &quot;,&quot; + user.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>输出结果：<br>55,23<br>67,23<br>78,26<br>34,56<br>我们会发现sort(List<t>)方法中List中的T必须实现Comparable<t>接口，然后实现<br>compareTo（）方法，该方法的返回值0代表相等，1表示大于，-1表示小于；为什么<br>在简单例子中没有看到实现Comparable接口呢？是因为Integer类其实自己已经实现<br>了Comparable接口，Java已经给我们做好了。</t></t></p>
+</blockquote>
+<p>(2、)通过匿名比较器实现比较<br>Collections提供的第二种排序方法sort(List<t> list, Comparator&lt;? super T&gt; c)<br>先看例子：</t></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class Students &#123;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    public Students(int age, int score)&#123;  </div><div class="line">        super();  </div><div class="line">        this.age = age;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;Students&gt; students = new ArrayList&lt;Students&gt;();  </div><div class="line">        students.add(new Students(23, 100));  </div><div class="line">        students.add(new Students(27, 98));  </div><div class="line">        students.add(new Students(29, 99));  </div><div class="line">        students.add(new Students(29, 98));  </div><div class="line">        students.add(new Students(22, 89));  </div><div class="line">        Collections.sort(students, new Comparator&lt;Students&gt;() &#123;  </div><div class="line">  </div><div class="line">            @Override  </div><div class="line">            public int compare(Students o1, Students o2) &#123;  </div><div class="line">                int i = o1.getScore() - o2.getScore();  </div><div class="line">                if(i == 0)&#123;  </div><div class="line">                    return o1.getAge() - o2.getAge();  </div><div class="line">                &#125;  </div><div class="line">                return i;  </div><div class="line">            &#125;  </div><div class="line">        &#125;);  </div><div class="line">        for(Students stu : students)&#123;  </div><div class="line">            System.out.println(&quot;score:&quot; + stu.getScore() + &quot;:age&quot; + stu.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>输出结果：<br>score:89:age22<br>score:98:age27<br>score:98:age29<br>score:99:age29<br>score:100:age23</p>
+</blockquote>
+<p>3、总结<br>两种方式都可以实现数据的比较，从上面的例子我们可以看出Students类没有实现Comparable<t>接口，只是在sort()方法中多传入一个参数，只不过该参数是一个接口我们需要实现其compare方法，但是通过实现接口的方式代码结构将更加清晰。</t></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
-  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/ssm整合redis/">ssm整合redis</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
-  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/27/SpringBoot中的拦截器的使用和配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringBoot中的拦截器的使用和配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
-  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:20:05.460Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">Linux(Centos)之安装tomcat并且部署Java Web项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux部署Java web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T09:02:33.925Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux部署Java web项目/">Linux部署Java web项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/" class="archive-article-date">
-  	<time datetime="2017-09-05T08:22:34.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">Linux 下虚拟机克隆步骤（CentOS）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/linux运维常用命令/" class="archive-article-date">
-  	<time datetime="2017-09-05T03:23:54.403Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/linux运维常用命令/">linux运维常用命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/" class="archive-article-date">
-  	<time datetime="2017-09-01T15:04:54.622Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">Intellij Idea 创建Web项目入门(非Maven项目)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/JAVA反射/" class="archive-article-date">
-  	<time datetime="2017-08-29T11:15:24.666Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/JAVA反射/">JAVA反射</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

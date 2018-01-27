@@ -157,6 +157,367 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Object.assign() 方法详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/20/Object.assign() 方法详解/">Object.assign() 方法详解</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/20/Object.assign() 方法详解/" class="archive-article-date">
+  	<time datetime="2017-12-20T13:38:21.131Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code><strong>Object.assign()</strong></code> 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。</p>
+
+<h2 id="Syntax" name="Syntax">语法</h2>
+
+<pre class="syntaxbox"><code>Object.assign(<var>target</var>, ...<var>sources</var>)</code></pre>
+
+<h3 id="Parameters" name="Parameters" class="highlight-spanned"><span class="highlight-span">参数</span></h3>
+
+<dl><br> <dt><code>target</code></dt><br> <dd>目标对象。</dd><br> <dt><code>sources</code></dt><br> <dd>源对象。</dd><br></dl>
+
+<h3 id="Return_value" name="Return_value" class="highlight-spanned"><span class="highlight-span">返回值</span></h3>
+
+<p>目标对象。</p>
+
+<h2 id="描述">描述</h2>
+
+<p>如果目标对象中的属性具有相同的键，则属性将被源中的属性覆盖。后来的源的属性将类似地覆盖早先的属性。</p>
+
+<p><code>Object.assign</code> 方法只会拷贝源对象自身的并且可枚举的属性到目标对象。该方法使用源对象的<code>[[Get]]</code>和目标对象的<code>[[Set]]</code>，所以它会调用相关 getter 和 setter。因此，它分配属性，而不仅仅是复制或定义新的属性。如果合并源包含getter，这可能使其不适合将新属性合并到原型中。为了将属性定义（包括其可枚举性）复制到原型，应使用<a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor" title="Object.getOwnPropertyDescriptor()&nbsp;方法返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）"><code>Object.getOwnPropertyDescriptor()</code></a>和<a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty" title="Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。"><code>Object.defineProperty()</code></a>&nbsp;。</p>
+
+<p><a href="/zh-CN/docs/Web/JavaScript/Reference/String" title="此页面仍未被本地化, 期待您的翻译!"><code>String</code></a>类型和 <a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol" title="Symbol()函数会返回symbol?类型的值，该类型具有静态属性和静态方法。它的静态属性会暴露几个内建的成员对象；它的静态方法会暴露全局的symbol注册，且类似于内建对象类，但作为构造函数来说它并不完整，因为它不支持语法：&quot;new Symbol()&quot;。"><code>Symbol</code></a> 类型的属性都会被拷贝。</p>
+
+<p>在出现错误的情况下，例如，如果属性不可写，会引发<a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError" title="TypeError（类型错误）&nbsp;对象用来表示值的类型非预期类型时发生的错误。"><code>TypeError</code></a>，如果在引发错误之前添加了任何属性，则可以更改<code>target</code>对象。</p>
+
+<p>注意，<code>Object.assign</code> 会跳过那些值为 <a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/null" title="值&nbsp;null&nbsp;是一个 JavaScript 字面量，表示空值（null or an &quot;empty&quot; value），即没有对象被呈现（no object value is present）。它是 JavaScript 原始值 之一。"><code>null</code></a> 或 <a href="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/undefined" title="undefined是全局对象的一个属性。也就是说，它是全局作用域的一个变量。undefined的最初值就是原始数据类型undefined。"><code>undefined</code></a> 的源对象。</p>
+
+<h2 id="Examples" name="Examples">示例</h2>
+
+<h3 id="Example:_Cloning_an_object" name="Example:_Cloning_an_object" class="highlight-spanned"><span class="highlight-span">复制一个对象</span></h3>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> copy <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>copy<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 1 }</span><span class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Deep_Clone" name="Deep_Clone" class="highlight-spanned"><span class="highlight-span">深拷贝问题</span></h3>
+
+<p>针对深拷贝，需要使用其他方法，因为&nbsp;<code>Object.assign()</code>拷贝的是属性值。假如源对象的属性值是一个指向对象的引用，它也只拷贝那个引用值。</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">function</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token string">'use strict'</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">let</span> obj1 <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token punctuation">{</span> c<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> obj2 <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> obj1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 0, b: { c: 0}}</span>
+
+  obj1<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 1, b: { c: 0}}</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 0, b: { c: 0}}</span>
+
+  obj2<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 1, b: { c: 0}}</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 2, b: { c: 0}}</span>
+
+  obj2<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 1, b: { c: 3}}</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 2, b: { c: 3}}</span>
+
+  <span class="token comment" spellcheck="true">// Deep Clone</span>
+  obj1 <span class="token operator">=</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">0</span> <span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token punctuation">{</span> c<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> obj3 <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  obj1<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  obj1<span class="token punctuation">.</span>b<span class="token punctuation">.</span>c <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj3<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// { a: 0, b: { c: 0}}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>底层原理图如下:<br><img src="http://img.blog.csdn.net/20171220213550534?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/20/Object.assign() 方法详解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-React组件生命周期小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/19/React组件生命周期小结/">React组件生命周期小结</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/19/React组件生命周期小结/" class="archive-article-date">
+  	<time datetime="2017-12-19T03:37:45.889Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p><em>这篇博客是我在简书上看到的，写的实在是太好了，<a href="http://www.jianshu.com/p/4784216b8194" target="_blank" rel="external">这是原文地址</a>。</em><br>          </p><p><strong>下面所写的，只适合前端的React。（React也支持后端渲染，而且和前端有点小区别，不过我没用过。）</strong></p><p></p>
+<p></p><h1>相关函数</h1><p></p>
+<p></p><p>简单地说，React Component通过其定义的几个函数来控制组件在生命周期的各个阶段的动作。</p><p></p>
+<p></p><p>在ES6中，一个React组件是用一个class来表示的（具体可以参考<a href="https://link.jianshu.com?t=http://facebook.github.io/react/docs/reusable-components.html#es6-classes" target="_blank" rel="nofollow">官方文档</a>），如下：</p><p></p>
+<pre class="hljs undefined"><code>// 定义一个TodoList的React组件，通过继承React.Component来实现
+class TodoList extends React.Component {
+  ...
+}
+</code></pre>
+<p>这几个生命周期相关的函数有：</p>
+<pre class="hljs undefined"><code>constructor(props, context)
+</code></pre>
+<p>构造函数，在创建组件的时候调用一次。</p>
+<pre class="hljs undefined"><code>void componentWillMount()
+</code></pre>
+<p>在组件挂载之前调用一次。如果在这个函数里面调用setState，本次的render函数可以看到更新后的state，并且只渲染一次。</p>
+<pre class="hljs undefined"><code>void componentDidMount()
+</code></pre>
+<p>在组件挂载之后调用一次。这个时候，子主键也都挂载好了，可以在这里使用refs。</p>
+<pre class="hljs undefined"><code>void componentWillReceiveProps(nextProps)
+</code></pre>
+<p>props是父组件传递给子组件的。父组件发生render的时候子组件就会调用componentWillReceiveProps（不管props有没有更新，也不管父子组件之间有没有数据交换）。</p>
+<pre class="hljs undefined"><code>bool shouldComponentUpdate(nextProps, nextState)
+</code></pre>
+<p>组件挂载之后，每次调用setState后都会调用shouldComponentUpdate判断是否需要重新渲染组件。默认返回true，需要重新render。在比较复杂的应用里，有一些数据的改变并不影响界面展示，可以在这里做判断，优化渲染效率。</p>
+<pre class="hljs undefined"><code>void componentWillUpdate(nextProps, nextState)
+</code></pre>
+<p>shouldComponentUpdate返回true或者调用forceUpdate之后，componentWillUpdate会被调用。</p>
+<pre class="hljs undefined"><code>void componentDidUpdate()
+</code></pre>
+<p>除了首次render之后调用componentDidMount，其它render结束之后都是调用componentDidUpdate。</p>
+<p>componentWillMount、componentDidMount和componentWillUpdate、componentDidUpdate可以对应起来。区别在于，前者只有在挂载的时候会被调用；而后者在以后的每次更新渲染之后都会被调用。</p>
+<pre class="hljs undefined"><code>ReactElement render()
+</code></pre>
+<p>render是一个React组件所必不可少的核心函数（上面的其它函数都不是必须的）。记住，不要在render里面修改state。</p>
+<pre class="hljs undefined"><code>void componentWillUnmount()
+</code></pre>
+<p>组件被卸载的时候调用。一般在componentDidMount里面注册的事件需要在这里删除。</p>
+<h1>更新方式</h1>
+<p>在react中，触发render的有4条路径。</p>
+<p><strong>以下假设shouldComponentUpdate都是按照默认返回true的方式。</strong></p>
+<ol>
+<li>首次渲染Initial Render</li>
+<li>调用this.setState （并不是一次setState会触发一次render，React可能会合并操作，再一次性进行render）</li>
+<li>父组件发生更新（一般就是props发生改变，但是就算props没有改变或者父子组件之间没有数据交换也会触发render）</li>
+<li>调用this.forceUpdate</li>
+</ol>
+<p></p>
+<img src="http://img.blog.csdn.net/20171219130718397?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+React组件更新路径.png
+
+<p>注意，如果在shouldComponentUpdate里面返回false可以提前退出更新路径。</p>
+<h1>一个React组件生命周期的测试例子</h1>
+<p>代码比较简单，没有逻辑，只是在每个相关函数里面alert一下。&lt;h1&gt;<a href="https://link.jianshu.com?t=http://wximg.gtimg.com/shake_tv/test/lifeCycle2113.html" target="_blank" rel="nofollow">点击链接</a>来试试这个例子。&lt;/h1&gt;<br>
+源码：</p>
+<pre class="hljs undefined"><code>class LifeCycle extends React.Component {
+    constructor(props) {
+        super(props);
+        alert("Initial render");
+        alert("constructor");
+        this.state = {str: "hello"};
+    }
+
+    componentWillMount() {
+        alert("componentWillMount");
+    }
+
+    componentDidMount() {
+        alert("componentDidMount");
+    }
+
+    componentWillReceiveProps(nextProps) {
+        alert("componentWillReceiveProps");
+    }
+
+    shouldComponentUpdate() {
+        alert("shouldComponentUpdate");
+        return true;        // 记得要返回true
+    }
+
+    componentWillUpdate() {
+        alert("componentWillUpdate");
+    }
+
+    componentDidUpdate() {
+        alert("componentDidUpdate");
+    }
+
+    componentWillUnmount() {
+        alert("componentWillUnmount");
+    }
+
+    setTheState() {
+        let s = "hello";
+        if (this.state.str === s) {
+            s = "HELLO";
+        }
+        this.setState({
+            str: s
+        });
+    }
+
+    forceItUpdate() {
+        this.forceUpdate();
+    }
+
+    render() {
+        alert("render");
+        return(
+            &lt;div&gt;
+                &lt;span&gt;{"Props:"}&lt;h2&gt;{parseInt(this.props.num)}&lt;/h2&gt;&lt;/span&gt;
+                &lt;br /&gt;
+                &lt;span&gt;{"State:"}&lt;h2&gt;{this.state.str}&lt;/h2&gt;&lt;/span&gt;
+            &lt;/div&gt;
+        );
+    }
+}
+
+class Container  extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            num: Math.random() * 100
+        };
+    }
+
+    propsChange() {
+        this.setState({
+            num: Math.random() * 100
+        });
+    }
+
+    setLifeCycleState() {
+        this.refs.rLifeCycle.setTheState();
+    }
+
+    forceLifeCycleUpdate() {
+        this.refs.rLifeCycle.forceItUpdate();
+    }
+
+    unmountLifeCycle() {
+        // 这里卸载父组件也会导致卸载子组件
+        React.unmountComponentAtNode(document.getElementById("container"));
+    }
+
+    parentForceUpdate() {
+        this.forceUpdate();
+    }
+
+    render() {
+        return (
+            &lt;div&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.propsChange.bind(this)}&gt;propsChange&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.setLifeCycleState.bind(this)}&gt;setState&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.forceLifeCycleUpdate.bind(this)}&gt;forceUpdate&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.unmountLifeCycle.bind(this)}&gt;unmount&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.parentForceUpdate.bind(this)}&gt;parentForceUpdateWithoutChange&lt;/a&gt;
+                &lt;LifeCycle ref="rLifeCycle" num={this.state.num}&gt;&lt;/LifeCycle&gt;
+            &lt;/div&gt;
+        );
+    }
+}
+
+ReactDom.render(
+    &lt;Container&gt;&lt;/Container&gt;,
+    document.getElementById('container')
+);
+
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/19/React组件生命周期小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-react中-create-react-app不是内部或者外部命令...-解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -849,152 +1210,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/11/07/AOP中的概念通知、切点、切面/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mybatis中#{}【占位符】和${}【字符串】拼接的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">mybatis中#{}【占位符】和${}【字符串】拼接的区别</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/" class="archive-article-date">
-  	<time datetime="2017-11-06T03:32:05.504Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#&#123;&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>表示一个占位符号，通过#{}可以实现 preparedStatement 向占      位符中设置值， 自动进行 java<br>类型和 jdbc 类型转换。#{}可以有效防止 sql 注入。 #{}可以接 收简单类型值或 pojo 属性值。 如果<br>parameterType 传输单个简单类型值，#{} 括号中可以是 value 或其它名称。</p>
-</blockquote>
-<hr>
-<p>   ${}</p>
-<blockquote>
-<p>  表示拼接 sql 串，通过${}可以将 parameterType 传入的内容拼接在 sql 中 且不进行 jdbc 类型转换，<br>${}可以接收简单类型值或 pojo 属性值，如果 parameterType 传输单个简单类型值，${}括号中只能是 value。</p>
-</blockquote>
-<hr>
-<p>  <strong><em>使用占位符的形式</em></strong>最终会将Java中的字符串类型数据”%王%”转换为  jdbc中的数据类型【通配符的形式】<em>%王%</em>，最终形成的sql语句为<br>  SELECT * FROM <code>user</code> WHERE username LIKE %王%<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 如果返回多个结果，mybatis 会自动把返回的结果放在 list 容器中 --&gt;</div><div class="line">&lt;!-- resultType 的配置和返回一个结果的配置一样 --&gt;</div><div class="line">&lt;select id=&quot;queryUserByUsername1&quot; parameterType=&quot;string&quot;</div><div class="line">resultType=&quot;cn.itcast.mybatis.pojo.User&quot;&gt;</div><div class="line">SELECT * FROM `user` WHERE username LIKE #&#123;username&#125;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 查询多条数据使用 selectList 方法</div><div class="line">List&lt;Object&gt; list =</div><div class="line">sqlSession.selectList(&quot;queryUserByUsername1&quot;, &quot;%王%&quot;);</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 如果传入的参数是简单数据类型，$&#123;&#125;里面必须写 value --&gt;</div><div class="line">&lt;select id=&quot;queryUserByUsername2&quot; parameterType=&quot;string&quot;</div><div class="line">resultType=&quot;cn.itcast.mybatis.pojo.User&quot;&gt;</div><div class="line">SELECT * FROM `user` WHERE username LIKE &apos;%$&#123;value&#125;%&apos;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 查询多条数据使用 selectList 方法</div><div class="line">List&lt;Object&gt; list = sqlSession.selectList(&quot;queryUserByUsername2&quot;, &quot;</div><div class="line">王&quot;);</div></pre></td></tr></table></figure>
-<p>  <strong><em>使用字符串拼接的形式</em></strong>  不会进行数据类型的转化，最终解析出来的数据相当于带有“‘”号，此处传值的时候需要进行注意，最终形成的sql语句为<br>  SELECT * FROM <code>user</code> WHERE username LIKE %王%</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java实现二叉树的前序、中序、后序以及层次遍历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">建立一颗二叉排序树，并输出它的前序、中序、后序以及层次遍历结</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/" class="archive-article-date">
-  	<time datetime="2017-09-13T15:22:07.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">5</div><div class="line">6 9 1 5 8</div><div class="line">输出：</div><div class="line">6 1 5 9 8 //前序</div><div class="line">1 5 6 8 9 //中序</div><div class="line">5 1 8 9 6 //后序</div><div class="line">6 1 9 5 8 //层次</div></pre></td></tr></table></figure>
-<p><code class="java"><span class="hljs-comment">//Main函数</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);<br>        <span class="hljs-keyword">while</span>(scanner.hasNextInt()){<br>            <span class="hljs-keyword">int</span> num = scanner.nextInt();<br>            <span class="hljs-keyword">int</span>[] array = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[num];<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num; i++){<br>                array[i] = scanner.nextInt();<br>            }<br>            TreeNode root = <span class="hljs-keyword">new</span> TreeNode(array[<span class="hljs-number">0</span>]);<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; num; i++){<br>                buildBST(root,array[i]);<br>            }<br>            DLR(root);<span class="hljs-comment">//前序遍历</span><br>            System.out.println();<br>            LDR(root);<span class="hljs-comment">//中序遍历</span><br>            System.out.println();<br>            LRD(root);<span class="hljs-comment">//后序遍历</span><br>            System.out.println();<br>            levelOrder(root);<span class="hljs-comment">//层次遍历</span><br>            System.out.println();<br>        }<br>    }<br><span class="hljs-comment">//前序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DLR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>            Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>            stack.push(node);<br>            <span class="hljs-keyword">while</span>(!stack.isEmpty()){<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)stack.push(node.right);<br>                <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)stack.push(node.left);<br>            }<br>        }<br>    }<br><span class="hljs-comment">//中序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LDR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>      Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> || !stack.isEmpty()){<br>            <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<span class="hljs-keyword">else</span>{<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                node = node.right;<br>            }<br>        }<br>    }<br><span class="hljs-comment">//后序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LRD</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        TreeNode pre = node;<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span>){<br>            <span class="hljs-keyword">while</span>(node.left!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<br>            <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> &amp;&amp; (node.right==<span class="hljs-keyword">null</span> || node.right==pre)){<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                pre = node;<br>                <span class="hljs-keyword">if</span>(stack.isEmpty()) <span class="hljs-keyword">return</span>;<br>                node = stack.pop();<br>            }<br>            stack.push(node);<br>            node = node.right;<br>        }<br>    }<br><span class="hljs-comment">//层次遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">levelOrder</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Queue&lt;TreeNode&gt; queue = <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;TreeNode&gt;();<br>        queue.offer(node);<br>        <span class="hljs-keyword">while</span>(!queue.isEmpty()){<br>            node = queue.poll();<br>            System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>            <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)queue.add(node.left);<br>            <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)queue.add(node.right);<br>        }<br>    }<br><span class="hljs-comment">//构建二叉排序树</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buildBST</span><span class="hljs-params">(TreeNode node,<span class="hljs-keyword">int</span> val)</span></span>{<br>        <span class="hljs-keyword">if</span>(node.val == val) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-keyword">if</span>(val &lt; node.val){<br>            <span class="hljs-keyword">if</span>(node.left==<span class="hljs-keyword">null</span>) node.left = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.left,val);<br>        }<span class="hljs-keyword">else</span>{<br>            <span class="hljs-keyword">if</span>(node.right==<span class="hljs-keyword">null</span>) node.right = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.right,val);<br>        }<br>    }<br></code></p>
-<p><code class="java"><span class="hljs-comment">//二叉树节点结构</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span></span>{<br> <span class="hljs-keyword">int</span> val = <span class="hljs-number">0</span>;<br>TreeNode left = <span class="hljs-keyword">null</span>;<br>TreeNode right = <span class="hljs-keyword">null</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span></span>{<br><span class="hljs-keyword">this</span>.val = val;<br>}<br>}```</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">展开全文 >></a>
         </p>
       
 
