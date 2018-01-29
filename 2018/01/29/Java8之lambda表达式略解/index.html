@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>Java8之lambda表达式略解 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="一、什么是lambda表达式？ Lambda 表达式，其实就是匿名函数。而函数其实就是功能（function），匿名函数，就是匿名的功能代码了，我们可以把 Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递)。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使 Java的语言表达能力得到了提升。Lambda就是为了替换匿名函数而存在的【本人的理解】; 二、lambda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8之lambda表达式略解">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/Java8之lambda表达式略解/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="一、什么是lambda表达式？ Lambda 表达式，其实就是匿名函数。而函数其实就是功能（function），匿名函数，就是匿名的功能代码了，我们可以把 Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递)。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使 Java的语言表达能力得到了提升。Lambda就是为了替换匿名函数而存在的【本人的理解】; 二、lambda">
+<meta property="og:updated_time" content="2018-01-29T14:54:50.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="Java8之lambda表达式略解">
+<meta name="twitter:description" content="一、什么是lambda表达式？ Lambda 表达式，其实就是匿名函数。而函数其实就是功能（function），匿名函数，就是匿名的功能代码了，我们可以把 Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递)。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使 Java的语言表达能力得到了提升。Lambda就是为了替换匿名函数而存在的【本人的理解】; 二、lambda">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,16 +159,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Java8之lambda表达式略解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Java8之lambda表达式略解" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/29/Java8之lambda表达式略解/">Java8之lambda表达式略解</a>
+    <h1 class="article-title" itemprop="name">
+      Java8之lambda表达式略解
     </h1>
   
 
@@ -201,6 +203,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -208,16 +231,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/29/Java8之lambda表达式略解/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/01/29/Java8之lambda表达式略解/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java中对List中的存储对象根据属性进行排序的办法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -237,643 +319,12 @@
 
 
 
-
-  
-    <article id="post-Java中对List中的存储对象根据属性进行排序的办法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/">Java中对List中的存储对象根据属性进行排序的办法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/" class="archive-article-date">
-  	<time datetime="2018-01-27T13:46:23.893Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现Comparable<t>T接口，或者使用匿名比较器的方式实现比较。<br>先看一个简单的例子：<br>1、简单数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;  </div><div class="line">    List&lt;Integer&gt; nums = new ArrayList&lt;Integer&gt;();  </div><div class="line">        nums.add(3);  </div><div class="line">        nums.add(5);  </div><div class="line">        nums.add(1);  </div><div class="line">        nums.add(0);  </div><div class="line">        System.out.println(nums);  </div><div class="line">        Collections.sort(nums);  </div><div class="line">        System.out.println(nums);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></t></p>
-<blockquote>
-<p>输出结果：<br>[3, 5, 1, 0]<br>[0, 1, 3, 5]<br>稍微复杂的List里面放一个复杂的对象</p>
-</blockquote>
-<p>2、复杂数据<br>(1、)通过实现接口进行比较</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class User implements Comparable&lt;User&gt;&#123;  </div><div class="line">      </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">      </div><div class="line">    public User(int score, int age)&#123;  </div><div class="line">        super();  </div><div class="line">        this.score = score;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public int compareTo(User o) &#123;  </div><div class="line">        int i = this.getAge() - o.getAge();//先按照年龄排序  </div><div class="line">        if(i == 0)&#123;  </div><div class="line">            return this.score - o.getScore();//如果年龄相等了再用分数进行排序  </div><div class="line">        &#125;  </div><div class="line">        return i;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;User&gt; users = new ArrayList&lt;User&gt;();  </div><div class="line">        users.add(new User(78, 26));  </div><div class="line">        users.add(new User(67, 23));  </div><div class="line">        users.add(new User(34, 56));  </div><div class="line">        users.add(new User(55, 23));  </div><div class="line">        Collections.sort(users);  </div><div class="line">        for(User user : users)&#123;  </div><div class="line">            System.out.println(user.getScore() + &quot;,&quot; + user.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>输出结果：<br>55,23<br>67,23<br>78,26<br>34,56<br>我们会发现sort(List<t>)方法中List中的T必须实现Comparable<t>接口，然后实现<br>compareTo（）方法，该方法的返回值0代表相等，1表示大于，-1表示小于；为什么<br>在简单例子中没有看到实现Comparable接口呢？是因为Integer类其实自己已经实现<br>了Comparable接口，Java已经给我们做好了。</t></t></p>
-</blockquote>
-<p>(2、)通过匿名比较器实现比较<br>Collections提供的第二种排序方法sort(List<t> list, Comparator&lt;? super T&gt; c)<br>先看例子：</t></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class Students &#123;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    public Students(int age, int score)&#123;  </div><div class="line">        super();  </div><div class="line">        this.age = age;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;Students&gt; students = new ArrayList&lt;Students&gt;();  </div><div class="line">        students.add(new Students(23, 100));  </div><div class="line">        students.add(new Students(27, 98));  </div><div class="line">        students.add(new Students(29, 99));  </div><div class="line">        students.add(new Students(29, 98));  </div><div class="line">        students.add(new Students(22, 89));  </div><div class="line">        Collections.sort(students, new Comparator&lt;Students&gt;() &#123;  </div><div class="line">  </div><div class="line">            @Override  </div><div class="line">            public int compare(Students o1, Students o2) &#123;  </div><div class="line">                int i = o1.getScore() - o2.getScore();  </div><div class="line">                if(i == 0)&#123;  </div><div class="line">                    return o1.getAge() - o2.getAge();  </div><div class="line">                &#125;  </div><div class="line">                return i;  </div><div class="line">            &#125;  </div><div class="line">        &#125;);  </div><div class="line">        for(Students stu : students)&#123;  </div><div class="line">            System.out.println(&quot;score:&quot; + stu.getScore() + &quot;:age&quot; + stu.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>输出结果：<br>score:89:age22<br>score:98:age27<br>score:98:age29<br>score:99:age29<br>score:100:age23</p>
-</blockquote>
-<p>3、总结<br>两种方式都可以实现数据的比较，从上面的例子我们可以看出Students类没有实现Comparable<t>接口，只是在sort()方法中多传入一个参数，只不过该参数是一个接口我们需要实现其compare方法，但是通过实现接口的方式代码结构将更加清晰。</t></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringBoot中的拦截器的使用和配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/27/SpringBoot中的拦截器的使用和配置/">SpringBoot中的拦截器的使用和配置</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/27/SpringBoot中的拦截器的使用和配置/" class="archive-article-date">
-  	<time datetime="2018-01-27T13:29:08.182Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SpringBoot中的拦截器是常用的技能，接下来将参照一个小小的demo讲解SpringBoot中拦截器的配置和使用.<br>1、SpringBoot中拦截器的使用场景.<br>日志、登陆验证、权限等都会用到拦截器.<br>2、demo源码.<br>在SpringBoot中使用拦截器非常的简单，相关的依赖SpringBoot已经自动为我们导入了，因此不必进行额外的导入，相关的参考代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.webconfig;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">import org.springframework.web.servlet.HandlerInterceptor;</div><div class="line">import org.springframework.web.servlet.ModelAndView;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 添加了一个拦截器，用于登陆验证和数据加密;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月19日@下午2:24:42</div><div class="line"> */</div><div class="line">public class SessionInterceptor implements HandlerInterceptor &#123;</div><div class="line">	@Override</div><div class="line">	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception &#123;</div><div class="line">		// 登录不做拦截</div><div class="line">		if (request.getRequestURI().equals(&quot;/mongo/attencedetail/selectAll&quot;)</div><div class="line">				|| request.getRequestURI().equals(&quot;/user/login_view&quot;)) &#123;</div><div class="line">			System.out.println(&quot;You get a http request&quot;);</div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">  </div><div class="line">   /**</div><div class="line">     * 该方法将在Controller执行之后，返回视图之前执行，modelAndView表示请求Controller处理之后返回的Model和View对象，所以可以在</div><div class="line">     * 这个方法中修改modelAndView的属性，从而达到改变返回的模型和视图的效果。</div><div class="line">     */</div><div class="line">	@Override</div><div class="line">	public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o,</div><div class="line">			ModelAndView modelAndView) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">   </div><div class="line">	@Override</div><div class="line">	public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,</div><div class="line">			Object o, Exception e) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getRemortIP(HttpServletRequest request) &#123;</div><div class="line">		if (request.getHeader(&quot;x-forwarded-for&quot;) == null) &#123;</div><div class="line">			return request.getRemoteAddr();</div><div class="line">		&#125;</div><div class="line">		return request.getHeader(&quot;x-forwarded-for&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>3、参考文章</p>
-<p><a href="https://www.jianshu.com/p/f69b21731b41" target="_blank" rel="external">如何在SpringBoot项目中使用拦截器[<strong>登陆拦截器</strong>]</a></p>
-<p><a href="https://juejin.im/post/5a5c6cad51882573514f6b38" target="_blank" rel="external">SpringMVC拦截器</a></p>
-<p><a href="http://blog.csdn.net/u012706811/article/details/51100756" target="_blank" rel="external">SpringMVC学习记录–拦截器的使用</a></p>
-<p><a href="http://blog.longjiazuo.com/archives/1434" target="_blank" rel="external">SpringMvc4.x基本配置:拦截器配置</a></p>
-<p><a href="http://blog.longjiazuo.com/archives/1592" target="_blank" rel="external">Spring Boot核心:日志配置</a></p>
-<p><a href="http://www.ityouknow.com/springboot/2017/06/26/springboot-shiro.html" target="_blank" rel="external">springboot整合shiro-登录认证和权限管理</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/27/SpringBoot中的拦截器的使用和配置/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Springboot中定时任务的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/27/Springboot中定时任务的实现/">Springboot中定时任务的实现</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/27/Springboot中定时任务的实现/" class="archive-article-date">
-  	<time datetime="2018-01-27T07:38:36.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、定时任务在J2EE项目中经常会被用到，如自动取消订单、在指定的时间清空缓存等需求就需要定时任务来实现。定时任务的完成是靠轮询来实现的，所以存在一定的延时误差是合理的。springboot在实现定时任务的过程中相关的依赖已经在父依赖中被导入了，所以不需要导入额外的依赖。<br>   2、SpringBoot中定时任务的实现分两步：（1、）定时任务的的实现;<br>   (2、)创建调度表达式;<br>   3、具体实现.<br>   (1、)定时任务的的实现，其实就是你要通过定时器完成的业务逻辑:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p> (2、)配置调度表达式:<br> <a href="http://blog.720ui.com/2013/quartz_cron/#cronExpression%E9%85%8D%E7%BD%AE%E6%A1%88%E4%BE%8B" target="_blank" rel="external">调度表达式的声明参考文章1.</a><br>  <a href="http://blog.csdn.net/caiwenfeng_for_23/article/details/17004213" target="_blank" rel="external">调度表达式的声明参考文章2.</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>通过@Scheduled注解添加调度表达式.<br>4、需要注意的地方<br>在使用SpringBoot任务调度的时候，需要在启动类上添加注解@EnableScheduling。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.example;</div><div class="line">import org.springframework.boot.SpringApplication;</div><div class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line">import org.springframework.scheduling.annotation.EnableScheduling;</div><div class="line">@SpringBootApplication</div><div class="line">@EnableScheduling</div><div class="line">public class DemoApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(DemoApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/27/Springboot中定时任务的实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Jrebel热部署插件的安装、破解和使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">Jrebel热部署插件的安装、破解和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/" class="archive-article-date">
-  	<time datetime="2018-01-23T14:23:58.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、什么是jrebel？<br>Jrebel是一款热部署插件，用于提高开发效率。一般我们在开发j2ee项目的时候，每次代码跟新就得重启服务，这样效率很低，尤其是对于大项目的，启动很慢，白白浪费了很多时间。使用jrebel插件后可以在java【配置文件更新后还是得重启服务】代码更新后自动编译更新而不用重启项目。但是jrebel的破解码很难搞，下面介绍jrebel的安装、破解和使用.。</p>
-<hr>
-<p>2、jrebel的安装、破解和使用.<br>(1、)安装<br>可以直接去eclipse的应用商店中下载，如图:<br><img src="http://img.blog.csdn.net/20180123211934330?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(2、)破解<br>jrebel理论上是收费的，但是我们可以破解，不是通过破解码和破解工具破解，因为这些方大都是无效的，老旧的。幸好，jrebel爱好者【可能是jrebe官方】搭建了一个网站，专门用于破解激活jrebel.<br>破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a><br>登录这个网站，使用facebook 或者推特登录（需要翻墙），然后输入邮箱，会要求验证（登录邮箱验证，点击验证链接），在输入手机号，不需要验证手机号。之后会进入破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a>,登录后按照如下步骤操作即可获取激活码：<br>A、<img src="http://img.blog.csdn.net/20180123213841967?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>B、<img src="http://img.blog.csdn.net/20180123213954522?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>C、<img src="http://img.blog.csdn.net/20180123214111441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(3、)使用<br>3.1、将jrebel插件作用于选中的项目;</p>
-<p><img src="http://img.blog.csdn.net/20180123220751006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>3.2、更新代码，jrebel自动重新编译，无需重新启动。<br><img src="http://img.blog.csdn.net/20180123222138572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-springboot+mybatis多数据源最简解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/20/springboot+mybatis多数据源最简解决方案/">springboot+mybatis多数据源最简解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/20/springboot+mybatis多数据源最简解决方案/" class="archive-article-date">
-  	<time datetime="2018-01-20T13:52:48.642Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在配置多数据源之前先理解@Configuration注解、@Bean注解以及配置自动扫描、bean作用域，参考文章如下:<br><a href="http://blog.csdn.net/javaloveiphone/article/details/52182899" target="_blank" rel="external">@Configuration注解、@Bean注解以及配置自动扫描、bean作用域</a><br>1、原理:定义多个数据源，根据<code>basePackages</code>进行自动切换;<br>2.代码:<br><a href="https://github.com/JunZhou2016/spring-boot-mybatis-mulidatasource" target="_blank" rel="external">SpringBoot+Mybatis多数据员配置Demo</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/20/springboot+mybatis多数据源最简解决方案/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java中枚举类略解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/20/java中枚举类略解/">java中枚举类略解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/20/java中枚举类略解/" class="archive-article-date">
-  	<time datetime="2018-01-20T06:33:03.155Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为什么在java中要用枚举类呢?<br>我的理解：如果不用枚举类，而用传统的方法，那么如果要定义三个常量:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[&#123;0,&quot;服务订单&quot;&#125;,&#123;1,&quot;商品订单&quot;&#125;,&#123;2,&quot;会员卡订单&quot;&#125;]</div></pre></td></tr></table></figure>
-<p>而且在引用的时候做到见名知意,那么就得这么些：<br>OrderType.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 模拟枚举类中元素的底层实现;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午12:32:22</div><div class="line"> */</div><div class="line">public class OrderType &#123;</div><div class="line">	private String type;</div><div class="line">	private int typeCode;</div><div class="line"></div><div class="line">	public OrderType(int typeCode,String type) &#123;</div><div class="line">		super();</div><div class="line">		this.type = type;</div><div class="line">		this.typeCode = typeCode;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getType() &#123;</div><div class="line">		return type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setType(String type) &#123;</div><div class="line">		this.type = type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getTypeCode() &#123;</div><div class="line">		return typeCode;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setTypeCode(int typeCode) &#123;</div><div class="line">		this.typeCode = typeCode;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>SumuOrderEnum.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line">/**</div><div class="line"> * 模拟枚举类中元素的声明;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:08:12</div><div class="line"> */</div><div class="line">public class SumuOrderEnum &#123;</div><div class="line">	public static OrderType orderType1 = new OrderType(0,&quot;服务订单&quot;);</div><div class="line">	public static OrderType orderType2 = new OrderType(1,&quot;商品订单&quot;);</div><div class="line">	public static OrderType orderType3 = new OrderType(2,&quot;会员卡订单&quot;);</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>EnumTest .java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line"></div><div class="line">public class EnumTest &#123;</div><div class="line">/**</div><div class="line"> * 模拟枚举类的调用;</div><div class="line"> * @param args</div><div class="line"> */</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">	SumuOrderEnum sumuOrderEnum = new SumuOrderEnum();</div><div class="line">	System.out.println(sumuOrderEnum.orderType1.getTypeCode()+&quot;-&quot;+sumuOrderEnum.orderType1.getType());</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p>但是用枚举类就方便许多了:<br>OrderTypeEnum.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> *</div><div class="line"> * @(#) OrderTypeEnum.java</div><div class="line"> * @Package cn.lz.life.enums</div><div class="line"> * </div><div class="line"> * Copyright  Icerno Corporation. All rights reserved.</div><div class="line"> *</div><div class="line"> */</div><div class="line"></div><div class="line">package com.lz.enums;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 定义枚举类;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:11:26</div><div class="line"> */</div><div class="line">public enum OrderTypeEnum &#123;</div><div class="line">    </div><div class="line">	//声明枚举类的元素;</div><div class="line">	ORDER_TYPE_IS_ZERO(0,&quot;服务订单&quot;),</div><div class="line">	ORDER_TYPE_IS_ONE(1,&quot;商品订单&quot;),</div><div class="line">	ORDER_TYPE_IS_TWO(2,&quot;会员卡订单&quot;),</div><div class="line">	;</div><div class="line">	//声明枚举类的属性，实际上是</div><div class="line">    private int orderType;</div><div class="line">	</div><div class="line">	private String msg;</div><div class="line"></div><div class="line">	public int getOrderType() &#123;</div><div class="line">		return orderType;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setOrderType(int orderType) &#123;</div><div class="line">		this.orderType = orderType;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getMsg() &#123;</div><div class="line">		return msg;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setMsg(String msg) &#123;</div><div class="line">		this.msg = msg;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	private OrderTypeEnum(int orderType, String msg) &#123;</div><div class="line">		this.orderType = orderType;</div><div class="line">		this.msg = msg;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>EnumTest.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package com.lz.enums;</div><div class="line">/**</div><div class="line"> * 枚举类的调用;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:12:01</div><div class="line"> */</div><div class="line">public class EnumTest &#123;</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">	System.out.println(OrderTypeEnum.ORDER_TYPE_IS_ONE.getOrderType());</div><div class="line">	System.out.println(OrderTypeEnum.ORDER_TYPE_IS_ONE.getMsg());</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>枚举类使用过程中因该注意的地方:<br>一：枚举类中必须定义构造方法;<br>二:枚举类中元素声明的类型必须和构造函数匹配,可以理解为元素的声明就是调用构造方法实例化了一个元素实例;<br>三:枚举类中属性可以没有，如果属性存在的话，枚举类中属性的名称可以随意，最好做到见名知意,但是其类型必须匹配构造函数中的类型;<br>四:元素的声明必须放在枚举类的首部;<br>五:枚举类的存在是为了简化常量的定义和使用;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/20/java中枚举类略解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringBoot+React前后端分离项目中跨域问题的完美解决方案 " class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /">SpringBoot+React前后端分离项目中跨域问题的完美解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /" class="archive-article-date">
-  	<time datetime="2018-01-19T06:06:34.785Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>springboot+react前后端分离项目中，跨域问题必然存在，解决方案有三种类型:<br>1、前端解决：<br>  在package.json中添加如下代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;myproject1&quot;,</div><div class="line">  &quot;version&quot;: &quot;0.1.0&quot;,</div><div class="line">  &quot;private&quot;: true,</div><div class="line">  **&quot;proxy&quot;: &quot;http://localhost:9090&quot;,**</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;antd&quot;: &quot;^3.0.3&quot;,</div><div class="line">    &quot;fetch&quot;: &quot;^1.1.0&quot;,</div><div class="line">    &quot;flux&quot;: &quot;^3.1.3&quot;,</div><div class="line">    &quot;react&quot;: &quot;^15.4.1&quot;,</div><div class="line">    &quot;react-addons-css-transition-group&quot;: &quot;^15.6.2&quot;,</div><div class="line">    &quot;react-dom&quot;: &quot;^15.4.1&quot;,</div><div class="line">    &quot;react-router&quot;: &quot;^3.0.0&quot;,</div><div class="line">    &quot;react-scripts&quot;: &quot;1.0.17&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;start&quot;: &quot;react-scripts start&quot;,</div><div class="line">    &quot;build&quot;: &quot;react-scripts build&quot;,</div><div class="line">    &quot;test&quot;: &quot;react-scripts test --env=jsdom&quot;,</div><div class="line">    &quot;eject&quot;: &quot;react-scripts eject&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;devDependencies&quot;: &#123;</div><div class="line">    &quot;reqwest&quot;: &quot;^2.0.5&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>缺点：由于域名部分是固定的，无法解决跨多个网站请求资源的跨域;<br>2.后端解决方案:<br>2.1、<a href="https://www.jianshu.com/p/c6ea21b64f6e" target="_blank" rel="external">参考文章；</a><br>2.2、原理:添加SpringMVC底层实现的Web配置适配器,增加CORS相关的配置信息;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.webconfig;</div><div class="line"></div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.web.servlet.config.annotation.CorsRegistry;</div><div class="line">import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</div><div class="line">@Configuration</div><div class="line">public class CORSConfiguration extends WebMvcConfigurerAdapter</div><div class="line">&#123;</div><div class="line">    @Override</div><div class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</div><div class="line">        registry</div><div class="line">                .addMapping(&quot;/**&quot;)</div><div class="line">                .allowedMethods(&quot;*&quot;)</div><div class="line">                .allowedOrigins(&quot;*&quot;)</div><div class="line">                .allowedHeaders(&quot;*&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3.3、添加代理服务器,如nginx配置,前面讲过;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Des加密中错误Input length not multiple of 8 bytes的解决办法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
-  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、最近在使用des加密的过程中出现了如下错误：<br><img src="http://img.blog.csdn.net/20180119105544192?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>错误提示的意思是：输入的加密源数据不足8个字节,推测是加密的填充模式不对；<br>2、错误原因:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">DES、AES 或者 3DES 属于块加密算法，一般来说原文必须是 8 的整数倍，所以块加密算法除子加密模式之外，还涉及到一个填充模式。</div><div class="line"></div><div class="line">如果一定要用 NoPadding 的话，那么必须保证原文字节是 8 的倍数，否则的话需要使用其他的填充模式。</div><div class="line"></div><div class="line">在 Sun JCE 中默认的填充模式除了 NoPadding 之外，还有：</div><div class="line"></div><div class="line">PKCS5Padding 和 ISO10126Padding</div><div class="line"></div><div class="line">PKCS5Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值为填充数量数。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 07 07 07 07 07 07 07</div><div class="line"></div><div class="line">ISO10126Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值最后一个字节为填充的数量数，其他字节随机处理。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 3F 7A B4 09 14 36 07</div><div class="line"></div><div class="line"></div><div class="line">使用填充模式后原文字节并不需要是 8 的整数倍，采用填充模式之后，块加密的密文长度为：</div><div class="line"></div><div class="line">(N / 8 * 8) + 8</div><div class="line"></div><div class="line">如上，假如原文长度为 15 个字节，密文长度就是 16 个字节。假如原文长度为 16 个字节，密文长度就为 24 个字节。也就是说，采用填充模式后必须进行填充，哪怕是 8 的整数倍。</div></pre></td></tr></table></figure>
-<p><strong>注意点:</strong>2.1使用哪一种填充模式加密的，也必须采用哪种填充模式解密;<br>             2.2CBC 加密模式需要有一个 IV 参数（也就是初始化向量），这个值在加    密时会随机生成，但必须保存下来，否则无法完成解密工作。<br>            2.3建议采用 ECB 模式，或者在使用 CBC 时将初始化向量保存，在解密时使用。 </p>
-<p>3、解决方案:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//算法名称/加密模式/填充方式 </div><div class="line">    //DES共有四种工作模式--&gt;&gt;ECB：电子密码本模式、CBC：加密分组链接模式、CFB：加密反馈模式、OFB：输出反馈模式</div><div class="line">    //此处应该注意加密模式的取值,建议使用ebc模式下的PKCS5Padding自动填充形式;</div><div class="line">    [修改前的模式]</div><div class="line">    //public static final String CIPHER_ALGORITHM = &quot;DES/ECB/NoPadding&quot;;</div><div class="line">    [修改后的模式]</div><div class="line">    public static final String CIPHER_ALGORITHM = &quot;DES/ECB/PKCS5Padding &quot;;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-DES加密算法探究【Java版本】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/19/DES加密算法探究【Java版本】/">DES加密算法探究【Java版本】</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
-  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、参考文章:<br>1.1<a href="http://blog.csdn.net/chengzi28/article/details/51086252" target="_blank" rel="external">对称加密算法;</a><br>1.2<a href="http://blog.csdn.net/mingyf/article/details/78168106" target="_blank" rel="external">DES算法详细设计;</a><br>2、参考代码<br>2.1、<a href="https://github.com/idsyn/Encrypt/blob/master/java/src/com/jm/DESUtil.java" target="_blank" rel="external">DESUtils</a><br>2.2、<a href="https://github.com/LiuJunb/Encryp-Demo/blob/master/src/com/xmg/EncryptUtil.java" target="_blank" rel="external">Encryp-Demo</a><br>3.对称加密算法<br>3.1 定义</p>
-<p>对称加密算法是应用较早的加密算法，技术成熟。在对称加密算法中，数据发信方将明文（原始数据）和加密密钥（mi yue）一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的逆算法对密文进行解密，才能使其恢复成可读明文。在对称加密算法中，使用的密钥只有一个，发收信双方都使用这个密钥对数据进行加密和解密，这就要求解密方事先必须知道加密密钥。</p>
-<p>3.2 优缺点</p>
-<pre><code>优点：算法公开、计算量小、加密速度快、加密效率高。
-
-缺点：
-</code></pre><p>（1）交易双方都使用同样钥匙，安全性得不到保证。</p>
-<p>（2）每对用户每次使用对称加密算法时，都需要使用其他人不知道的惟一钥匙，这会使得发收信双方所拥有的钥匙数量呈几何级数增长，密钥管理成为用户的负担。对称加密算法在分布式网络系统上使用较为困难，主要是因为密钥管理困难，使用成本较高。</p>
-<p>3.3 常用对称加密算法</p>
-<p>基于“对称密钥”的加密算法主要有DES、3DES（TripleDES）、AES、RC2、RC4、RC5和Blowfish等。本文只介绍最常用的对称加密算法DES、3DES（TripleDES）和AES。<br>3.4、DES加密算法的几种模式:<br>3.4.1、<a href="http://blog.csdn.net/chy555chy/article/details/51821938" target="_blank" rel="external">参考文章 ;</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">AES/CBC/NoPadding (128) </div><div class="line">AES/CBC/PKCS5Padding (128) </div><div class="line">AES/ECB/NoPadding (128) </div><div class="line">AES/ECB/PKCS5Padding (128) </div><div class="line">DES/CBC/NoPadding (56) </div><div class="line">DES/CBC/PKCS5Padding (56) </div><div class="line">DES/ECB/NoPadding (56) </div><div class="line">DES/ECB/PKCS5Padding (56) </div><div class="line"> </div><div class="line">（DESede实际上是3-DES） </div><div class="line">DESede/CBC/NoPadding (168) </div><div class="line">DESede/CBC/PKCS5Padding (168) </div><div class="line">DESede/ECB/NoPadding (168) </div><div class="line">DESede/ECB/PKCS5Padding (168)</div></pre></td></tr></table></figure></p>
-<p>3.4.2:需要留意的坑:</p>
-<blockquote>
-<p>由于加密时会自动填充到8字节(64bit),那么在我们进行字节数组到字串的转化过程中，可以把它填补的不可见字符改变了,所以解密时会导致异常,用base64解决</p>
-</blockquote>
-<p>4、代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div></pre></td><td class="code"><pre><div class="line">package com.jm;</div><div class="line"></div><div class="line">import java.io.UnsupportedEncodingException;</div><div class="line">import java.security.MessageDigest;</div><div class="line">import java.security.NoSuchAlgorithmException;</div><div class="line"></div><div class="line">import javax.crypto.Cipher;</div><div class="line">import javax.crypto.SecretKey;</div><div class="line">import javax.crypto.SecretKeyFactory;</div><div class="line">import javax.crypto.spec.DESKeySpec;</div><div class="line">import javax.crypto.spec.IvParameterSpec;</div><div class="line"></div><div class="line">import org.apache.commons.codec.binary.Hex;</div><div class="line"></div><div class="line">/**</div><div class="line"> * @Createtime 2014年12月5日 14:22:00</div><div class="line"> * @author Lxz</div><div class="line"> * </div><div class="line"> */</div><div class="line">public class DESUtil &#123;</div><div class="line">	/**</div><div class="line">	 * UTF-8编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_UTF8 = &quot;UTF-8&quot;;</div><div class="line">	/**</div><div class="line">	 * GBK编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_GBK = &quot;GBK&quot;;</div><div class="line">	/**</div><div class="line">	 * GB2312编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_GB2312 = &quot;GB2312&quot;;</div><div class="line">	/**</div><div class="line">	 * ISO8859-1编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_ISO88591 = &quot;ISO8859-1&quot;;</div><div class="line">	/**</div><div class="line">	 * ASCII编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_ASCII = &quot;ASCII&quot;;</div><div class="line">	/**</div><div class="line">	 * UNICODE编码</div><div class="line">	 */</div><div class="line">	public static final String ENCODED_UNICODE = &quot;UNICODE&quot;;</div><div class="line">	/**</div><div class="line">	 * CBC加密模式</div><div class="line">	 */</div><div class="line">	public static final String CIPHER_INSTANCE_CBC = &quot;DES/CBC/PKCS5Padding&quot;;</div><div class="line">	/**</div><div class="line">	 * ECB加密模式</div><div class="line">	 */</div><div class="line">	public static final String CIPHER_INSTANCE_ECB = &quot;DES/ECB/PKCS5Padding&quot;;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES加密</div><div class="line">	 * </div><div class="line">	 * @param HexString</div><div class="line">	 *            字符串（16位16进制字符串）</div><div class="line">	 * @param keyStr</div><div class="line">	 *            密钥16个1</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String ENCRYPTMethod(String HexString, String keyStr)</div><div class="line">			throws Exception &#123;</div><div class="line">		String jmstr = &quot;&quot;;</div><div class="line">		try &#123;</div><div class="line">			byte[] theKey = null;</div><div class="line">			//从给定的密钥中截取生成真正的密钥来源，保证加密解密算法的唯一性，避免数据的轻易可逆;</div><div class="line">			String jqstr = getstrByte(keyStr).substring(0,8).toUpperCase();</div><div class="line">			theKey = jqstr.getBytes(ENCODED_ASCII);</div><div class="line">			//Ciper[名词]:零、暗号、密码本;</div><div class="line">			//获取CIPHER_INSTANCE_CBC模式下的密码本;</div><div class="line">			Cipher cipher = Cipher.getInstance(CIPHER_INSTANCE_CBC);</div><div class="line">			//生成secrecKey;</div><div class="line">			DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">			IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line">			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);</div><div class="line">			byte[] theCph = cipher.doFinal(HexString.getBytes(ENCODED_GB2312));</div><div class="line">			jmstr = toHexString(theCph).toUpperCase();</div><div class="line">			jmstr = toHexString(theCph);</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">		return jmstr;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static String getstrByte(String str)&#123;</div><div class="line">		if(null == str)&#123;</div><div class="line">			throw new IllegalArgumentException(</div><div class="line">			&quot;str is null!&quot;);</div><div class="line">		&#125;</div><div class="line">		MessageDigest messageDigest = getMessageDigest();</div><div class="line">		byte[] digest;</div><div class="line">		try &#123;</div><div class="line">			digest = messageDigest.digest(str.getBytes(&quot;ASCII&quot;));</div><div class="line">		&#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">			throw new IllegalStateException(&quot;ASCII not supported!&quot;);</div><div class="line">		&#125;</div><div class="line">		return new String(Hex.encodeHex(digest));</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	protected static final MessageDigest getMessageDigest() &#123;</div><div class="line">		String algorithm = &quot;MD5&quot;;</div><div class="line">		try &#123;</div><div class="line">			return MessageDigest.getInstance(algorithm);</div><div class="line">		&#125; catch (NoSuchAlgorithmException e) &#123;</div><div class="line">			throw new IllegalArgumentException(&quot;No such algorithm [&quot;</div><div class="line">					+ algorithm + &quot;]&quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES加密</div><div class="line">	 * @param HexString 字符串（16位16进制字符串）</div><div class="line">	 * @param keyStr 密钥16个1</div><div class="line">	 * @param keyENCODED  Keybyte转换编码</div><div class="line">	 * @param HexStringENCODED 要加密值的转换byte编码</div><div class="line">	 * @param CipherInstanceType 需要加密类型</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String ENCRYPTMethod(String HexString, String keyStr,String keyENCODED,String HexStringENCODED,String CipherInstanceType)</div><div class="line">			throws Exception &#123;</div><div class="line">		String jmstr = &quot;&quot;;</div><div class="line">		try &#123;</div><div class="line">			byte[] theKey = null;</div><div class="line">			String jqstr = getstrByte(keyStr).substring(0,8).toUpperCase();</div><div class="line">			theKey = jqstr.getBytes(keyENCODED);</div><div class="line">			Cipher cipher = Cipher.getInstance(CipherInstanceType);</div><div class="line">			DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">			SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">			IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line">			cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);</div><div class="line">			byte[] theCph = cipher.doFinal(HexString.getBytes(HexStringENCODED));</div><div class="line">			jmstr = toHexString(theCph).toUpperCase();</div><div class="line">			jmstr = toHexString(theCph);</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">		return jmstr;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static String toHexString(byte b[]) &#123;</div><div class="line">		StringBuffer hexString = new StringBuffer();</div><div class="line">		for (int i = 0; i &lt; b.length; i++) &#123;</div><div class="line">			String plainText = Integer.toHexString(0xff &amp; b[i]);</div><div class="line">			if (plainText.length() &lt; 2)</div><div class="line">				plainText = &quot;0&quot; + plainText;</div><div class="line">			hexString.append(plainText);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		return hexString.toString();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES解密方法</div><div class="line">	 * @param message 需要解密字符串</div><div class="line">	 * @param key 解密需要的KEY</div><div class="line">	 * @param keyENCODED  解密KEY转换编码</div><div class="line">	 * @param HexStringENCODED  解密字符串转换编码</div><div class="line">	 * @param CipherInstanceType 解密类型</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String decrypt(String message, String key,String keyENCODED,String HexStringENCODED,String CipherInstanceType) throws Exception &#123;</div><div class="line"></div><div class="line">		byte[] bytesrc = convertHexString(message);</div><div class="line">		byte[] theKey = null;</div><div class="line">		String jqstr = getstrByte(key).substring(0,</div><div class="line">				8).toUpperCase();</div><div class="line">		theKey = jqstr.getBytes(keyENCODED);</div><div class="line">		Cipher cipher = Cipher.getInstance(CipherInstanceType);</div><div class="line">		DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">		SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">		IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line"></div><div class="line">		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);</div><div class="line"></div><div class="line">		byte[] retByte = cipher.doFinal(bytesrc);</div><div class="line">		return new String(retByte,HexStringENCODED);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * DES解密方法,解密方法和加密方法应该是对称的;</div><div class="line">	 * @param message</div><div class="line">	 * @param key</div><div class="line">	 * @return</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	public static String decrypt(String message, String key) throws Exception &#123;</div><div class="line">       </div><div class="line">		byte[] bytesrc = convertHexString(message);</div><div class="line">		byte[] theKey = null;</div><div class="line">		String jqstr = getstrByte(key).substring(0,</div><div class="line">				8).toUpperCase();</div><div class="line">		theKey = jqstr.getBytes(ENCODED_ASCII);</div><div class="line">		Cipher cipher = Cipher.getInstance(CIPHER_INSTANCE_CBC);</div><div class="line">		DESKeySpec desKeySpec = new DESKeySpec(theKey);</div><div class="line">		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);</div><div class="line">		SecretKey secretKey = keyFactory.generateSecret(desKeySpec);</div><div class="line">		IvParameterSpec iv = new IvParameterSpec(theKey);</div><div class="line"></div><div class="line">		cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);</div><div class="line"></div><div class="line">		byte[] retByte = cipher.doFinal(bytesrc);</div><div class="line">		return new String(retByte,ENCODED_GB2312);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static byte[] convertHexString(String ss) &#123;</div><div class="line">		byte digest[] = new byte[ss.length() / 2];</div><div class="line">		for (int i = 0; i &lt; digest.length; i++) &#123;</div><div class="line">			String byteString = ss.substring(2 * i, 2 * i + 2);</div><div class="line">			int byteValue = Integer.parseInt(byteString, 16);</div><div class="line">			digest[i] = (byte) byteValue;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		return digest;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		String key = &quot;27650099-564A-4869-99B3-363F8129C0CD&quot;;</div><div class="line">		String value = &quot;张三内部购房百分点办法对你表白&quot;;</div><div class="line">		String jiami = value;</div><div class="line"></div><div class="line">		System.out.println(&quot;加密数据:&quot; + jiami);</div><div class="line">		String a = ENCRYPTMethod(jiami, key).toUpperCase();</div><div class="line"></div><div class="line">		System.out.println(&quot;加密后的数据为:&quot; + a);</div><div class="line">		String b = decrypt(a, key);</div><div class="line">		System.out.println(&quot;解密后的数据:&quot; + b);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/19/DES加密算法探究【Java版本】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -896,8 +347,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
