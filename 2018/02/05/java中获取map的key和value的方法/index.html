@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>java中获取map的key和value的方法 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/page/8/index.html">
+  <meta name="description" content="最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。获取map的key和value的方法分为两种形式： map.keySet()：先获取map的key，然后根据key获取对应的value；map..entrySet()：同时查询map的key和value，只需要查询一次；两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。 1、以下是获取ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中获取map的key和value的方法">
+<meta property="og:url" content="http://yoursite.com/2018/02/05/java中获取map的key和value的方法/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。获取map的key和value的方法分为两种形式： map.keySet()：先获取map的key，然后根据key获取对应的value；map..entrySet()：同时查询map的key和value，只需要查询一次；两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。 1、以下是获取ma">
+<meta property="og:updated_time" content="2018-02-05T13:39:46.355Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="java中获取map的key和value的方法">
+<meta name="twitter:description" content="最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。获取map的key和value的方法分为两种形式： map.keySet()：先获取map的key，然后根据key获取对应的value；map..entrySet()：同时查询map的key和value，只需要查询一次；两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。 1、以下是获取ma">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,40 +159,55 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-FirstBlog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-java中获取map的key和value的方法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/FirstBlog/">Hello JunZhou</a>
+    <h1 class="article-title" itemprop="name">
+      java中获取map的key和value的方法
     </h1>
   
 
         
-        <a href="/2017/08/29/FirstBlog/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:00:21.716Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+        <a href="/2018/02/05/java中获取map的key和value的方法/" class="archive-article-date">
+  	<time datetime="2018-02-05T13:38:09.246Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。<br>获取map的key和value的方法分为两种形式：</p>
+<p>map.keySet()：先获取map的key，然后根据key获取对应的value；<br>map..entrySet()：同时查询map的key和value，只需要查询一次；<br>两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。</p>
+<p>1、以下是获取map的key和value，以及map里面的元素通过key或者value来比较大小并排序；<br>【注意：当map的value值相等时，根据key值进行排序】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">public class MapSort &#123;</div><div class="line"> public static void main(String[] args) &#123;</div><div class="line">  Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();</div><div class="line">  map.put(&quot;b&quot;,&quot;4&quot;);</div><div class="line">  map.put(&quot;a&quot;,&quot;5&quot;);</div><div class="line">  map.put(&quot;c&quot;,&quot;3&quot;);</div><div class="line">  map.put(&quot;d&quot;,&quot;5&quot;);</div><div class="line">  //通过map.keySet()方法</div><div class="line">  //方法一：通过得到key的值，然后获取value;</div><div class="line">  /*for(String key : map.keySet())&#123;</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot;  &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //使用迭代器，获取key;</div><div class="line">  /*Iterator&lt;String&gt; iter = map.keySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   String key=iter.next();</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">   */</div><div class="line"></div><div class="line">  //通过map.entrySet()方法</div><div class="line">  //方法一：循环map里面的每一对键值对，然后获取key和value</div><div class="line">  /*for(Entry&lt;String, String&gt; vo : map.entrySet())&#123;</div><div class="line">   vo.getKey();</div><div class="line">   vo.getValue();</div><div class="line">   System.out.println(vo.getKey()+&quot;  &quot;+vo.getValue());</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  /*//使用迭代器，获取key</div><div class="line">  Iterator&lt;Entry&lt;String,String&gt;&gt; iter = map.entrySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   Entry&lt;String,String&gt; entry = iter.next();</div><div class="line">   String key = entry.getKey();</div><div class="line">   String value = entry.getValue();</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //将map&lt;String,String&gt; 转化为ArryList,但list里面的元素为Entry&lt;String,String&gt;</div><div class="line">  List&lt;Entry&lt;String,String&gt;&gt; list = new ArrayList&lt;Map.Entry&lt;String,String&gt;&gt;(map.entrySet());</div><div class="line">  //通过匿名比较器的方式进行比较。</div><div class="line">  Collections.sort(list,new Comparator&lt;Entry&lt;String,String&gt;&gt;()&#123;</div><div class="line">   @Override</div><div class="line">   public int compare(Entry&lt;String, String&gt; o1,</div><div class="line">     Entry&lt;String, String&gt; o2) &#123;</div><div class="line">    int flag = o1.getValue().compareTo(o2.getValue());</div><div class="line">    if(flag==0)&#123;</div><div class="line">     return o1.getKey().compareTo(o2.getKey());</div><div class="line">    &#125;</div><div class="line">    return flag;</div><div class="line">   &#125;</div><div class="line">  &#125;);</div><div class="line">  //遍历list得到map里面排序后的元素</div><div class="line">  for(Entry&lt;String, String&gt; en : list)&#123;</div><div class="line">   System.out.println(en.getKey()+&quot; &quot;+en.getValue());</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2、注意Map中的元素是唯一无序的，如果希望根据存入的顺序取出数据，建议使用linkedhashmap,存入其中的数据是唯一且有序的。</p>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -197,16 +216,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/FirstBlog/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/02/05/java中获取map的key和value的方法/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/05/使用jenkins+github+tomcat实现Springboot半自动化部署/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用jenkins+github+tomcat实现Springboot半自动化部署</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -226,83 +304,12 @@
 
 
 
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/hello-world/" class="archive-article-date">
-  	<time datetime="2017-08-28T23:52:51.266Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
-    </nav>
+  
+
+  
+
   
 
 
@@ -325,8 +332,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
