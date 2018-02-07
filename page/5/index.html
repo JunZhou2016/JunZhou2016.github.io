@@ -157,6 +157,174 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Mysql优化之索引类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/12/Mysql优化之索引类型/">Mysql优化之索引</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/12/Mysql优化之索引类型/" class="archive-article-date">
+  	<time datetime="2017-09-12T12:24:09.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Mysql中索引的类型：</div></pre></td></tr></table></figure>
+<pre><code> Mysql中的索引分为三种类型：
+
+       1.Normal:该类型的索引对建立索引的字段基本不做特殊要求【唯一性、有序性】
+       2.Unique:要求建立索引的字段必须是唯一的;
+       3.Full Text:当建立索引的字段是长文本类型等数据长度较长的字段时，建议使用该类型的索引;
+
+Mysql中索引的方法:
+      Mysql中的索引方法有Hash和BTree两种：
+
+      Hash索引方法：
+</code></pre><hr>
+<p><a href="http://pic002.cnblogs.com/images/2012/288799/2012092709470640.jpg" target="_blank" rel="external">Hash图解</a></p>
+<pre><code>Hash 索引的缺点：
+</code></pre><p>（1）Hash 索引仅仅能满足”=”,”IN”和”&lt;=&gt;”查询，不能使用范围查询。</p>
+<p>由于 Hash 索引比较的是进行 Hash 运算之后的 Hash 值，所以它只能用于等值的过滤，不能用于基于范围的过滤，因为经过相应的 Hash 算法处理之后的 Hash 值的大小关系，并不能保证和Hash运算前完全一样。</p>
+<p>（2）Hash 索引无法被用来避免数据的排序操作。</p>
+<p>由于 Hash 索引中存放的是经过 Hash 计算之后的 Hash 值，而且Hash值的大小关系并不一定和 Hash 运算前的键值完全一样，所以数据库无法利用索引的数据来避免任何排序运算；</p>
+<p>（3）Hash 索引不能利用部分索引键查询。</p>
+<p>对于组合索引，Hash 索引在计算 Hash 值的时候是组合索引键合并后再一起计算 Hash 值，而不是单独计算 Hash 值，所以通过组合索引的前面一个或几个索引键进行查询的时候，Hash 索引也无法被利用。</p>
+<p>（4）Hash 索引在任何时候都不能避免表扫描。</p>
+<p>前面已经知道，Hash 索引是将索引键通过 Hash 运算之后，将 Hash运算结果的 Hash 值和所对应的行指针信息存放于一个 Hash 表中，由于不同索引键存在相同 Hash 值，所以即使取满足某个 Hash 键值的数据的记录条数，也无法从 Hash 索引中直接完成查询，还是要通过访问表中的实际数据进行相应的比较，并得到相应的结果。</p>
+<p>（5）Hash 索引遇到大量Hash值相等的情况后性能并不一定就会比B-Tree索引高。</p>
+<p>对于选择性比较低的索引键，如果创建 Hash 索引，那么将会存在大量记录指针信息存于同一个 Hash 值相关联。这样要定位某一条记录时就会非常麻烦，会浪费多次表数据的访问，而造成整体性能低下。<br>           2.BTree:<br>           二叉查找树</p>
+<blockquote>
+<p>二叉搜索树，也称有序二叉树,排序二叉树，是指一棵空树或者具有下列性质的二叉树：</p>
+<ol>
+<li><p>若任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；</p>
+</li>
+<li><p>若任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；</p>
+</li>
+<li><p>任意节点的左、右子树也分别为二叉查找树。</p>
+</li>
+<li><p>没有键值相等的节点。</p>
+</li>
+</ol>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170912200040959?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>总结：两种索引方法的最终目的都是通过减少查询次数增加了查询的效率，最终达到了数据库优化的效果，但两者都在一定程度上增加了数据库的系统开销，或是内存上的，或是执行效率撒谎那个的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/12/Mysql优化之索引类型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Servlet的生命周期" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/10/Servlet的生命周期/">Servlet的生命周期</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/10/Servlet的生命周期/" class="archive-article-date">
+  	<time datetime="2017-09-10T08:45:37.709Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>12.Servlet的生命周期<br>1)加载：在下列时刻加载 Servlet：<br>（1）如果已配置自动加载选项，则在启动服务器时自动加载 (web.xml中        设置<load-on-start>)；<br>（2）在服务器启动后，客户机首次向 Servlet 发出请求时;<br>（3）重新加载 Servlet 时（只执行一次）</load-on-start></p>
+<p>2)实例化：加载 Servlet 后，服务器创建一个 Servlet 实例。（只执行一次）</p>
+<p>3)初始化：调用 Servlet 的 init() 方法。在初始化阶段，Servlet 初始化参数被传递给 Servlet 配置对象ServletConfig。 （只执行一次）[因此Servlet是单例的，线程不安全的]</p>
+<p>4)请求处理：对于到达服务器的客户机请求，服务器创建针对此次请求的一个“请求”对象和一个“响应”对象。服务器调用 Servlet 的 service() 方法，该方法用于传递“请求”和“响应”对象。service() 方法从“请求”对象获得请求信息、处理该请求并用“响应”对象的方法以将响应传回客户机。service() 方法可以调用其它方法来处理请求，例如 doGet()、doPost() 或其它的方法。（每次请求都执行该步骤）</p>
+<p>5)销毁：当服务器不再需要 Servlet, 或重新装入 Servlet 的新实例时，服务器会调用 Servlet 的 destroy() 方法。（只执行一次）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/10/Servlet的生命周期/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-B-S和C-S的含义及其区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -821,188 +989,6 @@ return returnValue;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringMVC集成redis " class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
-  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<blockquote>
-<p><strong>Redis 简介</strong><br>Redis 是完全开源免费的，遵守BSD协议，是一个高性能的key-value数据库。 Redis 与其他 key -<br>value 缓存产品有以下三个特点： Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。<br>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。<br>Redis支持数据的备份，即master-slave模式的数据备份。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p><strong>Redis 优势</strong><br> 性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。 丰富的数据类型 –<br>Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。 原子 –<br>Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。 丰富的特性 – Redis还支持<br>publish/subscribe, 通知, key 过期等等特性。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p><strong>Redis与其他key-value存储有什么不同？</strong><br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</p>
-</blockquote>
-<p><strong>Redis 的 5 个常见使用场景</strong></p>
-<p><em>1、会话缓存（Session Cache）</em></p>
-<p>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
-<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
-<p><em>2、全页缓存（FPC）</em></p>
-<p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。</p>
-<p>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
-<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件  wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
-<p><em>3、队列</em></p>
-<p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
-<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
-<p><em>4.排行榜/计数器</em></p>
-<p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
-<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
-<p>ZRANGE user_scores 0 10 WITHSCORES</p>
-<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
-<p><em>5、发布/订阅</em></p>
-<p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
-<blockquote>
-<p><a href="http://blog.csdn.net/u012775558/article/details/68937298?locationNum=7&amp;fps=1" target="_blank" rel="external">本文将着重说明SpringMVC集成redis后的数据的增删改查;</a><br><a href="https://github.com/JunZhou2016/CRU4DRedis" target="_blank" rel="external">Demo</a></p>
-</blockquote>
-<hr>
-<blockquote>
-<p><a href="https://www.cc520.me/article.html?c=5&amp;index=86" target="_blank" rel="external">shiro使用redis缓存session会话、authentication信息、authorization信息简述</a></p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/SpringMVC集成redis /">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用Jenkins配置Git+Maven的自动化构建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>最近安装Jenkins，参照网上的各种资料进行尝试，折腾了好久，但是查找了这么多资料，相似度在90%以上！！！，相同的安装过程，测试了几台机器，未曾成功，不得不感慨自己能力有限，最终慢慢摸索，形成思路，现分享给大家，希望大家在安装的时候少走弯路。</p>
-<p>PS：本人很痛恨那种粘贴复制，毫无思考的博主，本想着拿着解决问题的心态，但结果还是一样，不但浪费了大家的时间，还浪费了大家的感情，所以，我把我遇到的问题和解决的方式记录下来和大家分享。</p>
-<p>转载链接:亲测可行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://blog.csdn.net/xlgen157387/article/details/50353317</div></pre></td></tr></table></figure>
-<p>配置过程中遇到的一些问题:一：wget命令提示找不到，其实wget和unzip一样，都是linux中的小插件，也就是工具类，提示命令没找到，多半是程序没有安装，安装一下就是了：</p>
-<blockquote>
-<p>  wget插件的安装命令:<br>      yum install wget</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>今天，使用unzip的时候，提示用不了，结果蒙逼。。。，还是问度娘，发现没有安装unzip软件，具体步骤如下：</p>
-<pre><code> #yum list | grep zip/unzip 
- #yum install zip
- #yum install unzip
- 基本完成，如果在编译的时候出现错误：gcc : error trying to exec &apos;cc1plus&apos;: execvp : No sunch file or directory
-可以用gcc -v/g++ -v 来查看gcc 版本，会发现没有安装。安装如下：
-#yum list | grep gcc
-#yum install gcc-c++
-#yum install unzip
-</code></pre></blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">展开全文 >></a>
         </p>
       
 

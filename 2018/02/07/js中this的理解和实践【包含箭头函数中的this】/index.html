@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>js中this的理解和实践【包含箭头函数中的this】 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/6/index.html">
+  <meta name="description" content="最近在做项目的时候，因为对this的理解不清楚，导致了不清不楚的bug,因此抽出时间进行了js中this的学习。1、js中this的理解要点。  (1、)对普通函数，this指向的是调用者[‘.’之前的，没有’.’则为全局对象]; (2、)箭头函数中的this指向为定义箭头函数的作用域中的this【是作用域中的this而不是定义的作用域】; 友情提示：此处是可以根据内存中this的指向来理解的，但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中this的理解和实践【包含箭头函数中的this】">
+<meta property="og:url" content="http://yoursite.com/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近在做项目的时候，因为对this的理解不清楚，导致了不清不楚的bug,因此抽出时间进行了js中this的学习。1、js中this的理解要点。  (1、)对普通函数，this指向的是调用者[‘.’之前的，没有’.’则为全局对象]; (2、)箭头函数中的this指向为定义箭头函数的作用域中的this【是作用域中的this而不是定义的作用域】; 友情提示：此处是可以根据内存中this的指向来理解的，但">
+<meta property="og:updated_time" content="2018-02-07T14:54:45.141Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="js中this的理解和实践【包含箭头函数中的this】">
+<meta name="twitter:description" content="最近在做项目的时候，因为对this的理解不清楚，导致了不清不楚的bug,因此抽出时间进行了js中this的学习。1、js中this的理解要点。  (1、)对普通函数，this指向的是调用者[‘.’之前的，没有’.’则为全局对象]; (2、)箭头函数中的this指向为定义箭头函数的作用域中的this【是作用域中的this而不是定义的作用域】; 友情提示：此处是可以根据内存中this的指向来理解的，但">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +159,160 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-js中this的理解和实践【包含箭头函数中的this】" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js中this的理解和实践【包含箭头函数中的this】
+    </h1>
+  
+
+        
+        <a href="/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/" class="archive-article-date">
+  	<time datetime="2018-02-07T14:54:12.327Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在做项目的时候，因为对this的理解不清楚，导致了不清不楚的bug,因此抽出时间进行了js中this的学习。<br>1、js中this的理解要点。</p>
+<blockquote>
+<p>(1、)对普通函数，this指向的是调用者[‘.’之前的，没有’.’则为全局对象];<br> (2、)箭头函数中的this指向为定义箭头函数的作用域中的this【<strong>是作用域中的this而不是定义的作用域</strong>】;<br> 友情提示：此处是可以根据内存中this的指向来理解的，但是我们理解this是为了更好更快的做项目，记住一般的规律即可。</p>
+</blockquote>
+<p>2、js中的this理解和实践的demo。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">function test1() &#123;</div><div class="line">    console.log(this);</div><div class="line">    alert(&quot;打印出了全局对象【global/window】[Window &#123;frames: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …&#125;]&quot;);</div><div class="line">&#125;;</div><div class="line">test1();</div><div class="line">console.log(&quot;----------------作为对象的方法调用-------------------&quot;);</div><div class="line">var obj1 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj1.foo();</div><div class="line"></div><div class="line">console.log(&quot;-----------------------------------&quot;);</div><div class="line"></div><div class="line">function test2() &#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">var obj2 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo2: test2</div><div class="line">&#125;</div><div class="line">obj2.foo2();</div><div class="line"></div><div class="line">console.log(&quot;--------------把对象的方法赋值给一个变量，然后直接调用这个变量---------------------&quot;);</div><div class="line">var obj3 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo3: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var test3 = obj3.foo3;</div><div class="line">test3();</div><div class="line"></div><div class="line">console.log(&quot;--------------利用 闭包 的特性来绑定this---------------------&quot;);</div><div class="line"></div><div class="line">//为了避免对下面测试中定时器的影响，注释了当前代码块;</div><div class="line">/**</div><div class="line">  * var obj4 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;,</div><div class="line">    foo2: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">        var _this = this;</div><div class="line">        setTimeout(function () &#123;</div><div class="line">           // console.log(this);</div><div class="line">           console.log(_this);</div><div class="line">        &#125;, 1000);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj4.foo2();</div><div class="line">  */</div><div class="line"></div><div class="line"></div><div class="line">console.log(&quot;--------------箭头函数---------------------&quot;);</div><div class="line">/**</div><div class="line"> * 箭头函数中的 this 只和定义它时候的作用域的 this 有关;</div><div class="line"> * 即：[箭头函数中的this和定义它的作用域中的this相等];</div><div class="line"> * 函数参数列表中的箭头函数的是定义在外部的，但是其作用域在方法内部;</div><div class="line"> * 而与在哪里以及如何调用它无关，同时它的 this 指向是不可改变的。</div><div class="line"> */</div><div class="line">/**</div><div class="line"> * var obj5 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;,</div><div class="line">    foo2: function () &#123;</div><div class="line">        console.log(&quot;obj5--》a&quot; + this);</div><div class="line">        setTimeout(() =&gt; &#123;</div><div class="line">            console.log(&quot;obj5--》b&quot; + this);</div><div class="line">        &#125;, 1000);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj5.foo2();</div><div class="line"> */</div><div class="line"></div><div class="line">console.log(&quot;--------------通过call, apply, bind给函数绑定指定的this对象---------------------&quot;);</div><div class="line">console.log(&quot;-----------------------为一个普通函数指定 this---------------------&quot;);</div><div class="line">var obj7 = &#123;</div><div class="line">    name: &apos;qiutc&apos;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function foo7() &#123;</div><div class="line">    console.log(this);</div><div class="line">&#125;</div><div class="line">foo7.call(obj7);</div><div class="line"></div><div class="line">console.log(&quot;-----------------------为对象中的方法指定一个 this---------------------&quot;);</div><div class="line">var obj = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var obj2 = &#123;</div><div class="line">    name: &apos;tcqiu222222&apos;</div><div class="line">&#125;;</div><div class="line">obj.foo.call(obj2);</div><div class="line"></div><div class="line">console.log(&quot;-----------------------为箭头函数指定 this【无效性验证】---------------------&quot;);</div><div class="line"></div><div class="line">var afoo = (a) =&gt; &#123;</div><div class="line">    console.log(a);</div><div class="line">    console.log(this);</div><div class="line">&#125;</div><div class="line">afoo(1);</div><div class="line">var obj = &#123;</div><div class="line">    name: &apos;qiutc&apos;</div><div class="line">&#125;;</div><div class="line">afoo.call(obj, 2); //期望输出：obj;实际输出:全局对象;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 可以看到，这里的 call 指向 this 的操作并没有成功，所以可以得出： </div><div class="line"> * 箭头函数中的 this 在定义它的时候已经决定了（执行定义它的作用域中的 this），</div><div class="line"> * 与如何调用以及在哪里调用它无关，包括 (call, apply, bind) 等操作都无法改变它的 this。</div><div class="line"> *只要记住箭头函数大法好，不变的 this。</div><div class="line"> */</div></pre></td></tr></table></figure>
+<p>3、参考文章<br><a href="https://juejin.im/entry/57bd2ec1efa631005a8eae1a" target="_blank" rel="external">JavaScript 中的 this</a></p>
+<p>4、<a href="https://github.com/JunZhou2016/ThisInJsPractice" target="_blank" rel="external">demo源码。</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
-  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">reflux中一个小error[error-linstenner is no a function]总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:20:05.460Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">Linux(Centos)之安装tomcat并且部署Java Web项目</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux部署Java web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T09:02:33.925Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux部署Java web项目/">Linux部署Java web项目</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/" class="archive-article-date">
-  	<time datetime="2017-09-05T08:22:34.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">Linux 下虚拟机克隆步骤（CentOS）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/linux运维常用命令/" class="archive-article-date">
-  	<time datetime="2017-09-05T03:23:54.403Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/linux运维常用命令/">linux运维常用命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/" class="archive-article-date">
-  	<time datetime="2017-09-01T15:04:54.622Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">Intellij Idea 创建Web项目入门(非Maven项目)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/JAVA反射/" class="archive-article-date">
-  	<time datetime="2017-08-29T11:15:24.666Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/JAVA反射/">JAVA反射</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/码农进化之Oracle学习篇/" class="archive-article-date">
-  	<time datetime="2017-08-29T10:22:25.131Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/码农进化之Oracle学习篇/">码农进化之Oracle学习篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/面向对象程序设计六大原则/" class="archive-article-date">
-  	<time datetime="2017-08-29T09:50:22.302Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/面向对象程序设计六大原则/">面向对象程序设计原则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/5/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/7/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +336,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

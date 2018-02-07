@@ -157,6 +157,140 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Springboot中定时任务的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/27/Springboot中定时任务的实现/">Springboot中定时任务的实现</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/27/Springboot中定时任务的实现/" class="archive-article-date">
+  	<time datetime="2018-01-27T07:38:36.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、定时任务在J2EE项目中经常会被用到，如自动取消订单、在指定的时间清空缓存等需求就需要定时任务来实现。定时任务的完成是靠轮询来实现的，所以存在一定的延时误差是合理的。springboot在实现定时任务的过程中相关的依赖已经在父依赖中被导入了，所以不需要导入额外的依赖。<br>   2、SpringBoot中定时任务的实现分两步：（1、）定时任务的的实现;<br>   (2、)创建调度表达式;<br>   3、具体实现.<br>   (1、)定时任务的的实现，其实就是你要通过定时器完成的业务逻辑:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p> (2、)配置调度表达式:<br> <a href="http://blog.720ui.com/2013/quartz_cron/#cronExpression%E9%85%8D%E7%BD%AE%E6%A1%88%E4%BE%8B" target="_blank" rel="external">调度表达式的声明参考文章1.</a><br>  <a href="http://blog.csdn.net/caiwenfeng_for_23/article/details/17004213" target="_blank" rel="external">调度表达式的声明参考文章2.</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>通过@Scheduled注解添加调度表达式.<br>4、需要注意的地方<br>在使用SpringBoot任务调度的时候，需要在启动类上添加注解@EnableScheduling。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.example;</div><div class="line">import org.springframework.boot.SpringApplication;</div><div class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line">import org.springframework.scheduling.annotation.EnableScheduling;</div><div class="line">@SpringBootApplication</div><div class="line">@EnableScheduling</div><div class="line">public class DemoApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(DemoApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/27/Springboot中定时任务的实现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Jrebel热部署插件的安装、破解和使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">Jrebel热部署插件的安装、破解和使用</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/" class="archive-article-date">
+  	<time datetime="2018-01-23T14:23:58.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、什么是jrebel？<br>Jrebel是一款热部署插件，用于提高开发效率。一般我们在开发j2ee项目的时候，每次代码跟新就得重启服务，这样效率很低，尤其是对于大项目的，启动很慢，白白浪费了很多时间。使用jrebel插件后可以在java【配置文件更新后还是得重启服务】代码更新后自动编译更新而不用重启项目。但是jrebel的破解码很难搞，下面介绍jrebel的安装、破解和使用.。</p>
+<hr>
+<p>2、jrebel的安装、破解和使用.<br>(1、)安装<br>可以直接去eclipse的应用商店中下载，如图:<br><img src="http://img.blog.csdn.net/20180123211934330?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(2、)破解<br>jrebel理论上是收费的，但是我们可以破解，不是通过破解码和破解工具破解，因为这些方大都是无效的，老旧的。幸好，jrebel爱好者【可能是jrebe官方】搭建了一个网站，专门用于破解激活jrebel.<br>破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a><br>登录这个网站，使用facebook 或者推特登录（需要翻墙），然后输入邮箱，会要求验证（登录邮箱验证，点击验证链接），在输入手机号，不需要验证手机号。之后会进入破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a>,登录后按照如下步骤操作即可获取激活码：<br>A、<img src="http://img.blog.csdn.net/20180123213841967?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>B、<img src="http://img.blog.csdn.net/20180123213954522?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>C、<img src="http://img.blog.csdn.net/20180123214111441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(3、)使用<br>3.1、将jrebel插件作用于选中的项目;</p>
+<p><img src="http://img.blog.csdn.net/20180123220751006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>3.2、更新代码，jrebel自动重新编译，无需重新启动。<br><img src="http://img.blog.csdn.net/20180123222138572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot+mybatis多数据源最简解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -681,153 +815,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/14/nginx解决跨域问题详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Nginx实现文件下载的限速功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/Nginx实现文件下载的限速功能/">Nginx实现文件下载限速的功能</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/14/Nginx实现文件下载的限速功能/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:46:34.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>同一时刻对服务器上文件的大量的高速访问，可能会极大的增加服务器的负担，为了缓解服务器的I/O负担，如果配置了nginx服务器，建议进行限速，具体实现如下:</p>
-<hr>
-<p>首先在 http 段配置一个 limit_zone，然后在需要的地方使用 limit_conn 和 limit_rate 进行限速设置,如下一个简单的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line">  limit_zone one $binary_remote_addr 10m;</div><div class="line">  server &#123;</div><div class="line">    location /files/ &#123;</div><div class="line">      limit_conn one 1;</div><div class="line">      limit_rate_after 1000k;</div><div class="line">      limit_rate 100k;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>limit_zone，是针对每个IP定义一个存储session状态的容器。这个示例中定义了一个名叫one的10m大小的容器，这个名字会在后面的limit_conn中使用。<br>limit_conn one 1，限制在one中记录状态的每个IP只能发起一个并发连接。<br>limit_rate_after 1000k，在下载1000k后开始限速。<br>limit_rate 100k，对每个连接限速100k. 注意，这里是对连接限速，而不是对IP限速。如果一个IP允许三个并发连接，那么这个IP就是限速为limit_rate×3，在设置的时候要根据自己的需要做设置调整，要不然会达不到自己希望的目的。</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/14/Nginx实现文件下载的限速功能/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-幂等性[或者http幂等性]的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
-  	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p></p><h2 id="怎么理解幂等性"><a href="#怎么理解幂等性" class="headerlink" title="怎么理解幂等性"><br></a>怎么理解幂等性</h2><br><strong>理解要点</strong><p></p>
-<p>幂等性是系统的接口对外一种承诺(而不是实现), 承诺只要调用接口成功, </p>
-<blockquote>
-<p>外部多次调用对系统的影响是一致的</p>
-</blockquote>
-<p>. 声明为幂等的接口会认为外部调用失败是常态, 并且</p>
-<blockquote>
-<p>失败之后必然会有重试.</p>
-</blockquote>
-<hr>
-<p>声明为幂等性的API，多次调用后对调用资源产生影响或作用结果和一次调用产生的结果是相同的，幂等性API强调安全，不会因为多次的重复调用对系统资源产生错误的操作，正在金融业务中尤为重要。</p>
-<hr>
-<p>HTTP幂等方法，是指无论调用多少次都不会有不同结果的 HTTP 方法。不管你调用一次，还是调用一百次，一千次，结果都是相同的。</p><br><p>还是以之前的博文的例子为例。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 获取ticket列表</span></li><li class="L1"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 查看某个具体的ticket</span></li><li class="L2"><span class="pln">POST    </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 新建一个ticket</span></li><li class="L3"><span class="pln">PUT     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li><li class="L4"><span class="pln">PATCH   </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li><li class="L5"><span class="pln">DELETE  </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 删除ticekt 12</span></li></ol></pre><br><br><h3 id="HTTP-GET方法"><a href="#HTTP-GET方法" class="headerlink" title="HTTP GET方法"></a>HTTP GET方法</h3><p>HTTP GET方法，用于获取资源，不管调用多少次接口，结果都不会改变，所以是幂等的。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 获取ticket列表</span></li><li class="L1"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 查看某个具体的ticket</span></li></ol></pre><br><br><p>只是查询数据，不会影响到资源的变化，因此我们认为它幂等。</p><br><p>值得注意，幂等性指的是作用于结果而非资源本身。怎么理解呢？例如，这个HTTP GET方法可能会每次得到不同的返回内容，但并不影响资源。</p><br><p>可能你会问有这种情况么？当然有咯。例如，我们有一个接口获取当前时间，我们就应该设计成</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">GET     </span><span class="pun">/</span><span class="pln">service_time </span><span class="com"># 获取服务器当前时间</span></li></ol></pre><br><br><p>它本身不会对资源本身产生影响，因此满足幂等性。</p><br><h3 id="HTTP-POST方法"><a href="#HTTP-POST方法" class="headerlink" title="HTTP POST方法"></a>HTTP POST方法</h3><p>HTTP POST方法是一个非幂等方法，因为调用多次，都将产生新的资源。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">POST    </span><span class="pun">/</span><span class="pln">tickets       </span><span class="com"># 新建一个ticket</span></li></ol></pre><br><br><p>因为它会对资源本身产生影响，每次调用都会有新的资源产生，因此不满足幂等性。</p><br><h3 id="HTTP-PUT方法"><a href="#HTTP-PUT方法" class="headerlink" title="HTTP PUT方法"></a>HTTP PUT方法</h3><p>HTTP PUT方法是不是幂等的呢？我们来看下</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">PUT     </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li></ol></pre><br><br><p>因为它直接把实体部分的数据替换到服务器的资源，我们多次调用它，只会产生一次影响，但是有相同结果的 HTTP 方法，所以满足幂等性。</p><br><h3 id="HTTP-PATCH方法"><a href="#HTTP-PATCH方法" class="headerlink" title="HTTP PATCH方法"></a>HTTP PATCH方法</h3><p>HTTP PATCH方法是非幂等的。HTTP POST方法和HTTP PUT方法可能比较好理解，但是HTTP PATCH方法只是更新部分资源，怎么是非幂等的呢?</p><br><p>因为，PATCH提供的实体则需要根据程序或其它协议的定义，解析后在服务器上执行，以此来修改服务器上的资源。换句话说，PATCH请求是会执行某个程序的，如果重复提交，程序可能执行多次，对服务器上的资源就可能造成额外的影响，这就可以解释它为什么是非幂等的了。</p><br><p>可能你还不能理解这点。我们举个例子</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">PATCH   </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 更新ticket 12</span></li></ol></pre><br><br><p>此时，我们服务端对方法的处理是，当调用一次方法，更新部分字段，将这条ticket记录的操作记录加一，这次，每次调用的资源是不是变了呢，所以它是有可能是非幂等的操作。</p><br><h3 id="HTTP-DELETE方法"><a href="#HTTP-DELETE方法" class="headerlink" title="HTTP DELETE方法"></a>HTTP DELETE方法</h3><p>HTTP DELETE方法用于删除资源，会将资源删除。</p><br><pre class="prettyprint linenums prettyprinted" style="overflow: auto;"><ol class="linenums"><li class="L0"><span class="pln">DELETE  </span><span class="pun">/</span><span class="pln">tickets</span><span class="pun">/</span><span class="lit">12</span><span class="pln">    </span><span class="com"># 删除ticekt 12</span></li></ol></pre><br><br><p>调用一次和多次对资源产生影响是相同的，所以也满足幂等性。</p><br><h2 id="如何设计符合幂等性的高质量RESTful-API"><a href="#如何设计符合幂等性的高质量RESTful-API" class="headerlink" title="如何设计符合幂等性的高质量RESTful API"></a>如何设计符合幂等性的高质量RESTful API</h2><h3 id="HTTP-GET方法-vs-HTTP-POST方法"><a href="#HTTP-GET方法-vs-HTTP-POST方法" class="headerlink" title="HTTP GET方法 vs HTTP POST方法"></a>HTTP GET方法 vs HTTP POST方法</h3><p>也许，你会想起一个面试题。HTTP请求的GET与POST方式有什么区别？你可能会回答到：GET方式通过URL提交数据，数据在URL中可以看到；POST方式，数据放置在HTML HEADER内提交。但是，我们现在从RESTful的资源角度来看待问题，HTTP GET方法是幂等的，所以它适合作为查询操作，HTTP POST方法是非幂等的，所以用来表示新增操作。</p><br><p>但是，也有例外，我们有的时候可能需要把查询方法改造成HTTP POST方法。比如，超长（1k）的GET URL使用POST方法来替代，因为GET受到URL长度的限制。虽然，它不符合幂等性，但是它是一种折中的方案。</p><br><h3 id="HTTP-POST方法-vs-HTTP-PUT方法"><a href="#HTTP-POST方法-vs-HTTP-PUT方法" class="headerlink" title="HTTP POST方法 vs HTTP PUT方法"></a>HTTP POST方法 vs HTTP PUT方法</h3><p>对于HTTP POST方法和TTP PUT方法，我们一般的理解是POST表示创建资源，PUT表示更新资源。当然，这个是正确的理解。</p><br><p>但是，实际上，两个方法都用于创建资源，更为本质的差别是在幂等性。HTTP POST方法是非幂等，所以用来表示创建资源，HTTP PUT方法是幂等的，因此表示更新资源更加贴切。</p><br><h3 id="HTTP-PUT方法-vs-HTTP-PATCH方法"><a href="#HTTP-PUT方法-vs-HTTP-PATCH方法" class="headerlink" title="HTTP PUT方法 vs HTTP PATCH方法"></a>HTTP PUT方法 vs HTTP PATCH方法</h3><p>此时，你看会有另外一个问题。HTTP PUT方法和HTTP PATCH方法，都是用来表述更新资源，它们之间有什么区别呢？我们一般的理解是PUT表示更新全部资源，PATCH表示更新部分资源。首先，这个是我们遵守的第一准则。根据上面的描述，PATCH方法是非幂等的，因此我们在设计我们服务端的RESTful API的时候，也需要考虑。如果，我们想要明确的告诉调用者我们的资源是幂等的，我的设计更倾向于使用 HTTP PUT 方法。</p>
-
-<pre><code>    (完)
-=
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/10/幂等性[或者http幂等性]的理解/">展开全文 >></a>
         </p>
       
 
