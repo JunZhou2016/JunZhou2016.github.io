@@ -157,6 +157,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringBoot中的拦截器的使用和配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/27/SpringBoot中的拦截器的使用和配置/">SpringBoot中的拦截器的使用和配置</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/27/SpringBoot中的拦截器的使用和配置/" class="archive-article-date">
+  	<time datetime="2018-01-27T13:29:08.182Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SpringBoot中的拦截器是常用的技能，接下来将参照一个小小的demo讲解SpringBoot中拦截器的配置和使用.<br>1、SpringBoot中拦截器的使用场景.<br>日志、登陆验证、权限等都会用到拦截器.<br>2、demo源码.<br>在SpringBoot中使用拦截器非常的简单，相关的依赖SpringBoot已经自动为我们导入了，因此不必进行额外的导入，相关的参考代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.webconfig;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">import org.springframework.web.servlet.HandlerInterceptor;</div><div class="line">import org.springframework.web.servlet.ModelAndView;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 添加了一个拦截器，用于登陆验证和数据加密;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月19日@下午2:24:42</div><div class="line"> */</div><div class="line">public class SessionInterceptor implements HandlerInterceptor &#123;</div><div class="line">	@Override</div><div class="line">	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception &#123;</div><div class="line">		// 登录不做拦截</div><div class="line">		if (request.getRequestURI().equals(&quot;/mongo/attencedetail/selectAll&quot;)</div><div class="line">				|| request.getRequestURI().equals(&quot;/user/login_view&quot;)) &#123;</div><div class="line">			System.out.println(&quot;You get a http request&quot;);</div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line">  </div><div class="line">   /**</div><div class="line">     * 该方法将在Controller执行之后，返回视图之前执行，modelAndView表示请求Controller处理之后返回的Model和View对象，所以可以在</div><div class="line">     * 这个方法中修改modelAndView的属性，从而达到改变返回的模型和视图的效果。</div><div class="line">     */</div><div class="line">	@Override</div><div class="line">	public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o,</div><div class="line">			ModelAndView modelAndView) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">   </div><div class="line">	@Override</div><div class="line">	public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,</div><div class="line">			Object o, Exception e) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getRemortIP(HttpServletRequest request) &#123;</div><div class="line">		if (request.getHeader(&quot;x-forwarded-for&quot;) == null) &#123;</div><div class="line">			return request.getRemoteAddr();</div><div class="line">		&#125;</div><div class="line">		return request.getHeader(&quot;x-forwarded-for&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3、参考文章</p>
+<p><a href="https://www.jianshu.com/p/f69b21731b41" target="_blank" rel="external">如何在SpringBoot项目中使用拦截器[<strong>登陆拦截器</strong>]</a></p>
+<p><a href="https://juejin.im/post/5a5c6cad51882573514f6b38" target="_blank" rel="external">SpringMVC拦截器</a></p>
+<p><a href="http://blog.csdn.net/u012706811/article/details/51100756" target="_blank" rel="external">SpringMVC学习记录–拦截器的使用</a></p>
+<p><a href="http://blog.longjiazuo.com/archives/1434" target="_blank" rel="external">SpringMvc4.x基本配置:拦截器配置</a></p>
+<p><a href="http://blog.longjiazuo.com/archives/1592" target="_blank" rel="external">Spring Boot核心:日志配置</a></p>
+<p><a href="http://www.ityouknow.com/springboot/2017/06/26/springboot-shiro.html" target="_blank" rel="external">springboot整合shiro-登录认证和权限管理</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/27/SpringBoot中的拦截器的使用和配置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Springboot中定时任务的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -752,69 +823,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx解决跨域问题详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
-  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天看了一篇nginx跨域原理的文章，还没有验证过，先记下，文章的链接是：<br><a href="http://www.liuyiqi.cn/2015/12/17/nginx-cross-domain/，另外，今天感冒好了，感觉自己萌萌哒。" target="_blank" rel="external">http://www.liuyiqi.cn/2015/12/17/nginx-cross-domain/，另外，今天感冒好了，感觉自己萌萌哒。</a><br><img src="http://img.blog.csdn.net/20180114221627751?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/14/nginx解决跨域问题详解/">展开全文 >></a>
         </p>
       
 
