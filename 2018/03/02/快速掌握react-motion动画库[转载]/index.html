@@ -6,14 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>react-motion动画库 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="快速掌握react-motion动画库                                    react-motion是一个强大的react动画库。官网：react-motion基于react-motion，写了三个简单的动画来讲解使用方法。方块移动跟随鼠标折叠在开始讲解实例之前，我们先来了解一个重要的函数：spring()语法：spring(val">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-motion动画库">
+<meta property="og:url" content="http://yoursite.com/2018/03/02/快速掌握react-motion动画库[转载]/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="快速掌握react-motion动画库                                    react-motion是一个强大的react动画库。官网：react-motion基于react-motion，写了三个简单的动画来讲解使用方法。方块移动跟随鼠标折叠在开始讲解实例之前，我们先来了解一个重要的函数：spring()语法：spring(val">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif">
+<meta property="og:updated_time" content="2018-03-02T14:27:57.118Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="react-motion动画库">
+<meta name="twitter:description" content="快速掌握react-motion动画库                                    react-motion是一个强大的react动画库。官网：react-motion基于react-motion，写了三个简单的动画来讲解使用方法。方块移动跟随鼠标折叠在开始讲解实例之前，我们先来了解一个重要的函数：spring()语法：spring(val">
+<meta name="twitter:image" content="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +164,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-快速掌握react-motion动画库[转载]" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react-motion动画库
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/快速掌握react-motion动画库[转载]/" class="archive-article-date">
+  	<time datetime="2018-03-02T14:24:05.618Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="preview"><br>                <h1 class="title">快速掌握react-motion动画库</h1><br><br><br><br>                <div class="show-content"><br>                    <div><b>react-motion</b>是一个强大的react动画库。</div><div><br></div><div>官网：<a href="https://github.com/chenglou/react-motion" target="_blank" rel="external">react-motion</a><br></div><div><br></div><div>基于<b>react-motion</b>，写了三个简单的动画来讲解使用方法。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><ol><li><b>方块移动</b></li><li><b>跟随鼠标</b></li><li><b>折叠</b></li></ol></div><div><br></div><div>在开始讲解实例之前，我们先来了解一个重要的函数：<span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">spring()</span><br></div><div><br></div><div>语法：<br></div><div><pre><code class="hljs http"><p><span class="hljs-attribute">spring(val</span>: number, config?: SpringHelperConfig)<br></p></code></pre></div><div><ul><li><code class="inline-code">val</code>：number, 终点值</li><li><code class="inline-code">config</code>: 用于生成动画缓动效果的配置</li></ul>    - <code class="inline-code">stiffness</code>：默认值170<br>    - <code class="inline-code">damping</code>：默认值26<br>    - <code class="inline-code">precision</code>： 默认值0.01，用于配置val的精确度，一般不需改动<br></div><div><br></div><div>仅从文字很慢描述，一起来感受一下效果：<br></div><div><a href="http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser" target="_blank">http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser</a></div><div><br>对比下面两个弹簧：<br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg" alt=""><br></div><div><br></div><div> 我们可以将设置动画物体想象成弹簧，而<code class="inline-code">stiffness</code>就相当于弹簧的强度，也可理解为弹簧被拉伸的长度（有效范围）；<code class="inline-code">damping</code>就相当于弹簧的硬度。</div><div><ul><li>相同硬度下，你拉的越长，它的回弹速度就越快；</li><li>相同强度下，硬度越大，回弹（缓冲）的次数就越少。</li></ul></div><div><br></div><div>Github：<a href="https://github.com/IronPans/react-motion-demo" target="_blank" rel="external">react-motion-demo</a></div><div><br></div><div><b>1. 方块移动</b><br></div><div><br></div><div>方块移动实例使用了Motion组件。<br></div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;Motion&gt;</span>适合编写单个组件的形变动画。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">style</code>：Object，动画样式</li><li><code class="inline-code">defaultStyle</code>：Object，初始样式</li><li><code class="inline-code">children</code>：子元素</li><li><code class="inline-code">onRest</code>：动画结束时触发回调</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif" alt=""><br></div><div><br></div><div><br></div><div><b>2. 跟随鼠标</b><br></div><div><br></div><div>跟随鼠标实例使用了StaggeredMotion组件。</div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;StaggeredMotion&gt;</span>用于编写一串有相互关联关系的实体的动画。<br></div><div><br></div><div>属性：</div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif" alt=""><br></div><div><br></div><div><b>3. 折叠</b></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">折叠实例使用了TransitionMOtion组件。</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;TransitionMotion&gt;</span><span style="font-size: 1.8rem;">则是用来编写组件mount和unmount的动画</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif" alt=""><br></div><div><br></div><div><br></div>                </div>
+</div>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/" class="archive-article-date">
-  	<time datetime="2017-12-03T13:03:16.778Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">明天就要学转前端了，收集了一些资料放这里了</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/02/快速掌握react-motion动画库[转载]/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/07/AOP中的概念通知、切点、切面/" class="archive-article-date">
-  	<time datetime="2017-11-07T08:06:01.157Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/03/02/CSS中margin边界叠加问题及解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          CSS中margin边界叠加问题及解决方案
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mysql中使用递归实现父级部门所有子级信息的查询</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/07/AOP中的概念通知、切点、切面/">AOP中的概念通知、切点、切面</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/" class="archive-article-date">
-  	<time datetime="2017-11-06T03:32:05.504Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">mybatis中#{}【占位符】和${}【字符串】拼接的区别</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/" class="archive-article-date">
-  	<time datetime="2017-09-13T15:22:07.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">建立一颗二叉排序树，并输出它的前序、中序、后序以及层次遍历结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/Mysql优化之索引类型/" class="archive-article-date">
-  	<time datetime="2017-09-12T12:24:09.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/Mysql优化之索引类型/">Mysql优化之索引</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/Servlet的生命周期/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:45:37.709Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/Servlet的生命周期/">Servlet的生命周期</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/B-S和C-S的含义及其区别/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:08:56.503Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/B-S和C-S的含义及其区别/">B/S和C/S的含义及其区别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/Java的三种代理模式/" class="archive-article-date">
-  	<time datetime="2017-09-09T14:46:39.682Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/Java的三种代理模式/">Java的三种代理模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/设计模式之---适配器模式/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:52:51.163Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/设计模式之---适配器模式/">适配器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/JAVA学习中收藏的大神的博客/" class="archive-article-date">
-  	<time datetime="2017-09-07T12:48:52.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/JAVA学习中收藏的大神的博客/">JAVA学习中收藏的大神的博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
