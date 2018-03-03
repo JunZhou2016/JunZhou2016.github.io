@@ -157,6 +157,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CSS中margin边界叠加问题及解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/CSS中margin边界叠加问题及解决方案/">CSS中margin边界叠加问题及解决方案</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/03/CSS中margin边界叠加问题及解决方案/" class="archive-article-date">
+  	<time datetime="2018-03-03T02:05:01.489Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="preview"><br>                <div class="show-content"><br>                    <div><b style="font-size: 1.4rem;">边界重叠</b><span style="font-size: 1.4rem;">是指两个或多个盒子(可能相邻也可能嵌套)的相邻边界(其间没有任何非空内容、补白、边框)重合在一起而形成一个单一边界。</span><br></div><div><pre><code class="hljs javascript"><p>本文转载自：<a href="http://www.hujuntao.com/web/css/css-margin-overlap.html" target="_blank" style="background-color: transparent; font-size: 1.3em; white-space: pre-wrap;">http:<span class="hljs-comment">//www.hujuntao.com/web/css/css-margin-overlap.html</span></a></p></code></pre></div><div><br></div><div>两个或多个块级盒子的垂直相邻边界会重合。结果的边界宽度是相邻边界宽度中最大的值。如果出现负边界，则在最大的正边界中减去绝对值最大的负边界。如果没有正边界，则从零中减去绝对值最大的负边界。</div><div><br></div><div>注意：相邻的盒子可能并非是由父子关系或兄弟关系的元素生成。</div><div><br>但是边界的重叠也有例外情况：<br></div><div>1、水平边距永远不会重合。</div><div>2、在规范文档中，2个或以上的块级盒模型相邻的垂直margin会重叠。最终的margin值计算方法如下：</div><div><span style="font-size: 1.8rem;">    a、全部都为正值，取最大者；</span></div><div><span style="font-size: 1.8rem;">    b、不全是正值，则都取绝对值，然后用正值减去最大值；</span></div><div><span style="font-size: 1.8rem;">    c、没有正值，则都取绝对值，然后用0减去最大值。</span></div><div><span style="font-size: 1.8rem;">    注意：相邻的盒模型可能由DOM元素动态产生并没有相邻或继承关系。</span></div><div>3、相邻的盒模型中，如果其中的一个是浮动的（float），垂直margin不会重叠，并且浮动的盒模型和它的子元素之间也是这样。</div><div>4、设置了overflow属性的元素和它的子元素之间的margin不被重叠（overflow取值为visible除外）。</div><div>5、设置了绝对定位（position:absolute）的盒模型，垂直margin不会被重叠，并且和他们的子元素之间也是一样</div><div>6、设置了display:inline-block的元素，垂直margin不会重叠，甚至和他们的子元素之间也是一样。</div><div>7、如果一个盒模型的上下margin相邻，这时它的margin可能重叠覆盖（collapse through）它。在这种情况下，元素的位置（position）取决于它的相邻元素的margin是否重叠。</div><div>    a、如果元素的margin和它的父元素的margin-top重叠在一起，盒模型border-top的边界定义和它的父元素相同</div><div><span style="font-size: 1.8rem;">    b、另外，任意元素的父元素不参与margin的重叠，或者说只有父元素的margin-bottom是参与计算的。如果元素的border-top非零，那么元素的border-top边界位置和原来一样。</span></div><div><span style="font-size: 1.8rem;">    一个应用了清除操作的元素的margin-top绝不会和它的块级父元素的margin-bottom重叠。</span></div><div><span style="font-size: 1.8rem;">    注意，那些已经被重叠覆盖的元素的位置对其他已经重叠的元素的位置没有任何影响；只有在对这些元素的子元素定位时，border-top边界位置才是必需的。</span></div><div><span style="font-size: 1.8rem;">8、根元素的垂直margin不会被重叠。</span></div><div><br></div><div><b>外边距(margin)重叠示例</b><br></div><div><br></div><div><b>外边距重叠</b>是指两个垂直相邻的块级元素，当上下两个边距相遇时，外边距会产生重叠现象，且重叠后的外边距，等于其中较大者。<br></div><div><br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/css_margin_1.gif" alt=""><br></div><div><br></div><div><font color="#333333" face="PingFang TC, Helvetica Neue, Helvetica, STHeitiTC-Light, Arial, sans-serif"><span style="font-size: 16px; white-space: normal;">另一个重叠现象是：当一个元素包含在另一个元素之中时，子元素与父元素之间也会产生重叠现象，重叠后的外边距，等于其中最大者：</span></font><br></div><div><font color="#333333" face="PingFang TC, Helvetica Neue, Helvetica, STHeitiTC-Light, Arial, sans-serif"><span style="font-size: 16px; white-space: normal;"><br></span></font></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/css_margin_2.gif" alt=""><br></div><div><br></div><div>同理，如果一个无内容的空元素，其自身上下边距也会产生重叠。<br></div><div><br></div><div><b>外边距重叠的意义</b><br></div><div><br></div><div>外边距的重叠只产生在普通流文档的上下外边距之间，这个看起来有点奇怪的规则，其实有其现实意义。设想，当我们上下排列一系列规则的块级元素（如段落P）时，那么块元素之间因为外边距重叠的存在，段落之间就不会产生双倍的距离。<br></div><div><br></div><div><b>防止外边距重叠解决方案</b><br></div><div><br></div><div>问题代码：</div><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;”</span>&gt;</span>&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><br></div><div><span style="font-size: 1.8rem;">外层元素 </span><code class="inline-code">overflow:hidden</code><span style="font-size: 1.8rem;">;</span><br><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;overflow:hidden;”</span>&gt;</span>&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><br></div><span style="font-size: 1.8rem;">外层元素使用</span><code class="inline-code">padding</code><span style="font-size: 1.8rem;">;</span></div><div><pre><code class="hljs javascript"><p>&lt;div style=<span class="hljs-string">“background: red;padding-top: 1px”</span>&gt;</p><p>&nbsp; &nbsp; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></p><p><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></p></code></pre></div><div><br class="Apple-interchange-newline">内层元素透明边框 <code class="inline-code">border:1px solid transparent</code>;<br><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;border-top:1px solid transparent;”</span>&gt;</span>&nbsp;&nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></p></code></pre></div></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">添加一个</span><code class="inline-code">inline</code><span style="font-size: 1.8rem;">元素：</span></div><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;”</span>&gt;</span>&amp;nbsp;&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><div><span style="font-size: 1.8rem;"><br class="Apple-interchange-newline">内层元素绝对定位 </span><code class="inline-code">postion:absolute</code><span style="font-size: 1.8rem;">;</span><br><span style="font-size: 1.8rem;">内层元素 加</span><code class="inline-code">float:left</code><span style="font-size: 1.8rem;">或</span><code class="inline-code">display:inline-block</code><span style="font-size: 1.8rem;">;</span><br><span style="font-size: 1.8rem;">内层元素</span><code class="inline-code">padding:1px</code><span style="font-size: 1.8rem;">;</span><br></div><div><br></div></div><p><br></p>                </div>
+</div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/03/CSS中margin边界叠加问题及解决方案/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-快速掌握react-motion动画库[转载]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -177,7 +240,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <div class="preview"><br>                <h1 class="title">快速掌握react-motion动画库</h1><br><br><br><br>                <div class="show-content"><br>                    <div><b>react-motion</b>是一个强大的react动画库。</div><div><br></div><div>官网：<a href="https://github.com/chenglou/react-motion" target="_blank" rel="external">react-motion</a><br></div><div><br></div><div>基于<b>react-motion</b>，写了三个简单的动画来讲解使用方法。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><ol><li><b>方块移动</b></li><li><b>跟随鼠标</b></li><li><b>折叠</b></li></ol></div><div><br></div><div>在开始讲解实例之前，我们先来了解一个重要的函数：<span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">spring()</span><br></div><div><br></div><div>语法：<br></div><div><pre><code class="hljs http"><p><span class="hljs-attribute">spring(val</span>: number, config?: SpringHelperConfig)<br></p></code></pre></div><div><ul><li><code class="inline-code">val</code>：number, 终点值</li><li><code class="inline-code">config</code>: 用于生成动画缓动效果的配置</li></ul>    - <code class="inline-code">stiffness</code>：默认值170<br>    - <code class="inline-code">damping</code>：默认值26<br>    - <code class="inline-code">precision</code>： 默认值0.01，用于配置val的精确度，一般不需改动<br></div><div><br></div><div>仅从文字很慢描述，一起来感受一下效果：<br></div><div><a href="http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser" target="_blank">http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser</a></div><div><br>对比下面两个弹簧：<br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg" alt=""><br></div><div><br></div><div> 我们可以将设置动画物体想象成弹簧，而<code class="inline-code">stiffness</code>就相当于弹簧的强度，也可理解为弹簧被拉伸的长度（有效范围）；<code class="inline-code">damping</code>就相当于弹簧的硬度。</div><div><ul><li>相同硬度下，你拉的越长，它的回弹速度就越快；</li><li>相同强度下，硬度越大，回弹（缓冲）的次数就越少。</li></ul></div><div><br></div><div>Github：<a href="https://github.com/IronPans/react-motion-demo" target="_blank" rel="external">react-motion-demo</a></div><div><br></div><div><b>1. 方块移动</b><br></div><div><br></div><div>方块移动实例使用了Motion组件。<br></div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;Motion&gt;</span>适合编写单个组件的形变动画。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">style</code>：Object，动画样式</li><li><code class="inline-code">defaultStyle</code>：Object，初始样式</li><li><code class="inline-code">children</code>：子元素</li><li><code class="inline-code">onRest</code>：动画结束时触发回调</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif" alt=""><br></div><div><br></div><div><br></div><div><b>2. 跟随鼠标</b><br></div><div><br></div><div>跟随鼠标实例使用了StaggeredMotion组件。</div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;StaggeredMotion&gt;</span>用于编写一串有相互关联关系的实体的动画。<br></div><div><br></div><div>属性：</div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif" alt=""><br></div><div><br></div><div><b>3. 折叠</b></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">折叠实例使用了TransitionMOtion组件。</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;TransitionMotion&gt;</span><span style="font-size: 1.8rem;">则是用来编写组件mount和unmount的动画</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif" alt=""><br></div><div><br></div><div><br></div>                </div>
+        <div class="preview"><br>                <div class="show-content"><br>                    <div><b>react-motion</b>是一个强大的react动画库。</div><div><br></div><div>官网：<a href="https://github.com/chenglou/react-motion" target="_blank" rel="external">react-motion</a><br></div><div><br></div><div>基于<b>react-motion</b>，写了三个简单的动画来讲解使用方法。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><ol><li><b>方块移动</b></li><li><b>跟随鼠标</b></li><li><b>折叠</b></li></ol></div><div><br></div><div>在开始讲解实例之前，我们先来了解一个重要的函数：<span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">spring()</span><br></div><div><br></div><div>语法：<br></div><div><pre><code class="hljs http"><p><span class="hljs-attribute">spring(val</span>: number, config?: SpringHelperConfig)<br></p></code></pre></div><div><ul><li><code class="inline-code">val</code>：number, 终点值</li><li><code class="inline-code">config</code>: 用于生成动画缓动效果的配置</li></ul>    - <code class="inline-code">stiffness</code>：默认值170<br>    - <code class="inline-code">damping</code>：默认值26<br>    - <code class="inline-code">precision</code>： 默认值0.01，用于配置val的精确度，一般不需改动<br></div><div><br></div><div>仅从文字很慢描述，一起来感受一下效果：<br></div><div><a href="http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser" target="_blank">http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser</a></div><div><br>对比下面两个弹簧：<br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg" alt=""><br></div><div><br></div><div> 我们可以将设置动画物体想象成弹簧，而<code class="inline-code">stiffness</code>就相当于弹簧的强度，也可理解为弹簧被拉伸的长度（有效范围）；<code class="inline-code">damping</code>就相当于弹簧的硬度。</div><div><ul><li>相同硬度下，你拉的越长，它的回弹速度就越快；</li><li>相同强度下，硬度越大，回弹（缓冲）的次数就越少。</li></ul></div><div><br></div><div>Github：<a href="https://github.com/IronPans/react-motion-demo" target="_blank" rel="external">react-motion-demo</a></div><div><br></div><div><b>1. 方块移动</b><br></div><div><br></div><div>方块移动实例使用了Motion组件。<br></div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;Motion&gt;</span>适合编写单个组件的形变动画。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">style</code>：Object，动画样式</li><li><code class="inline-code">defaultStyle</code>：Object，初始样式</li><li><code class="inline-code">children</code>：子元素</li><li><code class="inline-code">onRest</code>：动画结束时触发回调</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif" alt=""><br></div><div><br></div><div><br></div><div><b>2. 跟随鼠标</b><br></div><div><br></div><div>跟随鼠标实例使用了StaggeredMotion组件。</div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;StaggeredMotion&gt;</span>用于编写一串有相互关联关系的实体的动画。<br></div><div><br></div><div>属性：</div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif" alt=""><br></div><div><br></div><div><b>3. 折叠</b></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">折叠实例使用了TransitionMOtion组件。</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;TransitionMotion&gt;</span><span style="font-size: 1.8rem;">则是用来编写组件mount和unmount的动画</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif" alt=""><br></div><div><br></div><div><br></div>                </div>
 </div>
       
 
@@ -748,71 +811,6 @@ java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/02/05/使用jenkins+github+tomcat实现Springboot半自动化部署/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用七牛上传图片的demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/31/使用七牛上传图片的demo/">使用七牛上传图片的demo</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/31/使用七牛上传图片的demo/" class="archive-article-date">
-  	<time datetime="2018-01-31T14:29:32.112Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>七牛是一个很好的第三方的图片服务器,下面介绍一下使用七牛上传图片的demo.<br>1、直接上代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">UploadDemo.java</div><div class="line"></div><div class="line"></div><div class="line">----------</div><div class="line">package com.qiniu.up;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line">import com.qiniu.common.QiniuException;</div><div class="line">import com.qiniu.common.Zone;</div><div class="line">import com.qiniu.http.Response;</div><div class="line">import com.qiniu.storage.UploadManager;</div><div class="line">import com.qiniu.util.Auth;</div><div class="line"></div><div class="line">public class UploadDemo &#123;</div><div class="line">	// 设置好账号的ACCESS_KEY和SECRET_KEY</div><div class="line">	String ACCESS_KEY = &quot;lEZ6Ht3bp××××××b1Hn-aNpwH&quot;; // 这两个登录七牛</div><div class="line">																	// 账号里面可以找到</div><div class="line">	String SECRET_KEY = &quot;DKJKiwHNy××××××nTTl6D89is_gNSEzohpDYOKk&quot;;</div><div class="line"></div><div class="line">	// 要上传的空间</div><div class="line">	String bucketname = &quot;storage××××××4zj&quot;; // 填写新建的那个存储空间对象的名称</div><div class="line">	// 上传到七牛后保存的文件名</div><div class="line">	String key = &quot;00002.jpg&quot;;</div><div class="line">	// 上传文件的路径</div><div class="line">	String FilePath = &quot;d:\\01.jpg&quot;; // 本地要上传文件路径</div><div class="line"></div><div class="line">	// 密钥配置</div><div class="line">	Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);</div><div class="line"></div><div class="line">	// 创建上传对象</div><div class="line">	UploadManager uploadManager = new UploadManager();</div><div class="line"></div><div class="line">	// 简单上传，使用默认策略，只需要设置上传的空间名就可以了</div><div class="line">	public String getUpToken() &#123;</div><div class="line">		return auth.uploadToken(bucketname);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 普通上传</div><div class="line">	public void upload() throws IOException &#123;</div><div class="line">		try &#123;</div><div class="line">			// 调用put方法上传</div><div class="line">			Response res = uploadManager.put(FilePath, key, getUpToken());</div><div class="line">			// 打印返回的信息</div><div class="line">			System.out.println(res.isOK());</div><div class="line">			System.out.println(res.bodyString());</div><div class="line">		&#125; catch (QiniuException e) &#123;</div><div class="line">			Response r = e.response;</div><div class="line">			// 请求失败时打印的异常的信息</div><div class="line">			System.out.println(r.toString());</div><div class="line">			try &#123;</div><div class="line">				// 响应的文本信息</div><div class="line">				System.out.println(r.bodyString());</div><div class="line">			&#125; catch (QiniuException e1) &#123;</div><div class="line">				// ignore</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void main(String args[]) throws IOException &#123;</div><div class="line">		new UploadDemo().upload();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2、相关的依赖<br><a href="http://download.csdn.net/download/zj20142213/10234305" target="_blank" rel="external">Demo依赖的jar包</a><br>3、引用文章<br><a href="https://developer.qiniu.com/kodo/sdk/1239/java" target="_blank" rel="external">Java SDK</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/31/使用七牛上传图片的demo/">展开全文 >></a>
         </p>
       
 
