@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>React中es5与es6写法对比 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.引入与导出方式不同  //ES5 var&amp;nbsp;React&amp;nbsp;=&amp;nbsp;require(“react”);  //ES6 import&amp;nbsp;React,&amp;nbsp;{&amp;nbsp;Component,&amp;nbsp;PropTypes&amp;nbsp;}&amp;nbsp;from&amp;nbsp;‘react 2.导入： ES5使用require导入，而ES6使用了import  //ES5 m">
+  <meta name="description" content="1.引入与导出方式不同 //ES5 var React = require(“react”);//ES6 import React, { Component,PropTypes } from ‘react    2.导入： ES5使用require导入，而ES6使用了import//ES5module.exports = Test;//ES6export default Test;    3.创">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React中es5与es6写法对比">
 <meta property="og:url" content="http://yoursite.com/2017/12/13/React中es5与es6写法对比/index.html">
 <meta property="og:site_name" content="Blog4Jun">
-<meta property="og:description" content="1.引入与导出方式不同  //ES5 var&amp;nbsp;React&amp;nbsp;=&amp;nbsp;require(“react”);  //ES6 import&amp;nbsp;React,&amp;nbsp;{&amp;nbsp;Component,&amp;nbsp;PropTypes&amp;nbsp;}&amp;nbsp;from&amp;nbsp;‘react 2.导入： ES5使用require导入，而ES6使用了import  //ES5 m">
-<meta property="og:updated_time" content="2017-12-13T09:28:53.537Z">
+<meta property="og:description" content="1.引入与导出方式不同 //ES5 var React = require(“react”);//ES6 import React, { Component,PropTypes } from ‘react    2.导入： ES5使用require导入，而ES6使用了import//ES5module.exports = Test;//ES6export default Test;    3.创">
+<meta property="og:updated_time" content="2018-03-03T10:39:51.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React中es5与es6写法对比">
-<meta name="twitter:description" content="1.引入与导出方式不同  //ES5 var&amp;nbsp;React&amp;nbsp;=&amp;nbsp;require(“react”);  //ES6 import&amp;nbsp;React,&amp;nbsp;{&amp;nbsp;Component,&amp;nbsp;PropTypes&amp;nbsp;}&amp;nbsp;from&amp;nbsp;‘react 2.导入： ES5使用require导入，而ES6使用了import  //ES5 m">
+<meta name="twitter:description" content="1.引入与导出方式不同 //ES5 var React = require(“react”);//ES6 import React, { Component,PropTypes } from ‘react    2.导入： ES5使用require导入，而ES6使用了import//ES5module.exports = Test;//ES6export default Test;    3.创">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -179,76 +179,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p></p><p>1.引入与导出方式不同</p><p></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES5</span></li></p>
-<p><li>var&nbsp;React&nbsp;=&nbsp;require(<span class="string">“react”</span>);</li><br></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES6</span></li></p>
-<p><li><span class="keyword">import</span>&nbsp;React,&nbsp;{&nbsp;Component,&nbsp;PropTypes&nbsp;}&nbsp;from&nbsp;‘react</li><br></p>
-<p></p><p>2.导入： ES5使用require导入，而ES6使用了import</p><p></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES5</span></li></p>
-<p><li>module.exports&nbsp;=&nbsp;Test;</li><br></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES6</span></li></p>
-<p><li>export&nbsp;<span class="keyword">default</span>&nbsp;Test;</li><br></p>
-<p></p><p>3.创建组件的方式不同</p><p></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES5</span></li></p>
-<p><li>var&nbsp;Test&nbsp;=&nbsp;React.createClass(&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;……….</li></p>
-<p><li>}&nbsp;);</li><br></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES6</span></li></p>
-<p><li><span class="keyword">class</span>&nbsp;Test&nbsp;<span class="keyword">extends</span>&nbsp;Component&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;……….</li></p>
-<p><li>}</li><br></p>
-<p></p><p>4.初始化组件属性的方式以及限制组件属性类型的方式不同</p><p></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES5</span></li></p>
-<p><li>var&nbsp;Test&nbsp;=&nbsp;React.createClass({</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getDefaultProps:&nbsp;function()&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;<span class="number">10</span></li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;propTypes:&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;React.PropTypes.number.&nbsp;isRequired</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</li></p>
-<p><li>});</li></p>
-<p><li></li></p>
-<p><li><span class="comment">//ES6</span></li></p>
-<p><li><span class="keyword">class</span>&nbsp;Test&nbsp;<span class="keyword">extends</span>&nbsp;Component&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static</span>&nbsp;defaultProps&nbsp;=&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;<span class="number">10</span></li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
-<p><li></li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static</span>&nbsp;propTypes&nbsp;=&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myPro:&nbsp;React.PropTypes.number.&nbsp;isRequired</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
-<p><li>}</li><br></p>
-<p></p><p>5.初始化方法不同</p><p></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li><span class="comment">//ES5</span></li></p>
-<p><li>getInitialState:&nbsp;function()&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;………..</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myState:&nbsp;<span class="number">10</span></li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</li></p>
-<p><li>}</li><br></p>
-<p><ol class="dp-j" start="1"></ol></p>
-<p><li>//ES6</li></p>
-<p><li>constructor(props){</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(props);</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.state&nbsp;=&nbsp;{</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myState:&nbsp;<span class="number">10</span></li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</li></p>
-<p><li>&nbsp;&nbsp;&nbsp;&nbsp;}</li><br></p>
-<p></p><p>&nbsp;</p><br>            <!-- .entry-content --><p></p>
-<pre><code>&lt;footer class=&quot;entry-footer&quot;&gt;
-        &lt;/footer&gt;&lt;!-- .entry-footer --&gt;
-</code></pre><p></p>
+        <blockquote>
+<p>1.引入与导出方式不同</p>
+<p>//ES5 var React = require(“react”);<br>//ES6 import React, { Component,<br>PropTypes } from ‘react</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>2.导入： ES5使用require导入，而ES6使用了import<br>//ES5<br>module.exports = Test;<br>//ES6<br>export default Test;</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>3.创建组件的方式不同<br> //ES5<br>  var Test = React.createClass( {<br>       ………. } );<br>        //ES6<br>        class Test extends Component {<br>       ………. }</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>4.初始化组件属性的方式以及限制组件属性类型的方式不同<br>//ES5<br>var Test = React.createClass({<br>      getDefaultProps: function() {<br>             return {<br>                   myPro: 10<br>             };<br>      },<br>      propTypes: {<br>             myPro: React.PropTypes.number. isRequired<br>      }<br>});</p>
+<p>ES6<br>class Test extends Component {<br>       static defaultProps = {<br>             myPro: 10<br>       };<br>       static propTypes = {<br>             myPro: React.PropTypes.number. isRequired<br>       };<br>}</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>5.初始化方法不同</p>
+<p>//ES5<br>getInitialState: function() {<br>      ………..<br>      return {<br>           myState: 10<br>      }<br>}<br>//ES6<br>constructor(props){<br>        super(props);<br>        this.state = {<br>            myState: 10<br>        };<br>    }</p>
+</blockquote>
 
       
 
