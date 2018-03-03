@@ -157,80 +157,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-自己对react中flux框架部分底层原理的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">自己对react中flux框架部分底层原理的理解</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/24/自己对react中flux框架部分底层原理的理解/" class="archive-article-date">
-  	<time datetime="2017-12-24T09:14:36.389Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是我在学习react框架时的个人理解，包含个人总结和案例中代码的分析，对于react中部分与内存分配相关的原理还是不是很懂:<br>1.个人总结：</p>
-<blockquote>
-<p>flux架构的理解：<br>    flux架构中数据是单向流动的；<br>    view[components]经过出发产生action，action通过转发器dispatchet转发至store中，在store中action被注册在action中的回调函数接收和解析，通过计算store会更新store中的数据【存放组件状态的对象】，同时发送事件信号，发送的事件信号将被添加了事件监听对象的组件监听，<br>    当组件监听事件成功后会调用组件的this.setState()函数更新组件的状态,从而驱动组件的重新渲染过程.<br>flux中各种model推荐的构建的顺序:<br>    1.Dispatch在整个应用中是全局唯一的，可以通过 new Dispatcher()创建，用于转发action;<br>    2.创建每个组件【每类】组件对应的action,在action中接收来在组件的数据并创建action对象，通过dispatcher转发到store中，之后会调用在store中注册的回调函数，解析action更新storez中的相关数据;<br>    3.创建组件的store，在store中存储组件的初始状态，在store中完成的工作是生成新的数据并发送更新信号；<br>    4.创建对应的组件，在组件类中首先应该获取初始值，并添加监听函数，动作响应函数。<br>    以上flux构建项目的步骤只是本人总结归纳的，具体的步骤以实际开发为准;<br>A.flux中应该注意的问题：action为一个纯函数，多次引用在每个引用model的存储空间中初始化了多分实例，但是其产出只依赖于输入，所以无论整个应用中生成的实例是唯一的还是多个对整个应用功能的实现是不影响的;<br>B.Dispatcher对象在多次的引用过过程中不会生成多个实例，其底层只用的是单例模式实现的，因此在flxu应用中，我们使用的dispatcher对象是全局唯一并且是所有的模块共享的;只有这样我们才能保证在Action中调用了Dispatcher.dispatch(action);之后会去调用在store中注册的回调函数计算出新的数据[一般认为这个回调函数的调用时自动完成的]。<br>C：每个组件对应的store在全局范围内是唯一的，这样可以办证在不同的地方进行引用时可以获得同步的数据,这是通过浅复制的原理实现的;</p>
-</blockquote>
-<hr>
-<p>2.案例代码分心<br><strong>action：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">//action描述了组件发出的请求，包含了请求的类型和请求传递的数据;</div><div class="line">//action是一个纯函数，其产出只依赖与输入；</div><div class="line">//在实际的操作中，counterCasption相当于组件的ID,当组件产生动作的同时如果携带了数据，那么还可以添加对应的数据项；</div><div class="line">import * as ActionTypes from &apos;./ActionTypes.js&apos;;</div><div class="line">import AppDispatcher from &apos;../dispatchers/Appdispatcher.js&apos;;</div><div class="line">//定义action构造器;</div><div class="line">export const increment = (counterCaption)=&gt;&#123;</div><div class="line">  AppDispatcher.dispatch(</div><div class="line">    &#123;</div><div class="line">      type:ActionTypes.INCREMENT,</div><div class="line">      counterCaption:counterCaption</div><div class="line">    &#125;</div><div class="line">  );</div><div class="line">&#125;;</div><div class="line"></div><div class="line">export const decrement = (counterCaption)=&gt;&#123;</div><div class="line">  AppDispatcher.dispatch(</div><div class="line">    &#123;</div><div class="line">      type:ActionTypes.DECREMENT,</div><div class="line">      counterCaption:counterCaption</div><div class="line">    &#125;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>store</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">//CounterStore相当于一类组件的数据中心，它是单例的共享的；</div><div class="line">//Store中包含了组件是无状态model,其中包含了组件的初始状态值,以普通对象的形式存在;</div><div class="line">//一般在store中应该提供一个get方法，用于组件获取初始状态的值;</div><div class="line">//store中应该为Dispatcher注册状态计算函数，用于更新计算出新的数据，当组件同步这些数据后，组件的状态会更新，渲染被驱动进行;</div><div class="line">import AppDispatcher from &apos;../dispatchers/Appdispatcher.js&apos;;</div><div class="line">import * as ActionTypes from &apos;../actions/ActionTypes&apos;;</div><div class="line">import &#123;EventEmitter&#125; from &apos;events&apos;;</div><div class="line">//定义监听事件;</div><div class="line">const CHANGE_EVENT = &apos;changed&apos;;</div><div class="line">//定义组件的初始值，当组件加载的时候会在声明周期函数中同步这些值到组件的状态或者属性上去;</div><div class="line">const counterValues = &#123;</div><div class="line">  &apos;First&apos;: 0,</div><div class="line">  &apos;Second&apos;: 10,</div><div class="line">  &apos;Third&apos;: 30</div><div class="line">&#125;;</div><div class="line">//定义组件的store对象;</div><div class="line">const CounterStore = Object.assign(&#123;&#125;,EventEmitter.prototype,&#123;</div><div class="line">  //定义getter函数，方便数据的同步;</div><div class="line">  getCounterValues:function()&#123;</div><div class="line">    return counterValues;</div><div class="line">  &#125;,</div><div class="line">  //定义事件发射函数,store中的数据发生改变的时候通知对应的组件更新数据[是否会造成所有监听到该事件的组件都去调用getter函数同步数据呢？</div><div class="line">//会不会造成应用运行效率的降低呢];</div><div class="line">emitChange:function()&#123;</div><div class="line">  this.emit(CHANGE_EVENT);</div><div class="line">&#125;,</div><div class="line">//定义事件监听器添加函数，当组件挂载成功的时候添加监听函数;</div><div class="line">//callbacek函数由调用者传入，用于指明监听到事件后的行为，</div><div class="line">//通常callback函数的作用是更新组件的内部状态;</div><div class="line">addChangeListener:function(callback)&#123;</div><div class="line">  this.on(CHANGE_EVENT,callback);</div><div class="line">&#125;,</div><div class="line">//监听函数移除函数;</div><div class="line">removeChangeListener:function(callback)&#123;</div><div class="line">  this.removeListener(CHANGE_EVENT,callback);</div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;);</div><div class="line"></div><div class="line">//为store注册回调函数;</div><div class="line">CounterStore.dispatchToken = AppDispatcher.register(</div><div class="line">  (action)=&gt;&#123;</div><div class="line">    if(action.type===ActionTypes.INCREMENT)&#123;</div><div class="line">      counterValues[action.counterCaption]++;</div><div class="line">      CounterStore.emitChange();</div><div class="line">    &#125;else if(action.type===ActionTypes.DECREMENT)&#123;</div><div class="line">      counterValues[action.counterCaption]--;</div><div class="line">      CounterStore.emitChange();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">);</div><div class="line">//定义导出接口;</div><div class="line">export default CounterStore;</div></pre></td></tr></table></figure>
-<p><strong>dispatcher</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import &#123;Dispatcher&#125; from  &apos;flux&apos;;</div><div class="line">//创建flux中的dispatcher,由flux框架控制为单例模式的;</div><div class="line">export default new Dispatcher();</div></pre></td></tr></table></figure>
-<p><strong>components</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">//定义组件;</div><div class="line">import React, &#123;Component, PropTypes&#125; from &apos;react&apos;;</div><div class="line">import * as Actions from &apos;../actions/Actions&apos;;</div><div class="line">import CounterStore from &apos;../stores/CounterStore&apos;;</div><div class="line">const buttonStyle = &#123;</div><div class="line">  margin: &apos;10px&apos;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//定义组件的主体部分;</div><div class="line">class Counter extends Component &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    //绑定this到成员函数;</div><div class="line">    this.onChange = this.onChange.bind(this);</div><div class="line">    this.onClickIncrementButton = this.onClickIncrementButton.bind(this);</div><div class="line">    this.onClickDecrementButton = this.onClickDecrementButton.bind(this);</div><div class="line">    //获取组件的初始状态;</div><div class="line">    this.state = &#123;</div><div class="line">      count: CounterStore.getCounterValues()[props.caption]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //使用shouldComponentUpdate函数增加组件的渲染速度;</div><div class="line">  //因为当事件发射器发射事件后，所有监听该事件的组件中的主句或者状态将被更新，this.setState函数将被调用,采用shouldComponentUpdate</div><div class="line">  //函数进行判断可以提高组件的渲染效率;</div><div class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">    return (nextProps.caption !== this.props.caption) || (nextState.count !== this.state.count);</div><div class="line">  &#125;</div><div class="line">  //组件成功挂载到dom上之后添加事件的监听;</div><div class="line">  componentDidMount() &#123;</div><div class="line">    CounterStore.addChangeListener(this.onChange);</div><div class="line">  &#125;</div><div class="line">  //组件被移除后对应的监听也应该被移除;</div><div class="line">  componentWillUnmount(callback) &#123;</div><div class="line">    CounterStore.removeChangeListener(this.onChange);</div><div class="line">  &#125;</div><div class="line">  //更新组件的状态;</div><div class="line">  onChange() &#123;</div><div class="line">    //同步store中的数据到组件中;</div><div class="line">    const newCount = CounterStore.getCounterValues()[this.props.caption];</div><div class="line">    this.setState(&#123;count: newCount&#125;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  onClickIncrementButton() &#123;</div><div class="line">    Actions.increment(this.props.caption);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  onClickDecrementButton() &#123;</div><div class="line">    Actions.decrement(this.props.caption);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const &#123;caption&#125; = this.props;</div><div class="line">    return (&lt;div&gt;</div><div class="line">      &lt;span&gt;JunJun的计算器&lt;/span&gt;</div><div class="line">      &lt;button style=&#123;buttonStyle&#125; onClick=&#123;this.onClickIncrementButton&#125;&gt;+&lt;/button&gt;</div><div class="line">      &lt;button style=&#123;buttonStyle&#125; onClick=&#123;this.onClickDecrementButton&#125;&gt;-&lt;/button&gt;</div><div class="line">      &lt;span&gt;&#123;caption&#125;count:&#123;this.state.count&#125;&lt;/span&gt;</div><div class="line">    &lt;/div&gt;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//约束组件的属性类型;</div><div class="line">Counter.propTypes = &#123;</div><div class="line">  caption: PropTypes.string.isRequired</div><div class="line">&#125;;</div><div class="line">//声明组件的引用接口;</div><div class="line">export default Counter;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-nginx反向代理机制解决跨域问题详解【windows上的】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1186,6 +1112,72 @@ ReactDom.render(
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/06/React高频询问/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-明天就要学转前端了，收集了一些资料放这里了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">明天就要学转前端了，收集了一些资料放这里了</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/" class="archive-article-date">
+  	<time datetime="2017-12-03T13:03:16.778Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#下面是资料的链接，请尊重资料的作者，不要随意转发。</p>
+<hr>
+<p>1.react相关的学习资料<br><a href="http://it-ebooks.flygon.net/" target="_blank" rel="external">http://it-ebooks.flygon.net/</a></p>
+<p><img src="http://img.blog.csdn.net/20171203213241122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">展开全文 >></a>
         </p>
       
 

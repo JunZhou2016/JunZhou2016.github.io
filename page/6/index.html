@@ -157,102 +157,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-单例模式的几种实现方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/单例模式的几种实现方式/">单例模式的几种实现方式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/单例模式的几种实现方式/" class="archive-article-date">
-  	<time datetime="2017-09-07T10:58:17.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>单例模式算是设计模式中最容易理解，也是最容易手写代码的模式了吧。但是其中的坑却不少，所以也常作为面试题来考。本文主要对几种单例写法的整理，并分析其优缺点。很多都是一些老生常谈的问题，但如果你不知道如何创建一个线程安全的单例，不知道什么是双检锁，那这篇文章可能会帮助到你。</p>
-<p><strong>懒汉式，线程不安全</strong></p>
-<p>当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private static Singleton instance;</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getInstance() &#123;</div><div class="line">     if (instance == null) &#123;</div><div class="line">         instance = new Singleton();</div><div class="line">     &#125;</div><div class="line">     return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这段代码简单明了，而且使用了懒加载模式，但是却存在致命的问题。当有多个线程并行调用 getInstance() 的时候，就会创建多个实例。也就是说在多线程下不能正常工作。</p>
-<p><strong>懒汉式，线程安全</strong></p>
-<p>为了解决上面的问题，最简单的方法是将整个 getInstance() 方法设为同步（synchronized）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static synchronized Singleton getInstance() &#123;</div><div class="line">    if (instance == null) &#123;</div><div class="line">        instance = new Singleton();</div><div class="line">    &#125;</div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>虽然做到了线程安全，并且解决了多实例的问题，但是它并不高效。因为在任何时候只能有一个线程调用 getInstance() 方法。但是同步操作只需要在第一次调用时才被需要，即第一次创建单例实例对象时。这就引出了双重检验锁。</p>
-<p><strong>双重检验锁</strong></p>
-<p>双重检验锁模式（double checked locking pattern），是一种使用同步块加锁的方法。程序员称其为双重检查锁，因为会有两次检查 instance == null，一次是在同步块外，一次是在同步块内。为什么在同步块内还要再检验一次？因为可能会有多个线程一起进入同步块外的 if，如果在同步块内不进行二次检验的话就会生成多个实例了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static Singleton getSingleTon()&#123;</div><div class="line">  if(instance==null)&#123;//Single Checked</div><div class="line">       synchronized(SingleTon.class)&#123;</div><div class="line">           if(instance==null)&#123;</div><div class="line">              instance = new Singleton();</div><div class="line">           &#125;</div><div class="line">       &#125; </div><div class="line">          &#125;</div><div class="line">    </div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这段代码看起来很完美，很可惜，它是有问题。主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。</p>
-<pre><code>给 instance 分配内存
-调用 Singleton 的构造函数来初始化成员变量
-将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）
-</code></pre><p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
-<p>我们只需要将 instance 变量声明成 volatile 就可以了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private volatile static Singleton instance; //声明成 volatile</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getSingleton() &#123;</div><div class="line">        if (instance == null) &#123;                         </div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                if (instance == null) &#123;       </div><div class="line">                    instance = new Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>有些人认为使用 volatile 的原因是可见性，也就是可以保证线程在本地不会存有 instance 的副本，每次都是去主内存中读取。但其实是不对的。使用 volatile 的主要原因是其另一个特性：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。比如上面的例子，取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3 然后取到值的情况。从「先行发生原则」的角度理解的话，就是对于一个 volatile 变量的写操作都先行发生于后面对这个变量的读操作（这里的“后面”是时间上的先后顺序）。简单理解就是，声明为volatile的变量，其读操作一定实在写操作完成之后执行的。</p>
-<p>但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</p>
-<p>相信你不会喜欢这种复杂又隐含问题的方式，当然我们有更好的实现线程安全的单例模式的办法。<br>饿汉式 static final field</p>
-<p>这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Singleton&#123;</div><div class="line">    //类加载时就初始化</div><div class="line">    private static final Singleton instance = new Singleton();</div><div class="line">    </div><div class="line">    private Singleton()&#123;&#125;</div><div class="line">    public static Singleton getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种写法如果完美的话，就没必要在啰嗦那么多双检锁的问题了。缺点是它不是一种懒加载模式（lazy initialization），单例会在加载类后一开始就被初始化，即使客户端没有调用 getInstance()方法。饿汉式的创建方式在一些场景中将无法使用：譬如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了。<br>静态内部类 static nested class</p>
-<p>我比较倾向于使用静态内部类的方法，这种方法也是《Effective Java》上所推荐的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//线程安全的且实现了懒加载的饿汉模式</div><div class="line">   //使用私有的静态内部类来实现，保证了懒加载的实现;</div><div class="line"></div><div class="line">public class Singleton&#123;</div><div class="line">    //私有的静态内部类保证了单例，并且是懒汉模式的;</div><div class="line">    private static class SingletonHolder&#123;</div><div class="line">      private static final Singleton INSTANCE = new Singleton();</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">  private Singleton()&#123;&#125;</div><div class="line"></div><div class="line">public static final Singleton getInstance()&#123;</div><div class="line">  return SingletonHolder.INSTANCE;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种写法仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它是懒汉式的；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。<br>枚举 Enum</p>
-<p>用枚举写单例实在太简单了！这也是它最大的优点。下面这段代码就是声明枚举实例的通常做法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum EasySingleton&#123;</div><div class="line">    INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>我们可以通过EasySingleton.INSTANCE来访问实例，这比调用getInstance()方法简单多了。创建枚举默认就是线程安全的，所以不需要担心double checked locking，而且还能防止反序列化导致重新创建新的对象。但是还是很少看到有人这样写，可能是因为不太熟悉吧。<br>总结</p>
-<p>一般来说，单例模式有五种写法：懒汉、饿汉、双重检验锁、静态内部类、枚举。上述所说都是线程安全的实现，文章开头给出的第一种方法不算正确的写法。</p>
-<p>就我个人而言，一般情况下直接使用饿汉式就好了，如果明确要求要懒加载（lazy initialization）会倾向于使用静态内部类，如果涉及到反序列化创建对象时会试着使用枚举的方式来实现单例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/单例模式的几种实现方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-CentOS 中 nginx 负载均衡和反向代理的搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -991,6 +895,106 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/05/linux运维常用命令/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Intellij Idea 创建Web项目入门(非Maven项目)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">Intellij Idea 创建Web项目入门(非Maven项目)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/" class="archive-article-date">
+  	<time datetime="2017-09-01T15:04:54.622Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>前言</strong></p>
+<p>最近公司开发项目中使用到了Intellij Idea（一款非常智能化的IDE），刚开始的时候还不大习惯，感觉操作太麻烦，后来渐渐适应，终于渐渐的开始尝到甜头了。</p>
+<p><strong>相关软件</strong></p>
+<blockquote>
+<p>Intellij Idea14：<a href="http://pan.baidu.com/s/1nu16VyD" target="_blank" rel="external">http://pan.baidu.com/s/1nu16VyD</a><br>JDK7：<a href="http://pan.baidu.com/s/1dEstJ5f" target="_blank" rel="external">http://pan.baidu.com/s/1dEstJ5f</a><br>Tomcat（apache-tomcat-6.0.43）：<a href="http://pan.baidu.com/s/1kUwReQF" target="_blank" rel="external">http://pan.baidu.com/s/1kUwReQF</a><br>Intellij Idea的安装非常简单，一步一步安装即可。<br>JDK的安装也挺简单的，重要的是配置环境。在环境变量Path里面添上Java的安装路径即可。<br>Tomcat文件夹不用安装，直接解压放在C盘下即可，或者放在其他文件夹下也可以，但是文件夹的名字最好不要带中文~~~不信？祝你好运</p>
+</blockquote>
+<p><strong>名词解释</strong><br>Project:在IDE中，project相当于eclipse中的一个Working Sets<br>Module:在IDE中，module相当于eclipse中的一个项目;<br>如下图所示：<br><img src="http://img.blog.csdn.net/20170901202203222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<p>Idea创建Web项目步骤：</p>
+<p><strong>1、创建一个空的项目Project</strong><br>        如下图所示：<br>       <img src="http://img.blog.csdn.net/20170901204052575?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<blockquote>
+<p>创建好Project之后可能需要进行相关设置，这些设置是针对Module的全局设置，毕竟Project是Modulede的容器，具体操作如下图所示：</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170901204612874?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<pre><code>**2、创建一个项目Module**
+
+![这里写图片描述](http://img.blog.csdn.net/20170901205740972?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+</code></pre><p><strong>3、创建好的web项目</strong><br>       <img src="http://img.blog.csdn.net/20170901210054332?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>4、在web/WEB-INF下创建两个文件夹：classes和lib<br>classes用来存放编译后输出的class文件，lib用于存放第三方jar包。</strong></p>
+<p><img src="http://img.blog.csdn.net/20170901210252754?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>5、配置文件夹路径(上面新建了文件夹，但是没有给系统指定，所以在这里需要开发者自己指定)</strong></p>
+<p>File -&gt; Project Structure (快捷键：Ctrl + Shift + Alt + S) -&gt; 选择Module ：<br> 选择 Paths -&gt; 选择”Use module compile output path” -&gt; 将Output path和Test output path都选择刚刚创建的classes文件夹。<br><img src="http://img.blog.csdn.net/20170901211245690?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>6.配置置Dependencies，选择Dependencies -&gt;  将Module SDK选择为1.7 -&gt; 点击右边的“+”号  -&gt; 选择1 “Jars or Directories”</strong></p>
+<p><img src="http://img.blog.csdn.net/20170901222958531?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>7.配置Tomcat容器</strong></p>
+<p>打开菜单Run -&gt; 选择Edit Configuration<br><img src="http://img.blog.csdn.net/20170901225011838?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>点击“+”号</strong> -&gt; 选择“Tomcat Server” -&gt; 选择“Local”<br><img src="http://img.blog.csdn.net/20170901225050645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>在”Name”处输入新的服务名，点击”Application server”后面的”Configure…”，弹出Tomcat Server窗口，选择本地安装的Tomcat目录 -&gt; OK </p>
+<p> <img src="http://img.blog.csdn.net/20170901225109444?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>在”Run/Debug Configurations”窗口的”Server”选项板中，取消勾选”After launch”，设置”HTTP port”和”JMX port”（默认值即可），点击 Apply -&gt; OK， 至此Tomcat配置完成。</p>
+<p><img src="http://img.blog.csdn.net/20170901225125004?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>8、在Tomcat中部署并运行项目</strong> </p>
+<p>Run -&gt; Edit Configurations，进入”Run/Debug Configurations”窗口 -&gt; 选择刚刚建立的Tomcat容器 -&gt; 选择Deployment -&gt; 点击右边的“+”号 -&gt; 选择Artifact<br><img src="http://img.blog.csdn.net/20170901225320240?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>-&gt;选择web项目 -&gt; Application context可以填“/hello”(其实也可以不填的~~) -&gt; OK<br><img src="http://img.blog.csdn.net/20170901225409103?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>9.编辑index.jsp文件</strong><br><img src="http://img.blog.csdn.net/20170901225607221?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>10、运行Tomcat,在浏览器中查看运行结果</strong> </p>
+<p><img src="http://img.blog.csdn.net/20170901225845994?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><img src="http://img.blog.csdn.net/20170901230000801?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<p>友情链接：<a href="http://www.cnblogs.com/yangyquin/p/5285272.html" target="_blank" rel="external">http://www.cnblogs.com/yangyquin/p/5285272.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">展开全文 >></a>
         </p>
       
 
