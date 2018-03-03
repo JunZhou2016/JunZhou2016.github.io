@@ -157,6 +157,165 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-单例模式的几种实现方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/07/单例模式的几种实现方式/">单例模式的几种实现方式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/07/单例模式的几种实现方式/" class="archive-article-date">
+  	<time datetime="2017-09-07T10:58:17.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>单例模式算是设计模式中最容易理解，也是最容易手写代码的模式了吧。但是其中的坑却不少，所以也常作为面试题来考。本文主要对几种单例写法的整理，并分析其优缺点。很多都是一些老生常谈的问题，但如果你不知道如何创建一个线程安全的单例，不知道什么是双检锁，那这篇文章可能会帮助到你。</p>
+<p><strong>懒汉式，线程不安全</strong></p>
+<p>当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private static Singleton instance;</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getInstance() &#123;</div><div class="line">     if (instance == null) &#123;</div><div class="line">         instance = new Singleton();</div><div class="line">     &#125;</div><div class="line">     return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码简单明了，而且使用了懒加载模式，但是却存在致命的问题。当有多个线程并行调用 getInstance() 的时候，就会创建多个实例。也就是说在多线程下不能正常工作。</p>
+<p><strong>懒汉式，线程安全</strong></p>
+<p>为了解决上面的问题，最简单的方法是将整个 getInstance() 方法设为同步（synchronized）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static synchronized Singleton getInstance() &#123;</div><div class="line">    if (instance == null) &#123;</div><div class="line">        instance = new Singleton();</div><div class="line">    &#125;</div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虽然做到了线程安全，并且解决了多实例的问题，但是它并不高效。因为在任何时候只能有一个线程调用 getInstance() 方法。但是同步操作只需要在第一次调用时才被需要，即第一次创建单例实例对象时。这就引出了双重检验锁。</p>
+<p><strong>双重检验锁</strong></p>
+<p>双重检验锁模式（double checked locking pattern），是一种使用同步块加锁的方法。程序员称其为双重检查锁，因为会有两次检查 instance == null，一次是在同步块外，一次是在同步块内。为什么在同步块内还要再检验一次？因为可能会有多个线程一起进入同步块外的 if，如果在同步块内不进行二次检验的话就会生成多个实例了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static Singleton getSingleTon()&#123;</div><div class="line">  if(instance==null)&#123;//Single Checked</div><div class="line">       synchronized(SingleTon.class)&#123;</div><div class="line">           if(instance==null)&#123;</div><div class="line">              instance = new Singleton();</div><div class="line">           &#125;</div><div class="line">       &#125; </div><div class="line">          &#125;</div><div class="line">    </div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码看起来很完美，很可惜，它是有问题。主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。</p>
+<pre><code>给 instance 分配内存
+调用 Singleton 的构造函数来初始化成员变量
+将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）
+</code></pre><p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
+<p>我们只需要将 instance 变量声明成 volatile 就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private volatile static Singleton instance; //声明成 volatile</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getSingleton() &#123;</div><div class="line">        if (instance == null) &#123;                         </div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                if (instance == null) &#123;       </div><div class="line">                    instance = new Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有些人认为使用 volatile 的原因是可见性，也就是可以保证线程在本地不会存有 instance 的副本，每次都是去主内存中读取。但其实是不对的。使用 volatile 的主要原因是其另一个特性：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。比如上面的例子，取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3 然后取到值的情况。从「先行发生原则」的角度理解的话，就是对于一个 volatile 变量的写操作都先行发生于后面对这个变量的读操作（这里的“后面”是时间上的先后顺序）。简单理解就是，声明为volatile的变量，其读操作一定实在写操作完成之后执行的。</p>
+<p>但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</p>
+<p>相信你不会喜欢这种复杂又隐含问题的方式，当然我们有更好的实现线程安全的单例模式的办法。<br>饿汉式 static final field</p>
+<p>这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Singleton&#123;</div><div class="line">    //类加载时就初始化</div><div class="line">    private static final Singleton instance = new Singleton();</div><div class="line">    </div><div class="line">    private Singleton()&#123;&#125;</div><div class="line">    public static Singleton getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种写法如果完美的话，就没必要在啰嗦那么多双检锁的问题了。缺点是它不是一种懒加载模式（lazy initialization），单例会在加载类后一开始就被初始化，即使客户端没有调用 getInstance()方法。饿汉式的创建方式在一些场景中将无法使用：譬如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了。<br>静态内部类 static nested class</p>
+<p>我比较倾向于使用静态内部类的方法，这种方法也是《Effective Java》上所推荐的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//线程安全的且实现了懒加载的饿汉模式</div><div class="line">   //使用私有的静态内部类来实现，保证了懒加载的实现;</div><div class="line"></div><div class="line">public class Singleton&#123;</div><div class="line">    //私有的静态内部类保证了单例，并且是懒汉模式的;</div><div class="line">    private static class SingletonHolder&#123;</div><div class="line">      private static final Singleton INSTANCE = new Singleton();</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">  private Singleton()&#123;&#125;</div><div class="line"></div><div class="line">public static final Singleton getInstance()&#123;</div><div class="line">  return SingletonHolder.INSTANCE;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种写法仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它是懒汉式的；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。<br>枚举 Enum</p>
+<p>用枚举写单例实在太简单了！这也是它最大的优点。下面这段代码就是声明枚举实例的通常做法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum EasySingleton&#123;</div><div class="line">    INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以通过EasySingleton.INSTANCE来访问实例，这比调用getInstance()方法简单多了。创建枚举默认就是线程安全的，所以不需要担心double checked locking，而且还能防止反序列化导致重新创建新的对象。但是还是很少看到有人这样写，可能是因为不太熟悉吧。<br>总结</p>
+<p>一般来说，单例模式有五种写法：懒汉、饿汉、双重检验锁、静态内部类、枚举。上述所说都是线程安全的实现，文章开头给出的第一种方法不算正确的写法。</p>
+<p>就我个人而言，一般情况下直接使用饿汉式就好了，如果明确要求要懒加载（lazy initialization）会倾向于使用静态内部类，如果涉及到反序列化创建对象时会试着使用枚举的方式来实现单例。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/07/单例模式的几种实现方式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-CentOS 中 nginx 负载均衡和反向代理的搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">CentOS 中 nginx 负载均衡和反向代理的搭建</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/" class="archive-article-date">
+  	<time datetime="2017-09-07T05:19:24.254Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>请参照博客：<br>      (1.) <a href="http://blog.csdn.net/zjx86320/article/details/51730388" target="_blank" rel="external">Nginx的好处和原理</a><br>       (2.)<a href="https://nginx.org/download/" target="_blank" rel="external">nginx下载</a><br>       (3.)<em><a href="https://juejin.im/entry/57763aa21532bc0060d96284" target="_blank" rel="external">CentOS 中 nginx 负载均衡和反向代理的搭建；</a></em><br>       (4.)<a href="https://junzhou2016.github.io/2017/09/05/Linux%20%E4%B8%8B%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E6%AD%A5%E9%AA%A4%EF%BC%88CentOS%EF%BC%89/" target="_blank" rel="external">修改hosts</a><br>       (5.)<a href="https://crossoverjie.top/2016/09/20/Linux-normal2/" target="_blank" rel="external">Linux（二）服务器运行环境配置 </a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ssm整合redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -832,332 +991,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/05/linux运维常用命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Intellij Idea 创建Web项目入门(非Maven项目)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">Intellij Idea 创建Web项目入门(非Maven项目)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/" class="archive-article-date">
-  	<time datetime="2017-09-01T15:04:54.622Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>前言</strong></p>
-<p>最近公司开发项目中使用到了Intellij Idea（一款非常智能化的IDE），刚开始的时候还不大习惯，感觉操作太麻烦，后来渐渐适应，终于渐渐的开始尝到甜头了。</p>
-<p><strong>相关软件</strong></p>
-<blockquote>
-<p>Intellij Idea14：<a href="http://pan.baidu.com/s/1nu16VyD" target="_blank" rel="external">http://pan.baidu.com/s/1nu16VyD</a><br>JDK7：<a href="http://pan.baidu.com/s/1dEstJ5f" target="_blank" rel="external">http://pan.baidu.com/s/1dEstJ5f</a><br>Tomcat（apache-tomcat-6.0.43）：<a href="http://pan.baidu.com/s/1kUwReQF" target="_blank" rel="external">http://pan.baidu.com/s/1kUwReQF</a><br>Intellij Idea的安装非常简单，一步一步安装即可。<br>JDK的安装也挺简单的，重要的是配置环境。在环境变量Path里面添上Java的安装路径即可。<br>Tomcat文件夹不用安装，直接解压放在C盘下即可，或者放在其他文件夹下也可以，但是文件夹的名字最好不要带中文~~~不信？祝你好运</p>
-</blockquote>
-<p><strong>名词解释</strong><br>Project:在IDE中，project相当于eclipse中的一个Working Sets<br>Module:在IDE中，module相当于eclipse中的一个项目;<br>如下图所示：<br><img src="http://img.blog.csdn.net/20170901202203222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<p>Idea创建Web项目步骤：</p>
-<p><strong>1、创建一个空的项目Project</strong><br>        如下图所示：<br>       <img src="http://img.blog.csdn.net/20170901204052575?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<blockquote>
-<p>创建好Project之后可能需要进行相关设置，这些设置是针对Module的全局设置，毕竟Project是Modulede的容器，具体操作如下图所示：</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20170901204612874?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<pre><code>**2、创建一个项目Module**
-
-![这里写图片描述](http://img.blog.csdn.net/20170901205740972?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-</code></pre><p><strong>3、创建好的web项目</strong><br>       <img src="http://img.blog.csdn.net/20170901210054332?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>4、在web/WEB-INF下创建两个文件夹：classes和lib<br>classes用来存放编译后输出的class文件，lib用于存放第三方jar包。</strong></p>
-<p><img src="http://img.blog.csdn.net/20170901210252754?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>5、配置文件夹路径(上面新建了文件夹，但是没有给系统指定，所以在这里需要开发者自己指定)</strong></p>
-<p>File -&gt; Project Structure (快捷键：Ctrl + Shift + Alt + S) -&gt; 选择Module ：<br> 选择 Paths -&gt; 选择”Use module compile output path” -&gt; 将Output path和Test output path都选择刚刚创建的classes文件夹。<br><img src="http://img.blog.csdn.net/20170901211245690?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>6.配置置Dependencies，选择Dependencies -&gt;  将Module SDK选择为1.7 -&gt; 点击右边的“+”号  -&gt; 选择1 “Jars or Directories”</strong></p>
-<p><img src="http://img.blog.csdn.net/20170901222958531?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>7.配置Tomcat容器</strong></p>
-<p>打开菜单Run -&gt; 选择Edit Configuration<br><img src="http://img.blog.csdn.net/20170901225011838?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br><strong>点击“+”号</strong> -&gt; 选择“Tomcat Server” -&gt; 选择“Local”<br><img src="http://img.blog.csdn.net/20170901225050645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在”Name”处输入新的服务名，点击”Application server”后面的”Configure…”，弹出Tomcat Server窗口，选择本地安装的Tomcat目录 -&gt; OK </p>
-<p> <img src="http://img.blog.csdn.net/20170901225109444?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>在”Run/Debug Configurations”窗口的”Server”选项板中，取消勾选”After launch”，设置”HTTP port”和”JMX port”（默认值即可），点击 Apply -&gt; OK， 至此Tomcat配置完成。</p>
-<p><img src="http://img.blog.csdn.net/20170901225125004?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>8、在Tomcat中部署并运行项目</strong> </p>
-<p>Run -&gt; Edit Configurations，进入”Run/Debug Configurations”窗口 -&gt; 选择刚刚建立的Tomcat容器 -&gt; 选择Deployment -&gt; 点击右边的“+”号 -&gt; 选择Artifact<br><img src="http://img.blog.csdn.net/20170901225320240?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>-&gt;选择web项目 -&gt; Application context可以填“/hello”(其实也可以不填的~~) -&gt; OK<br><img src="http://img.blog.csdn.net/20170901225409103?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>9.编辑index.jsp文件</strong><br><img src="http://img.blog.csdn.net/20170901225607221?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>10、运行Tomcat,在浏览器中查看运行结果</strong> </p>
-<p><img src="http://img.blog.csdn.net/20170901225845994?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><img src="http://img.blog.csdn.net/20170901230000801?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<p>友情链接：<a href="http://www.cnblogs.com/yangyquin/p/5285272.html" target="_blank" rel="external">http://www.cnblogs.com/yangyquin/p/5285272.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/01/Intellij Idea 创建Web项目入门(非Maven项目)/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JAVA反射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/JAVA反射/">JAVA反射</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/JAVA反射/" class="archive-article-date">
-  	<time datetime="2017-08-29T11:15:24.666Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p><strong>前言</strong><br>现在在我们构建自己或公司的项目中，或多或少都会依赖几个流行比较屌的第三方库，比如：Butter Knife、Retrofit 、Dagger 、GreenDao等，如果你没用过，那你需要找时间补一下啦；有时在使用后我们会好奇他们到底是怎么做到这种简洁、高效、松耦合等诸多优点的，当然这里我不探讨它们具体怎么实现的 (可以看看我之前写的几篇文章) ，而关心的是它们都用到同样的技术那就是本篇所讲的反射和注解，并实现的依赖注入。</p>
-<p>阅读本篇文章有助于你更好的理解这些大形框架的原理和复习Java的知识点。为什么要把反射放在前面讲呢，实际上是因为我们学习注解的时候需要用到反射机制，所以，先学习反射有助于理解后面的知识。</p>
-<p><strong>JAVA反射</strong></p>
-<hr>
-<blockquote>
-<p>主要是指程序可以访问，检测和修改它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。</p>
-</blockquote>
-<p><strong>反射机制是什么</strong></p>
-<blockquote>
-<p>反射机制就是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
-<p>用一句话总结就是反射可以实现在运行时可以知道任意一个类的属性和方法。</p>
-</blockquote>
-<p><strong>反射机制能做什么</strong></p>
-<pre><code>***反射机制主要提供了以下功能：***
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- 在运行时判断任意一个对象所属的类； 		</div><div class="line">- 在运行时构造任意一个类的对象;</div><div class="line">- 在运行时判断任意一个类所具有的成员变量和方法;</div><div class="line">- 在运行时调用任意一个对象的方法；</div><div class="line">- 生成动态代理(ps:这个知识点也很重要)</div></pre></td></tr></table></figure>
-<p><strong>Java 反射机制的应用场景</strong></p>
-<ul>
-<li>逆向代码 ，例如反编译 </li>
-<li>与注解相结合的框架 例如Retrofit </li>
-<li>单纯的反射机制应用框架 例如EventBus </li>
-<li>动态生成类框架  例如Gson</li>
-</ul>
-<p><strong>反射机制的优点与缺点</strong></p>
-<p>为什么要用反射机制？直接创建对象不就可以了吗，这就涉及到了动态与静态的概念</p>
-<p>静态编译：在编译时确定类型，绑定对象,即通过。</p>
-<p>动态编译：运行时确定类型，绑定对象。动态编译最大限度发挥了java的灵活性，体现了多态的应用，有以降低类之间的藕合性。</p>
-<p><strong><em>优点</em></strong></p>
-<blockquote>
-<p>可以实现动态创建对象和编译，体现出很大的灵活性，特别是在J2EE的开发中它的灵活性就表现的十分明显。比如，一个大型的软件，不可能一次就把把它设计的很完美，当这个程序编译后，发布了，当发现需要更新某些功能时，我们不可能要用户把以前的卸载，再重新安装新的版本，假如这样的话，这个软件肯定是没有多少人用的。采用静态的话，需要把整个程序重新编译一次才可以实现功能的更新，而采用反射机制的话，它就可以不用卸载，只需要在运行时才动态的创建和编译，就可以实现该功能。</p>
-</blockquote>
-<p><strong><em>缺点</em></strong></p>
-<blockquote>
-<p>对性能有影响。使用反射基本上是一种解释操作，我们可以告诉JVM，我们希望做什么并且它满足我们的要求。这类操作总是慢于只直接执行相同的操作。</p>
-</blockquote>
-<p><strong>理解Class类和类类型</strong></p>
-<blockquote>
-<p>想要了解反射首先理解一下Class类，它是反射实现的基础。<br>类是java.lang.Class类的实例对象，而Class是所有类的类（There is a class named Class）<br>对于普通的对象，我们一般都会这样创建和表示：</p>
-</blockquote>
-<p><strong>Code code1 = new Code();</strong></p>
-<p> 但是我们查看Class的源码时，是这样写的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private  Class(ClassLoader loader) &#123; </div><div class="line">    classLoader = loader; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>可以看到构造器是私有的，只有JVM可以创建Class的对象，因此不可以像普通类一样new一个Class对象，虽然我们不能new一个Class对象，但是却可以通过已有的类得到一个Class对象，共有三种方式，如下：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Class c1 = Code.class; 这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class得到的</div><div class="line">Class c2 = code1.getClass(); code1是Code的一个对象，这种方式是通过一个类的对象的getClass()方法获得的 </div><div class="line">Class c3 = Class.forName(&quot;com.trigl.reflect.Code&quot;); 这种方法是Class类调用forName方法，通过一个类的全量限定名获得</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">这里，c1、c2、c3都是Class的对象，他们是完全一样的，而且有个学名，叫做Code的类类型（class type）。</div><div class="line">这里就让人奇怪了，前面不是说Code是Class的对象吗，而c1、c2、c3也是Class的对象，那么Code和c1、c2、c3不就一样了吗？为什么还叫Code什么类类型？这里不要纠结于它们是否相同，只要理解类类型是干什么的就好了，顾名思义，类类型就是类的类型，也就是描述一个类是什么，都有哪些东西，所以我们可以通过类类型知道一个类的属性和方法，并且可以调用一个类的属性和方法，这就是反射的基础。</div></pre></td></tr></table></figure>
-<p>举个简单例子代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args) throws ClassNotFoundException &#123;</div><div class="line">        //第一种：Class c1 = Code.class;</div><div class="line">        Class class1=ReflectDemo.class;</div><div class="line">        System.out.println(class1.getName());</div><div class="line"></div><div class="line">        //第二种：Class c2 = code1.getClass();</div><div class="line">        ReflectDemo demo2= new ReflectDemo();</div><div class="line">        Class c2 = demo2.getClass();</div><div class="line">        System.out.println(c2.getName());</div><div class="line"></div><div class="line">        //第三种：Class c3 = Class.forName(&quot;com.trigl.reflect.Code&quot;);</div><div class="line">        Class class3 = Class.forName(&quot;com.tengj.reflect.ReflectDemo&quot;);</div><div class="line">        System.out.println(class3.getName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>执行结果：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.com.tengj.reflect.ReflectDemo</div><div class="line">2.com.tengj.reflect.ReflectDemo</div><div class="line">3.com.tengj.reflect.ReflectDemo</div></pre></td></tr></table></figure>
-<p><strong>Java反射相关操作</strong></p>
-<p>在这里先看一下sun为我们提供了那些反射机制中的类：</p>
-<blockquote>
-<p>java.lang.Class; java.lang.reflect.Constructor;<br>java.lang.reflect.Field; java.lang.reflect.Method;<br>java.lang.reflect.Modifier;</p>
-</blockquote>
-<p>前面我们知道了怎么获取Class，那么我们可以通过这个Class干什么呢？<br>总结如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">获取成员方法Method</div><div class="line">获取成员变量Field</div><div class="line">获取构造函数Constructor</div><div class="line">下面来具体介绍</div></pre></td></tr></table></figure>
-<p><strong><code>1.获取成员方法信息</code></strong></p>
-<blockquote>
-<p><strong>两个参数分别是方法名和方法参数类的类类型列表。</strong></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public Method getDeclaredMethod(String name, Class&lt;?&gt;... parameterTypes) // 得到该类所有的方法，不包括父类的 </div><div class="line">public Method getMethod(String name, Class&lt;?&gt;... parameterTypes) // 得到该类所有的public方法，包括父类的</div><div class="line"></div><div class="line">//具体使用</div><div class="line">Method[] methods = class1.getDeclaredMethods();//获取class对象的所有声明方法 </div><div class="line">Method[] allMethods = class1.getMethods();//获取class对象的所有public方法 包括父类的方法 </div><div class="line">Method method = class1.getMethod(&quot;info&quot;, String.class);//返回次Class对象对应类的、带指定形参列表的public方法 </div><div class="line">Method declaredMethod = class1.getDeclaredMethod(&quot;info&quot;, String.class);//返回次Class对象对应类的、带指定形参列表的方法</div></pre></td></tr></table></figure>
-<p>举个例子：</p>
-<p>例如类A有如下一个方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void fun(String name,int age) &#123;</div><div class="line">        System.out.println(&quot;我叫&quot;+name+&quot;,今年&quot;+age+&quot;岁&quot;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>现在知道A有一个对象a，那么就可以通过：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);  //先生成class</div><div class="line">Object o = c.newInstance();                           //newInstance可以初始化一个实例</div><div class="line">Method method = c.getMethod(&quot;fun&quot;, String.class, int.class);//获取方法</div><div class="line">method.invoke(o, &quot;tengj&quot;, 10);                         //通过invoke调用该方法，参数第一个为实例对象，后面为具体参数值</div></pre></td></tr></table></figure>
-<p>完整代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">public class Person &#123;</div><div class="line">    private String name;</div><div class="line">    private int age;</div><div class="line">    private String msg=&quot;hello wrold&quot;;</div><div class="line"> public String getName() &#123;</div><div class="line">        return name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public void setName(String name) &#123;</div><div class="line">        this.name = name;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public int getAge() &#123;</div><div class="line">        return age;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public void setAge(int age) &#123;</div><div class="line">        this.age = age;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public Person() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private Person(String name) &#123;</div><div class="line">        this.name = name;</div><div class="line">  System.out.println(name);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public void fun() &#123;</div><div class="line">        System.out.println(&quot;fun&quot;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    public void fun(String name,int age) &#123;</div><div class="line">        System.out.println(&quot;我叫&quot;+name+&quot;,今年&quot;+age+&quot;岁&quot;);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        try &#123;</div><div class="line">            Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">            Object o = c.newInstance();</div><div class="line">            Method method = c.getMethod(&quot;fun&quot;, String.class, int.class);</div><div class="line">            method.invoke(o, &quot;tengj&quot;, 10);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">我叫tengj,今年10岁</div></pre></td></tr></table></figure>
-<p>怎样，是不是感觉很厉害，我们只要知道这个类的路径全称就能玩弄它于鼓掌之间。</p>
-<p>有时候我们想获取类中所有成员方法的信息，要怎么办。可以通过以下几步来实现：</p>
-<p>1.获取所有方法的数组：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">Method[] methods = c.getDeclaredMethods(); // 得到该类所有的方法，不包括父类的</div><div class="line">或者：</div><div class="line">Method[] methods = c.getMethods();// 得到该类所有的public方法，包括父类的</div></pre></td></tr></table></figure>
-<p>然后循环这个数组就得到每个方法了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">for (Method method : methods)</div></pre></td></tr></table></figure>
-<p>完整代码如下：<br>person类跟上面一样，这里以及后面就不贴出来了，只贴关键代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        try &#123;</div><div class="line">            Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">            Method[] methods = c.getDeclaredMethods();</div><div class="line">            for(Method m:methods)&#123;</div><div class="line">                String  methodName= m.getName();</div><div class="line">                System.out.println(methodName);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getName</div><div class="line">setName</div><div class="line">setAge</div><div class="line">fun</div><div class="line">fun</div><div class="line">getAge</div></pre></td></tr></table></figure>
-<p>这里如果把c.getDeclaredMethods();改成c.getMethods();执行结果如下，多了很多方法，以为把Object里面的方法也打印出来了，因为Object是所有类的父类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">getName</div><div class="line">setName</div><div class="line">getAge</div><div class="line">setAge</div><div class="line">fun</div><div class="line">fun</div><div class="line">wait</div><div class="line">wait</div><div class="line">wait</div><div class="line">equals</div><div class="line">toString</div><div class="line">hashCode</div><div class="line">getClass</div><div class="line">notify</div><div class="line">notifyAll</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">获取成员变量信息</div></pre></td></tr></table></figure>
-<p>想一想成员变量中都包括什么：成员变量类型+成员变量名</p>
-<p>类的成员变量也是一个对象，它是java.lang.reflect.Field的一个对象，所以我们通过java.lang.reflect.Field里面封装的方法来获取这些信息。</p>
-<p>单独获取某个成员变量，通过Class类的以下方法实现：</p>
-<blockquote>
-<p>参数是成员变量的名字</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public Field getDeclaredField(String name) // 获得该类自身声明的所有变量，不包括其父类的变量</div><div class="line">public Field getField(String name) // 获得该类自所有的public成员变量，包括其父类变量</div><div class="line"></div><div class="line">//具体实现</div><div class="line">Field[] allFields = class1.getDeclaredFields();//获取class对象的所有属性 </div><div class="line">Field[] publicFields = class1.getFields();//获取class对象的public属性 </div><div class="line">Field ageField = class1.getDeclaredField(&quot;age&quot;);//获取class指定属性 </div><div class="line">Field desField = class1.getField(&quot;des&quot;);//获取class指定的public属性</div></pre></td></tr></table></figure>
-<p>举个例子：</p>
-<p>例如一个类A有如下成员变量：</p>
-<blockquote>
-<p>private int n;</p>
-</blockquote>
-<p>如果A有一个对象a，那么就可以这样得到其成员变量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Class c = a.getClass();</div><div class="line">Field field = c.getDeclaredField(&quot;n&quot;);</div></pre></td></tr></table></figure>
-<p>完整代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        try &#123;</div><div class="line">            Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">            //获取成员变量</div><div class="line">            Field field = c.getDeclaredField(&quot;msg&quot;); //因为msg变量是private的，所以不能用getField方法</div><div class="line">            Object o = c.newInstance();</div><div class="line">            field.setAccessible(true);//设置是否允许访问，因为该变量是private的，所以要手动设置允许访问，如果msg是public的就不需要这行了。</div><div class="line">            Object msg = field.get(o);</div><div class="line">            System.out.println(msg);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hello wrold</div></pre></td></tr></table></figure>
-<p>同样，如果想要获取所有成员变量的信息，可以通过以下几步</p>
-<p>1.获取所有成员变量的数组：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Field[] fields = c.getDeclaredFields();</div></pre></td></tr></table></figure>
-<p>2.遍历变量数组，获得某个成员变量field</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">for (Field field : fields)</div></pre></td></tr></table></figure>
-<p>完整代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        try &#123;</div><div class="line">            Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">            Field[] fields = c.getDeclaredFields();</div><div class="line">            for(Field field :fields)&#123;</div><div class="line">                System.out.println(field.getName());</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">name</div><div class="line">age</div><div class="line">msg</div></pre></td></tr></table></figure>
-<p><strong>1.获取构造函数</strong></p>
-<p>最后再想一想构造函数中都包括什么：构造函数参数<br>同上，类的成构造函数也是一个对象，它是java.lang.reflect.Constructor的一个对象，所以我们通过java.lang.reflect.Constructor里面封装的方法来获取这些信息。</p>
-<p>单独获取某个构造函数,通过Class类的以下方法实现：</p>
-<blockquote>
-<p>这个参数为构造函数参数类的类类型列表</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public Constructor&lt;T&gt; getDeclaredConstructor(Class&lt;?&gt;... parameterTypes) //  获得该类所有的构造器，不包括其父类的构造器</div><div class="line">public Constructor&lt;T&gt; getConstructor(Class&lt;?&gt;... parameterTypes) // 获得该类所以public构造器，包括父类</div><div class="line"></div><div class="line">//具体</div><div class="line">Constructor&lt;?&gt;[] allConstructors = class1.getDeclaredConstructors();//获取class对象的所有声明构造函数 </div><div class="line">Constructor&lt;?&gt;[] publicConstructors = class1.getConstructors();//获取class对象public构造函数 </div><div class="line">Constructor&lt;?&gt; constructor = class1.getDeclaredConstructor(String.class);//获取指定声明构造函数 </div><div class="line">Constructor publicConstructor = class1.getConstructor(String.class);//获取指定声明的public构造函数</div></pre></td></tr></table></figure>
-<p>举个例子：</p>
-<p>例如类A有如下一个构造函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public A(String a, int b) &#123;</div><div class="line">    // code body</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么就可以通过：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Constructor constructor = a.getDeclaredConstructor(String.class, int.class);</div></pre></td></tr></table></figure>
-<p>来获取这个构造函数。</p>
-<p>完整代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        try &#123;</div><div class="line">            Class c = Class.forName(&quot;com.tengj.reflect.Person&quot;);</div><div class="line">            //获取构造函数</div><div class="line">            Constructor constructor = c.getDeclaredConstructor(String.class);</div><div class="line">            constructor.setAccessible(true);//设置是否允许访问，因为该构造器是private的，所以要手动设置允许访问，如果构造器是public的就不需要这行了。</div><div class="line">            constructor.newInstance(&quot;tengj&quot;);</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<blockquote>
-<p>tengj</p>
-</blockquote>
-<p>注意：Class的newInstance方法，只能创建只包含无参数的构造函数的类，如果某类只有带参数的构造函数，那么就要使用另外一种方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fromClass.getDeclaredConstructor(String.class).newInstance(&quot;tengj&quot;);</div></pre></td></tr></table></figure>
-<p>获取所有的构造函数，可以通过以下步骤实现：</p>
-<p>1.获取该类的所有构造函数，放在一个数组中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Constructor[] constructors = c.getDeclaredConstructors();</div></pre></td></tr></table></figure>
-<p>2.遍历构造函数数组，获得某个构造函数constructor:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">for (Constructor constructor : constructors)</div></pre></td></tr></table></figure>
-<p>完整代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class ReflectDemo &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">            Constructor[] constructors = c.getDeclaredConstructors();</div><div class="line">            for(Constructor constructor:constructors)&#123;</div><div class="line">                System.out.println(constructor);</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">public com.tengj.reflect.Person()</div><div class="line">public com.tengj.reflect.Person(java.lang.String)</div></pre></td></tr></table></figure>
-<p>其他方法<br>注解需要用到的</p>
-<p>Annotation[] annotations = (Annotation[]) class1.getAnnotations();//获取class对象的所有注解 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Annotation annotation = (Annotation) class1.getAnnotation(Deprecated.class);//获取class对象指定注解 </div><div class="line">Type genericSuperclass = class1.getGenericSuperclass();//获取class对象的直接超类的 </div><div class="line">Type Type[] interfaceTypes = class1.getGenericInterfaces();//获取class对象的所有接口的type集合</div></pre></td></tr></table></figure>
-<p>获取class对象的信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">boolean isPrimitive = class1.isPrimitive();//判断是否是基础类型 </div><div class="line">boolean isArray = class1.isArray();//判断是否是集合类</div><div class="line"> boolean isAnnotation = class1.isAnnotation();//判断是否是注解类 </div><div class="line">boolean isInterface = class1.isInterface();//判断是否是接口类 </div><div class="line">boolean isEnum = class1.isEnum();//判断是否是枚举类 </div><div class="line">boolean isAnonymousClass = class1.isAnonymousClass();//判断是否是匿名内部类 </div><div class="line">boolean isAnnotationPresent = class1.isAnnotationPresent(Deprecated.class);//判断是否被某个注解类修饰 </div><div class="line">String className = class1.getName();//获取class名字 包含包名路径 </div><div class="line">Package aPackage = class1.getPackage();//获取class的包信息 </div><div class="line">String simpleName = class1.getSimpleName();//获取class类名 </div><div class="line">int modifiers = class1.getModifiers();//获取class访问权限 </div><div class="line">Class&lt;?&gt;[] declaredClasses = class1.getDeclaredClasses();//内部类 </div><div class="line">Class&lt;?&gt; declaringClass = class1.getDeclaringClass();//外部类</div><div class="line"></div><div class="line">getSuperclass()：获取某类的父类  </div><div class="line">getInterfaces()：获取某类实现的接口</div></pre></td></tr></table></figure>
-<p><strong>通过反射了解集合泛型的本质</strong></p>
-<blockquote>
-<p>扩展的知识点，了解就可以了。后续会为大家写一篇关于泛型的文章。</p>
-</blockquote>
-<p>首先下结论：</p>
-<blockquote>
-<p>Java中集合的泛型，是防止错误输入的，只在编译阶段有效，绕过编译到了运行期就无效了。</p>
-</blockquote>
-<p>下面通过一个实例来验证：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 集合泛型的本质</div><div class="line"> */</div><div class="line">public class GenericEssence &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        List list1 = new ArrayList(); // 没有泛型 </div><div class="line">        List&lt;String&gt; list2 = new ArrayList&lt;String&gt;(); // 有泛型</div><div class="line"></div><div class="line"></div><div class="line">        /*</div><div class="line">         * 1.首先观察正常添加元素方式，在编译器检查泛型，</div><div class="line">         * 这个时候如果list2添加int类型会报错</div><div class="line">         */</div><div class="line">        list2.add(&quot;hello&quot;);</div><div class="line">//      list2.add(20); // 报错！list2有泛型限制，只能添加String，添加int报错</div><div class="line">        System.out.println(&quot;list2的长度是：&quot; + list2.size()); // 此时list2长度为1</div><div class="line"></div><div class="line"></div><div class="line">        /*</div><div class="line">         * 2.然后通过反射添加元素方式，在运行期动态加载类，首先得到list1和list2</div><div class="line">         * 的类类型相同，然后再通过方法反射绕过编译器来调用add方法，看能否插入int</div><div class="line">         * 型的元素</div><div class="line">         */</div><div class="line">        Class c1 = list1.getClass();</div><div class="line">        Class c2 = list2.getClass();</div><div class="line">        System.out.println(c1 == c2); // 结果：true，说明类类型完全相同</div><div class="line"></div><div class="line">        // 验证：我们可以通过方法的反射来给list2添加元素，这样可以绕过编译检查</div><div class="line">        try &#123;</div><div class="line">            Method m = c2.getMethod(&quot;add&quot;, Object.class); // 通过方法反射得到add方法</div><div class="line">            m.invoke(list2, 20); // 给list2添加一个int型的，上面显示在编译器是会报错的</div><div class="line">            System.out.println(&quot;list2的长度是：&quot; + list2.size()); // 结果：2，说明list2长度增加了，并没有泛型检查</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        /*</div><div class="line">         * 综上可以看出，在编译器的时候，泛型会限制集合内元素类型保持一致，但是编译器结束进入</div><div class="line">         * 运行期以后，泛型就不再起作用了，即使是不同类型的元素也可以插入集合。</div><div class="line">         */</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>执行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">list2的长度是：1</div><div class="line">true</div><div class="line">list2的长度是：2</div></pre></td></tr></table></figure>
-<p>思维导图</p>
-<blockquote>
-<p>有助于理解上述所讲的知识点<br><img src="http://img.blog.csdn.net/20170829191338838?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-</blockquote>
-<p>拓展阅读<br>Java反射机制深入详解 - 火星十一郎 - 博客园<br>Java反射入门 - Trigl的博客 - CSDN博客<br>Java反射机制 - ①块腹肌 - 博客园<br>Java 反射机制浅析 - 孤旅者 - 博客园<br>反射机制的理解及其用途 - 每天进步一点点！ - ITeye博客<br>Java动态代理与反射详解 - 浩大王 - 博客园</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/JAVA反射/">展开全文 >></a>
         </p>
       
 

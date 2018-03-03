@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>CSS中margin边界叠加问题及解决方案 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="CSS中margin边界叠加问题及解决方案                                    边界重叠是指两个或多个盒子(可能相邻也可能嵌套)的相邻边界(其间没有任何非空内容、补白、边框)重合在一起而形成一个单一边界。本文转载自：http://www.hujuntao.com/web/css/css-margin-overlap.html两个或多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS中margin边界叠加问题及解决方案">
+<meta property="og:url" content="http://yoursite.com/2018/03/02/CSS中margin边界叠加问题及解决方案/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="CSS中margin边界叠加问题及解决方案                                    边界重叠是指两个或多个盒子(可能相邻也可能嵌套)的相邻边界(其间没有任何非空内容、补白、边框)重合在一起而形成一个单一边界。本文转载自：http://www.hujuntao.com/web/css/css-margin-overlap.html两个或多">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/css_margin_1.gif">
+<meta property="og:image" content="http://oumfrpm5j.bkt.clouddn.com/css_margin_2.gif">
+<meta property="og:updated_time" content="2018-03-02T14:33:18.566Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="CSS中margin边界叠加问题及解决方案">
+<meta name="twitter:description" content="CSS中margin边界叠加问题及解决方案                                    边界重叠是指两个或多个盒子(可能相邻也可能嵌套)的相邻边界(其间没有任何非空内容、补白、边框)重合在一起而形成一个单一边界。本文转载自：http://www.hujuntao.com/web/css/css-margin-overlap.html两个或多">
+<meta name="twitter:image" content="http://oumfrpm5j.bkt.clouddn.com/css_margin_1.gif">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +162,153 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-CSS中margin边界叠加问题及解决方案" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CSS中margin边界叠加问题及解决方案
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/CSS中margin边界叠加问题及解决方案/" class="archive-article-date">
+  	<time datetime="2018-03-02T14:25:04.042Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="preview"><br>                <h1 class="title">CSS中margin边界叠加问题及解决方案</h1><br><br>                <div class="show-content"><br>                    <div><b style="font-size: 1.8rem;">边界重叠</b><span style="font-size: 1.8rem;">是指两个或多个盒子(可能相邻也可能嵌套)的相邻边界(其间没有任何非空内容、补白、边框)重合在一起而形成一个单一边界。</span><br></div><div><pre><code class="hljs javascript"><p>本文转载自：<a href="http://www.hujuntao.com/web/css/css-margin-overlap.html" target="_blank" style="background-color: transparent; font-size: 1.3em; white-space: pre-wrap;">http:<span class="hljs-comment">//www.hujuntao.com/web/css/css-margin-overlap.html</span></a></p></code></pre></div><div><br></div><div>两个或多个块级盒子的垂直相邻边界会重合。结果的边界宽度是相邻边界宽度中最大的值。如果出现负边界，则在最大的正边界中减去绝对值最大的负边界。如果没有正边界，则从零中减去绝对值最大的负边界。</div><div><br></div><div>注意：相邻的盒子可能并非是由父子关系或兄弟关系的元素生成。</div><div><br>但是边界的重叠也有例外情况：<br></div><div>1、水平边距永远不会重合。</div><div>2、在规范文档中，2个或以上的块级盒模型相邻的垂直margin会重叠。最终的margin值计算方法如下：</div><div><span style="font-size: 1.8rem;">    a、全部都为正值，取最大者；</span></div><div><span style="font-size: 1.8rem;">    b、不全是正值，则都取绝对值，然后用正值减去最大值；</span></div><div><span style="font-size: 1.8rem;">    c、没有正值，则都取绝对值，然后用0减去最大值。</span></div><div><span style="font-size: 1.8rem;">    注意：相邻的盒模型可能由DOM元素动态产生并没有相邻或继承关系。</span></div><div>3、相邻的盒模型中，如果其中的一个是浮动的（float），垂直margin不会重叠，并且浮动的盒模型和它的子元素之间也是这样。</div><div>4、设置了overflow属性的元素和它的子元素之间的margin不被重叠（overflow取值为visible除外）。</div><div>5、设置了绝对定位（position:absolute）的盒模型，垂直margin不会被重叠，并且和他们的子元素之间也是一样</div><div>6、设置了display:inline-block的元素，垂直margin不会重叠，甚至和他们的子元素之间也是一样。</div><div>7、如果一个盒模型的上下margin相邻，这时它的margin可能重叠覆盖（collapse through）它。在这种情况下，元素的位置（position）取决于它的相邻元素的margin是否重叠。</div><div>    a、如果元素的margin和它的父元素的margin-top重叠在一起，盒模型border-top的边界定义和它的父元素相同</div><div><span style="font-size: 1.8rem;">    b、另外，任意元素的父元素不参与margin的重叠，或者说只有父元素的margin-bottom是参与计算的。如果元素的border-top非零，那么元素的border-top边界位置和原来一样。</span></div><div><span style="font-size: 1.8rem;">    一个应用了清除操作的元素的margin-top绝不会和它的块级父元素的margin-bottom重叠。</span></div><div><span style="font-size: 1.8rem;">    注意，那些已经被重叠覆盖的元素的位置对其他已经重叠的元素的位置没有任何影响；只有在对这些元素的子元素定位时，border-top边界位置才是必需的。</span></div><div><span style="font-size: 1.8rem;">8、根元素的垂直margin不会被重叠。</span></div><div><br></div><div><b>外边距(margin)重叠示例</b><br></div><div><br></div><div><b>外边距重叠</b>是指两个垂直相邻的块级元素，当上下两个边距相遇时，外边距会产生重叠现象，且重叠后的外边距，等于其中较大者。<br></div><div><br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/css_margin_1.gif" alt=""><br></div><div><br></div><div><font color="#333333" face="PingFang TC, Helvetica Neue, Helvetica, STHeitiTC-Light, Arial, sans-serif"><span style="font-size: 16px; white-space: normal;">另一个重叠现象是：当一个元素包含在另一个元素之中时，子元素与父元素之间也会产生重叠现象，重叠后的外边距，等于其中最大者：</span></font><br></div><div><font color="#333333" face="PingFang TC, Helvetica Neue, Helvetica, STHeitiTC-Light, Arial, sans-serif"><span style="font-size: 16px; white-space: normal;"><br></span></font></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/css_margin_2.gif" alt=""><br></div><div><br></div><div>同理，如果一个无内容的空元素，其自身上下边距也会产生重叠。<br></div><div><br></div><div><b>外边距重叠的意义</b><br></div><div><br></div><div>外边距的重叠只产生在普通流文档的上下外边距之间，这个看起来有点奇怪的规则，其实有其现实意义。设想，当我们上下排列一系列规则的块级元素（如段落P）时，那么块元素之间因为外边距重叠的存在，段落之间就不会产生双倍的距离。<br></div><div><br></div><div><b>防止外边距重叠解决方案</b><br></div><div><br></div><div>问题代码：</div><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;”</span>&gt;</span>&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><br></div><div><span style="font-size: 1.8rem;">外层元素 </span><code class="inline-code">overflow:hidden</code><span style="font-size: 1.8rem;">;</span><br><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;overflow:hidden;”</span>&gt;</span>&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><br></div><span style="font-size: 1.8rem;">外层元素使用</span><code class="inline-code">padding</code><span style="font-size: 1.8rem;">;</span></div><div><pre><code class="hljs javascript"><p>&lt;div style=<span class="hljs-string">“background: red;padding-top: 1px”</span>&gt;</p><p>&nbsp; &nbsp; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></p><p><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></p></code></pre></div><div><br class="Apple-interchange-newline">内层元素透明边框 <code class="inline-code">border:1px solid transparent</code>;<br><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;border-top:1px solid transparent;”</span>&gt;</span>&nbsp;&nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></p></code></pre></div></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">添加一个</span><code class="inline-code">inline</code><span style="font-size: 1.8rem;">元素：</span></div><div><pre><code class="hljs xml"><p><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“background: red;”</span>&gt;</span>&amp;nbsp;&nbsp; &nbsp;</p><p>&nbsp; &nbsp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">“margin-top:50px;”</span>&gt;</span>margin<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&nbsp;&nbsp;</p><p><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></p></code></pre></div><div><div><span style="font-size: 1.8rem;"><br class="Apple-interchange-newline">内层元素绝对定位 </span><code class="inline-code">postion:absolute</code><span style="font-size: 1.8rem;">;</span><br><span style="font-size: 1.8rem;">内层元素 加</span><code class="inline-code">float:left</code><span style="font-size: 1.8rem;">或</span><code class="inline-code">display:inline-block</code><span style="font-size: 1.8rem;">;</span><br><span style="font-size: 1.8rem;">内层元素</span><code class="inline-code">padding:1px</code><span style="font-size: 1.8rem;">;</span><br></div><div><br></div></div><p><br></p>                </div>
+</div>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/" class="archive-article-date">
-  	<time datetime="2017-12-03T13:03:16.778Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">明天就要学转前端了，收集了一些资料放这里了</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/02/CSS中margin边界叠加问题及解决方案/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/07/AOP中的概念通知、切点、切面/" class="archive-article-date">
-  	<time datetime="2017-11-07T08:06:01.157Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/02/快速掌握react-motion动画库[转载]/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">react-motion动画库</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/07/AOP中的概念通知、切点、切面/">AOP中的概念通知、切点、切面</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/" class="archive-article-date">
-  	<time datetime="2017-11-06T03:32:05.504Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">mybatis中#{}【占位符】和${}【字符串】拼接的区别</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/" class="archive-article-date">
-  	<time datetime="2017-09-13T15:22:07.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">建立一颗二叉排序树，并输出它的前序、中序、后序以及层次遍历结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/Mysql优化之索引类型/" class="archive-article-date">
-  	<time datetime="2017-09-12T12:24:09.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/Mysql优化之索引类型/">Mysql优化之索引</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/Servlet的生命周期/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:45:37.709Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/Servlet的生命周期/">Servlet的生命周期</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/B-S和C-S的含义及其区别/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:08:56.503Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/B-S和C-S的含义及其区别/">B/S和C/S的含义及其区别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/Java的三种代理模式/" class="archive-article-date">
-  	<time datetime="2017-09-09T14:46:39.682Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/Java的三种代理模式/">Java的三种代理模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/设计模式之---适配器模式/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:52:51.163Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/设计模式之---适配器模式/">适配器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/JAVA学习中收藏的大神的博客/" class="archive-article-date">
-  	<time datetime="2017-09-07T12:48:52.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/JAVA学习中收藏的大神的博客/">JAVA学习中收藏的大神的博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +332,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

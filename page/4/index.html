@@ -157,6 +157,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-自己对react中flux框架部分底层原理的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">自己对react中flux框架部分底层原理的理解</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/24/自己对react中flux框架部分底层原理的理解/" class="archive-article-date">
+  	<time datetime="2017-12-24T09:14:36.389Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这是我在学习react框架时的个人理解，包含个人总结和案例中代码的分析，对于react中部分与内存分配相关的原理还是不是很懂:<br>1.个人总结：</p>
+<blockquote>
+<p>flux架构的理解：<br>    flux架构中数据是单向流动的；<br>    view[components]经过出发产生action，action通过转发器dispatchet转发至store中，在store中action被注册在action中的回调函数接收和解析，通过计算store会更新store中的数据【存放组件状态的对象】，同时发送事件信号，发送的事件信号将被添加了事件监听对象的组件监听，<br>    当组件监听事件成功后会调用组件的this.setState()函数更新组件的状态,从而驱动组件的重新渲染过程.<br>flux中各种model推荐的构建的顺序:<br>    1.Dispatch在整个应用中是全局唯一的，可以通过 new Dispatcher()创建，用于转发action;<br>    2.创建每个组件【每类】组件对应的action,在action中接收来在组件的数据并创建action对象，通过dispatcher转发到store中，之后会调用在store中注册的回调函数，解析action更新storez中的相关数据;<br>    3.创建组件的store，在store中存储组件的初始状态，在store中完成的工作是生成新的数据并发送更新信号；<br>    4.创建对应的组件，在组件类中首先应该获取初始值，并添加监听函数，动作响应函数。<br>    以上flux构建项目的步骤只是本人总结归纳的，具体的步骤以实际开发为准;<br>A.flux中应该注意的问题：action为一个纯函数，多次引用在每个引用model的存储空间中初始化了多分实例，但是其产出只依赖于输入，所以无论整个应用中生成的实例是唯一的还是多个对整个应用功能的实现是不影响的;<br>B.Dispatcher对象在多次的引用过过程中不会生成多个实例，其底层只用的是单例模式实现的，因此在flxu应用中，我们使用的dispatcher对象是全局唯一并且是所有的模块共享的;只有这样我们才能保证在Action中调用了Dispatcher.dispatch(action);之后会去调用在store中注册的回调函数计算出新的数据[一般认为这个回调函数的调用时自动完成的]。<br>C：每个组件对应的store在全局范围内是唯一的，这样可以办证在不同的地方进行引用时可以获得同步的数据,这是通过浅复制的原理实现的;</p>
+</blockquote>
+<hr>
+<p>2.案例代码分心<br><strong>action：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">//action描述了组件发出的请求，包含了请求的类型和请求传递的数据;</div><div class="line">//action是一个纯函数，其产出只依赖与输入；</div><div class="line">//在实际的操作中，counterCasption相当于组件的ID,当组件产生动作的同时如果携带了数据，那么还可以添加对应的数据项；</div><div class="line">import * as ActionTypes from &apos;./ActionTypes.js&apos;;</div><div class="line">import AppDispatcher from &apos;../dispatchers/Appdispatcher.js&apos;;</div><div class="line">//定义action构造器;</div><div class="line">export const increment = (counterCaption)=&gt;&#123;</div><div class="line">  AppDispatcher.dispatch(</div><div class="line">    &#123;</div><div class="line">      type:ActionTypes.INCREMENT,</div><div class="line">      counterCaption:counterCaption</div><div class="line">    &#125;</div><div class="line">  );</div><div class="line">&#125;;</div><div class="line"></div><div class="line">export const decrement = (counterCaption)=&gt;&#123;</div><div class="line">  AppDispatcher.dispatch(</div><div class="line">    &#123;</div><div class="line">      type:ActionTypes.DECREMENT,</div><div class="line">      counterCaption:counterCaption</div><div class="line">    &#125;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>store</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">//CounterStore相当于一类组件的数据中心，它是单例的共享的；</div><div class="line">//Store中包含了组件是无状态model,其中包含了组件的初始状态值,以普通对象的形式存在;</div><div class="line">//一般在store中应该提供一个get方法，用于组件获取初始状态的值;</div><div class="line">//store中应该为Dispatcher注册状态计算函数，用于更新计算出新的数据，当组件同步这些数据后，组件的状态会更新，渲染被驱动进行;</div><div class="line">import AppDispatcher from &apos;../dispatchers/Appdispatcher.js&apos;;</div><div class="line">import * as ActionTypes from &apos;../actions/ActionTypes&apos;;</div><div class="line">import &#123;EventEmitter&#125; from &apos;events&apos;;</div><div class="line">//定义监听事件;</div><div class="line">const CHANGE_EVENT = &apos;changed&apos;;</div><div class="line">//定义组件的初始值，当组件加载的时候会在声明周期函数中同步这些值到组件的状态或者属性上去;</div><div class="line">const counterValues = &#123;</div><div class="line">  &apos;First&apos;: 0,</div><div class="line">  &apos;Second&apos;: 10,</div><div class="line">  &apos;Third&apos;: 30</div><div class="line">&#125;;</div><div class="line">//定义组件的store对象;</div><div class="line">const CounterStore = Object.assign(&#123;&#125;,EventEmitter.prototype,&#123;</div><div class="line">  //定义getter函数，方便数据的同步;</div><div class="line">  getCounterValues:function()&#123;</div><div class="line">    return counterValues;</div><div class="line">  &#125;,</div><div class="line">  //定义事件发射函数,store中的数据发生改变的时候通知对应的组件更新数据[是否会造成所有监听到该事件的组件都去调用getter函数同步数据呢？</div><div class="line">//会不会造成应用运行效率的降低呢];</div><div class="line">emitChange:function()&#123;</div><div class="line">  this.emit(CHANGE_EVENT);</div><div class="line">&#125;,</div><div class="line">//定义事件监听器添加函数，当组件挂载成功的时候添加监听函数;</div><div class="line">//callbacek函数由调用者传入，用于指明监听到事件后的行为，</div><div class="line">//通常callback函数的作用是更新组件的内部状态;</div><div class="line">addChangeListener:function(callback)&#123;</div><div class="line">  this.on(CHANGE_EVENT,callback);</div><div class="line">&#125;,</div><div class="line">//监听函数移除函数;</div><div class="line">removeChangeListener:function(callback)&#123;</div><div class="line">  this.removeListener(CHANGE_EVENT,callback);</div><div class="line">&#125;</div><div class="line"></div><div class="line">&#125;);</div><div class="line"></div><div class="line">//为store注册回调函数;</div><div class="line">CounterStore.dispatchToken = AppDispatcher.register(</div><div class="line">  (action)=&gt;&#123;</div><div class="line">    if(action.type===ActionTypes.INCREMENT)&#123;</div><div class="line">      counterValues[action.counterCaption]++;</div><div class="line">      CounterStore.emitChange();</div><div class="line">    &#125;else if(action.type===ActionTypes.DECREMENT)&#123;</div><div class="line">      counterValues[action.counterCaption]--;</div><div class="line">      CounterStore.emitChange();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">);</div><div class="line">//定义导出接口;</div><div class="line">export default CounterStore;</div></pre></td></tr></table></figure>
+<p><strong>dispatcher</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import &#123;Dispatcher&#125; from  &apos;flux&apos;;</div><div class="line">//创建flux中的dispatcher,由flux框架控制为单例模式的;</div><div class="line">export default new Dispatcher();</div></pre></td></tr></table></figure>
+<p><strong>components</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">//定义组件;</div><div class="line">import React, &#123;Component, PropTypes&#125; from &apos;react&apos;;</div><div class="line">import * as Actions from &apos;../actions/Actions&apos;;</div><div class="line">import CounterStore from &apos;../stores/CounterStore&apos;;</div><div class="line">const buttonStyle = &#123;</div><div class="line">  margin: &apos;10px&apos;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//定义组件的主体部分;</div><div class="line">class Counter extends Component &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    //绑定this到成员函数;</div><div class="line">    this.onChange = this.onChange.bind(this);</div><div class="line">    this.onClickIncrementButton = this.onClickIncrementButton.bind(this);</div><div class="line">    this.onClickDecrementButton = this.onClickDecrementButton.bind(this);</div><div class="line">    //获取组件的初始状态;</div><div class="line">    this.state = &#123;</div><div class="line">      count: CounterStore.getCounterValues()[props.caption]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //使用shouldComponentUpdate函数增加组件的渲染速度;</div><div class="line">  //因为当事件发射器发射事件后，所有监听该事件的组件中的主句或者状态将被更新，this.setState函数将被调用,采用shouldComponentUpdate</div><div class="line">  //函数进行判断可以提高组件的渲染效率;</div><div class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</div><div class="line">    return (nextProps.caption !== this.props.caption) || (nextState.count !== this.state.count);</div><div class="line">  &#125;</div><div class="line">  //组件成功挂载到dom上之后添加事件的监听;</div><div class="line">  componentDidMount() &#123;</div><div class="line">    CounterStore.addChangeListener(this.onChange);</div><div class="line">  &#125;</div><div class="line">  //组件被移除后对应的监听也应该被移除;</div><div class="line">  componentWillUnmount(callback) &#123;</div><div class="line">    CounterStore.removeChangeListener(this.onChange);</div><div class="line">  &#125;</div><div class="line">  //更新组件的状态;</div><div class="line">  onChange() &#123;</div><div class="line">    //同步store中的数据到组件中;</div><div class="line">    const newCount = CounterStore.getCounterValues()[this.props.caption];</div><div class="line">    this.setState(&#123;count: newCount&#125;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  onClickIncrementButton() &#123;</div><div class="line">    Actions.increment(this.props.caption);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  onClickDecrementButton() &#123;</div><div class="line">    Actions.decrement(this.props.caption);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const &#123;caption&#125; = this.props;</div><div class="line">    return (&lt;div&gt;</div><div class="line">      &lt;span&gt;JunJun的计算器&lt;/span&gt;</div><div class="line">      &lt;button style=&#123;buttonStyle&#125; onClick=&#123;this.onClickIncrementButton&#125;&gt;+&lt;/button&gt;</div><div class="line">      &lt;button style=&#123;buttonStyle&#125; onClick=&#123;this.onClickDecrementButton&#125;&gt;-&lt;/button&gt;</div><div class="line">      &lt;span&gt;&#123;caption&#125;count:&#123;this.state.count&#125;&lt;/span&gt;</div><div class="line">    &lt;/div&gt;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//约束组件的属性类型;</div><div class="line">Counter.propTypes = &#123;</div><div class="line">  caption: PropTypes.string.isRequired</div><div class="line">&#125;;</div><div class="line">//声明组件的引用接口;</div><div class="line">export default Counter;</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-nginx反向代理机制解决跨域问题详解【windows上的】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">nginx反向代理机制解决跨域问题详解【windows上的】</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/" class="archive-article-date">
+  	<time datetime="2017-12-21T01:38:27.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以前学过linux服务器上的配置，感觉linux上的比较好用。下面是windows上的详细配置、案例和原理图:<br>        1.背景<br>            我要在本地服务器上的jsp【react】页面上访问聚合网上的数据，但是由于端口、域名、协议的不同导致浏览器识别为跨域请求，因此需要借用nginx的反向代理机制实现跨域请求【其实用jsonp是最简单的方法，但是生产方必须提供必要的回调api】。<a href="http://blog.csdn.net/lambert310/article/details/51683775" target="_blank" rel="external">【什么是跨域】</a><br>         2.解决方案<br>         使用ngin反向代理实现跨域请求：<br>         nginx.conf配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#user  nobody;</div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">#error_log  logs/error.log;</div><div class="line">#error_log  logs/error.log  notice;</div><div class="line">#error_log  logs/error.log  info;</div><div class="line"></div><div class="line">#pid        logs/nginx.pid;</div><div class="line"></div><div class="line"></div><div class="line">events &#123;</div><div class="line">    worker_connections  1024;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">http &#123;</div><div class="line">    include       mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">    #access_log  logs/access.log  main;</div><div class="line"></div><div class="line">    sendfile        on;</div><div class="line">    #tcp_nopush     on;</div><div class="line"></div><div class="line">    #keepalive_timeout  0;</div><div class="line">    keepalive_timeout  65;</div><div class="line"></div><div class="line">    #gzip  on;</div><div class="line">    #反向代理的配置; </div><div class="line">    server &#123;</div><div class="line">        listen       8081;</div><div class="line">        server_name  127.0.0.1;</div><div class="line">        #charset koi8-r;</div><div class="line">        #access_log  logs/host.access.log  main;</div><div class="line">        location /juhe &#123;</div><div class="line">        proxy_pass   http://api.shujuzhihui.cn/api/invokingApi/searchExpress?appKey=0c98fbe6005e4c09b398bf9fcaf9cd3d&amp;expressNo=9891754549340;</div><div class="line">        //------------------必须设置部分---------------------------</div><div class="line">		proxy_redirect default;</div><div class="line">		proxy_connect_timeout 1s;</div><div class="line">		proxy_read_timeout 30s;</div><div class="line">		proxy_send_timeout 1s;</div><div class="line">		add_header &apos;Access-Control-Allow-Headers&apos; &apos;Content-Type&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Origin&apos; &apos;*&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Methods&apos; &apos;GET&apos;;</div><div class="line">		//-------------------必须设置部分--------------------------</div><div class="line">        index  index.html index.htm;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">	   	</div><div class="line"></div><div class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       8000;</div><div class="line">    #    listen       somename:8080;</div><div class="line">    #    server_name  somename  alias  another.alias;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line"></div><div class="line">    # HTTPS server</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       443 ssl;</div><div class="line">    #    server_name  localhost;</div><div class="line"></div><div class="line">    #    ssl_certificate      cert.pem;</div><div class="line">    #    ssl_certificate_key  cert.key;</div><div class="line"></div><div class="line">    #    ssl_session_cache    shared:SSL:1m;</div><div class="line">    #    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</div><div class="line">    #    ssl_prefer_server_ciphers  on;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>不要忘了设置请求方式，否则参数的传递可能会出现问题</em><br><img src="http://img.blog.csdn.net/20171222091925231?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>前端访问案例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">  &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</div><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;script  src=&quot;http://libs.baidu.com/jquery/1.8.2/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    $(function()&#123;</div><div class="line">	alert(&apos;Hello&apos;);</div><div class="line">        //按钮单击时执行</div><div class="line">        $(&quot;#testAjax&quot;).click(function()&#123;</div><div class="line">              </div><div class="line">              //Ajax调用处理</div><div class="line">            $.ajax(&#123;</div><div class="line">               type: &quot;POST&quot;,</div><div class="line">               url: &quot;http://127.0.0.1:8081/juhe/&quot;,</div><div class="line">               data: &quot;&quot;,</div><div class="line">               success: function(data)&#123;</div><div class="line">                        $(&quot;#myDiv&quot;).html(&apos;&lt;h2&gt;&apos;+data+&apos;&lt;/h2&gt;&apos;);</div><div class="line">                  &#125;</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">         &#125;);</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;    </div><div class="line">&lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;myDiv&quot;&gt;&lt;h2&gt;通过 AJAX 改变文本&lt;/h2&gt;&lt;/div&gt;</div><div class="line">        &lt;button id=&quot;testAjax&quot; type=&quot;button&quot;&gt;Ajax改变内容&lt;/button&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>   3.根本原理<br>   <img src="http://img.blog.csdn.net/20171221093523848?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br> 4.参考文档:<a href="http://m.blog.csdn.net/kkgbn/article/details/52276866" target="_blank" rel="external">Nginx 配置Ajax跨域访问</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Object.assign() 方法详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1045,171 +1186,6 @@ ReactDom.render(
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/06/React高频询问/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-明天就要学转前端了，收集了一些资料放这里了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">明天就要学转前端了，收集了一些资料放这里了</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/" class="archive-article-date">
-  	<time datetime="2017-12-03T13:03:16.778Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#下面是资料的链接，请尊重资料的作者，不要随意转发。</p>
-<hr>
-<p>1.react相关的学习资料<br><a href="http://it-ebooks.flygon.net/" target="_blank" rel="external">http://it-ebooks.flygon.net/</a></p>
-<p><img src="http://img.blog.csdn.net/20171203213241122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-AOP中的概念通知、切点、切面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/AOP中的概念通知、切点、切面/">AOP中的概念通知、切点、切面</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/07/AOP中的概念通知、切点、切面/" class="archive-article-date">
-  	<time datetime="2017-11-07T08:06:01.157Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong><strong>通知、增强处理（Advice）</strong></strong></p>
-<hr>
-<p>通知、增强处理（Advice） 就是你想要的功能，也就是上说的安全、事物、日子等。你给先定义好，然后再想用的地方用一下。包含Aspect的一段处理代码</p>
-<p><strong><em>连接点（JoinPoint）</em></strong></p>
-<hr>
-<p>连接点（JoinPoint） 这个就更好解释了，就是spring允许你是通知（Advice）的地方，那可就真多了，基本每个方法的钱、后（两者都有也行），或抛出异常是时都可以是连接点，spring只支持方法连接点。其他如AspectJ还可以让你在构造器或属性注入时都行，不过那不是咱们关注的，只要记住，和方法有关的前前后后都是连接点。</p>
-<p><strong><em>切入点（Pointcut）</em></strong> </p>
-<hr>
-<p>切入点（Pointcut） 上面说的连接点的基础上，来定义切入点，你的一个类里，有15个方法，那就有十几个连接点了对吧，但是你并不想在所有方法附件都使用通知（使用叫织入，下面再说），你只是想让其中几个，在调用这几个方法之前、之后或者抛出异常时干点什么，那么就用切入点来定义这几个方法，让切点来筛选连接点，选中那几个你想要的方法。</p>
-<p><strong><em>切面（Aspect）</em></strong></p>
-<hr>
-<p>切面（Aspect） 切面是通知和切入点的结合。现在发现了吧，没连接点什么事，链接点就是为了让你好理解切点搞出来的，明白这个概念就行了。通知说明了干什么和什么时候干（什么时候通过方法名中的befor，after，around等就能知道），二切入点说明了在哪干（指定到底是哪个方法），这就是一个完整的切面定义。</p>
-<hr>
-<blockquote>
-<p>引入（introduction）</p>
-<p>引入（introduction） 允许我们向现有的类添加新方法属性。这不就是把切面（也就是新方法属性：通知定义的）用到目标类中吗</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>目标（target）</p>
-<p>目标（target）<br>引入中所提到的目标类，也就是要被通知的对象，也就是真正的业务逻辑，他可以在毫不知情的情况下，被咋们织入切面。二自己专注于业务本身的逻辑。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>代理（proxy）</p>
-<p>代理（proxy） 怎么实现整套AOP机制的，都是通过代理，这个一会儿给细说。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>织入（weaving）</p>
-<p>织入（weaving） 把切面应用到目标对象来创建新的代理对象的过程。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">目标对象 – 项目原始的Java组件。</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理  – 由AOP框架生成java对象。</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理方法 = advice +　目标对象的方法。</div></pre></td></tr></table></figure>
-<p>example :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 通知 --&gt;</div><div class="line">	&lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;</div><div class="line">		&lt;tx:attributes&gt;</div><div class="line">			&lt;!-- 传播行为 --&gt;</div><div class="line">			&lt;tx:method name=&quot;save*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;insert*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;find*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;get*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;query*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">		&lt;/tx:attributes&gt;</div><div class="line">	&lt;/tx:advice&gt;</div><div class="line"></div><div class="line">	&lt;!-- 切面 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">		&lt;aop:advisor advice-ref=&quot;txAdvice&quot;[具体的增强逻辑，此处是事物，上面已经定义好了]</div><div class="line">			pointcut=&quot;execution(* cn.itcast.ssm.service.*.*(..))&quot; [增强逻辑的具体作用位置]/&gt;</div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/07/AOP中的概念通知、切点、切面/">展开全文 >></a>
         </p>
       
 
