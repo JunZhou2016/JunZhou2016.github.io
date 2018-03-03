@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>html 文本框onfocus（获得焦点） 执行了多次原因 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+  <meta name="description" content="代码如下，非常的简单：12345678910111213141516&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; char">
+<meta property="og:type" content="article">
+<meta property="og:title" content="html 文本框onfocus（获得焦点） 执行了多次原因">
+<meta property="og:url" content="http://yoursite.com/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="代码如下，非常的简单：12345678910111213141516&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; char">
+<meta property="og:image" content="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-03-03T02:46:43.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="html 文本框onfocus（获得焦点） 执行了多次原因">
+<meta name="twitter:description" content="代码如下，非常的简单：12345678910111213141516&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; char">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,96 +161,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-设计模式之---适配器模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-html 文本框onfocus（获得焦点） 执行了多次原因" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/08/设计模式之---适配器模式/">适配器模式</a>
+    <h1 class="article-title" itemprop="name">
+      html 文本框onfocus（获得焦点） 执行了多次原因
     </h1>
   
 
         
-        <a href="/2017/09/08/设计模式之---适配器模式/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:52:51.163Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
+        <a href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/" class="archive-article-date">
+  	<time datetime="2018-03-03T02:24:54.645Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <pre><code>适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。适配器模式是一种常用设计模式，适配器模式是对类的增强，例如[在Spring AOP中使用适配器模式将通知封装为对应的方法拦截器。](http://blog.csdn.net/adoocoke/article/details/8286902)
-</code></pre><p>适配器模式有类适配器模式和对象的适配器模式两种不同的形式。如下图所示，左边是的类的适配器模式（继承），右边是对象的适配器模式（引用）。<br><img src="http://img.blog.csdn.net/20170908175930761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>两种适配器模式中，对象适配器更为灵活，对象适配器可以根据给定的源（adaptee）灵活的适配多个对象，而类适配器适配的对象则是固定的，不利于扩。针对不同的使用场景，两者各有优点。</p>
-<p><strong>类的适配器模式</strong></p>
-<hr>
-<p>类的适配器模式把被适配的类的API转换成目标类的API，其静态结构图如下所示。</p>
-<p><img src="http://img.blog.csdn.net/20170908180737448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在上图中可以看出，Adaptee类并没有simpleOperation2()方法，而客户端则期待这个方法。为使客户端能够使用Adaptee类，提供一个中间环节，即类Adapter，把Adaptee的API与Target类的API衔接起来。Adapter与Adaptee是继承关系，这决定了这个适配器模式是类的。</p>
-<p>模式所涉及的角色有：</p>
-<pre><code>目标（Target）角色：这就是所期待得到的接口。注意，由于这里讨论的是类适配器模式，因此目标不可以是类。
-源（Adaptee）角色：现有需要配置的接口。
-适配器（Adapter）角色：适配器类是本模式的核心。适配器把源接口转换成目标接口。显然，这一叫色不可以是接口，而必须是具体类。
-</code></pre><p><strong>对象的适配器模式</strong></p>
-<hr>
-<p>与类的适配器模式一样，对象的适配器模式把被适配的类的API转换成目标类的API，与类的适配器模式不同的是，对象的适配器模式不是使用继承关系连接到Adaptee类，而是使用委派关系连接到Adaptee类。对象的适配器模式的静态结构如下图所示。</p>
-<p><img src="http://img.blog.csdn.net/20170908181129175?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>从上图中可以看出，Adaptee类并没有simpleOperation2()方法，而客户端则期待这个方法。为使客户端能够使用Adaptee类，需要提供一个包装（Wrapper）类Adapter。这个包装类包装了一个Adaptee的实例，从而此包装类能够把Adaptee的API与Target类的API衔接起来。Adapter与Adaptee是委派关系，这决定了这个适配器模式是对象的。<br>从上图可以看出，模式所涉及的角色有：</p>
-<blockquote>
-<p> 目标（Target）角色：这就是所期待的接口，目标可以是具体的或抽象的类。<br>    源（Adaptee）角色：现有需要适配的接口。<br>    适配器（Adapter）角色：适配器类是本模式的核心。适配器把源接口转换成目标接口，显然，这一角色必须是具体类。</p>
-</blockquote>
-<pre><code>***代码示例***
-</code></pre><p>类的适配器模式代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public interface Target &#123;</div><div class="line">    /**</div><div class="line">     * 这是源类也有的方法simpleOperation1</div><div class="line">     */</div><div class="line">    void simpleOperation1();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这是源类没有的方法simpleOperation2</div><div class="line">     */</div><div class="line">    void simpleOperation2();</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面给出的是目标角色的源代码，这个角色是以一个Java接口的形式实现的。可以看出，这个接口声明了两个方法：simpleOperation1()和simpleOperation2()。而<strong>源角色Adatpee是一个具体类</strong>，它有一个simpleOperation1()方法，但是没有simpleOperation2()方法，如下面代码清单所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class Adaptee &#123;</div><div class="line">    /**</div><div class="line">     * 源类含有方法simpleOperation1</div><div class="line">     */</div><div class="line">    public void simpleOperation1()&#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>适配器角色Adapter扩展了Adaptee,同时又实现了目标接口。由于Adaptee没有提供simpleOperation2()方法，而目标接口又要求这个方法，因此适配器角色Adatper实现了这个方法，如下面代码清单所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Adapter extends Adaptee implements Target &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 由于源类没有方法simpleOperation2</div><div class="line">     * 因此适配器类补充上这个方法</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation2() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>类的适配器模式的效果：</p>
-<p>   缺点: 使用一个具体类把源（Adaptee）适配到目标（Target）中。这样一来，如果源以及源的子<br>   类都使用此类适配，就行不通了。<br>    由于适配器类是源的子类，因此可以适配器类中之换掉（Override）源的一些方法。<br>    由于只引进了一个适配器类，因此只有一个路线到目标类，使问题得到简化。</p>
-<p><strong>对象的适配器模式代码</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public interface Target &#123;</div><div class="line">    /**</div><div class="line">     * 这是源类也有的方法simpleOperation1</div><div class="line">     */</div><div class="line">    void simpleOperation1();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这是源类没有的方法simpleOperation2</div><div class="line">     */</div><div class="line">    void simpleOperation2();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面给出的是目标角色的源代码，这个角色是以一个Java接口的形式实现的。可以看出，这个接口声明了两个方法：simpleOperation1()和simpleOperation2()。而源角色Adapatee是一个具体类，它有一个simpleOperation1()方法，但是没有simpleOperation2()方法，如下面带入清单所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class Adaptee &#123;</div><div class="line">    /**</div><div class="line">     * 源类含有方法simpleOperation1</div><div class="line">     */</div><div class="line">    public void simpleOperation1()&#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>适配器类的源代码如下面代码清单所示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public class Adapter implements Target &#123;</div><div class="line"></div><div class="line"></div><div class="line">    private Adaptee adaptee;</div><div class="line"></div><div class="line"></div><div class="line">    public Adapter(Adaptee adaptee) &#123;</div><div class="line">        super();</div><div class="line">        this.adaptee = adaptee;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 源类有方法simpleOperation1</div><div class="line">     * 因此适配器类直接委派即可</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation1() &#123;</div><div class="line">        adaptee.simpleOperation1();</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 源类没有方法simpleOperation2</div><div class="line">     * 因此适配器类补充上这个方法</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation2() &#123;</div><div class="line">        //write you code here</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>对象的适配器模式的效果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">**一个适配器可以把多种不同的源适配到同一个目标。换言之，同一个适配器可以把源类和它的子类都适配到目标接口。**</div></pre></td></tr></table></figure>
-<pre><code>与类的适配器模式相比，要想置换源类的方法就不容易。如果一定要置换掉源类的一个或多个方法，就只好先做一个源类的子类，将源类的方法置换掉，然后再把源类的子类当作真正的源进行适配。
-虽然想要置换源类的方法不容易，但是要想增加一些新的方法则方便得很，而且新增加的方法可同时适用于所有的源。
-</code></pre><p>总结</p>
-<p>适配器模式将现有接口转化为客户类所期望的接口，实现了对现有类的复用，它是一种使用频率非常高的设计模式，在软件开发中得以广泛应用，在Spring等开源框架、驱动程序设计（如JDBC中的数据库驱动程序）中也使用了适配器模式。</p>
-<ol>
-<li><p>主要优点<br>无论是对象适配器模式还是类适配器模式都具有如下优点：</p>
-<p> 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无须修改原有结构。<br> 增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一个适配者类可以在多个不同的系统中复用。<br> 灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</p>
-</li>
-</ol>
-<p>具体来说，类适配器模式还有如下优点：</p>
-<pre><code>由于适配器类是适配者类的子类，因此可以在适配器类中置换一些适配者的方法，使得适配器的灵活性更强。
-</code></pre><p>对象适配器模式还有如下优点：</p>
-<pre><code>一个对象适配器可以把多个不同的适配者适配到同一个目标；
-可以适配一个适配者的子类，由于适配器和适配者之间是关联关系，根据“里氏代换原则”，适配者的子类也可通过该适配器进行适配。
-</code></pre><ol>
-<li><p>主要缺点<br>类适配器模式的缺点如下：</p>
-<p> 对于Java、C#等不支持多重类继承的语言，一次最多只能适配一个适配者类，不能同时适配多个适配者；<br> 适配者类不能为最终类，如在Java中不能为final类，C#中不能为sealed类；<br> 在Java、C#等语言中，类适配器模式中的目标抽象类只能为接口，不能为类，其使用有一定的局限性。</p>
-</li>
-</ol>
-<p>对象适配器模式的缺点如下：</p>
-<pre><code>与类适配器模式相比，要在适配器中置换适配者类的某些方法比较麻烦。如果一定要置换掉适配者类的一个或多个方法，可以先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。
-</code></pre><ol>
-<li><p>适用场景<br>在以下情况下可以考虑使用适配器模式：</p>
-<p> 系统需要使用一些现有的类，而这些类的接口（如方法名）不符合系统的需要，甚至没有这些类的源代码。<br> 想创建一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。<br> （对对象的适配器模式而言）在设计里，需要改变多个已有的子类的接口，如果使用类的适配器模式，就要针对每一个子类做一个适配器类，而这不太实际。</p>
-</li>
-</ol>
-<p>整理的适配器模式思维导图</p>
-<p><img src="http://img.blog.csdn.net/20170908185218094?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+        <p>代码如下，非常的简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"></div><div class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;文本框获得焦点&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;input id=&quot;text&quot; type=&quot;text&quot;onfocus=&quot;alert(&apos;你点击了&apos;)&quot; &gt;&lt;/input&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line"></div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>效果图如下：<br><img src="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>实际上运行的效果并不是我想的那样，而是一直都在弹出 alert（）提示框</p>
+<p>终于知道什么原因了，都是我的这个alert() 写的，因为我的 onfocus =” “ 这个属性是文本框获得焦点的属性，而alert 这个是</p>
+<p>弹出对话框，当你点击弹出框的“确定”时，你的文本框就失去焦点了，而你点击了之后文本框又获得焦点了，这个时候就陷入死循环了</p>
+<p>解决的办法： 不用这个onfocus =” “ 属性，换成 onclick=””属性，就O了。</p>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -253,16 +219,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/08/设计模式之---适配器模式/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">flux中Cannot dispatch in the middle of a dispatch问题的解决方案</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -282,737 +307,12 @@
 
 
 
-
-  
-    <article id="post-JAVA学习中收藏的大神的博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/JAVA学习中收藏的大神的博客/">JAVA学习中收藏的大神的博客</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/JAVA学习中收藏的大神的博客/" class="archive-article-date">
-  	<time datetime="2017-09-07T12:48:52.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>   JAVA:<br>            <a href="https://crossoverjie.top/categories/" target="_blank" rel="external">crossoverjie的博客</a><br>            <a href="http://wuchong.me/" target="_blank" rel="external">Jark‘s的博客</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/JAVA学习中收藏的大神的博客/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-单例模式的几种实现方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/单例模式的几种实现方式/">单例模式的几种实现方式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/单例模式的几种实现方式/" class="archive-article-date">
-  	<time datetime="2017-09-07T10:58:17.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>单例模式算是设计模式中最容易理解，也是最容易手写代码的模式了吧。但是其中的坑却不少，所以也常作为面试题来考。本文主要对几种单例写法的整理，并分析其优缺点。很多都是一些老生常谈的问题，但如果你不知道如何创建一个线程安全的单例，不知道什么是双检锁，那这篇文章可能会帮助到你。</p>
-<p><strong>懒汉式，线程不安全</strong></p>
-<p>当被问到要实现一个单例模式时，很多人的第一反应是写出如下的代码，包括教科书上也是这样教我们的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private static Singleton instance;</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getInstance() &#123;</div><div class="line">     if (instance == null) &#123;</div><div class="line">         instance = new Singleton();</div><div class="line">     &#125;</div><div class="line">     return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这段代码简单明了，而且使用了懒加载模式，但是却存在致命的问题。当有多个线程并行调用 getInstance() 的时候，就会创建多个实例。也就是说在多线程下不能正常工作。</p>
-<p><strong>懒汉式，线程安全</strong></p>
-<p>为了解决上面的问题，最简单的方法是将整个 getInstance() 方法设为同步（synchronized）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static synchronized Singleton getInstance() &#123;</div><div class="line">    if (instance == null) &#123;</div><div class="line">        instance = new Singleton();</div><div class="line">    &#125;</div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>虽然做到了线程安全，并且解决了多实例的问题，但是它并不高效。因为在任何时候只能有一个线程调用 getInstance() 方法。但是同步操作只需要在第一次调用时才被需要，即第一次创建单例实例对象时。这就引出了双重检验锁。</p>
-<p><strong>双重检验锁</strong></p>
-<p>双重检验锁模式（double checked locking pattern），是一种使用同步块加锁的方法。程序员称其为双重检查锁，因为会有两次检查 instance == null，一次是在同步块外，一次是在同步块内。为什么在同步块内还要再检验一次？因为可能会有多个线程一起进入同步块外的 if，如果在同步块内不进行二次检验的话就会生成多个实例了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static Singleton getSingleTon()&#123;</div><div class="line">  if(instance==null)&#123;//Single Checked</div><div class="line">       synchronized(SingleTon.class)&#123;</div><div class="line">           if(instance==null)&#123;</div><div class="line">              instance = new Singleton();</div><div class="line">           &#125;</div><div class="line">       &#125; </div><div class="line">          &#125;</div><div class="line">    </div><div class="line">    return instance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这段代码看起来很完美，很可惜，它是有问题。主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。</p>
-<pre><code>给 instance 分配内存
-调用 Singleton 的构造函数来初始化成员变量
-将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）
-</code></pre><p>但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。</p>
-<p>我们只需要将 instance 变量声明成 volatile 就可以了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;</div><div class="line">    private volatile static Singleton instance; //声明成 volatile</div><div class="line">    private Singleton ()&#123;&#125;</div><div class="line">    public static Singleton getSingleton() &#123;</div><div class="line">        if (instance == null) &#123;                         </div><div class="line">            synchronized (Singleton.class) &#123;</div><div class="line">                if (instance == null) &#123;       </div><div class="line">                    instance = new Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>有些人认为使用 volatile 的原因是可见性，也就是可以保证线程在本地不会存有 instance 的副本，每次都是去主内存中读取。但其实是不对的。使用 volatile 的主要原因是其另一个特性：禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。比如上面的例子，取操作必须在执行完 1-2-3 之后或者 1-3-2 之后，不存在执行到 1-3 然后取到值的情况。从「先行发生原则」的角度理解的话，就是对于一个 volatile 变量的写操作都先行发生于后面对这个变量的读操作（这里的“后面”是时间上的先后顺序）。简单理解就是，声明为volatile的变量，其读操作一定实在写操作完成之后执行的。</p>
-<p>但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</p>
-<p>相信你不会喜欢这种复杂又隐含问题的方式，当然我们有更好的实现线程安全的单例模式的办法。<br>饿汉式 static final field</p>
-<p>这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Singleton&#123;</div><div class="line">    //类加载时就初始化</div><div class="line">    private static final Singleton instance = new Singleton();</div><div class="line">    </div><div class="line">    private Singleton()&#123;&#125;</div><div class="line">    public static Singleton getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种写法如果完美的话，就没必要在啰嗦那么多双检锁的问题了。缺点是它不是一种懒加载模式（lazy initialization），单例会在加载类后一开始就被初始化，即使客户端没有调用 getInstance()方法。饿汉式的创建方式在一些场景中将无法使用：譬如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了。<br>静态内部类 static nested class</p>
-<p>我比较倾向于使用静态内部类的方法，这种方法也是《Effective Java》上所推荐的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//线程安全的且实现了懒加载的饿汉模式</div><div class="line">   //使用私有的静态内部类来实现，保证了懒加载的实现;</div><div class="line"></div><div class="line">public class Singleton&#123;</div><div class="line">    //私有的静态内部类保证了单例，并且是懒汉模式的;</div><div class="line">    private static class SingletonHolder&#123;</div><div class="line">      private static final Singleton INSTANCE = new Singleton();</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">  private Singleton()&#123;&#125;</div><div class="line"></div><div class="line">public static final Singleton getInstance()&#123;</div><div class="line">  return SingletonHolder.INSTANCE;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种写法仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它是懒汉式的；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。<br>枚举 Enum</p>
-<p>用枚举写单例实在太简单了！这也是它最大的优点。下面这段代码就是声明枚举实例的通常做法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum EasySingleton&#123;</div><div class="line">    INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>我们可以通过EasySingleton.INSTANCE来访问实例，这比调用getInstance()方法简单多了。创建枚举默认就是线程安全的，所以不需要担心double checked locking，而且还能防止反序列化导致重新创建新的对象。但是还是很少看到有人这样写，可能是因为不太熟悉吧。<br>总结</p>
-<p>一般来说，单例模式有五种写法：懒汉、饿汉、双重检验锁、静态内部类、枚举。上述所说都是线程安全的实现，文章开头给出的第一种方法不算正确的写法。</p>
-<p>就我个人而言，一般情况下直接使用饿汉式就好了，如果明确要求要懒加载（lazy initialization）会倾向于使用静态内部类，如果涉及到反序列化创建对象时会试着使用枚举的方式来实现单例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/单例模式的几种实现方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CentOS 中 nginx 负载均衡和反向代理的搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">CentOS 中 nginx 负载均衡和反向代理的搭建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/" class="archive-article-date">
-  	<time datetime="2017-09-07T05:19:24.254Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>请参照博客：<br>      (1.) <a href="http://blog.csdn.net/zjx86320/article/details/51730388" target="_blank" rel="external">Nginx的好处和原理</a><br>       (2.)<a href="https://nginx.org/download/" target="_blank" rel="external">nginx下载</a><br>       (3.)<em><a href="https://juejin.im/entry/57763aa21532bc0060d96284" target="_blank" rel="external">CentOS 中 nginx 负载均衡和反向代理的搭建；</a></em><br>       (4.)<a href="https://junzhou2016.github.io/2017/09/05/Linux%20%E4%B8%8B%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E6%AD%A5%E9%AA%A4%EF%BC%88CentOS%EF%BC%89/" target="_blank" rel="external">修改hosts</a><br>       (5.)<a href="https://crossoverjie.top/2016/09/20/Linux-normal2/" target="_blank" rel="external">Linux（二）服务器运行环境配置 </a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ssm整合redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/ssm整合redis/">ssm整合redis</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
-  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>说明</strong><br>   redis是一个nosql数据库，具有高速，数据结构对程序员透明【数据类型支持list、set等结构】等特点。</p>
-<p><strong>redis的使用前提：</strong></p>
-<p>  (1.)redis 是一个数据库，和mysql相似，使用redis首先得安装redis数据库;<br>  (2.)为应用程序添加必要的配置：例如mysql中的四要素;<br>  (3.)配置redis相关的AOP【基于方法拦截】;<br>  (4.)使用redis相关的API；</p>
-<p><strong>Spring整合redis的相关配置:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;!-- jedis 配置 --&gt;</div><div class="line">	&lt;bean id=&quot;poolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</div><div class="line">		&lt;property name=&quot;maxIdle&quot; value=&quot;$&#123;redis.maxIdle&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;maxWaitMillis&quot; value=&quot;$&#123;redis.maxWait&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;testOnBorrow&quot; value=&quot;$&#123;redis.testOnBorrow&#125;&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;!-- redis服务器中心 --&gt;</div><div class="line">	&lt;bean id=&quot;connectionFactory&quot;</div><div class="line">		class=&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;&gt;</div><div class="line">		&lt;property name=&quot;poolConfig&quot; ref=&quot;poolConfig&quot; /&gt;</div><div class="line">		&lt;property name=&quot;port&quot; value=&quot;$&#123;redis.port&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;hostName&quot; value=&quot;$&#123;redis.host&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;password&quot; value=&quot;$&#123;redis.password&#125;&quot; /&gt;</div><div class="line">		&lt;property name=&quot;timeout&quot; value=&quot;$&#123;redis.timeout&#125;&quot;&gt;&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisTemplate&quot; class=&quot;org.springframework.data.redis.core.RedisTemplate&quot;&gt;</div><div class="line">		&lt;property name=&quot;connectionFactory&quot; ref=&quot;connectionFactory&quot; /&gt;</div><div class="line">		&lt;property name=&quot;keySerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;property name=&quot;valueSerializer&quot;&gt;</div><div class="line">			&lt;bean</div><div class="line">				class=&quot;org.springframework.data.redis.serializer.JdkSerializationRedisSerializer&quot; /&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- cache配置 --&gt;</div><div class="line">	&lt;bean id=&quot;methodCacheInterceptor&quot; class=&quot;com.crossoverJie.intercept.MethodCacheInterceptor&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisUtil&quot; ref=&quot;redisUtil&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean id=&quot;redisUtil&quot; class=&quot;com.crossoverJie.util.RedisUtil&quot;&gt;</div><div class="line">		&lt;property name=&quot;redisTemplate&quot; ref=&quot;redisTemplate&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line"></div><div class="line">	&lt;bean id=&quot;dataSourceExchange&quot; class=&quot;com.crossoverJie.util.DataSourceExchange&quot; /&gt;</div><div class="line">	&lt;!--配置切面拦截方法 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">	</div><div class="line">		&lt;!--将com.crossoverJie.service包下的所有select开头的方法加入拦截 去掉select则加入所有方法 --&gt;</div><div class="line">		&lt;aop:pointcut id=&quot;controllerMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.service.*.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line"></div><div class="line">		&lt;aop:pointcut id=&quot;selectMethodPointcut&quot;</div><div class="line">			expression=&quot;</div><div class="line">        execution(* com.crossoverJie.dao..*Mapper.select*(..))&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;aop:advisor advice-ref=&quot;methodCacheInterceptor&quot;</div><div class="line">			pointcut-ref=&quot;controllerMethodPointcut&quot; /&gt;</div><div class="line"></div><div class="line">		&lt;!--所有数据库操作的方法加入切面 --&gt;</div><div class="line">		&lt;aop:aspect ref=&quot;dataSourceExchange&quot;&gt;</div><div class="line">			&lt;aop:pointcut id=&quot;dataSourcePointcut&quot;</div><div class="line">				expression=&quot;execution(* com.crossoverJie.service.*.*(..))&quot; /&gt;</div><div class="line">			&lt;aop:before pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;before&quot; /&gt;</div><div class="line">			&lt;aop:after pointcut-ref=&quot;dataSourcePointcut&quot; method=&quot;after&quot; /&gt;</div><div class="line">		&lt;/aop:aspect&gt;</div><div class="line"></div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
-<p><strong>编码方法拦截器MethodInterceptor</strong></p>
-<pre><code>方法拦截器在目标方法被调用的时候被触发，作为增强业务逻辑存在，方法拦截器主要任务是将需要加入redis中数据添加进redis中;
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line">package com.crossoverJie.intercept;</div><div class="line"></div><div class="line">import com.crossoverJie.util.RedisUtil;</div><div class="line">import org.aopalliance.intercept.MethodInterceptor;</div><div class="line">import org.aopalliance.intercept.MethodInvocation;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by chenjie on 2016/11/16.</div><div class="line"> */</div><div class="line">public class MethodCacheInterceptor implements MethodInterceptor &#123;</div><div class="line">    private Logger logger = LoggerFactory.getLogger(MethodCacheInterceptor.class);</div><div class="line">    private RedisUtil redisUtil;</div><div class="line">    private List&lt;String&gt; targetNamesList; // 不加入缓存的service名称</div><div class="line">    private List&lt;String&gt; methodNamesList; // 不加入缓存的方法名称</div><div class="line">    private Long defaultCacheExpireTime; // 缓存默认的过期时间</div><div class="line">    private Long xxxRecordManagerTime; //</div><div class="line">    private Long xxxSetRecordManagerTime; //</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 初始化读取不需要加入缓存的类名和方法名称</div><div class="line">     */</div><div class="line">    public MethodCacheInterceptor() &#123;</div><div class="line">        try &#123;</div><div class="line">            // 分割字符串 这里没有加入任何方法</div><div class="line">        	//</div><div class="line">            String[] targetNames = &#123;&#125;;</div><div class="line">            String[] methodNames = &#123;&#125;;</div><div class="line"></div><div class="line">            // 加载过期时间设置</div><div class="line">            defaultCacheExpireTime = 3600L;</div><div class="line">            xxxRecordManagerTime = 60L;</div><div class="line">            xxxSetRecordManagerTime = 60L;</div><div class="line">            // 创建list</div><div class="line">            targetNamesList = new ArrayList&lt;String&gt;(targetNames.length);</div><div class="line">            methodNamesList = new ArrayList&lt;String&gt;(methodNames.length);</div><div class="line">            Integer maxLen = targetNames.length &gt; methodNames.length ? targetNames.length</div><div class="line">                    : methodNames.length;</div><div class="line">            // 将不需要缓存的类名和方法名添加到list中</div><div class="line">            for (int i = 0; i &lt; maxLen; i++) &#123;</div><div class="line">                if (i &lt; targetNames.length) &#123;</div><div class="line">                    targetNamesList.add(targetNames[i]);</div><div class="line">                &#125;</div><div class="line">                if (i &lt; methodNames.length) &#123;</div><div class="line">                    methodNamesList.add(methodNames[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Object invoke(MethodInvocation invocation) throws Throwable &#123;</div><div class="line">        Object value = null;</div><div class="line"></div><div class="line">        String targetName = invocation.getThis().getClass().getName();</div><div class="line">        String methodName = invocation.getMethod().getName();</div><div class="line">        // 不需要缓存的内容</div><div class="line">        //if (!isAddCache(StringUtil.subStrForLastDot(targetName), methodName)) &#123;</div><div class="line">        if (!isAddCache(targetName, methodName)) &#123;</div><div class="line">            // 执行方法返回结果</div><div class="line">            return invocation.proceed();</div><div class="line">        &#125;</div><div class="line">        Object[] arguments = invocation.getArguments();</div><div class="line">        String key = getCacheKey(targetName, methodName, arguments);</div><div class="line">        logger.debug(&quot;redisKey: &quot; + key);</div><div class="line">        try &#123;</div><div class="line">            // 判断是否有缓存</div><div class="line">            if (redisUtil.exists(key)) &#123;</div><div class="line">                return redisUtil.get(key);</div><div class="line">            &#125;</div><div class="line">            // 写入缓存</div><div class="line">            value = invocation.proceed();</div><div class="line">            if (value != null) &#123;</div><div class="line">                final String tkey = key;</div><div class="line">                final Object tvalue = value;</div><div class="line">                new Thread(new Runnable() &#123;</div><div class="line">                    @Override</div><div class="line">                    public void run() &#123;</div><div class="line">                        if (tkey.startsWith(&quot;com.service.impl.xxxRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxRecordManagerTime);</div><div class="line">                        &#125; else if (tkey.startsWith(&quot;com.service.impl.xxxSetRecordManager&quot;)) &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, xxxSetRecordManagerTime);</div><div class="line">                        &#125; else &#123;</div><div class="line">                            redisUtil.set(tkey, tvalue, defaultCacheExpireTime);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;).start();</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            if (value == null) &#123;</div><div class="line">                return invocation.proceed();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 是否加入缓存</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    private boolean isAddCache(String targetName, String methodName) &#123;</div><div class="line">        boolean flag = true;</div><div class="line">        if (targetNamesList.contains(targetName)</div><div class="line">                || methodNamesList.contains(methodName)) &#123;</div><div class="line">            flag = false;</div><div class="line">        &#125;</div><div class="line">        return flag;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 创建缓存key</div><div class="line">     *</div><div class="line">     * @param targetName</div><div class="line">     * @param methodName</div><div class="line">     * @param arguments</div><div class="line">     */</div><div class="line">    private String getCacheKey(String targetName, String methodName,</div><div class="line">                               Object[] arguments) &#123;</div><div class="line">        StringBuffer sbu = new StringBuffer();</div><div class="line">        sbu.append(targetName).append(&quot;_&quot;).append(methodName);</div><div class="line">        if ((arguments != null) &amp;&amp; (arguments.length != 0)) &#123;</div><div class="line">            for (int i = 0; i &lt; arguments.length; i++) &#123;</div><div class="line">                sbu.append(&quot;_&quot;).append(arguments[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return sbu.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setRedisUtil(RedisUtil redisUtil) &#123;</div><div class="line">        this.redisUtil = redisUtil;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">参考博客</a></p>
-<p><a href="https://github.com/JunZhou2016/SSM" target="_blank" rel="external">案例代码，参考其中的SSM-WEB</a></p>
-<p><a href="https://crossoverjie.top/2016/12/18/SSM7/" target="_blank" rel="external">附加pageHelper使用案例</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/ssm整合redis/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
-  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>windows下安装redis第一次启动报错：
-</code></pre><p>[2368] 21 Apr 02:57:05.611 # Creating Server TCP listening socket 127.0.0.1:6379: bind: No error</p>
-<p>解决方法：在命令行中运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">redis-cli.exe</div><div class="line">//如果设置了密码,则此处需要先输入认证即密码:</div><div class="line">127.0.0.1:6379&gt;auth yourpassword</div><div class="line">127.0.0.1:6379&gt;shutdown</div><div class="line">not connected&gt;exit</div></pre></td></tr></table></figure>
-<p>然后重新运行redis-server.exe redis.windows.conf 【–maxmemory 200M】，启动成功！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringMVC集成redis " class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
-  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<blockquote>
-<p><strong>Redis 简介</strong><br>Redis 是完全开源免费的，遵守BSD协议，是一个高性能的key-value数据库。 Redis 与其他 key -<br>value 缓存产品有以下三个特点： Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。<br>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。<br>Redis支持数据的备份，即master-slave模式的数据备份。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p><strong>Redis 优势</strong><br> 性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。 丰富的数据类型 –<br>Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。 原子 –<br>Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。 丰富的特性 – Redis还支持<br>publish/subscribe, 通知, key 过期等等特性。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p><strong>Redis与其他key-value存储有什么不同？</strong><br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</p>
-</blockquote>
-<p><strong>Redis 的 5 个常见使用场景</strong></p>
-<p><em>1、会话缓存（Session Cache）</em></p>
-<p>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
-<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
-<p><em>2、全页缓存（FPC）</em></p>
-<p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。</p>
-<p>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
-<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件  wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
-<p><em>3、队列</em></p>
-<p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
-<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
-<p><em>4.排行榜/计数器</em></p>
-<p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
-<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
-<p>ZRANGE user_scores 0 10 WITHSCORES</p>
-<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
-<p><em>5、发布/订阅</em></p>
-<p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
-<blockquote>
-<p><a href="http://blog.csdn.net/u012775558/article/details/68937298?locationNum=7&amp;fps=1" target="_blank" rel="external">本文将着重说明SpringMVC集成redis后的数据的增删改查;</a><br><a href="https://github.com/JunZhou2016/CRU4DRedis" target="_blank" rel="external">Demo</a></p>
-</blockquote>
-<hr>
-<blockquote>
-<p><a href="https://www.cc520.me/article.html?c=5&amp;index=86" target="_blank" rel="external">shiro使用redis缓存session会话、authentication信息、authorization信息简述</a></p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/SpringMVC集成redis /">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用Jenkins配置Git+Maven的自动化构建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>最近安装Jenkins，参照网上的各种资料进行尝试，折腾了好久，但是查找了这么多资料，相似度在90%以上！！！，相同的安装过程，测试了几台机器，未曾成功，不得不感慨自己能力有限，最终慢慢摸索，形成思路，现分享给大家，希望大家在安装的时候少走弯路。</p>
-<p>PS：本人很痛恨那种粘贴复制，毫无思考的博主，本想着拿着解决问题的心态，但结果还是一样，不但浪费了大家的时间，还浪费了大家的感情，所以，我把我遇到的问题和解决的方式记录下来和大家分享。</p>
-<p>转载链接:亲测可行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://blog.csdn.net/xlgen157387/article/details/50353317</div></pre></td></tr></table></figure>
-<p>配置过程中遇到的一些问题:一：wget命令提示找不到，其实wget和unzip一样，都是linux中的小插件，也就是工具类，提示命令没找到，多半是程序没有安装，安装一下就是了：</p>
-<blockquote>
-<p>  wget插件的安装命令:<br>      yum install wget</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>今天，使用unzip的时候，提示用不了，结果蒙逼。。。，还是问度娘，发现没有安装unzip软件，具体步骤如下：</p>
-<pre><code> #yum list | grep zip/unzip 
- #yum install zip
- #yum install unzip
- 基本完成，如果在编译的时候出现错误：gcc : error trying to exec &apos;cc1plus&apos;: execvp : No sunch file or directory
-可以用gcc -v/g++ -v 来查看gcc 版本，会发现没有安装。安装如下：
-#yum list | grep gcc
-#yum install gcc-c++
-#yum install unzip
-</code></pre></blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux(Centos)之安装tomcat并且部署Java Web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">Linux(Centos)之安装tomcat并且部署Java Web项目</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:20:05.460Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>阅读目录</p>
-<blockquote>
-<p>1.准备工作<br>    2.在Linux下安装Tomcat8.0<br>    3.Linux中设置tomcat的服务器启动和关闭<br>    4.Linux中设置tomcat的开机启动<br>    5.给tomcat设置用户名和密码登录<br>    6.使用MyEclipse打包Java Web项目<br>    7.将Java Web项目发布到Tomcat8.0下面并且访问展示</p>
-</blockquote>
-<p><strong>1.准备工作</strong></p>
-<p>首先检查软件的安装情况，使用的命令如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep jdk</div><div class="line">rpm -qa|grep mysql</div><div class="line">  rpm -qa|grep tomcat</div></pre></td></tr></table></figure>
-<p>a.下载tomcat linux的包，地址：<a href="http://tomcat.apache.org/download-80.cgi，我们下载的版本是8.0，下载方式如图：" target="_blank" rel="external">http://tomcat.apache.org/download-80.cgi，我们下载的版本是8.0，下载方式如图：</a></p>
-<p><img src="http://img.blog.csdn.net/20170905213621123?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>b.因为tomcat的安装依赖于Java jdk，所以我们需要在判断linux系统下面是否安装jdk<br>　　　　b.1 使用（Xshell）连接到Linux系统下面<br>　　　　b.2 输入命令：java -version，如果显示jdk版本号，则证明已经安装，如果不显示，则证明没有安装，如果没有安装，请参考下面地址进行安装：<a href="http://www.cnblogs.com/hanyinglong/p/5025635.html" target="_blank" rel="external">http://www.cnblogs.com/hanyinglong/p/5025635.html</a> ，如图所示：</p>
-<p><img src="http://img.blog.csdn.net/20170905213816543?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>　c.操作需要的软件以及系统如下：虚拟机(Vmware),虚拟机中安装的Centos系统，Xshell,Xftp,Tomcat8.0，MyEclipse开发的WebDemo，apache-tomcat-8.0.29.tar.gz。</p>
-<p><strong>2.在Linux下安装Tomcat8.0</strong><br>tomcat的通用安装路径是：/usr/local/tomcat,此处使用Xftp进行操作，模拟常规的项目发布<br>流程；</p>
-<p>详细的安装步骤如下:</p>
-<blockquote>
-<p>(1)、使用Xftp工具复制文件到/usr/local目录下;<br>          (2)、使用 tar -zxv -f apache-tomcat-8.0.46.tar.gz 命令进行解压；<br>           (3)、解压完成后将解压的问价夹更正为tomcat;</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20170905220414982?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>解析完成后即可以启动Tomcat，检查是否安装成功，命令如下，如图所示：
-　　</p>
-<blockquote>
-<p>　(4)、解压完成之后使用　/usr/local/tomcat/startup.sh命令查看tomcat是否能够正常启动；</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20170905220740683?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>　出现如图上所示的信息，则表示启动成功。这时候我们可以在windows下面使用<a href="http://ip:8080访问，如能够显示Tomcat的主页，则表示不需要进行任何操作了，如不能显示，则需要在Linux中开放防火墙的8080端口。" target="_blank" rel="external">http://ip:8080访问，如能够显示Tomcat的主页，则表示不需要进行任何操作了，如不能显示，则需要在Linux中开放防火墙的8080端口。</a>
-　　</p>
-<blockquote>
-<p>f.在Linux下面的防火墙里面开放8080端口 会用命令如下：<br>　　　　f.1  vim /etc/sysconfig/iptables<br>　　　　f.2  打开之后按键盘（i）进入编辑模式，写入开发8080端口，如图所示：</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20170905220918645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>　</p>
-<blockquote>
-<p>f.3  写完之后我们按键盘（ESC）按钮退出，然后按（:wq）保存并且关闭Vim。 　　g.之后重启防火墙,命令如下：<br>　　　　service iptables restart  　　h.然后再次在浏览器中输入<a href="http://ip:8080，如果看到tomcat系统界面，说明安装成功，你可以进行下一步了。" target="_blank" rel="external">http://ip:8080，如果看到tomcat系统界面，说明安装成功，你可以进行下一步了。</a><br>　　i.停止Tomcat的命令是：/usr/local/tomcat/bin/shutdown.sh</p>
-</blockquote>
-<p><strong>3.Linux中设置tomcat的服务器启动和关闭</strong></p>
-<p>a.如2所示，我们已经完成了对tomcat的安装，接下来就可以部署项目，但是这里存在一个问题，那就是Linux的系统和重启我们每次都需要接路径并且执行命令，那么我们可以设置成service的形式来实现这个功能。</p>
-<p>　　b.执行命令：vim /etc/rc.d/init.d/tomcat，创建脚本文件，在文件中写入如下代码，保存并且退出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"># /etc/rc.d/init.d/tomcat</div><div class="line"># init script for tomcat precesses</div><div class="line"># processname: tomcat</div><div class="line"># description: tomcat is a j2se server</div><div class="line"># chkconfig: 2345 86 16</div><div class="line"># description: Start up the Tomcat servlet engine.</div><div class="line"></div><div class="line">if [ -f /etc/init.d/functions ]; then</div><div class="line">. /etc/init.d/functions</div><div class="line">elif [ -f /etc/rc.d/init.d/functions ]; then</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line">else</div><div class="line">echo -e &quot;\atomcat: unable to locate functions lib. Cannot continue.&quot;</div><div class="line">exit -1</div><div class="line">fi</div><div class="line">RETVAL=$?</div><div class="line">CATALINA_HOME=&quot;/usr/local/kencery/tomcat&quot;   #tomcat安装目录，你安装在什么目录下就复制什么目录</div><div class="line">case &quot;$1&quot; in</div><div class="line">start)</div><div class="line">if [ -f $CATALINA_HOME/bin/startup.sh ];</div><div class="line">then</div><div class="line">echo $&quot;Starting Tomcat&quot;</div><div class="line">$CATALINA_HOME/bin/startup.sh</div><div class="line">fi</div><div class="line">;;</div><div class="line">stop)</div><div class="line">if [ -f $CATALINA_HOME/bin/shutdown.sh ];</div><div class="line">then</div><div class="line">echo $&quot;Stopping Tomcat&quot;</div><div class="line">$CATALINA_HOME/bin/shutdown.sh</div><div class="line">fi</div><div class="line">;;</div><div class="line">*)</div><div class="line">echo $&quot;Usage: $0 &#123;start|stop&#125;&quot;</div><div class="line">exit 1</div><div class="line">;;</div><div class="line">esac</div><div class="line">exit $RETVAL</div><div class="line"></div><div class="line">Linux</div></pre></td></tr></table></figure>
-<blockquote>
-<p>c.给文件添加权限，使得脚本文件可以执行，命令为  chmod 755 /etc/rc.d/init.d/tomcat<br>　　d.将其添加到服务中，命令为 chkconfig –add /etc/rc.d/init.d/tomcat<br>　　e.然后将下面的配置文件加到tomcat中的catalina.sh文件中的最后面，命令为：vim<br>/usr/local/kencery/tomcat/bin/catalina.sh<br>　　　　export JAVA_HOME=/usr/local/kencery/javajdk   #javajdk的安装路径，使用echo $JAVA_HOME命令可以读取<br>　　　　export CATALINA_HOME=/usr/local/kencery/tomcat<br>　　　　export CATALINA_BASE=/usr/local/kencery/tomcat<br>　　　　export CATALINA_TMPDIR=/usr/local/kencery/tomcat/temp 　　f.以上所有工作顺利进行并且没有报错，则配置完成，你可以输入命令service tomcat start和service tomcat<br>stop进行验证(请自行实验)。</p>
-</blockquote>
-<p><strong>4.Linux中设置tomcat的开机启动</strong></p>
-<p>　a. 通过第三步的设置我们可以很方便的设置tomcat的启动和关闭，但是这里存在一个问题，那就是当服务器关机重启的时候，服务不能随计算机的启动而自己启动，那么我们可以将tomcat服务设置为开机启动。<br>　　b.打开linux设置开启启动的文件，将下面的配置文件写入此文件的最后，命令为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">vim /etc/rc.d/rc.local</div><div class="line">　　　　export JAVA_HOME=/usr/local/kencery/javajdk</div><div class="line">　　　　export        CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.j ar</div><div class="line">　　　　export PATH=$PATH:$JAVA_HOME/bin</div><div class="line">　　　　export CATALINA_HOME=/usr/local/kencery/tomcat/</div><div class="line">　　　　#tomcat自启动</div><div class="line">　　　　/usr/local/kencery/tomcat/bin/startup.</div></pre></td></tr></table></figure>
-<p>　　c.tomcat依赖于Java的jdk，所以设置的时候讲jdk也同步导入。<br>　　d.完成上面的步骤之后我们就可以将centos关机重启检查一番。<br>　　<br><strong>5.给tomcat设置用户名和密码登录</strong></p>
-<p>　a.当tomcat安装完成之后，访问<a href="http://ip:8080即可以看到tomcat发布的网站，这时候需要管理我们发布网站，就需要登录tomcat，那么在centos中如何设置登录名和密码。" target="_blank" rel="external">http://ip:8080即可以看到tomcat发布的网站，这时候需要管理我们发布网站，就需要登录tomcat，那么在centos中如何设置登录名和密码。</a><br>　　b.在tomcat安装包下面的conf文件下含有一个tomcat-user.xml文件，修改此文件即可，命令为：vim tomcat-users.xml<br>　　c.在打开的xml配置文件最后面写入下面这段配置文件之后保存并且退出即可。
-　　　</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　     &lt;role rolename=&quot;admin-gui&quot;/&gt;   </div><div class="line">　　　　&lt;role rolename=&quot;manager-gui&quot;/&gt;</div><div class="line">　　　　&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;manager-gui,admin-gui&quot;/&gt;</div></pre></td></tr></table></figure>
-<p>　　d.在这里会出现一个问题，因为tomcat-users.xml里面有注释的用户设置的信息，取消注释，用文件提供的用户名和密码去访问的时候，会出现403错误，什么原因呢？这是因为我们没有指定用户所拥有的权限的原因，如我们现在想访问tomcat中图形化管理应用的功能，也就是Manager App，就需要指定manager-gui的权限，如果想访问host manager就必须指定admin-gui权限，故而如c所示的配置。</p>
-<p>　　e.配置完用户名密码之后，需要重新启动tomcat，命令如下：
-　　　</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　            service tomcat stop</div><div class="line">service tomcat start</div></pre></td></tr></table></figure>
-<p>　　f. 重启服务之后，检测是否登录成功，如果登录进入系统，则说明登录成功。</p>
-<p><strong>6.将Java Web项目发布到Tomcat8.0下面并且访问展示</strong></p>
-<p>导出war包，将war包存放于tomcat默认的发布web项目目录：webapps下即可；<br>启动tomcat，war包可以自动被解析。<br>然后访问项目，检查项目是否发布成功。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux部署Java web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/Linux部署Java web项目/">Linux部署Java web项目</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/Linux部署Java web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T09:02:33.925Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>详情请参照下面的博客<br><a href="https://juejin.im/post/5847cac461ff4b006bae5a12" target="_blank" rel="external">https://juejin.im/post/5847cac461ff4b006bae5a12</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/Linux部署Java web项目/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -1035,8 +335,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
