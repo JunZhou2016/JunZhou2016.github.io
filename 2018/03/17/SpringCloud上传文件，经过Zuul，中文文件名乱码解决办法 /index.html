@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /index.html">
 <meta property="og:site_name" content="Blog4Jun">
 <meta property="og:description" content="最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:    方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。 12345678910111">
-<meta property="og:updated_time" content="2018-03-17T01:53:07.427Z">
+<meta property="og:updated_time" content="2018-03-17T02:03:49.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法">
 <meta name="twitter:description" content="最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:    方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。 12345678910111">
