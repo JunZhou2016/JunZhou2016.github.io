@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/6/index.html">
+  <meta name="description" content="最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:    方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。 12345678910111">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法">
+<meta property="og:url" content="http://yoursite.com/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:    方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。 12345678910111">
+<meta property="og:updated_time" content="2018-03-17T01:53:07.427Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法">
+<meta name="twitter:description" content="最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:    方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。 12345678910111">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,295 +159,180 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 " class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法
+    </h1>
+  
+
+        
+        <a href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /" class="archive-article-date">
+  	<time datetime="2018-03-17T01:44:52.192Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:</p>
+<hr>
+<p>  方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 各种poi导入导出的请求控制模块;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月16日@下午4:28:49</div><div class="line"> */</div><div class="line">@RestController</div><div class="line">@RequestMapping(&quot;/poi&quot;)</div><div class="line">@ClazzNote(desc = &quot;excel文件&quot;, resource = &quot;input&quot;, modName = &quot;poi&quot;)</div><div class="line">public class POIController &#123;</div><div class="line">	@RequestMapping(&quot;/uploadExcel&quot;)</div><div class="line">	@ServiceNote(desc = &quot;上传考勤明细的excel&quot;, auth = ServiceNote.AUTH.CHECK)</div><div class="line">	public ResObject&lt;ResponseMessage&gt; singleFileUpload(MultipartHttpServletRequest request,</div><div class="line">	    RedirectAttributes redirectAttributes, HttpServletResponse response) &#123;</div><div class="line">		Integer stateCode = poiService.receiveUploadExcel(request, redirectAttributes, response);</div><div class="line">		//根据返回值确定响应信息实体;</div><div class="line">		ResponseMessage responseMessage = UploadStatusEnum.desicideUploadStatusBystateCode(stateCode, response);</div><div class="line">		//设置响应状态为200;</div><div class="line">		response.setStatus(UploadStatusEnum.UPLOAD_OK.getStateCode());</div><div class="line">		return new ResObject&lt;ResponseMessage&gt;(null,responseMessage);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>例如在当前代码下，请求路径是：</p>
+<blockquote>
+<p>localhost:9090/oss/poi/uploadExcel</p>
+</blockquote>
+<p>那么采用方案一解决中文乱码的请求路径就是:</p>
+<blockquote>
+<p>localhost:9090/zuul/oss/poi/uploadExcel</p>
+</blockquote>
+<p>经过测试，中文乱码问题成功解决。</p>
+<hr>
+<p>方案二:<br>在方案一的基础上，不仅要改动后端代码，前端代码也要变更，较为麻烦，<br>因此更简单的方案是在zuul的配置文件中添加一个如下的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">zuul.servlet-path=/</div></pre></td></tr></table></figure>
+<p>注意实在网关的配置文件中添加的，经过本人侧ishi，问题也成功解决了。</p>
+<p>参考文章：<br>1、<a href="https://my.oschina.net/u/3706162/blog/1621014" target="_blank" rel="external">SpringCloud 上传文件，经过Zuul，中文文件名乱码解决办法</a></p>
+<p>2、<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1385" target="_blank" rel="external">zuul proxy file upload, file name is Chinese garbled #1385</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/Mysql优化之索引类型/" class="archive-article-date">
-  	<time datetime="2017-09-12T12:24:09.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/Mysql优化之索引类型/">Mysql优化之索引</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/Servlet的生命周期/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:45:37.709Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/03/17/java乱码解决之道/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          java乱码解决之道
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/17/Http状态码详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Http状态码详解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/Servlet的生命周期/">Servlet的生命周期</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/B-S和C-S的含义及其区别/" class="archive-article-date">
-  	<time datetime="2017-09-10T08:08:56.503Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/B-S和C-S的含义及其区别/">B/S和C/S的含义及其区别</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/Java的三种代理模式/" class="archive-article-date">
-  	<time datetime="2017-09-09T14:46:39.682Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/Java的三种代理模式/">Java的三种代理模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/设计模式之---适配器模式/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:52:51.163Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/设计模式之---适配器模式/">适配器模式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/JAVA学习中收藏的大神的博客/" class="archive-article-date">
-  	<time datetime="2017-09-07T12:48:52.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/JAVA学习中收藏的大神的博客/">JAVA学习中收藏的大神的博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/单例模式的几种实现方式/" class="archive-article-date">
-  	<time datetime="2017-09-07T10:58:17.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/单例模式的几种实现方式/">单例模式的几种实现方式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/" class="archive-article-date">
-  	<time datetime="2017-09-07T05:19:24.254Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">CentOS 中 nginx 负载均衡和反向代理的搭建</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/ssm整合redis/" class="archive-article-date">
-  	<time datetime="2017-09-07T03:16:09.505Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/ssm整合redis/">ssm整合redis</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
-  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/5/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/7/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -467,8 +356,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

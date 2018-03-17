@@ -157,6 +157,305 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringMVC集成redis " class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
+  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<blockquote>
+<p><strong>Redis 简介</strong><br>Redis 是完全开源免费的，遵守BSD协议，是一个高性能的key-value数据库。 Redis 与其他 key -<br>value 缓存产品有以下三个特点： Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。<br>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。<br>Redis支持数据的备份，即master-slave模式的数据备份。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>Redis 优势</strong><br> 性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。 丰富的数据类型 –<br>Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。 原子 –<br>Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。 丰富的特性 – Redis还支持<br>publish/subscribe, 通知, key 过期等等特性。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>Redis与其他key-value存储有什么不同？</strong><br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</p>
+</blockquote>
+<p><strong>Redis 的 5 个常见使用场景</strong></p>
+<p><em>1、会话缓存（Session Cache）</em></p>
+<p>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
+<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
+<p><em>2、全页缓存（FPC）</em></p>
+<p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。</p>
+<p>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
+<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件  wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
+<p><em>3、队列</em></p>
+<p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
+<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
+<p><em>4.排行榜/计数器</em></p>
+<p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
+<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
+<p>ZRANGE user_scores 0 10 WITHSCORES</p>
+<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
+<p><em>5、发布/订阅</em></p>
+<p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/u012775558/article/details/68937298?locationNum=7&amp;fps=1" target="_blank" rel="external">本文将着重说明SpringMVC集成redis后的数据的增删改查;</a><br><a href="https://github.com/JunZhou2016/CRU4DRedis" target="_blank" rel="external">Demo</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><a href="https://www.cc520.me/article.html?c=5&amp;index=86" target="_blank" rel="external">shiro使用redis缓存session会话、authentication信息、authorization信息简述</a></p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/SpringMVC集成redis /">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-使用Jenkins配置Git+Maven的自动化构建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
+  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>最近安装Jenkins，参照网上的各种资料进行尝试，折腾了好久，但是查找了这么多资料，相似度在90%以上！！！，相同的安装过程，测试了几台机器，未曾成功，不得不感慨自己能力有限，最终慢慢摸索，形成思路，现分享给大家，希望大家在安装的时候少走弯路。</p>
+<p>PS：本人很痛恨那种粘贴复制，毫无思考的博主，本想着拿着解决问题的心态，但结果还是一样，不但浪费了大家的时间，还浪费了大家的感情，所以，我把我遇到的问题和解决的方式记录下来和大家分享。</p>
+<p>转载链接:亲测可行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://blog.csdn.net/xlgen157387/article/details/50353317</div></pre></td></tr></table></figure>
+<p>配置过程中遇到的一些问题:一：wget命令提示找不到，其实wget和unzip一样，都是linux中的小插件，也就是工具类，提示命令没找到，多半是程序没有安装，安装一下就是了：</p>
+<blockquote>
+<p>  wget插件的安装命令:<br>      yum install wget</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>今天，使用unzip的时候，提示用不了，结果蒙逼。。。，还是问度娘，发现没有安装unzip软件，具体步骤如下：</p>
+<pre><code> #yum list | grep zip/unzip 
+ #yum install zip
+ #yum install unzip
+ 基本完成，如果在编译的时候出现错误：gcc : error trying to exec &apos;cc1plus&apos;: execvp : No sunch file or directory
+可以用gcc -v/g++ -v 来查看gcc 版本，会发现没有安装。安装如下：
+#yum list | grep gcc
+#yum install gcc-c++
+#yum install unzip
+</code></pre></blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Linux(Centos)之安装tomcat并且部署Java Web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">Linux(Centos)之安装tomcat并且部署Java Web项目</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/" class="archive-article-date">
+  	<time datetime="2017-09-05T14:20:05.460Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>阅读目录</p>
+<blockquote>
+<p>1.准备工作<br>    2.在Linux下安装Tomcat8.0<br>    3.Linux中设置tomcat的服务器启动和关闭<br>    4.Linux中设置tomcat的开机启动<br>    5.给tomcat设置用户名和密码登录<br>    6.使用MyEclipse打包Java Web项目<br>    7.将Java Web项目发布到Tomcat8.0下面并且访问展示</p>
+</blockquote>
+<p><strong>1.准备工作</strong></p>
+<p>首先检查软件的安装情况，使用的命令如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep jdk</div><div class="line">rpm -qa|grep mysql</div><div class="line">  rpm -qa|grep tomcat</div></pre></td></tr></table></figure>
+<p>a.下载tomcat linux的包，地址：<a href="http://tomcat.apache.org/download-80.cgi，我们下载的版本是8.0，下载方式如图：" target="_blank" rel="external">http://tomcat.apache.org/download-80.cgi，我们下载的版本是8.0，下载方式如图：</a></p>
+<p><img src="http://img.blog.csdn.net/20170905213621123?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>b.因为tomcat的安装依赖于Java jdk，所以我们需要在判断linux系统下面是否安装jdk<br>　　　　b.1 使用（Xshell）连接到Linux系统下面<br>　　　　b.2 输入命令：java -version，如果显示jdk版本号，则证明已经安装，如果不显示，则证明没有安装，如果没有安装，请参考下面地址进行安装：<a href="http://www.cnblogs.com/hanyinglong/p/5025635.html" target="_blank" rel="external">http://www.cnblogs.com/hanyinglong/p/5025635.html</a> ，如图所示：</p>
+<p><img src="http://img.blog.csdn.net/20170905213816543?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>　c.操作需要的软件以及系统如下：虚拟机(Vmware),虚拟机中安装的Centos系统，Xshell,Xftp,Tomcat8.0，MyEclipse开发的WebDemo，apache-tomcat-8.0.29.tar.gz。</p>
+<p><strong>2.在Linux下安装Tomcat8.0</strong><br>tomcat的通用安装路径是：/usr/local/tomcat,此处使用Xftp进行操作，模拟常规的项目发布<br>流程；</p>
+<p>详细的安装步骤如下:</p>
+<blockquote>
+<p>(1)、使用Xftp工具复制文件到/usr/local目录下;<br>          (2)、使用 tar -zxv -f apache-tomcat-8.0.46.tar.gz 命令进行解压；<br>           (3)、解压完成后将解压的问价夹更正为tomcat;</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170905220414982?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>解析完成后即可以启动Tomcat，检查是否安装成功，命令如下，如图所示：
+　　</p>
+<blockquote>
+<p>　(4)、解压完成之后使用　/usr/local/tomcat/startup.sh命令查看tomcat是否能够正常启动；</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170905220740683?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>　出现如图上所示的信息，则表示启动成功。这时候我们可以在windows下面使用<a href="http://ip:8080访问，如能够显示Tomcat的主页，则表示不需要进行任何操作了，如不能显示，则需要在Linux中开放防火墙的8080端口。" target="_blank" rel="external">http://ip:8080访问，如能够显示Tomcat的主页，则表示不需要进行任何操作了，如不能显示，则需要在Linux中开放防火墙的8080端口。</a>
+　　</p>
+<blockquote>
+<p>f.在Linux下面的防火墙里面开放8080端口 会用命令如下：<br>　　　　f.1  vim /etc/sysconfig/iptables<br>　　　　f.2  打开之后按键盘（i）进入编辑模式，写入开发8080端口，如图所示：</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20170905220918645?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>　</p>
+<blockquote>
+<p>f.3  写完之后我们按键盘（ESC）按钮退出，然后按（:wq）保存并且关闭Vim。 　　g.之后重启防火墙,命令如下：<br>　　　　service iptables restart  　　h.然后再次在浏览器中输入<a href="http://ip:8080，如果看到tomcat系统界面，说明安装成功，你可以进行下一步了。" target="_blank" rel="external">http://ip:8080，如果看到tomcat系统界面，说明安装成功，你可以进行下一步了。</a><br>　　i.停止Tomcat的命令是：/usr/local/tomcat/bin/shutdown.sh</p>
+</blockquote>
+<p><strong>3.Linux中设置tomcat的服务器启动和关闭</strong></p>
+<p>a.如2所示，我们已经完成了对tomcat的安装，接下来就可以部署项目，但是这里存在一个问题，那就是Linux的系统和重启我们每次都需要接路径并且执行命令，那么我们可以设置成service的形式来实现这个功能。</p>
+<p>　　b.执行命令：vim /etc/rc.d/init.d/tomcat，创建脚本文件，在文件中写入如下代码，保存并且退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"># /etc/rc.d/init.d/tomcat</div><div class="line"># init script for tomcat precesses</div><div class="line"># processname: tomcat</div><div class="line"># description: tomcat is a j2se server</div><div class="line"># chkconfig: 2345 86 16</div><div class="line"># description: Start up the Tomcat servlet engine.</div><div class="line"></div><div class="line">if [ -f /etc/init.d/functions ]; then</div><div class="line">. /etc/init.d/functions</div><div class="line">elif [ -f /etc/rc.d/init.d/functions ]; then</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line">else</div><div class="line">echo -e &quot;\atomcat: unable to locate functions lib. Cannot continue.&quot;</div><div class="line">exit -1</div><div class="line">fi</div><div class="line">RETVAL=$?</div><div class="line">CATALINA_HOME=&quot;/usr/local/kencery/tomcat&quot;   #tomcat安装目录，你安装在什么目录下就复制什么目录</div><div class="line">case &quot;$1&quot; in</div><div class="line">start)</div><div class="line">if [ -f $CATALINA_HOME/bin/startup.sh ];</div><div class="line">then</div><div class="line">echo $&quot;Starting Tomcat&quot;</div><div class="line">$CATALINA_HOME/bin/startup.sh</div><div class="line">fi</div><div class="line">;;</div><div class="line">stop)</div><div class="line">if [ -f $CATALINA_HOME/bin/shutdown.sh ];</div><div class="line">then</div><div class="line">echo $&quot;Stopping Tomcat&quot;</div><div class="line">$CATALINA_HOME/bin/shutdown.sh</div><div class="line">fi</div><div class="line">;;</div><div class="line">*)</div><div class="line">echo $&quot;Usage: $0 &#123;start|stop&#125;&quot;</div><div class="line">exit 1</div><div class="line">;;</div><div class="line">esac</div><div class="line">exit $RETVAL</div><div class="line"></div><div class="line">Linux</div></pre></td></tr></table></figure>
+<blockquote>
+<p>c.给文件添加权限，使得脚本文件可以执行，命令为  chmod 755 /etc/rc.d/init.d/tomcat<br>　　d.将其添加到服务中，命令为 chkconfig –add /etc/rc.d/init.d/tomcat<br>　　e.然后将下面的配置文件加到tomcat中的catalina.sh文件中的最后面，命令为：vim<br>/usr/local/kencery/tomcat/bin/catalina.sh<br>　　　　export JAVA_HOME=/usr/local/kencery/javajdk   #javajdk的安装路径，使用echo $JAVA_HOME命令可以读取<br>　　　　export CATALINA_HOME=/usr/local/kencery/tomcat<br>　　　　export CATALINA_BASE=/usr/local/kencery/tomcat<br>　　　　export CATALINA_TMPDIR=/usr/local/kencery/tomcat/temp 　　f.以上所有工作顺利进行并且没有报错，则配置完成，你可以输入命令service tomcat start和service tomcat<br>stop进行验证(请自行实验)。</p>
+</blockquote>
+<p><strong>4.Linux中设置tomcat的开机启动</strong></p>
+<p>　a. 通过第三步的设置我们可以很方便的设置tomcat的启动和关闭，但是这里存在一个问题，那就是当服务器关机重启的时候，服务不能随计算机的启动而自己启动，那么我们可以将tomcat服务设置为开机启动。<br>　　b.打开linux设置开启启动的文件，将下面的配置文件写入此文件的最后，命令为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">vim /etc/rc.d/rc.local</div><div class="line">　　　　export JAVA_HOME=/usr/local/kencery/javajdk</div><div class="line">　　　　export        CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.j ar</div><div class="line">　　　　export PATH=$PATH:$JAVA_HOME/bin</div><div class="line">　　　　export CATALINA_HOME=/usr/local/kencery/tomcat/</div><div class="line">　　　　#tomcat自启动</div><div class="line">　　　　/usr/local/kencery/tomcat/bin/startup.</div></pre></td></tr></table></figure>
+<p>　　c.tomcat依赖于Java的jdk，所以设置的时候讲jdk也同步导入。<br>　　d.完成上面的步骤之后我们就可以将centos关机重启检查一番。<br>　　<br><strong>5.给tomcat设置用户名和密码登录</strong></p>
+<p>　a.当tomcat安装完成之后，访问<a href="http://ip:8080即可以看到tomcat发布的网站，这时候需要管理我们发布网站，就需要登录tomcat，那么在centos中如何设置登录名和密码。" target="_blank" rel="external">http://ip:8080即可以看到tomcat发布的网站，这时候需要管理我们发布网站，就需要登录tomcat，那么在centos中如何设置登录名和密码。</a><br>　　b.在tomcat安装包下面的conf文件下含有一个tomcat-user.xml文件，修改此文件即可，命令为：vim tomcat-users.xml<br>　　c.在打开的xml配置文件最后面写入下面这段配置文件之后保存并且退出即可。
+　　　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　     &lt;role rolename=&quot;admin-gui&quot;/&gt;   </div><div class="line">　　　　&lt;role rolename=&quot;manager-gui&quot;/&gt;</div><div class="line">　　　　&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;manager-gui,admin-gui&quot;/&gt;</div></pre></td></tr></table></figure>
+<p>　　d.在这里会出现一个问题，因为tomcat-users.xml里面有注释的用户设置的信息，取消注释，用文件提供的用户名和密码去访问的时候，会出现403错误，什么原因呢？这是因为我们没有指定用户所拥有的权限的原因，如我们现在想访问tomcat中图形化管理应用的功能，也就是Manager App，就需要指定manager-gui的权限，如果想访问host manager就必须指定admin-gui权限，故而如c所示的配置。</p>
+<p>　　e.配置完用户名密码之后，需要重新启动tomcat，命令如下：
+　　　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　            service tomcat stop</div><div class="line">service tomcat start</div></pre></td></tr></table></figure>
+<p>　　f. 重启服务之后，检测是否登录成功，如果登录进入系统，则说明登录成功。</p>
+<p><strong>6.将Java Web项目发布到Tomcat8.0下面并且访问展示</strong></p>
+<p>导出war包，将war包存放于tomcat默认的发布web项目目录：webapps下即可；<br>启动tomcat，war包可以自动被解析。<br>然后访问项目，检查项目是否发布成功。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/05/Linux(Centos)之安装tomcat并且部署Java Web项目/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux部署Java web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -924,273 +1223,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/面向对象程序设计六大原则/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring+quartz实现任务调度的小例子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">Spring+quartz实现任务调度的小例子</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
-  	<time datetime="2017-08-29T03:11:50.899Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>实现任务调度分为三大模块：1.任务调度器Scheduler;<br>                                            2.触发器cronTrigger；<br>                                            3.自定义任务JobtTask；</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">*自定义任务JobtTask*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.quartz.Job;</div><div class="line">import org.quartz.JobExecutionContext;</div><div class="line">import org.quartz.JobExecutionException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 自定义任务;</div><div class="line"> */</div><div class="line">public class MyJob implements Job &#123;</div><div class="line">	// 自定义任务Task;</div><div class="line">	public void execute(JobExecutionContext context) throws JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;当前任务开始执行: &quot; +</div><div class="line">	     new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;)</div><div class="line">	     .format(new Date()));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">*测试类*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line">import java.text.ParseException;</div><div class="line"></div><div class="line">import org.quartz.JobExecutionException;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line">/**</div><div class="line"> *  测试类</div><div class="line"> */</div><div class="line">public class Test &#123;</div><div class="line">	@SuppressWarnings(&quot;resource&quot;)</div><div class="line">	public static void main(String[] args) throws ParseException, JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;--------------------------------&quot;);</div><div class="line">		new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">配置文件</div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans  </div><div class="line">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </div><div class="line">	http://www.springframework.org/schema/context  </div><div class="line">	http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;</div><div class="line">	default-autowire=&quot;byName&quot;&gt;</div><div class="line"></div><div class="line">	&lt;!-- 调度器 --&gt;</div><div class="line">	&lt;bean class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;triggers&quot;&gt;</div><div class="line">			&lt;list&gt;</div><div class="line">				&lt;!-- 触发器列表 --&gt;</div><div class="line">				&lt;ref bean=&quot;cronTrigger&quot; /&gt;</div><div class="line">			&lt;/list&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;!-- 加载配置文件, 如果不配置, 将会使用quartz默认的配置 --&gt;</div><div class="line">		&lt;property name=&quot;configLocation&quot; value=&quot;classpath:quartz.properties&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- 触发器 --&gt;</div><div class="line">	&lt;bean id=&quot;cronTrigger&quot; class=&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;&gt;</div><div class="line">		&lt;!-- 指向我们的任务 --&gt;</div><div class="line">		&lt;property name=&quot;jobDetail&quot; ref=&quot;myJobtTask&quot; /&gt;</div><div class="line">		&lt;!-- 每天11点1分到59分,每分钟运行一次 --&gt;</div><div class="line">		&lt;property name=&quot;cronExpression&quot; value=&quot;0 0/1 9 * * ?&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 处理类 --&gt;</div><div class="line">	&lt;bean name=&quot;myJobtTask&quot; class=&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;jobClass&quot; value=&quot;com.zjt.quartz.MyJob&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">*quartz.properties*</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure Main Scheduler Properties  </div><div class="line">#============================================================================</div><div class="line">org.quartz.scheduler.instanceName = DefaultQuartzScheduler</div><div class="line">org.quartz.scheduler.instanceId = AUTO</div><div class="line">org.quartz.scheduler.rmi.export = false</div><div class="line">org.quartz.scheduler.rmi.proxy = false</div><div class="line">org.quartz.scheduler.wrapJobExecutionInUserTransaction = false</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure ThreadPool  </div><div class="line">#============================================================================</div><div class="line">org.quartz.threadPool.threadCount = 10</div><div class="line">org.quartz.threadPool.threadPriority = 5</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure JobStore  </div><div class="line">#============================================================================</div><div class="line">org.quartz.jobStore.misfireThreshold = 60000</div></pre></td></tr></table></figure>
-<p><strong>下载链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">http://download.csdn.net/my</a></strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用hexo+github搭建个人微博" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/使用hexo+github搭建个人微博/">hexo+github搭建个人博客</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/使用hexo+github搭建个人微博/" class="archive-article-date">
-  	<time datetime="2017-08-29T02:39:50.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   <strong>使用hexo+github搭建博客的步骤为：</strong><br>       1.软件的安装；<br>                 (1.)安装Node；<br>                 (2.)安装Hexo;<br>                 (3.)安装Git;<br>                 (4.)安装主题；<br>       2.内容的发布;<br>                 使用hexo插件发布博客内容;<br>      <em>详细步骤如下：</em>    </p>
-<hr>
-<p><strong>前提条件</strong><br>需要有个github账号。<br>一般做为一个开发人员，github肯定是访问过的，相信绝大多数开发人员会注册拥有一个github账号，因为这是全球知名的代码托管网站。全世界均可访问到它。若还没有可以到Github注册。</p>
-<p>基本软件NodeJS，Git，Hexo<br>在机子上需要使用到NodeJS进行部署，安装插件等。下载NodeJs。<br>安装Git，进入Git下载页面选择合适的版本进行下载。<br>如果不清楚Hexo是什么？？她是一个快速，简介，高效的博客框架。更多详情可以到Hexo官网读下这个文档就知道了。</p>
-<p>安装完成Git及NodeJs后，那么就可以开始准备安装Hexo了。<br>打开GitBash，使用npm命令来安装Hexo程序。</p>
-<p>安装Hexo</p>
-<hr>
-<p>在命令行输入如下命令:<br>$ npm install -g hexo-cli<br>由于众所周知的原因,可能你执行这条命令会报错，如果你不会调整姿势上网，可以使用淘宝 npm 镜像，执行如下命令即可：<br>$ npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="external">https://registry.npm.taobao.org</a><br>之后很多 npm 命令可以使用 cnpm 代替。执行下面命令即可安装 Hexo :<br>$ cnpm install -g hexo-cli<br>可能出现一些 WARN ,可以不用理会，然后执行：<br>$ cnpm install hexo –save<br>输入$ hexo -v命令，出现下面所示的版本信息，则说明安装成功</p>
-<p><img src="http://img.blog.csdn.net/20170829093934795?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>这样表示Hexo安装成功了。<br>到此，搭建个人微博需要的3个软件就安装完成了。</p>
-<p>接下来就需要进行相关配置及插件安装了。<br>所有的操作均在GitBash命令行中进行操作。</p>
-<p><strong>建站</strong><br>首先简历一个简单的站，创建初始化一个简单的文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo init myGitPages</div><div class="line">$ cd myGitPages</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<p>这样就可以新建所需要的文件。<br>安装完成后，可以看到如下的几个主要文件。</p>
-<p>   <img src="http://img.blog.csdn.net/20170829094415438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>其中:<br>_config.xml 可以配置网站信息。可以参考配置<br>package.json 应用程序信息。有默认配置一些组件，可以自己根据需要添加或者移除。<br>scaffolds 模板文件夹。当新建文章时，Hexo会根据scaffold来建立文件。<br>source 资源文件夹，存放用户资源的地方。<br>themes 主题文件夹。Hexo会根据主题来生成静态页面。</p>
-<p><strong>主题</strong></p>
-<hr>
-<p>Hexo可以有很多主题，在Github首页搜索框内输入”hexo theme”，可以搜索到很多主题，目前我使用的是litten的yilia主题。</p>
-<p>可以在进入到建立的站点文件夹下（我的是myGitPages）下，下载yilia主题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</div></pre></td></tr></table></figure>
-<p>下载完成后，打开站点个目录下（myGitPages）的_config.xml文件，修改其中的theme属性成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: yilia</div></pre></td></tr></table></figure>
-<p>这样就可以在发布文章的手看到修改的主题，或者通过hexo server进行查看。</p>
-<p><strong>发布</strong></p>
-<hr>
-<p>发布文章前一定要确认已经安装了hexo-deployer-git插件，否则无法正常发文章到git上的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>来安装git插件。</p>
-<p>到目前基本上需要的从博客站点建立，到发布所需要的软件准备工作都就绪了。</p>
-<p>PS：yilia要显示所有文章还需要进行一个配置，下文会写到。</p>
-<p>在开始写文章发布之前可以，先查本地运行查看Hexo运行情况，运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>在dos窗口的命令为（对应的安装路径下）:hexo s;[启动hexo]</p>
-<p>启动服务器。默认情况下，端口地址是4000。打开浏览器，访问：<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a><br>查看效果。若访问出错，没有打开页面，那么可能是端口被占用导致。此时可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server -p 5000</div></pre></td></tr></table></figure>
-<p>修改端口，然后重新输入端口号进行查看。<br>若访问成功，默认看到的是hello-wold.md（即source/_post文件夹下的默认创建文件）文件发布后的效果。</p>
-<p><strong>准备工作结束，可以开始写文章发布</strong></p>
-<hr>
-<p>用github+hexo搭建完个人博客后，朋友们应该很想知道怎么在上面写博文吧，这里介绍一个很简单的方法</p>
-<p>你可以使用CSDN网上面提供的MarkDown编辑器 <a href="http://write.blog.csdn.net/mdeditor" target="_blank" rel="external">http://write.blog.csdn.net/mdeditor</a> (在csdn博客写新文章的时候能切换到这种编辑器)，写好文章后，找到菜单栏的“导出到本地”选项<br><img src="http://img.blog.csdn.net/20170829100749122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>以md格式导出到本地，然后copy该md文件，粘贴到你当初建的博客站点文件夹下的source\ _posts目录下，一个md文件对应一篇博客文章。</p>
-<hr>
-<p>在写完文章之后就需要将写的文章部署到GitHub上去了。<br>来看下这个过程。</p>
-<p>由于要发布博客到GitHub实际上使用了GitHub Pages功能，因此可以到这里来查看相关的介绍。其中详细介绍了Pages概念，及如何建立自己的站点。</p>
-<p>一下先简绍下我自己的建立过程。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">建立GitHub仓库</div></pre></td></tr></table></figure>
-<p>建立仓库，用以部署Hexo生成的博客。如果还没有GitHub账号就需要注册了。<br>有GitHub账号的小伙伴可以到Github网站创建一个新仓库，如下显示。</p>
-<p><img src="http://img.blog.csdn.net/20170829101340431?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">新仓库</div></pre></td></tr></table></figure>
-<p>其中仓库名有所讲究，它必须是username.github.io ，这里的username有两种情况，其一是你的用户名即注册时使用的名称，其二是组织名称（此处组织名称并未尝试）。如下图可以看下位置。</p>
-<p><img src="http://img.blog.csdn.net/20170829101515174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hexo发布前需要配置_config.xml</div></pre></td></tr></table></figure>
-<p>在站点根目录下（myGitPages），找到并编辑_config.xml文件，如下部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">deploy:</div><div class="line">    type: git</div><div class="line">    repository: git@github.com:yourname/yourname.github.io.git</div><div class="line">    branch: master</div></pre></td></tr></table></figure>
-<p>将新建的仓库信息及分支信息配置到_config.xml，让Hexo知道部署到GitHub的那个仓库。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">发布</div></pre></td></tr></table></figure>
-<p>最后，就需要发布了。可以在站点根目录下（myGitPages）下运行一下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean #清除原有生成的相关文件</div><div class="line">$ hexo generate #重新生成静态页面</div><div class="line">$ hexo deploy #进行部署</div></pre></td></tr></table></figure>
-<p>在运行部署命令时，会弹出ssh密码输入确认框，输入username.github.io仓库密码，点击OK即可进行顺利发布。</p>
-<p>然后就去访问你的个人站点吧。你会看到发布的文章。</p>
-<p> PS: 不同的主题可能在主题中还需要进行一定的配置，这个看个人喜好使用哪个主题，我使用的是yilia主题，其在初次查看所有文章时会发现展示的不是文章列表。那么按照主题作者提示进行配置后，重新部署就可以了。</p>
-<p>1.nodejs版本大于6.2（最新的nodejs肯定符合）。<br>2.在博客根目录下（不是yilia根目录下）执行如下命令： npm i hexo-<code>generator-json-content --save</code><br>3.在根目录_config.xml文件内配置：</p>
-<h1 id="查看yilia主题下所有文章配置"><a href="#查看yilia主题下所有文章配置" class="headerlink" title="查看yilia主题下所有文章配置"></a>查看yilia主题下所有文章配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">      meta: false</div><div class="line">      pages: false</div><div class="line">      posts:</div><div class="line">          title: true</div><div class="line">          date: true</div><div class="line">          path: true</div><div class="line">          text: false</div><div class="line">          raw: false</div><div class="line">          content: false</div><div class="line">          slug: false</div><div class="line">          updated: false</div><div class="line">          comments: false</div><div class="line">          link: false</div><div class="line">          permalink: false</div><div class="line">         excerpt: false</div><div class="line">          categories: false</div><div class="line">          tags: true</div></pre></td></tr></table></figure>
-<p><strong>PS：设置个人头像注意的要点</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1.注意相对路径 绝对路径 根路径 的区别</div><div class="line">2.注意yilia主题对格式的严格要求，比如空格什么的;</div></pre></td></tr></table></figure>
-<p>  具体配置步骤如下：<br>         1.将图片资源放置指定的文件夹下：<br>         <img src="http://img.blog.csdn.net/20170829103613535?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>         2.注意图片路径的格式：<br>         <img src="http://img.blog.csdn.net/20170829103743288?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/使用hexo+github搭建个人微博/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-父类和子类的相互转换及父类调用子类的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">父类和子类的相互转换及父类调用子类的方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.219Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>父类和子类的相互转换及父类调用子类的方法</strong></p>
-<ol>
-<li>父类转换为子类的前提条件是：<strong>父类引用指向子类</strong>;<br>Parent   p=new   Son()<br>Son   s=(Son)p;  –正确<br>Parent   p=new   Parent()<br>Son   s=(Son)p;  –错误搜索  </li>
-</ol>
-<hr>
-<p>根本原因：因为继承的概念就是<strong>子孙类会越来越比祖先类详细</strong>，所以可以将子孙类强制转换成祖先类，因为祖先有的行为子孙类示例都有了（重新定义的或者是默认的）；但是当将祖先类示例强制转换成子孙类示例的时候，一些<strong>子孙类有的行为祖先是没有的</strong>（即使的是默认的实现也没有）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">展开全文 >></a>
         </p>
       
 

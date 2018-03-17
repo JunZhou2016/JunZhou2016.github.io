@@ -157,6 +157,217 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js中this的理解和实践【包含箭头函数中的this】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/">js中this的理解和实践【包含箭头函数中的this】</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/" class="archive-article-date">
+  	<time datetime="2018-02-07T14:54:12.327Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在做项目的时候，因为对this的理解不清楚，导致了不清不楚的bug,因此抽出时间进行了js中this的学习。<br>1、js中this的理解要点。</p>
+<blockquote>
+<p>(1、)对普通函数，this指向的是调用者[‘.’之前的，没有’.’则为全局对象];<br> (2、)箭头函数中的this指向为定义箭头函数的作用域中的this【<strong>是作用域中的this而不是定义的作用域</strong>】;<br> 友情提示：此处是可以根据内存中this的指向来理解的，但是我们理解this是为了更好更快的做项目，记住一般的规律即可。</p>
+</blockquote>
+<p>2、js中的this理解和实践的demo。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">function test1() &#123;</div><div class="line">    console.log(this);</div><div class="line">    alert(&quot;打印出了全局对象【global/window】[Window &#123;frames: Window, postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, …&#125;]&quot;);</div><div class="line">&#125;;</div><div class="line">test1();</div><div class="line">console.log(&quot;----------------作为对象的方法调用-------------------&quot;);</div><div class="line">var obj1 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj1.foo();</div><div class="line"></div><div class="line">console.log(&quot;-----------------------------------&quot;);</div><div class="line"></div><div class="line">function test2() &#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">var obj2 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo2: test2</div><div class="line">&#125;</div><div class="line">obj2.foo2();</div><div class="line"></div><div class="line">console.log(&quot;--------------把对象的方法赋值给一个变量，然后直接调用这个变量---------------------&quot;);</div><div class="line">var obj3 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo3: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var test3 = obj3.foo3;</div><div class="line">test3();</div><div class="line"></div><div class="line">console.log(&quot;--------------利用 闭包 的特性来绑定this---------------------&quot;);</div><div class="line"></div><div class="line">//为了避免对下面测试中定时器的影响，注释了当前代码块;</div><div class="line">/**</div><div class="line">  * var obj4 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;,</div><div class="line">    foo2: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">        var _this = this;</div><div class="line">        setTimeout(function () &#123;</div><div class="line">           // console.log(this);</div><div class="line">           console.log(_this);</div><div class="line">        &#125;, 1000);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj4.foo2();</div><div class="line">  */</div><div class="line"></div><div class="line"></div><div class="line">console.log(&quot;--------------箭头函数---------------------&quot;);</div><div class="line">/**</div><div class="line"> * 箭头函数中的 this 只和定义它时候的作用域的 this 有关;</div><div class="line"> * 即：[箭头函数中的this和定义它的作用域中的this相等];</div><div class="line"> * 函数参数列表中的箭头函数的是定义在外部的，但是其作用域在方法内部;</div><div class="line"> * 而与在哪里以及如何调用它无关，同时它的 this 指向是不可改变的。</div><div class="line"> */</div><div class="line">/**</div><div class="line"> * var obj5 = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;,</div><div class="line">    foo2: function () &#123;</div><div class="line">        console.log(&quot;obj5--》a&quot; + this);</div><div class="line">        setTimeout(() =&gt; &#123;</div><div class="line">            console.log(&quot;obj5--》b&quot; + this);</div><div class="line">        &#125;, 1000);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">obj5.foo2();</div><div class="line"> */</div><div class="line"></div><div class="line">console.log(&quot;--------------通过call, apply, bind给函数绑定指定的this对象---------------------&quot;);</div><div class="line">console.log(&quot;-----------------------为一个普通函数指定 this---------------------&quot;);</div><div class="line">var obj7 = &#123;</div><div class="line">    name: &apos;qiutc&apos;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function foo7() &#123;</div><div class="line">    console.log(this);</div><div class="line">&#125;</div><div class="line">foo7.call(obj7);</div><div class="line"></div><div class="line">console.log(&quot;-----------------------为对象中的方法指定一个 this---------------------&quot;);</div><div class="line">var obj = &#123;</div><div class="line">    name: &apos;qiutc&apos;,</div><div class="line">    foo: function () &#123;</div><div class="line">        console.log(this);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var obj2 = &#123;</div><div class="line">    name: &apos;tcqiu222222&apos;</div><div class="line">&#125;;</div><div class="line">obj.foo.call(obj2);</div><div class="line"></div><div class="line">console.log(&quot;-----------------------为箭头函数指定 this【无效性验证】---------------------&quot;);</div><div class="line"></div><div class="line">var afoo = (a) =&gt; &#123;</div><div class="line">    console.log(a);</div><div class="line">    console.log(this);</div><div class="line">&#125;</div><div class="line">afoo(1);</div><div class="line">var obj = &#123;</div><div class="line">    name: &apos;qiutc&apos;</div><div class="line">&#125;;</div><div class="line">afoo.call(obj, 2); //期望输出：obj;实际输出:全局对象;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 可以看到，这里的 call 指向 this 的操作并没有成功，所以可以得出： </div><div class="line"> * 箭头函数中的 this 在定义它的时候已经决定了（执行定义它的作用域中的 this），</div><div class="line"> * 与如何调用以及在哪里调用它无关，包括 (call, apply, bind) 等操作都无法改变它的 this。</div><div class="line"> *只要记住箭头函数大法好，不变的 this。</div><div class="line"> */</div></pre></td></tr></table></figure>
+<p>3、参考文章<br><a href="https://juejin.im/entry/57bd2ec1efa631005a8eae1a" target="_blank" rel="external">JavaScript 中的 this</a></p>
+<p>4、<a href="https://github.com/JunZhou2016/ThisInJsPractice" target="_blank" rel="external">demo源码。</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-reflux中一个小error[error-linstenner is no a function]总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">reflux中一个小error[error-linstenner is no a function]总结</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/" class="archive-article-date">
+  	<time datetime="2018-02-07T14:53:57.738Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用reflux的时候，我想为事件监听的callback函数添加参数，如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData(param));</div><div class="line">2、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData.bind(this,param));</div></pre></td></tr></table></figure>
+<p>但是，事实证明，这样是不行的，这样写将会报：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error:listenner is not a function</div></pre></td></tr></table></figure>
+<p>的错误。<br>3、解决方案<br>老老实实使用flux推荐的方式ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData);不进行参数的传递，真需要参数的话在回调函数内部用常量解决【常量代替参数】。<br>4、原因【个人理解】<br>flux的回调函数本来就是为了从store【数据中心】中回调数据的，在监听器的回调函数中添加参数是没有必要的。真需要参数的话，可以通过回调函数内部的目标函数的调用并传参解决。<br>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">callback()&#123;</div><div class="line">target(parm);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-POI实现excel的导入导出-[采用反射实现的版本]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/06/POI实现excel的导入导出-[采用反射实现的版本]/">POI实现excel的导入导出-[采用反射实现的版本]</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/06/POI实现excel的导入导出-[采用反射实现的版本]/" class="archive-article-date">
+  	<time datetime="2018-02-06T14:12:42.639Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间学习了POI实现excel的导入导出-[未采用反射实现的版本]的文章，觉得不采用反射实现非常不合理，在祥哥【我眼中的大佬】的指导下实现了POI实现excel的导入导出-[采用反射实现的版本]的实现。<br>A、具体的要点如下:</p>
+<hr>
+<p>1、采用泛型，增加代码的灵活性和可扩展性；<br>2、使用适配器模式；<br>3、使用反射自动执行对应字段的方法；<br>4、绑定字段的值和表头文字【采用linkedhashmap()】实现；</p>
+<p>B、代码</p>
+<hr>
+<p>ExcelVO.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import java.util.List;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">/**</div><div class="line"> * excel导入导出相关的必须信息;</div><div class="line"> * </div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class ExcelVO&lt;T&gt; &#123;</div><div class="line">	// 表头列表;</div><div class="line">	Map&lt;String, String&gt; workBookHeaderFields = null;</div><div class="line">	// excel中的数据值对象;</div><div class="line">	List&lt;T&gt; workBookVos = null;</div><div class="line">	// 泛型数据对象;</div><div class="line">	T clazzRes = null;</div><div class="line">	</div><div class="line">	public List&lt;T&gt; getWorkBookVos() &#123;</div><div class="line">		return workBookVos;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setWorkBookVos(List&lt;T&gt; workBookVos) &#123;</div><div class="line">		this.workBookVos = workBookVos;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Map&lt;String, String&gt; getWorkBookHeaderFields() &#123;</div><div class="line">		return workBookHeaderFields;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setWorkBookHeaderFields(Map&lt;String, String&gt; workBookHeaderFields) &#123;</div><div class="line">		this.workBookHeaderFields = workBookHeaderFields;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public T getClazzRes() &#123;</div><div class="line">		return clazzRes;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setClazzRes(T clazzRes) &#123;</div><div class="line">		this.clazzRes = clazzRes;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>POIUtils.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.lang.reflect.Field;</div><div class="line">import java.lang.reflect.Method;</div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Map;</div><div class="line">import java.util.Map.Entry;</div><div class="line"></div><div class="line">import org.apache.poi.hssf.usermodel.HSSFCell;</div><div class="line">import org.apache.poi.hssf.usermodel.HSSFCellStyle;</div><div class="line">import org.apache.poi.hssf.usermodel.HSSFRow;</div><div class="line">import org.apache.poi.hssf.usermodel.HSSFSheet;</div><div class="line">import org.apache.poi.hssf.usermodel.HSSFWorkbook;</div><div class="line"></div><div class="line">import com.spring.boot.gp4zj.model.AttenceDetail;</div><div class="line">import com.spring.boot.gp4zj.model.ExcelVOMapper;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Excel操作相关的工具类;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月16日@下午3:19:25</div><div class="line"> */</div><div class="line">public class POIUtils2 &#123;</div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		/*</div><div class="line">		 * AttenceDetail clazzRes = new AttenceDetail(); // 测试数据;</div><div class="line">		 * ExcelVO&lt;AttenceDetail&gt; excelVo = new ExcelVO&lt;AttenceDetail&gt;();</div><div class="line">		 * excelVo.setClazzRes(clazzRes);</div><div class="line">		 * </div><div class="line">		 * @SuppressWarnings(&quot;unused&quot;) List&lt;String&gt; workBookHeaderFields = new</div><div class="line">		 * ArrayList&lt;String&gt;(); final Map&lt;String, String&gt; HEADER_FIELDS = new</div><div class="line">		 * LinkedHashMap&lt;String, String&gt;(); HEADER_FIELDS.put(&quot;考勤日期&quot;,</div><div class="line">		 * &quot;attencedTime&quot;); HEADER_FIELDS.put(&quot;考勤名称&quot;, &quot;attencerName&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;员工编码&quot;, &quot;attencerCode&quot;); HEADER_FIELDS.put(&quot;出勤时长&quot;,</div><div class="line">		 * &quot;workTimeLen&quot;); HEADER_FIELDS.put(&quot;加班时长&quot;, &quot;extraTimeLen&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;合计出勤时长&quot;, &quot;totalTimeLen&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;报工单位&quot;, &quot;applyCompany&quot;); HEADER_FIELDS.put(&quot;结算单位&quot;,</div><div class="line">		 * &quot;payCompany&quot;); HEADER_FIELDS.put(&quot;创建人&quot;, &quot;creator&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;出勤人天&quot;, &quot;workDayNum&quot;); HEADER_FIELDS.put(&quot;加班人天&quot;,</div><div class="line">		 * &quot;extraDayNum&quot;); HEADER_FIELDS.put(&quot;合计人天&quot;, &quot;totalDayNum&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;是否删除汇总表&quot;, &quot;isDelGather&quot;);</div><div class="line">		 * HEADER_FIELDS.put(&quot;是否确认&quot;, &quot;isConfirmed&quot;); HEADER_FIELDS.put(&quot;创建时间&quot;,</div><div class="line">		 * &quot;createTime&quot;); HEADER_FIELDS.put(&quot;修改时间&quot;, &quot;editTime&quot;); // 生成测试数据;</div><div class="line">		 * excelVo.setWorkBookHeaderFields(HEADER_FIELDS); List&lt;AttenceDetail&gt;</div><div class="line">		 * workBookVos = TestDataGenerater.attenceDetailTestDatasGenerater(2);</div><div class="line">		 * excelVo.setWorkBookVos(workBookVos); createExcel(excelVo);</div><div class="line">		 */</div><div class="line">		String excelPath = &quot;C:/Users/xdsm/Desktop/Excel-900500219.xls&quot;;</div><div class="line">		AttenceDetail attenceDetailClazz = new AttenceDetail();</div><div class="line">		List&lt;AttenceDetail&gt; attenctDetailList = readExcel(excelPath, attenceDetailClazz);</div><div class="line">		for (AttenceDetail attenceDetail : attenctDetailList) &#123;</div><div class="line">			System.out.println(attenceDetail);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 创建Excel</div><div class="line">	 * </div><div class="line">	 * @param &lt;T&gt;</div><div class="line">	 * </div><div class="line">	 * @param list</div><div class="line">	 *            数据</div><div class="line">	 */</div><div class="line">	@SuppressWarnings(&#123; &quot;unchecked&quot;, &quot;unused&quot; &#125;)</div><div class="line">	public static &lt;T&gt; HSSFWorkbook createExcel(ExcelVO&lt;T&gt; excelVo) &#123;</div><div class="line">		@SuppressWarnings(&quot;rawtypes&quot;)</div><div class="line">		Class clazz = excelVo.getClazzRes().getClass();</div><div class="line">		// 表头信息列表;</div><div class="line">		List&lt;String&gt; workBookHeaderFields = new ArrayList&lt;String&gt;();</div><div class="line">		Map&lt;String, String&gt; headerFields = excelVo.getWorkBookHeaderFields();</div><div class="line">		// 表格数据信息列表;</div><div class="line">		List&lt;T&gt; dataList = excelVo.getWorkBookVos();</div><div class="line">		// 创建一个Excel文件</div><div class="line">		HSSFWorkbook workbook = new HSSFWorkbook();</div><div class="line">		// 创建一个工作表</div><div class="line">		HSSFSheet sheet = workbook.createSheet(&quot;考勤明细表&quot;);</div><div class="line">		// 添加表头行</div><div class="line">		HSSFRow hssfRow = sheet.createRow(0);</div><div class="line">		// 设置单元格格式居中</div><div class="line">		HSSFCellStyle cellStyle = workbook.createCellStyle();</div><div class="line">		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);</div><div class="line">		// 添加表头内容</div><div class="line">		// -------第一行第0-2列---------</div><div class="line">		// 设置表头的相关信息;</div><div class="line">		int headTitleIndex = 0;</div><div class="line">		HSSFCell headCell = null;// 此处使用同一个引用对象，可以节省内存;</div><div class="line">		for (Entry&lt;String, String&gt; vo : headerFields.entrySet()) &#123;</div><div class="line">			// 表头的名称字段;</div><div class="line">			if (headTitleIndex == 0) &#123;</div><div class="line">				headCell = hssfRow.createCell(headTitleIndex);</div><div class="line">				headCell.setCellValue(vo.getKey());</div><div class="line">				headCell.setCellStyle(cellStyle);</div><div class="line">			&#125; else &#123;</div><div class="line">				headCell = hssfRow.createCell(headTitleIndex);</div><div class="line">				headCell.setCellValue(vo.getKey());</div><div class="line">				headCell.setCellStyle(cellStyle);</div><div class="line">			&#125;</div><div class="line">			headTitleIndex++;</div><div class="line">		&#125;</div><div class="line">		// 填充数据到工作簿;</div><div class="line">		for (int i = 0; i &lt; dataList.size(); i++) &#123;</div><div class="line">			// 创建数据行;</div><div class="line">			hssfRow = sheet.createRow((int) i + 1);</div><div class="line">			T attenceDetail = dataList.get(i);</div><div class="line">			// 创建单元格，并设置值</div><div class="line">			int fieldVoIndex = 0;</div><div class="line">			HSSFCell cell = null;// 此处使用同一个引用对象，可以节省内存;</div><div class="line">			for (Entry&lt;String, String&gt; vo : headerFields.entrySet()) &#123;</div><div class="line">				// 字段值取值器;</div><div class="line">				String fieldVoGetter = &quot;get&quot; + (vo.getValue()).substring(0, 1).toUpperCase()</div><div class="line">						+ (vo.getValue()).substring(1);</div><div class="line">				cell = hssfRow.createCell(fieldVoIndex);</div><div class="line">				// TODO Auto-generated</div><div class="line">				Method method;</div><div class="line">				try &#123;</div><div class="line">					String invokeResultStr = null;</div><div class="line">					method = clazz.getMethod(fieldVoGetter);</div><div class="line">					Object methodResult = method.invoke(attenceDetail);</div><div class="line">					if (methodResult != null) &#123;</div><div class="line">						invokeResultStr = methodResult.toString();</div><div class="line">					&#125;</div><div class="line">					cell.setCellValue(invokeResultStr);</div><div class="line">					cell.setCellStyle(cellStyle);</div><div class="line">				&#125; catch (Exception e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">				// method.invoke(clazz.newInstance());</div><div class="line">				fieldVoIndex++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		return workbook;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 接收上传的excel并读取其中的信息;</div><div class="line">	 * </div><div class="line">	 * @throws IllegalAccessException</div><div class="line">	 * @throws Exception</div><div class="line">	 */</div><div class="line">	@SuppressWarnings(&#123; &quot;unchecked&quot;, &quot;rawtypes&quot; &#125;)</div><div class="line">	public static &lt;T&gt; List&lt;T&gt; readExcel(String excelPath, T clazzRes) throws Exception &#123;</div><div class="line">		Class clazz = clazzRes.getClass();</div><div class="line">		List&lt;T&gt; list = new ArrayList&lt;T&gt;();</div><div class="line">		HSSFWorkbook workbook = null;</div><div class="line">		try &#123;</div><div class="line">			// 读取Excel文件</div><div class="line">			InputStream inputStream = new FileInputStream(excelPath);</div><div class="line">			workbook = new HSSFWorkbook(inputStream);</div><div class="line">			inputStream.close();</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		// 循环工作表</div><div class="line">		for (int numSheet = 0; numSheet &lt; workbook.getNumberOfSheets(); numSheet++) &#123;</div><div class="line">			HSSFSheet hssfSheet = workbook.getSheetAt(numSheet);</div><div class="line">			if (hssfSheet == null) &#123;</div><div class="line">				continue;</div><div class="line">			&#125;</div><div class="line">			// 循环行</div><div class="line">			for (int rowNum = 1; rowNum &lt; hssfSheet.getLastRowNum(); rowNum++) &#123;</div><div class="line">				HSSFRow hssfRow = hssfSheet.getRow(rowNum);</div><div class="line">				if (hssfRow == null) &#123;</div><div class="line">					continue;</div><div class="line">				&#125;</div><div class="line">				// 填充数据到行;</div><div class="line">				Map&lt;String, String&gt; HEADER_FIELDS = ExcelVOMapper.getAttenceDetailMapper();</div><div class="line">				HSSFCell cell = null;// 公用cell，节省内存的开销;</div><div class="line">				// 每行的数据对象;</div><div class="line">				T dataVo = (T) clazz.newInstance();</div><div class="line">				int fieldVoIndex = 0;</div><div class="line">				for (Entry&lt;String, String&gt; vo : HEADER_FIELDS.entrySet()) &#123;</div><div class="line">					// 字段值取值器;</div><div class="line">					String fieldVoSetter = &quot;set&quot; + (vo.getValue()).substring(0, 1).toUpperCase()</div><div class="line">							+ (vo.getValue()).substring(1);</div><div class="line">					// TODO Auto-generated</div><div class="line">					Method method;</div><div class="line">					try &#123;</div><div class="line">						cell = hssfRow.getCell(fieldVoIndex);</div><div class="line">						if (cell == null) &#123;</div><div class="line">							continue;</div><div class="line">						&#125;</div><div class="line">						method = clazz.getMethod(fieldVoSetter, String.class);</div><div class="line">						String cellValue = cell.getStringCellValue();</div><div class="line">						/*</div><div class="line">						 * if(cellValue==null||&quot;&quot;.equals(cellValue))&#123; // 空数据列测试;</div><div class="line">						 * if (fieldVoIndex == 1) &#123; throw new</div><div class="line">						 * MyException(&quot;员工编码不能为空&quot;); &#125; &#125;</div><div class="line">						 */</div><div class="line">						// System.out.println(cellValue);</div><div class="line">						method.invoke(dataVo, cellValue);</div><div class="line">					&#125; catch (Exception e) &#123;</div><div class="line">						// TODO Auto-generated catch block</div><div class="line">						e.printStackTrace();</div><div class="line">					&#125;</div><div class="line">					fieldVoIndex++;</div><div class="line">				&#125;</div><div class="line">				list.add(dataVo);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return list;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取指定数据类型的所有声明字段;</div><div class="line">	 * </div><div class="line">	 * @param dataObj:泛型对象;</div><div class="line">	 * @return:返回字段列表【String】;</div><div class="line">	 */</div><div class="line">	public static &lt;T&gt; List&lt;String&gt; getAllFields(T dataObj) &#123;</div><div class="line">		Class&lt;? extends Object&gt; dataObjClazz = dataObj.getClass();</div><div class="line">		Field[] fields = dataObjClazz.getDeclaredFields();</div><div class="line">		List&lt;String&gt; fieldsList = new ArrayList&lt;String&gt;();</div><div class="line">		for (int i = 0; i &lt; fields.length; i++) &#123;</div><div class="line">			String fieldStr = fields[i].toString();</div><div class="line">			String realFieldStr = fieldStr.substring(fieldStr.lastIndexOf(&quot;.&quot;) + 1);</div><div class="line">			fieldsList.add(realFieldStr);</div><div class="line">		&#125;</div><div class="line">		return fieldsList;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取对象中的所有已声明的方法名;</div><div class="line">	 * </div><div class="line">	 * @param dataObj:泛型对象;</div><div class="line">	 * @return:返回方法列表【String】;</div><div class="line">	 */</div><div class="line">	public static &lt;T&gt; List&lt;String&gt; getAllMethods(T dataObj) &#123;</div><div class="line">		List&lt;String&gt; methodsList = new ArrayList&lt;String&gt;();</div><div class="line">		Class&lt;? extends Object&gt; dataObjClazz = dataObj.getClass();</div><div class="line">		Method[] methods = dataObjClazz.getDeclaredMethods();</div><div class="line">		for (int i = 0; i &lt; methods.length; i++) &#123;</div><div class="line">			String fieldStr = methods[i].toString();</div><div class="line">			if (fieldStr.contains(&quot;get&quot;)) &#123;</div><div class="line">				String realFieldStr = fieldStr.substring(fieldStr.lastIndexOf(&quot;.&quot;) + 1, fieldStr.lastIndexOf(&quot;(&quot;));</div><div class="line">				methodsList.add(realFieldStr);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return methodsList;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取对象中的所有已声明的方法名;</div><div class="line">	 * </div><div class="line">	 * @param dataObj:泛型对象;</div><div class="line">	 * @return:返回方法列表【String】;</div><div class="line">	 */</div><div class="line">	public static &lt;T&gt; List&lt;String&gt; getAllSetMethods(T dataObj) &#123;</div><div class="line">		List&lt;String&gt; methodsList = new ArrayList&lt;String&gt;();</div><div class="line">		@SuppressWarnings(&quot;unused&quot;)</div><div class="line">		Class&lt;? extends Object&gt; dataObjClazz = dataObj.getClass();</div><div class="line">		List&lt;String&gt; methods = getAllFields(dataObj);</div><div class="line">		for (int i = 0; i &lt; methods.size(); i++) &#123;</div><div class="line">			String fieldStr = methods.get(i).toString();</div><div class="line">			String methodName = &quot;set&quot; + fieldStr.substring(0, 1).toUpperCase() + fieldStr.substring(1);</div><div class="line">			methodsList.add(methodName);</div><div class="line">		&#125;</div><div class="line">		return methodsList;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>C、使用要点</p>
+<hr>
+<p>1、本工具类的使用前提是所有的字段均采用驼峰命名方式，且前两个字母为小写【因为eclipse自动生成的getter和setter会根据前两个字母进行自适应处理，并非固定模式】<br>2、本工具类并未对导入数据进行全面的非空或者类型等校验，具体的校验可自行添加。<br>3、本工具类因为采用的是反射是想，因此执行效率较低;<br>D、参考文章.<br><a href="https://www.cnblogs.com/fingerboy/p/5468994.html" target="_blank" rel="external">设计模式–观察者模式初探和java Observable模式</a><br><a href="http://easypoi.mydoc.io/" target="_blank" rel="external">EasyPoi教程V1.0</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/06/POI实现excel的导入导出-[采用反射实现的版本]/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java去除list中重复的数据【distinct】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -631,203 +842,6 @@ java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/27/SpringBoot中的拦截器的使用和配置/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Springboot中定时任务的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/27/Springboot中定时任务的实现/">Springboot中定时任务的实现</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/27/Springboot中定时任务的实现/" class="archive-article-date">
-  	<time datetime="2018-01-27T07:38:36.255Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、定时任务在J2EE项目中经常会被用到，如自动取消订单、在指定的时间清空缓存等需求就需要定时任务来实现。定时任务的完成是靠轮询来实现的，所以存在一定的延时误差是合理的。springboot在实现定时任务的过程中相关的依赖已经在父依赖中被导入了，所以不需要导入额外的依赖。<br>   2、SpringBoot中定时任务的实现分两步：（1、）定时任务的的实现;<br>   (2、)创建调度表达式;<br>   3、具体实现.<br>   (1、)定时任务的的实现，其实就是你要通过定时器完成的业务逻辑:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p> (2、)配置调度表达式:<br> <a href="http://blog.720ui.com/2013/quartz_cron/#cronExpression%E9%85%8D%E7%BD%AE%E6%A1%88%E4%BE%8B" target="_blank" rel="external">调度表达式的声明参考文章1.</a><br>  <a href="http://blog.csdn.net/caiwenfeng_for_23/article/details/17004213" target="_blank" rel="external">调度表达式的声明参考文章2.</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Scheduled(cron = &quot;*/2 * * * * ?&quot;)</div><div class="line">	public void serviceOrderTask() &#123;</div><div class="line">		Date date = new Date();</div><div class="line">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;YY:MM:DD hh:mm:ss&quot;);</div><div class="line">        String formatDataStr = sdf.format(date);</div><div class="line">        System.out.println(&quot;|_&quot;+formatDataStr);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>通过@Scheduled注解添加调度表达式.<br>4、需要注意的地方<br>在使用SpringBoot任务调度的时候，需要在启动类上添加注解@EnableScheduling。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.example;</div><div class="line">import org.springframework.boot.SpringApplication;</div><div class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</div><div class="line">import org.springframework.scheduling.annotation.EnableScheduling;</div><div class="line">@SpringBootApplication</div><div class="line">@EnableScheduling</div><div class="line">public class DemoApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(DemoApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/27/Springboot中定时任务的实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Jrebel热部署插件的安装、破解和使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">Jrebel热部署插件的安装、破解和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/" class="archive-article-date">
-  	<time datetime="2018-01-23T14:23:58.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、什么是jrebel？<br>Jrebel是一款热部署插件，用于提高开发效率。一般我们在开发j2ee项目的时候，每次代码跟新就得重启服务，这样效率很低，尤其是对于大项目的，启动很慢，白白浪费了很多时间。使用jrebel插件后可以在java【配置文件更新后还是得重启服务】代码更新后自动编译更新而不用重启项目。但是jrebel的破解码很难搞，下面介绍jrebel的安装、破解和使用.。</p>
-<hr>
-<p>2、jrebel的安装、破解和使用.<br>(1、)安装<br>可以直接去eclipse的应用商店中下载，如图:<br><img src="http://img.blog.csdn.net/20180123211934330?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(2、)破解<br>jrebel理论上是收费的，但是我们可以破解，不是通过破解码和破解工具破解，因为这些方大都是无效的，老旧的。幸好，jrebel爱好者【可能是jrebe官方】搭建了一个网站，专门用于破解激活jrebel.<br>破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a><br>登录这个网站，使用facebook 或者推特登录（需要翻墙），然后输入邮箱，会要求验证（登录邮箱验证，点击验证链接），在输入手机号，不需要验证手机号。之后会进入破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a>,登录后按照如下步骤操作即可获取激活码：<br>A、<img src="http://img.blog.csdn.net/20180123213841967?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>B、<img src="http://img.blog.csdn.net/20180123213954522?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>C、<img src="http://img.blog.csdn.net/20180123214111441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(3、)使用<br>3.1、将jrebel插件作用于选中的项目;</p>
-<p><img src="http://img.blog.csdn.net/20180123220751006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>3.2、更新代码，jrebel自动重新编译，无需重新启动。<br><img src="http://img.blog.csdn.net/20180123222138572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-springboot+mybatis多数据源最简解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/20/springboot+mybatis多数据源最简解决方案/">springboot+mybatis多数据源最简解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/20/springboot+mybatis多数据源最简解决方案/" class="archive-article-date">
-  	<time datetime="2018-01-20T13:52:48.642Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在配置多数据源之前先理解@Configuration注解、@Bean注解以及配置自动扫描、bean作用域，参考文章如下:<br><a href="http://blog.csdn.net/javaloveiphone/article/details/52182899" target="_blank" rel="external">@Configuration注解、@Bean注解以及配置自动扫描、bean作用域</a><br>1、原理:定义多个数据源，根据<code>basePackages</code>进行自动切换;<br>2.代码:<br><a href="https://github.com/JunZhou2016/spring-boot-mybatis-mulidatasource" target="_blank" rel="external">SpringBoot+Mybatis多数据员配置Demo</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/20/springboot+mybatis多数据源最简解决方案/">展开全文 >></a>
         </p>
       
 
