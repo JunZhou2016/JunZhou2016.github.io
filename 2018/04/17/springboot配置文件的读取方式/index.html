@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>springboot配置文件的读取方式 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/4/index.html">
+  <meta name="description" content="最近在做项目的时候，因为需求原因，要定义几个常量，但是这几个常量有可能改动，为了尽量不改动代码，就想能不能放到SpringBooot的配置文件中呢，毕竟配置文件先于SpringBoot的核心业务类加载，因此配置在配置文件中的属性便相当于有了static属性。具体的解决方案分为两大类：       1、自定义配置文件类进行读取；            bootstrap.properties中的属性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot配置文件的读取方式">
+<meta property="og:url" content="http://yoursite.com/2018/04/17/springboot配置文件的读取方式/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近在做项目的时候，因为需求原因，要定义几个常量，但是这几个常量有可能改动，为了尽量不改动代码，就想能不能放到SpringBooot的配置文件中呢，毕竟配置文件先于SpringBoot的核心业务类加载，因此配置在配置文件中的属性便相当于有了static属性。具体的解决方案分为两大类：       1、自定义配置文件类进行读取；            bootstrap.properties中的属性">
+<meta property="og:image" content="https://img-blog.csdn.net/20180417215710400?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-04-17T14:08:50.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="springboot配置文件的读取方式">
+<meta name="twitter:description" content="最近在做项目的时候，因为需求原因，要定义几个常量，但是这几个常量有可能改动，为了尽量不改动代码，就想能不能放到SpringBooot的配置文件中呢，毕竟配置文件先于SpringBoot的核心业务类加载，因此配置在配置文件中的属性便相当于有了static属性。具体的解决方案分为两大类：       1、自定义配置文件类进行读取；            bootstrap.properties中的属性">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180417215710400?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,305 +161,169 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-springboot配置文件的读取方式" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      springboot配置文件的读取方式
+    </h1>
+  
+
+        
+        <a href="/2018/04/17/springboot配置文件的读取方式/" class="archive-article-date">
+  	<time datetime="2018-04-17T14:06:31.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-17</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在做项目的时候，因为需求原因，要定义几个常量，但是这几个常量有可能改动，为了尽量不改动代码，就想能不能放到SpringBooot的配置文件中呢，毕竟配置文件先于SpringBoot的核心业务类加载，因此配置在配置文件中的属性便相当于有了static属性。具体的解决方案分为两大类：<br>       1、自定义配置文件类进行读取；<br>            bootstrap.properties中的属性内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">##spring.application.name=spring-cloud-zuul</div><div class="line">##server.port=8002</div><div class="line"></div><div class="line">spring.cloud.config.name=zj-cfg4zuul</div><div class="line">spring.cloud.config.profile=dev</div><div class="line">spring.cloud.config.label=master</div><div class="line">spring.cloud.config.discovery.enabled=true</div><div class="line">spring.cloud.config.discovery.serviceId=spring-cloud-config-server</div><div class="line"></div><div class="line">eureka.client.serviceUrl.defaultZone=http://localhost:8000/eureka/</div><div class="line">#网络前缀;</div><div class="line">NET-PREFIX.DOMAIN=http://localhost:8006/</div><div class="line">#------内部URL------;</div><div class="line">#Excel上传的URL;</div><div class="line">NET-PREFIX.EXCELUPLOADURL=uploadExcel</div><div class="line">#身份认证的URL;</div><div class="line">NET-PREFIX.AUTHENTICATIONURL=spring-cloud-producer/mongo/auth/doGetAuthenticationInfo</div><div class="line">#权限认证的URL;</div><div class="line">NET-PREFIX.AUTHORIZATIONURL=spring-cloud-producer/mongo/auth/doGetAuthorizationInfo</div><div class="line">#保存Session的URL;</div><div class="line">NET-PREFIX.SAVEUSERSESSIONURL=spring-cloud-producer/mongo/auth/saveUserSessionWithJsessionid</div><div class="line">#移除Sessin的URL;</div><div class="line">NET-PREFIX.REMOVEUSERSESSIONURL=spring-cloud-producer/mongo/auth/removeUserSessionFromDB</div><div class="line">#师傅对头部信息敏感;</div><div class="line">zuul.sensitive-headers=false</div></pre></td></tr></table></figure>
+<hr>
+<p>创建实体类MyConfig。<br>       注意：springboot1.5版本以下@ConfigurationProperties有两个属性locations（指定配置文件的所在位置），       </p>
+<blockquote>
+<p>当前的文件路径如下图所示：<br>       <img src="https://img-blog.csdn.net/20180417215710400?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</blockquote>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">package com.neo.webConfig;</div><div class="line"></div><div class="line">import org.springframework.boot.context.properties.ConfigurationProperties;</div><div class="line">import org.springframework.context.annotation.PropertySource;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">/**</div><div class="line"> * 自定义的配置文件类;</div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">@Component</div><div class="line">@ConfigurationProperties(prefix = &quot;NET-PREFIX&quot;)</div><div class="line">@PropertySource(value = &quot;classpath:bootstrap.properties&quot;)</div><div class="line">public class MyConfig &#123;</div><div class="line">	//域名;</div><div class="line">    private String DOMAIN;</div><div class="line">    //Excel上传的URL;</div><div class="line">	private String EXCELUPLOADURL;</div><div class="line">	//身份认证的URL;</div><div class="line">	private String AUTHENTICATIONURL;</div><div class="line">	//权限认证的URL;</div><div class="line">	private String AUTHORIZATIONURL;</div><div class="line">	//Session保存的URL;</div><div class="line">	private String SAVEUSERSESSIONURL;</div><div class="line">	//Session移除的URL;</div><div class="line">	private String REMOVEUSERSESSIONURL;</div><div class="line">	</div><div class="line">	public String getDOMAIN() &#123;</div><div class="line">		return DOMAIN;</div><div class="line">	&#125;</div><div class="line">	public void setDOMAIN(String dOMAIN) &#123;</div><div class="line">		DOMAIN = dOMAIN;</div><div class="line">	&#125;</div><div class="line">	public String getEXCELUPLOADURL() &#123;</div><div class="line">		return EXCELUPLOADURL;</div><div class="line">	&#125;</div><div class="line">	public void setEXCELUPLOADURL(String eXCELUPLOADURL) &#123;</div><div class="line">		EXCELUPLOADURL = eXCELUPLOADURL;</div><div class="line">	&#125;</div><div class="line">	public String getAUTHENTICATIONURL() &#123;</div><div class="line">		return AUTHENTICATIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setAUTHENTICATIONURL(String aUTHENTICATIONURL) &#123;</div><div class="line">		AUTHENTICATIONURL = aUTHENTICATIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getAUTHORIZATIONURL() &#123;</div><div class="line">		return AUTHORIZATIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setAUTHORIZATIONURL(String aUTHORIZATIONURL) &#123;</div><div class="line">		AUTHORIZATIONURL = aUTHORIZATIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getSAVEUSERSESSIONURL() &#123;</div><div class="line">		return SAVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setSAVEUSERSESSIONURL(String sAVEUSERSESSIONURL) &#123;</div><div class="line">		SAVEUSERSESSIONURL = sAVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getREMOVEUSERSESSIONURL() &#123;</div><div class="line">		return REMOVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setREMOVEUSERSESSIONURL(String rEMOVEUSERSESSIONURL) &#123;</div><div class="line">		REMOVEUSERSESSIONURL = rEMOVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		return &quot;MyConfig [DOMAIN=&quot; + DOMAIN + &quot;, EXCELUPLOADURL=&quot; + EXCELUPLOADURL + &quot;, AUTHENTICATIONURL=&quot;</div><div class="line">				+ AUTHENTICATIONURL + &quot;, AUTHORIZATIONURL=&quot; + AUTHORIZATIONURL + &quot;, SAVEUSERSESSIONURL=&quot;</div><div class="line">				+ SAVEUSERSESSIONURL + &quot;, REMOVEUSERSESSIONURL=&quot; + REMOVEUSERSESSIONURL + &quot;]&quot;;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<pre><code>2、非自定义配置文件类进行读取；
+
+（1）@Value(&quot;${键名}&quot;)
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">RestController</div><div class="line">public class HelloController &#123;</div><div class="line"></div><div class="line">    @Value(&quot;$&#123;service.name&#125;&quot;)</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/hello&quot;)</div><div class="line">    public String hello() &#123;</div><div class="line">        return &quot;hello spring boot! &quot; + name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>（2）使用Environment，env.getProperty(“键名”)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@RestController</div><div class="line">public class HelloController &#123;</div><div class="line">    @Autowired</div><div class="line">    private Environment env;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/hello&quot;)</div><div class="line">    public String hello() &#123;</div><div class="line">        return &quot;hello spring boot! &quot; + env.getProperty(&quot;service.name&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>综上所述，获取SpringBoot有两大类，三种方法。如果有代码洁癖，非要对属性进行分类管理的话，推荐使用自定义属性类的方法，这样可以对属性进行分类管理。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
-  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/DES加密算法探究【Java版本】/">DES加密算法探究【Java版本】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" class="archive-article-date">
-  	<time datetime="2018-01-18T09:39:59.114Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">react结合d3.js和svg绘制条形统计图</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/" class="archive-article-date">
-  	<time datetime="2018-01-16T14:12:10.070Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/">POI实现excel的导入导出-[未采用反射实现的版本]</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
-  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/Nginx实现文件下载的限速功能/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:46:34.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/Nginx实现文件下载的限速功能/">Nginx实现文件下载限速的功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
-  	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/09/reflux的学习总结/" class="archive-article-date">
-  	<time datetime="2018-01-09T05:15:05.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/09/reflux的学习总结/">学习reflux的总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/07/移动端学习之初始化-angular4的学习/" class="archive-article-date">
-  	<time datetime="2018-01-07T13:58:30.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/07/移动端学习之初始化-angular4的学习/">移动端学习之初始化-angular4的学习</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/06/create-reate-app项目中proxy代理的配置/" class="archive-article-date">
-  	<time datetime="2018-01-06T09:10:40.008Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/06/create-reate-app项目中proxy代理的配置/">create-reate-app项目中proxy代理的配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/26/react中深层原理解析/" class="archive-article-date">
-  	<time datetime="2017-12-26T15:11:54.782Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/26/react中深层原理解析/">react中router底层原理结合参考资料的分析</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/04/17/springboot配置文件的读取方式/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用XShell部署SpringBoot的jar文件到Linux服务器上</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/5/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -477,8 +347,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
