@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/4 | Blog4Jun</title>
+  <title>Request的包装类HttpServletRequestWrapper的使用 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/2018/04/index.html">
+  <meta name="description" content="在使用zuul进行鉴权的时候，我们希望从请求Request中获取输入流，解析里面的内容，奈何InputStream只能被读取一次。为啥呢？源码里是这样说的：  public int read(byte[] b,int off, int len)　　　Reads up to len bytes of data into an array of bytes from this input stream">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Request的包装类HttpServletRequestWrapper的使用">
+<meta property="og:url" content="http://yoursite.com/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="在使用zuul进行鉴权的时候，我们希望从请求Request中获取输入流，解析里面的内容，奈何InputStream只能被读取一次。为啥呢？源码里是这样说的：  public int read(byte[] b,int off, int len)　　　Reads up to len bytes of data into an array of bytes from this input stream">
+<meta property="og:updated_time" content="2018-04-19T14:39:33.045Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="Request的包装类HttpServletRequestWrapper的使用">
+<meta name="twitter:description" content="在使用zuul进行鉴权的时候，我们希望从请求Request中获取输入流，解析里面的内容，奈何InputStream只能被读取一次。为啥呢？源码里是这样说的：  public int read(byte[] b,int off, int len)　　　Reads up to len bytes of data into an array of bytes from this input stream">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,184 +159,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Request的包装类HttpServletRequestWrapper的使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Request的包装类HttpServletRequestWrapper的使用
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" class="archive-article-date">
+
+        
+        <a href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" class="archive-article-date">
   	<time datetime="2018-04-19T14:38:01.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/">Request的包装类HttpServletRequestWrapper的使用</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用zuul进行鉴权的时候，我们希望从请求Request中获取输入流，解析里面的内容，奈何InputStream只能被读取一次。为啥呢？源码里是这样说的：</p>
+<blockquote>
+<p>public int read(byte[] b,int off, int len)<br>　　　Reads up to len bytes of data into an array of bytes from this input stream. Ifpos equals count, then -1 is  returned to indicate     end of file. Otherwise, the number k of bytes read is equal to the smaller of len and count-pos.If k is positive, then bytes buf[pos] through buf[pos+k-1] are copied into b[off] through b[off+k-1] in the manner performed by System.arraycopy. The value k is added into pos and k is returned.<br>　　　<br>      大致的意思是：在InputStream读取的时候，会有一个pos指针，它指示每次读取之后下一次要读取的起始位置。在每次读取后会更新pos的值，当你下次再来读取的时候是从pos的位置开始的，而不是从头开始，所以第二次获取String中的值的时候是不全的，API中提供了一个解决办法：reset()。但我发现在inputStream和servlet中根本不起作用。提示 mark/reset not supported 。意思是只有重写过markSupported()方法的IO流才可以用。所以一般我们使用inputStream，最好在一次内处理完所有逻辑。</p>
+</blockquote>
+<p>那么就没法在中途获取请求流中的数据么？当然有办法了，我可是PPZ，只需要重写Request缓存一下流中的数据就好了，实现代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div></pre></td><td class="code"><pre><div class="line">BodyReaderHttpServletRequestWrapper.java</div><div class="line"></div><div class="line">package com.neo.authUtils;</div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.nio.charset.Charset;</div><div class="line">import java.util.Enumeration;</div><div class="line">import java.util.NoSuchElementException;</div><div class="line"></div><div class="line">import javax.servlet.ReadListener;</div><div class="line">import javax.servlet.ServletInputStream;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletRequestWrapper;  </div><div class="line">  </div><div class="line">public class BodyReaderHttpServletRequestWrapper extends  </div><div class="line">        HttpServletRequestWrapper &#123;  </div><div class="line">      </div><div class="line">   // private final byte[] body;  </div><div class="line">	 -----》private byte[] body;《------- </div><div class="line">  </div><div class="line">    public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123;  </div><div class="line">        super(request);  </div><div class="line">        System.out.println(&quot;-------------------打印请求的头信息------------------------------&quot;);    </div><div class="line">        Enumeration&lt;?&gt; e = request.getHeaderNames()   ;    </div><div class="line">         while(e.hasMoreElements())&#123;    </div><div class="line">             String name = (String) e.nextElement();    </div><div class="line">             String value = request.getHeader(name);    </div><div class="line">            // System.out.println(name+&quot; = &quot;+value);    </div><div class="line">                 </div><div class="line">         &#125;</div><div class="line">         -----》获取流中的数据缓存到字节数组中，以后要读数据就用这里的《------</div><div class="line">        body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;));  </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    /**</div><div class="line">     * 从请求的头部获取用户的身份识别id;</div><div class="line">     * @param request</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public String getJsessionidFromHeader(HttpServletRequest request) &#123;</div><div class="line">    	String jsessionid = null;//识别用户身份的id;</div><div class="line">    	Enumeration&lt;?&gt; e = request.getHeaderNames()   ;    </div><div class="line">        while(e.hasMoreElements())&#123;    </div><div class="line">            String name = (String) e.nextElement();    </div><div class="line">            String value = request.getHeader(name);</div><div class="line">            //cookie = JSESSIONID=B926F6024438D4C693A5E5881595160C; SESSION=458e80dc-e354-4af3-a501-74504a873e70</div><div class="line">            if(&quot;cookie&quot;.equals(name)) &#123;</div><div class="line">            	jsessionid = value.split(&quot;;&quot;)[0].split(&quot;=&quot;)[1];</div><div class="line">            &#125;</div><div class="line">            System.out.println(name+&quot;=&quot;+value);</div><div class="line">        &#125;</div><div class="line">       // System.out.println(&quot;======jsessionid========&gt;&quot;+jsessionid);</div><div class="line">		return jsessionid;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public BufferedReader getReader() throws IOException &#123;  </div><div class="line">        return new BufferedReader(new InputStreamReader(getInputStream()));  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public ServletInputStream getInputStream() throws IOException &#123;  </div><div class="line">         ------》从缓存的数据中读取数据《------</div><div class="line">        final ByteArrayInputStream bais = new ByteArrayInputStream(body);  </div><div class="line">  </div><div class="line">        return new ServletInputStream() &#123;  </div><div class="line">            public int read() throws IOException &#123;  </div><div class="line">                return bais.read();  </div><div class="line">            &#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public boolean isFinished() &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				return false;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public boolean isReady() &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				return false;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public void setReadListener(ReadListener listener) &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				</div><div class="line">			&#125;  </div><div class="line">        &#125;;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public String getHeader(String name) &#123;  </div><div class="line">        return super.getHeader(name);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaderNames() &#123;  </div><div class="line">        return super.getHeaderNames();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">   /* @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;  */</div><div class="line">    </div><div class="line">    /**</div><div class="line">     * content-type=text/plain;charset=UTF-8</div><div class="line">     * 重写getHeaders方法，实现自定义Content-Type;</div><div class="line">     */</div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        if ((null != name &amp;&amp; name.equals(&quot;Content-Type&quot;))||(null != name &amp;&amp; name.equals(&quot;content-type&quot;))) &#123;  </div><div class="line">            return new Enumeration&lt;String&gt;() &#123;  </div><div class="line">                private boolean hasGetted = false;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public String nextElement() &#123;  </div><div class="line">                    if (hasGetted) &#123;  </div><div class="line">                        throw new NoSuchElementException();  </div><div class="line">                    &#125; else &#123;  </div><div class="line">                        hasGetted = true;</div><div class="line">                        return &quot;application/json;charset=utf-8&quot;;  </div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public boolean hasMoreElements() &#123;  </div><div class="line">                    return !hasGetted;  </div><div class="line">                &#125;  </div><div class="line">            &#125;;  </div><div class="line">        &#125;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;  </div><div class="line">    </div><div class="line">    /**</div><div class="line">     * 添加自定义信息到请求体;</div><div class="line">     * @param customMsg：自定义的添加到请求体中的信息;</div><div class="line">     */</div><div class="line">    public void appendCustomMsgToReqBody(String customMsg) &#123;</div><div class="line">    	String oldBodyString = HttpHelper.getBodyString(this);//oldBodyString一定是通过当前对象的输入流解析得来的，否则接收时会报EOFException；</div><div class="line">    	String appendMsg = HttpHelper.appendCustomMsgToReqBody(customMsg);</div><div class="line">    	String requestBodyAfterAppend = appendMsg + &quot;,&quot; +oldBodyString;</div><div class="line">    	//this.body = HttpHelper.appendCustomMsgToReqBody(HttpHelper.appendCustomMsgToReqBody(customMsg)+(HttpHelper.getBodyString(this))).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    	//this.body = HttpHelper.appendCustomMsgToReqBody((HttpHelper.getBodyString(this))).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    	this.body = HttpHelper.appendCustomMsgToReqBody(requestBodyAfterAppend).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    &#125; </div><div class="line">&#125;  </div><div class="line"></div><div class="line"></div><div class="line">HttpHelper.java</div><div class="line"></div><div class="line">package com.neo.authUtils;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.io.UnsupportedEncodingException;</div><div class="line">import java.nio.charset.Charset;</div><div class="line"></div><div class="line">import javax.servlet.ServletRequest;</div><div class="line"></div><div class="line">public class HttpHelper &#123;</div><div class="line">	/**</div><div class="line">	 * 获取post请求中的Body</div><div class="line">	 *</div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getBodyString(ServletRequest request) &#123;</div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		try &#123;</div><div class="line">			inputStream = request.getInputStream();</div><div class="line">			//读取流并将流写出去,避免数据流中断;</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return sb.toString();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//添加自定义的信息到请求体中;</div><div class="line">	public static String appendCustomMsgToReqBody(String newReqBodyStr) &#123;</div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		String newReqBody = null;</div><div class="line">		try &#123;</div><div class="line">			//通过字符串构造输入流;</div><div class="line">			inputStream = String2InputStream(newReqBodyStr);</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		//返回字符串;</div><div class="line">		newReqBody = sb.toString();</div><div class="line">		return newReqBody;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//将字符串转化为输入流;</div><div class="line">	public static InputStream String2InputStream(String str) &#123;</div><div class="line">	    ByteArrayInputStream stream = null;</div><div class="line">	    try &#123;</div><div class="line">	        stream = new ByteArrayInputStream(str.getBytes(&quot;UTF-8&quot;));</div><div class="line">	    &#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">	        e.printStackTrace();</div><div class="line">	    &#125;</div><div class="line">	    return stream;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述方案解决了使用request.getInpuStream()方法读取流中的数据只能读取一次的问题，其实当我们在使用第三方接口时，如果请求头信息和我们的服务所需不一致，例如第三方接口中头部信息为：content-type=text/plain;charset=UTF-8<br>而我们需要的是：”application/json;charset=utf-8”时，我们也是可以通过重写对应的方法对请求的头部信息进行修改的，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * content-type=text/plain;charset=UTF-8</div><div class="line">     * 重写getHeaders方法，实现自定义Content-Type;</div><div class="line">     */</div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        if ((null != name &amp;&amp; name.equals(&quot;Content-Type&quot;))||(null != name &amp;&amp; name.equals(&quot;content-type&quot;))) &#123;  </div><div class="line">            return new Enumeration&lt;String&gt;() &#123;  </div><div class="line">                private boolean hasGetted = false;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public String nextElement() &#123;  </div><div class="line">                    if (hasGetted) &#123;  </div><div class="line">                        throw new NoSuchElementException();  </div><div class="line">                    &#125; else &#123;  </div><div class="line">                        hasGetted = true;</div><div class="line">                        return &quot;application/json;charset=utf-8&quot;;  </div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public boolean hasMoreElements() &#123;  </div><div class="line">                    return !hasGetted;  </div><div class="line">                &#125;  </div><div class="line">            &#125;;  </div><div class="line">        &#125;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>当我们在后端设置了头部信息后，如果不出意外，前端发送的请求将变为简单请求，这样，服务器的处理机制将简单很多。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/19/运行时异常-RunTimeExcepption/" class="archive-article-date">
-  	<time datetime="2018-04-19T14:07:54.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/19/运行时异常-RunTimeExcepption/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">运行时异常-RunTimeExcepption</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/19/运行时异常-RunTimeExcepption/">运行时异常-RunTimeExcepption</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/17/springboot配置文件的读取方式/" class="archive-article-date">
-  	<time datetime="2018-04-17T14:06:31.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/17/springboot配置文件的读取方式/">springboot配置文件的读取方式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" class="archive-article-date">
-  	<time datetime="2018-04-15T14:15:22.231Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">使用XShell部署SpringBoot的jar文件到Linux服务器上</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/Java 对象的存储区域/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:34:11.015Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/Java 对象的存储区域/">Java 对象的存储区域</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:11:12.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">分布式架构学习之如何将session信息存储到数据库中</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -355,8 +337,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

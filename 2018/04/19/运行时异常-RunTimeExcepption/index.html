@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/4 | Blog4Jun</title>
+  <title>运行时异常-RunTimeExcepption | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/2018/04/index.html">
+  <meta name="description" content="前几天写代码的时候，遇到一个需求，保存的时候如果重名则不执行保存，并抛出异常。但是当我抛出的不是运行时异常的时候，这个异常就需要一层层的捕获。就像下面这样： 1234567891011121314151617181920212223ExceptionTest .javapackage com.lz.utils;public class ExceptionTest &amp;#123;   public s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运行时异常-RunTimeExcepption">
+<meta property="og:url" content="http://yoursite.com/2018/04/19/运行时异常-RunTimeExcepption/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="前几天写代码的时候，遇到一个需求，保存的时候如果重名则不执行保存，并抛出异常。但是当我抛出的不是运行时异常的时候，这个异常就需要一层层的捕获。就像下面这样： 1234567891011121314151617181920212223ExceptionTest .javapackage com.lz.utils;public class ExceptionTest &amp;#123;   public s">
+<meta property="og:updated_time" content="2018-04-19T14:39:50.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="运行时异常-RunTimeExcepption">
+<meta name="twitter:description" content="前几天写代码的时候，遇到一个需求，保存的时候如果重名则不执行保存，并抛出异常。但是当我抛出的不是运行时异常的时候，这个异常就需要一层层的捕获。就像下面这样： 1234567891011121314151617181920212223ExceptionTest .javapackage com.lz.utils;public class ExceptionTest &amp;#123;   public s">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -155,184 +159,185 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-运行时异常-RunTimeExcepption" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" class="archive-article-date">
-  	<time datetime="2018-04-19T14:38:01.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/">Request的包装类HttpServletRequestWrapper的使用</a>
+    <h1 class="article-title" itemprop="name">
+      运行时异常-RunTimeExcepption
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/19/运行时异常-RunTimeExcepption/" class="archive-article-date">
+        
+        <a href="/2018/04/19/运行时异常-RunTimeExcepption/" class="archive-article-date">
   	<time datetime="2018-04-19T14:07:54.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/19/运行时异常-RunTimeExcepption/">运行时异常-RunTimeExcepption</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天写代码的时候，遇到一个需求，保存的时候如果重名则不执行保存，并抛出异常。但是当我抛出的不是运行时异常的时候，这个异常就需要一层层的捕获。就像下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ExceptionTest .java</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() throws Exception &#123;</div><div class="line">	  //throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">	   throw new Exception();</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Test.java</div><div class="line"></div><div class="line">package com.lz;</div><div class="line"></div><div class="line">import com.lz.utils.ExceptionTest;</div><div class="line">import com.lz.utils.GetDBPhysicDesignTxt;</div><div class="line"></div><div class="line">public class Test &#123;</div><div class="line">public static void main(String[] args) throws Exception &#123;</div><div class="line">	ExceptionTest.testRunTimeException();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>或者这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">ExceptionTest.java</div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() &#123;</div><div class="line">	  //throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">	   try &#123;</div><div class="line">		throw new Exception();</div><div class="line">	&#125; catch (Exception e) &#123;</div><div class="line">		// TODO Auto-generated catch block</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是从一个程序员的角度，考虑，重名属于运行后进行操作才产生的异常，正常情况下应该抛出运行时异常，并且公司我最膜拜的架构师【据说是离神最近的男人】是已经封装好了异常，自定义运行时异常，因此就使用了运行时异常实现：<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">MyRunTimeException.java</div><div class="line">自定义的运行时异常类：</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class MyRunTimeException extends RuntimeException &#123;</div><div class="line">	public MyRunTimeException(String info) &#123;</div><div class="line">		super(info);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">ExceptionTest.java</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() &#123;</div><div class="line">	  throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用自定义运行时异常后，发现省事好多，异常并不需要一级一级的向上抛出或者在当前类捕获。</p>
+<p>借助这个案例分析了下运行时异常的特点：</p>
+<blockquote>
+<ul>
+<li>A: 运行时期异常的概述: <ul>
+<li>RuntimeException和他的所有子类异常,都属于运行时期异常。<br>  NullPointerException,ArrayIndexOutOfBoundsException等都属于运行时期异常.</li>
+</ul>
+</li>
+<li>B：运行时期异常的特点<ul>
+<li>a：方法中抛出运行时期异常,方法定义中无需throws声明,调用者也无需处理此异常。</li>
+<li>b：运行时期异常一旦发生,需要程序人员修改源代码。<br>设计原因:<br>  运行异常,不能发生,但是如果发生了,程序人员停止程序修改源代码<br>  运行异常: 一旦发生,不要处理,请你修改源代码,运行异常一旦发生,后面的代码没有执行的意义</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<p>这就是运行时异常的总结，就问还有谁。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/04/19/运行时异常-RunTimeExcepption/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/17/springboot配置文件的读取方式/" class="archive-article-date">
-  	<time datetime="2018-04-17T14:06:31.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-17</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Request的包装类HttpServletRequestWrapper的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/17/springboot配置文件的读取方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot配置文件的读取方式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/17/springboot配置文件的读取方式/">springboot配置文件的读取方式</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" class="archive-article-date">
-  	<time datetime="2018-04-15T14:15:22.231Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">使用XShell部署SpringBoot的jar文件到Linux服务器上</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/Java 对象的存储区域/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:34:11.015Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/Java 对象的存储区域/">Java 对象的存储区域</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:11:12.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">分布式架构学习之如何将session信息存储到数据库中</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -355,8 +360,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
