@@ -6,14 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>相册 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="2017/6/20                                                                                                                                                      大学期间第一次出差，去了新疆，好激动">
+<meta property="og:type" content="website">
+<meta property="og:title" content="相册">
+<meta property="og:url" content="http://yoursite.com/projects/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="2017/6/20                                                                                                                                                      大学期间第一次出差，去了新疆，好激动">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/0003.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/zj001.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/zj002.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/app.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/1.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/764572443920498302.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/location.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/line.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/life.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/life.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/bigheart_s.jpg">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/music_01.jpg">
+<meta property="og:updated_time" content="2018-04-19T00:51:14.430Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="相册">
+<meta name="twitter:description" content="2017/6/20                                                                                                                                                      大学期间第一次出差，去了新疆，好激动">
+<meta name="twitter:image" content="http://ouuy81imh.bkt.clouddn.com/0003.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -57,9 +74,7 @@
 				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 				<li><a href="/photo">相册</a></li>
-				
-				<li><a href="/projects">我参与过的项目</a></li>
-	           
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -157,47 +172,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-springboot配置文件的读取方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/17/springboot配置文件的读取方式/">springboot配置文件的读取方式</a>
+    <h1 class="article-title" itemprop="name">
+      相册
     </h1>
   
 
-        
-        <a href="/2018/04/17/springboot配置文件的读取方式/" class="archive-article-date">
-  	<time datetime="2018-04-17T14:06:31.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-17</time>
-</a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在做项目的时候，因为需求原因，要定义几个常量，但是这几个常量有可能改动，为了尽量不改动代码，就想能不能放到SpringBooot的配置文件中呢，毕竟配置文件先于SpringBoot的核心业务类加载，因此配置在配置文件中的属性便相当于有了static属性。具体的解决方案分为两大类：<br>       1、自定义配置文件类进行读取；<br>            bootstrap.properties中的属性内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">##spring.application.name=spring-cloud-zuul</div><div class="line">##server.port=8002</div><div class="line"></div><div class="line">spring.cloud.config.name=zj-cfg4zuul</div><div class="line">spring.cloud.config.profile=dev</div><div class="line">spring.cloud.config.label=master</div><div class="line">spring.cloud.config.discovery.enabled=true</div><div class="line">spring.cloud.config.discovery.serviceId=spring-cloud-config-server</div><div class="line"></div><div class="line">eureka.client.serviceUrl.defaultZone=http://localhost:8000/eureka/</div><div class="line">#网络前缀;</div><div class="line">NET-PREFIX.DOMAIN=http://localhost:8006/</div><div class="line">#------内部URL------;</div><div class="line">#Excel上传的URL;</div><div class="line">NET-PREFIX.EXCELUPLOADURL=uploadExcel</div><div class="line">#身份认证的URL;</div><div class="line">NET-PREFIX.AUTHENTICATIONURL=spring-cloud-producer/mongo/auth/doGetAuthenticationInfo</div><div class="line">#权限认证的URL;</div><div class="line">NET-PREFIX.AUTHORIZATIONURL=spring-cloud-producer/mongo/auth/doGetAuthorizationInfo</div><div class="line">#保存Session的URL;</div><div class="line">NET-PREFIX.SAVEUSERSESSIONURL=spring-cloud-producer/mongo/auth/saveUserSessionWithJsessionid</div><div class="line">#移除Sessin的URL;</div><div class="line">NET-PREFIX.REMOVEUSERSESSIONURL=spring-cloud-producer/mongo/auth/removeUserSessionFromDB</div><div class="line">#师傅对头部信息敏感;</div><div class="line">zuul.sensitive-headers=false</div></pre></td></tr></table></figure>
-<hr>
-<p>创建实体类MyConfig。<br>       注意：springboot1.5版本以下@ConfigurationProperties有两个属性locations（指定配置文件的所在位置），       </p>
-<blockquote>
-<p>当前的文件路径如下图所示：<br>       <img src="https://img-blog.csdn.net/20180417215710400?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-</blockquote>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">package com.neo.webConfig;</div><div class="line"></div><div class="line">import org.springframework.boot.context.properties.ConfigurationProperties;</div><div class="line">import org.springframework.context.annotation.PropertySource;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">/**</div><div class="line"> * 自定义的配置文件类;</div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">@Component</div><div class="line">@ConfigurationProperties(prefix = &quot;NET-PREFIX&quot;)</div><div class="line">@PropertySource(value = &quot;classpath:bootstrap.properties&quot;)</div><div class="line">public class MyConfig &#123;</div><div class="line">	//域名;</div><div class="line">    private String DOMAIN;</div><div class="line">    //Excel上传的URL;</div><div class="line">	private String EXCELUPLOADURL;</div><div class="line">	//身份认证的URL;</div><div class="line">	private String AUTHENTICATIONURL;</div><div class="line">	//权限认证的URL;</div><div class="line">	private String AUTHORIZATIONURL;</div><div class="line">	//Session保存的URL;</div><div class="line">	private String SAVEUSERSESSIONURL;</div><div class="line">	//Session移除的URL;</div><div class="line">	private String REMOVEUSERSESSIONURL;</div><div class="line">	</div><div class="line">	public String getDOMAIN() &#123;</div><div class="line">		return DOMAIN;</div><div class="line">	&#125;</div><div class="line">	public void setDOMAIN(String dOMAIN) &#123;</div><div class="line">		DOMAIN = dOMAIN;</div><div class="line">	&#125;</div><div class="line">	public String getEXCELUPLOADURL() &#123;</div><div class="line">		return EXCELUPLOADURL;</div><div class="line">	&#125;</div><div class="line">	public void setEXCELUPLOADURL(String eXCELUPLOADURL) &#123;</div><div class="line">		EXCELUPLOADURL = eXCELUPLOADURL;</div><div class="line">	&#125;</div><div class="line">	public String getAUTHENTICATIONURL() &#123;</div><div class="line">		return AUTHENTICATIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setAUTHENTICATIONURL(String aUTHENTICATIONURL) &#123;</div><div class="line">		AUTHENTICATIONURL = aUTHENTICATIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getAUTHORIZATIONURL() &#123;</div><div class="line">		return AUTHORIZATIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setAUTHORIZATIONURL(String aUTHORIZATIONURL) &#123;</div><div class="line">		AUTHORIZATIONURL = aUTHORIZATIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getSAVEUSERSESSIONURL() &#123;</div><div class="line">		return SAVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setSAVEUSERSESSIONURL(String sAVEUSERSESSIONURL) &#123;</div><div class="line">		SAVEUSERSESSIONURL = sAVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public String getREMOVEUSERSESSIONURL() &#123;</div><div class="line">		return REMOVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	public void setREMOVEUSERSESSIONURL(String rEMOVEUSERSESSIONURL) &#123;</div><div class="line">		REMOVEUSERSESSIONURL = rEMOVEUSERSESSIONURL;</div><div class="line">	&#125;</div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		return &quot;MyConfig [DOMAIN=&quot; + DOMAIN + &quot;, EXCELUPLOADURL=&quot; + EXCELUPLOADURL + &quot;, AUTHENTICATIONURL=&quot;</div><div class="line">				+ AUTHENTICATIONURL + &quot;, AUTHORIZATIONURL=&quot; + AUTHORIZATIONURL + &quot;, SAVEUSERSESSIONURL=&quot;</div><div class="line">				+ SAVEUSERSESSIONURL + &quot;, REMOVEUSERSESSIONURL=&quot; + REMOVEUSERSESSIONURL + &quot;]&quot;;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="需要注意的是：在自定义属性类中，属性文件的属性名中不能出现“-”等特殊字符-如“NET-PREFIX-REMOVE-USER-SESSION-URL”，否则可能导致属性无法读取的问题【亲测】。"><a href="#需要注意的是：在自定义属性类中，属性文件的属性名中不能出现“-”等特殊字符-如“NET-PREFIX-REMOVE-USER-SESSION-URL”，否则可能导致属性无法读取的问题【亲测】。" class="headerlink" title="需要注意的是：在自定义属性类中，属性文件的属性名中不能出现“_”等特殊字符,如“NET-PREFIX.REMOVE_USER_SESSION_URL”，否则可能导致属性无法读取的问题【亲测】。"></a>需要注意的是：在自定义属性类中，属性文件的属性名中不能出现“_”等特殊字符,如“NET-PREFIX.REMOVE_USER_SESSION_URL”，否则可能导致属性无法读取的问题【亲测】。</h2><pre><code>2、非自定义配置文件类进行读取；
+        <p><link type="text/css" href="/fancybox/jquery.fancybox.css" rel="stylesheet"><br><!-- 最新版本的 Bootstrap 核心 CSS 文件 --></p>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-（1）@Value(&quot;${键名}&quot;)
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">RestController</div><div class="line">public class HelloController &#123;</div><div class="line"></div><div class="line">    @Value(&quot;$&#123;service.name&#125;&quot;)</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/hello&quot;)</div><div class="line">    public String hello() &#123;</div><div class="line">        return &quot;hello spring boot! &quot; + name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>（2）使用Environment，env.getProperty(“键名”)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@RestController</div><div class="line">public class HelloController &#123;</div><div class="line">    @Autowired</div><div class="line">    private Environment env;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/hello&quot;)</div><div class="line">    public String hello() &#123;</div><div class="line">        return &quot;hello spring boot! &quot; + env.getProperty(&quot;service.name&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>综上所述，获取SpringBoot有两大类，三种方法。如果有代码洁癖，非要对属性进行分类管理的话，推荐使用自定义属性类的方法，这样可以对属性进行分类管理。</p>
+<p><div class="instagram"></div></p>
+<section class="archives album"><br><ul><br><br>                   <label>2017/6/20</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/0003.png"><br>                        <div class="caption"><br>                            <h3><br>                                大学期间第一次出差，去了新疆，好激动。晚上和老板吃饭的时候还遇到足浴店的川妹子，说实话，胖胖的还挺可爱的，冲我们招手，羞的我们跑开了。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2017/11/15</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/zj001.jpg"><br>                        <div class="caption"><br>                            <h3><br>                             好美的杜鹃花，看到这些花，突然想起了我的发小，121…027，她好像喜欢桃花，好久没联系了，不知道她怎么样了.<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2017/12/18</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/zj002.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                来公司好久了，抽空去太湖转转，本来要去三国水浒城拍照的，但是有新娘在那里拍婚纱照，就让给她们吧，说不定未来的丈母娘在那里呢。哈哈，祝福他们。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br>                    <label>2017/12/22</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/app.png"><br>                        <div class="caption"><br>                            <h3><br>                                今天平安夜，公司发了平安果，好贴心。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2017/12/25</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/1.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                会不会因为这个错过一段美好的爱情,如果不努力，有什么资格谈论爱情呢。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2017/12/31</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/764572443920498302.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                总有人在想着你，年华似水，何不好好努力，不辜负你爱的人和爱你的人。话说本想送她一本书的，送啥好呢？<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/1/24</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/location.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                下雪了，天很冷，远方的你还好吧，为什么要生气呢？不知不觉我的脚步越走越远，这是我实习的地方，下一站会是哪里呢？<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/1/27</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/line.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                其实我遇到的社会人也挺好的，不像老师说的那样不堪……。话说遇到一个好厉害的单身汪，我要跟着他好好学，哈哈。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/2/9</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/life.png"><br>                        <div class="caption"><br>                            <h3><br>                                所谓的命运不过就是一个个选择的连线，抉择将至，有舍才有得。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/3/10</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/life.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                生活不只远方的梦想，还有嘴里的油盐酱醋茶。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/3/17</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/bigheart_s.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                智慧布局人生，无惧小人。<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br>                    <label>2018/4/17</label><br>                    <li><br>                      <div class="thumbnail"><br>                        <img alt="500x667" src="http://ouuy81imh.bkt.clouddn.com/music_01.jpg"><br>                        <div class="caption"><br>                            <h3><br>                                你曾是少年！<br>                            </h3><br>                        </div><br>                    </div><br>                    </li><br><br><br><br></ul><br></section>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -206,16 +225,65 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/17/springboot配置文件的读取方式/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/projects/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -235,686 +303,12 @@
 
 
 
-
-  
-    <article id="post-使用XShell部署SpringBoot的jar文件到Linux服务器上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">使用XShell部署SpringBoot的jar文件到Linux服务器上</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" class="archive-article-date">
-  	<time datetime="2018-04-15T14:15:22.231Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近师傅教我了通过jenkins发布项目，但是发现公司的Maven出了点问题，因此就用XShell进行项目的发布操作。发布的步骤如下：</p>
-<ol>
-<li>在eclipse中通过Maven命令Clean–&gt;Install生成jar文件；<br>clean:清楚tartget目录下的文件;<br>install:编译项目并生成jar文件存储于target文件夹下【默认的额编译输出路径】；</li>
-<li>通过XSheel上传jar文件到指定的服务器；<br>上传命令有两个：<br>rz:上传文件，当有重复文件的时候不执行覆盖；<br>ra -y 上传并覆盖；</li>
-<li><p>进行醒目发布的前期处理操作；<br>每次发布都必须关闭原有服务，因此可以执行如下脚本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs   kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div></pre></td></tr></table></figure>
-<p>4.执行发布脚本，发布项目；</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
-<p>其实发布项目执行一个脚本就好了，我们只需要在上传窗口打开的时候选择文件上传就好了。<br>综合脚本如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
-<p>发布脚本里的内容也没啥，就是执行在后台执行【nohup】java -jar xxx.jar命令，并把执行中相应级别的输出信息【’2&gt;&amp;1 ‘:1、标准输出信息；2、error输出信息】的信息写入日志就好了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup java -jar ../lz-gooflow-service-0.0.1-SNAPSHOT.jar &gt; /home/d5000/logs/lz-gooflow-service 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
-<p>参考文章：</p>
-<ol>
-<li><a href="https://zhidao.baidu.com/question/446932678.html" target="_blank" rel="external">linux命令ps -ef | grep httpd 是啥意思</a></li>
-<li><a href="https://blog.csdn.net/kingo0/article/details/38036957" target="_blank" rel="external">linux获得进程id号并迅速杀死进程</a></li>
-<li><a href="http://www.jb51.net/LINUXjishu/351683.html" target="_blank" rel="external">Linux中Kill掉进程的10种方法</a></li>
-<li>r<a href="https://segmentfault.com/q/1010000005793523" target="_blank" rel="external">z 能否强制覆盖掉文件?</a></li>
-<li><a href="http://blog.51cto.com/oldboy/588592" target="_blank" rel="external">Linux系统上传下载命令rz和sz</a></li>
-<li><a href="https://www.cnblogs.com/sos-blue/p/6798810.html" target="_blank" rel="external">bash中 2&gt;&amp;1 &amp; 的解释</a></li>
-<li><a href="https://junzhou2016.github.io/2017/09/05/linux%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">我的个人Linux笔记。</a></li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java 对象的存储区域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/Java 对象的存储区域/">Java 对象的存储区域</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/15/Java 对象的存储区域/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:34:11.015Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>程序运行时，我们最好对数据保存到什么地方做到心中有数。特别要注意的是内存的分配。有六个地方都可以保存数据：<br>       转载自：<a href="https://blog.csdn.net/kdnuggets/article/details/1901144" target="_blank" rel="external">Java 对象的存储区域</a><br>  (1)寄存器；<br>    这是最快的保存区域，因为它位于和其他所有保存方式不同的地方：处理器内部。然而，寄存器的数量十分有限，所以寄存器是根据需要由编译器分配。我们对此没有直接的控制权，也不可能在自己的程序里找到寄存器存在的任何踪迹。<br>    (2)堆栈；<br>        驻留于常规RAM（随机访问存储器）区域，但可通过它的“堆栈指针”获得处理的直接支持。堆栈指针若向下移，会创建新的内存；若向上移，则会释放那些内存。这是一种特别快、特别有效的数据保存方式，仅次于寄存器。创建程序时，Java编译器必须准确地知道堆栈内保存的所有数据的“长度”以及“存在时间”。这是由于它必须生成相应的代码，以便向上和向下移动指针。这一限制无疑影响了程序的灵活性，所以尽管有些Java数据要保存在堆栈里——特别是对象句柄，但Java对象并不放到其中。<br>    (3) 堆；<br>       一种常规用途的内存池（也在RAM区域），其中保存了Java对象。和堆栈不同，“内存堆”或“堆”（Heap）最吸引人的地方在于编译器不必知道要从堆里分配多少存储空间，也不必知道存储的数据要在堆里停留多长的时间。因此，用堆保存数据时会得到更大的灵活性。要求创建一个对象时，只需用new命令编制相关的代码即可。执行这些代码时，会在堆里自动进行数据的保存。当然，为达到这种灵活性，必然会付出一定的代价：在堆里分配存储空间时会花掉更长的时间！<br>    (4)静态存储；<br>        这儿的“静态”（Static）是指“位于固定位置”（尽管也在RAM里）。程序运行期间，静态存储的数据将随时等候调用。可用static关键字指出一个对象的特定元素是静态的。但Java对象本身永远都不会置入静态存储空间。<br>    (5)常数存储；<br>      常数值通常直接置于程序代码内部。这样做是安全的，因为它们永远都不会改变。有的常数需要严格地保护，所以可考虑将它们置入只读存储器（ROM）。<br>    (6)非RAM存储；<br>       若数据完全独立于一个程序之外，则程序不运行时仍可存在，并在程序的控制范围之外。其中两个最主要的例子便是“流式对象”和“固定对象”。对于流式对象，对象会变成字节流，通常会发给另一台机器。而对于固定对象，对象保存在磁盘中。即使程序中止运行，它们仍可保持自己的状态不变。对于这些类型的数据存储，一个特别有用的技巧就是它们能存在于其他媒体中。一旦需要，甚至能将它们恢复成普通的、基于RAM的对象。Java 1.1提供了对Lightweight persistence的支持。未来的版本甚至可能提供更完整的方案。</p>
-<p>《Think in Java》Chapter 2</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/Java 对象的存储区域/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分布式架构学习之如何将session信息存储到数据库中" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">分布式架构学习之如何将session信息存储到数据库中</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:11:12.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近实践了一把SpringCloud集成注册中心、网关、配置中心、微服务，恰好电脑上的redis出现了各种问题，索性不用redis，自己写了个中间件，将存储到了MySQL中。下面是期间遇到的各种问题总结。<br>   手先介绍基实现的本原理。我请教了下师傅，总结出了将Session持久化的几条要点。</p>
-<ol>
-<li>Http是无状态的协议；</li>
-</ol>
-<blockquote>
-<p> 所谓http是无状态协议，言外之意是说http协议没法保存客户机信息，也就没法区分每次请求的不同之处，服务器无法区分通过http发送的请求是来源于甲用户还是来源于乙用户的。关于http无状态阻碍了交互式应用程序的实现。比如记录用户浏览哪些网页、判断用户是否拥有权限访问等。于是，两种用于保持HTTP状态的技术就应运而生了，一个是Cookie，而另一个则是Session。</p>
-</blockquote>
-<p> 2.Fetch是默认不携带cookies的；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">fetch默认是不携带cookie到后台的，想要携带cookie必须</div><div class="line">添加credentials: &quot;include&quot;这个设置；</div><div class="line"></div><div class="line">fetch(url, &#123;</div><div class="line">              method: &apos;GET&apos;,</div><div class="line">              headers: myHeaders,</div><div class="line">              --&gt;credentials: &quot;include&quot;&lt;--</div><div class="line">            &#125;)</div><div class="line">            </div><div class="line">这个时候服务端确实拿到了cookie，但是数据返回报错：</div><div class="line">ERROR :Fetch API cannot load http://localhost:8077/sonny/l... The value of the &apos;Access-Control-Allow-Origin&apos; header in the response must not be the wildcard &apos;*&apos; when the request&apos;s credentials mode is &apos;include&apos;. Origin &apos;http://localhost:8080&apos; is therefore not allowed access.</div><div class="line">这段鸟语翻译过来就是：当请求中的认证模式为‘include’时，响应的头部中的&apos;Access-Control-Allow-Origin&apos;不能设置为通配符“*”，这是因为cookie在设置的时候是不允许跨域的，如何在协达cookie的前后端分离项目中实现类似通配符”*“的功能将在下面讲述。因为报错了，因此得在后端添加：</div></pre></td></tr></table></figure>
-<p>response.setHeader(“Access-Control-Allow-Credentials”,”true”);<br>  response.setHeader(“Access-Control-Allow-Origin”, “<a href="http://192.168.0.1" target="_blank" rel="external">http://192.168.0.1</a>“);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这样就解决了跨域传递session的问题。</div></pre></td></tr></table></figure></p>
-<p>3.Cookis是不允许跨域的；</p>
-<blockquote>
-<p> Cookie一班是不允许跨域传递的，解决方案除了上面那种，还可以通过Nginx；<br> <a href="https://www.cnblogs.com/hujunzheng/p/5744755.html" target="_blank" rel="external">解决cookie跨域问题之nginx反向代理</a></p>
-</blockquote>
-<p> 4.浏览器是通过OPTION请求获取服务器对请求的支持信息；</p>
-<blockquote>
-<p>OPTIONS 方法比较少见，该方法用于请求服务器告知其支持哪些其他的功能和方法。通过 OPTIONS 方法，可以询问服务器具体支持哪些方法，或者服务器会使用什么样的方法来处理一些特殊资源。可以说这是一个探测性的方法，客户端通过该方法可以在不访问服务器上实际资源的情况下就知道处理该资源的最优方式。</p>
-</blockquote>
-<p>5.既然比较少见，什么情况下会使用OPTION这个方法呢？</p>
-<blockquote>
-<p>当发送的请求为简单请求的时候，服务器会自动在响应的头部添加添加一个Origin字段，其值将被自动设置为对应的请求域，<code>Origin: http://api.bob.com</code>因此可以说，对与简单请求是不存在跨域问题的。</p>
-<p>  A）、什么是简单请求呢？<br>浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>只要同时满足以下两大条件，就属于简单请求。<br>（1) 请求方法是以下三种方法之一：<br>HEAD<br>GET<br>POST<br>（2）HTTP的头信息不超出以下几种字段：<br>Accept<br>Accept-Language<br>Content-Language<br>Last-Event-ID<br>Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain<br>凡是不同时满足上面两个条件，就属于非简单请求。<br>浏览器对这两种请求的处理，是不一样的。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>凡是不同时满足上面两个条件，就属于非简单请求。 浏览器对这两种请求的处理，是不一样的。</p>
-<p>非简单请求是那种对服务器有特殊要求的请求，比如请求方法是PUT或DELETE，或者Content-Type字段的类型是application/json。<br>非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为”预检”请求（preflight）。<br>浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP动词和头信息字段。只有得到肯定答复，浏览器才会发出正式的XMLHttpRequest请求，否则就报错。</p>
-</blockquote>
-<p><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="external">跨域资源共享 CORS 详解</a></p>
-<p> 6.Session是通过Cookies中的信息来识别的；</p>
-<p> 当解决了跨域和cookie携带的问题，以后每次浏览器发送请求就会携带一个cookie的信息，那么Session和JSESessionId是如何产生联系的？</p>
-<blockquote>
-<p>首先我们需要知道Session在何时创建呢？<br><a href="https://www.cnblogs.com/woshimrf/p/5317776.html" target="_blank" rel="external">sessionid如何产生？由谁产生？保存在哪里？</a></p>
-</blockquote>
-<hr>
-<blockquote>
-<p>当然还是在服务器端程序运行的过程中创建的，不同语言实现的应用程序有不同创建Session的方法，而在Java中是通过调用HttpServletRequest的getSession方法（使用true作为参数）创建的。在创建了Session的同时，服务器会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>服务器上为每个用户都保存了一个session，那当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>这时jsessionid就派上用场了。每一个session都有一个id来作为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
-</blockquote>
-<hr>
-<p>下面看代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">import org.springframework.context.ApplicationContext;</div><div class="line"></div><div class="line">import com.spring.boot.gp4zj.model.UserSession;</div><div class="line">import com.spring.boot.gp4zj.model.Worker;</div><div class="line">import com.spring.boot.gp4zj.service.AuthenticationService;</div><div class="line">import com.spring.boot.gp4zj.service.impl.AuthenticationServiceImpl;</div><div class="line"></div><div class="line">import cn.lz.cloud.common.service.ReqObject;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 我自己封装的session工具类;</div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class MySession &#123;</div><div class="line">	 //私有的静态内部类保证了单例，并且是懒汉模式的;</div><div class="line">    private static class SingletonHolder&#123;</div><div class="line">      private static final MySession INSTANCE = new MySession();</div><div class="line">    &#125;</div><div class="line">    private MySession()&#123;&#125;</div><div class="line">    </div><div class="line">    public static final MySession getInstance()&#123;</div><div class="line">    	  return SingletonHolder.INSTANCE;</div><div class="line">    &#125;</div><div class="line">	private ApplicationContext applicationContext = SpringUtils.getApplicationContext();</div><div class="line">	private AuthenticationService authenticationService = applicationContext.getBean(AuthenticationServiceImpl.class);</div><div class="line">	/**</div><div class="line">	 * 根据请求中携带的session信息获取用‘session’中的用户户信息;</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">  public Worker getAttributeOfUserInfo(HttpServletRequest request) &#123;</div><div class="line">	  //获取jseSessionId;</div><div class="line">	  String jsessionid = HttpUtils.getJsessionidFromHeader(request);// 获取请求携带的sessioId;</div><div class="line">	  //查询用户信息;</div><div class="line">	  UserSession requestAttachmentInfo = new UserSession();</div><div class="line">	  requestAttachmentInfo.setJsessionid(jsessionid);</div><div class="line">	  ReqObject&lt;UserSession&gt; sessionSelecCondition = new ReqObject&lt;UserSession&gt;();</div><div class="line">	  sessionSelecCondition.setObject(requestAttachmentInfo);</div><div class="line">	  UserSession sessionVo = authenticationService.selectUserSessionBySessionID(sessionSelecCondition);</div><div class="line">	  Worker workerInfo = new Worker();</div><div class="line">	  String workerName = sessionVo.getWorkerName();</div><div class="line">	  String workerPassword = sessionVo.getWorkerPassword();</div><div class="line">	  workerInfo.setWorkerName(workerName);</div><div class="line">	  workerInfo.setWorkerPassword(workerPassword);</div><div class="line">	  Worker sessionAttruVO = authenticationService.doGetAuthenticationInfo(workerInfo);</div><div class="line">	return sessionAttruVO;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.io.PrintWriter;</div><div class="line">import java.net.InetAddress;</div><div class="line">import java.net.UnknownHostException;</div><div class="line">import java.nio.charset.Charset;</div><div class="line">import java.util.Enumeration;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">import com.google.gson.Gson;</div><div class="line"></div><div class="line">public class HttpUtils &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		HttpServletResponse response = null;</div><div class="line">		responseOutWithJson(response, null);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static String getHostIp() &#123;</div><div class="line">		InetAddress addr;</div><div class="line">		String currentIP = null;</div><div class="line">		try &#123;</div><div class="line">			addr = InetAddress.getLocalHost();</div><div class="line">			currentIP = addr.getHostAddress().toString(); //获取本机ip</div><div class="line">		&#125; catch (UnknownHostException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		return currentIP;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void responseOutWithJson(HttpServletResponse response, Object responseObject) &#123;</div><div class="line">		// Person person=new Person();</div><div class="line">		Gson gson = new Gson();</div><div class="line">		// Object stu = new Student(&quot;ShaHao&quot;, 21);</div><div class="line">		String objStrJson = gson.toJson(responseObject);</div><div class="line">		// System.out.println(objStrJson);</div><div class="line">		response.reset();</div><div class="line">		response.setCharacterEncoding(&quot;UTF-8&quot;);</div><div class="line">		response.setContentType(&quot;application/json; charset=utf-8&quot;);</div><div class="line">		PrintWriter out = null;</div><div class="line">		try &#123;</div><div class="line">			out = response.getWriter();</div><div class="line">			out.print(objStrJson);</div><div class="line">			out.flush();</div><div class="line">			out.close();</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (out != null) &#123;</div><div class="line">				out.close();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取post请求中的Body</div><div class="line">	 *</div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getBodyString(HttpServletRequest request) &#123;</div><div class="line">		System.out.println(&quot;--------HttpUtils---------HttpUtils--------&quot;);</div><div class="line">		Enumeration&lt;?&gt; ele = request.getHeaderNames();</div><div class="line">		while (ele.hasMoreElements()) &#123;</div><div class="line">			String name = (String) ele.nextElement();</div><div class="line">			String value = request.getHeader(name);</div><div class="line">			System.out.println(name + &quot; = &quot; + value);</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		try &#123;</div><div class="line">			inputStream = request.getInputStream();</div><div class="line">			// 读取流并将流写出去,避免数据流中断;</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return sb.toString();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 从请求的头部获取用户的身份识别id;</div><div class="line">	 * </div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getJsessionidFromHeader(HttpServletRequest request) &#123;</div><div class="line">		String jsessionid = null;// 识别用户身份的id;</div><div class="line">		Enumeration&lt;?&gt; e = request.getHeaderNames();</div><div class="line">		while (e.hasMoreElements()) &#123;</div><div class="line">			String name = (String) e.nextElement();</div><div class="line">			String value = request.getHeader(name);</div><div class="line">			// cookie = JSESSIONID=B926F6024438D4C693A5E5881595160C;</div><div class="line">			// SESSION=458e80dc-e354-4af3-a501-74504a873e70</div><div class="line">			if (&quot;cookie&quot;.equals(name)) &#123;</div><div class="line">				jsessionid = value.split(&quot;;&quot;)[0].split(&quot;=&quot;)[1];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return jsessionid;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其实所有的根本就是获取有效的SessionId就可以了。参考文章都在上面了，里面结合了我的理解和参考的内容，希望可以帮助到大家。</p>
-<p><img src="https://img-blog.csdn.net/20180415210950924?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>夏天了，又到了长肉的季节了。。。。。。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java乱码解决之道" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/17/java乱码解决之道/">java乱码解决之道</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/17/java乱码解决之道/" class="archive-article-date">
-  	<time datetime="2018-03-17T01:49:20.120Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>收藏了一篇解决java乱码的文章，希望作者的博客不要挂掉了，不然查询又不方便了。<br>网址:<a href="http://cmsblogs.com/?p=1530" target="_blank" rel="external">java乱码解决之道</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/17/java乱码解决之道/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 " class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /">SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /" class="archive-article-date">
-  	<time datetime="2018-03-17T01:44:52.192Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:</p>
-<hr>
-<p>  方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 各种poi导入导出的请求控制模块;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月16日@下午4:28:49</div><div class="line"> */</div><div class="line">@RestController</div><div class="line">@RequestMapping(&quot;/poi&quot;)</div><div class="line">@ClazzNote(desc = &quot;excel文件&quot;, resource = &quot;input&quot;, modName = &quot;poi&quot;)</div><div class="line">public class POIController &#123;</div><div class="line">	@RequestMapping(&quot;/uploadExcel&quot;)</div><div class="line">	@ServiceNote(desc = &quot;上传考勤明细的excel&quot;, auth = ServiceNote.AUTH.CHECK)</div><div class="line">	public ResObject&lt;ResponseMessage&gt; singleFileUpload(MultipartHttpServletRequest request,</div><div class="line">	    RedirectAttributes redirectAttributes, HttpServletResponse response) &#123;</div><div class="line">		Integer stateCode = poiService.receiveUploadExcel(request, redirectAttributes, response);</div><div class="line">		//根据返回值确定响应信息实体;</div><div class="line">		ResponseMessage responseMessage = UploadStatusEnum.desicideUploadStatusBystateCode(stateCode, response);</div><div class="line">		//设置响应状态为200;</div><div class="line">		response.setStatus(UploadStatusEnum.UPLOAD_OK.getStateCode());</div><div class="line">		return new ResObject&lt;ResponseMessage&gt;(null,responseMessage);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>例如在当前代码下，请求路径是：</p>
-<blockquote>
-<p>localhost:9090/oss/poi/uploadExcel</p>
-</blockquote>
-<p>那么采用方案一解决中文乱码的请求路径就是:</p>
-<blockquote>
-<p>localhost:9090/zuul/oss/poi/uploadExcel</p>
-</blockquote>
-<p>经过测试，中文乱码问题成功解决。</p>
-<hr>
-<p>方案二:<br>在方案一的基础上，不仅要改动后端代码，前端代码也要变更，较为麻烦，<br>因此更简单的方案是在zuul的配置文件中添加一个如下的属性：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">zuul.servlet-path=/</div></pre></td></tr></table></figure>
-<p>注意实在网关的配置文件中添加的，经过本人侧ishi，问题也成功解决了。</p>
-<p>参考文章：<br>1、<a href="https://my.oschina.net/u/3706162/blog/1621014" target="_blank" rel="external">SpringCloud 上传文件，经过Zuul，中文文件名乱码解决办法</a></p>
-<p>2、<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1385" target="_blank" rel="external">zuul proxy file upload, file name is Chinese garbled #1385</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Http状态码详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/17/Http状态码详解/">Http状态码详解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/17/Http状态码详解/" class="archive-article-date">
-  	<time datetime="2018-03-17T01:42:17.447Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作中经常遇到http状态码，因此摘抄别人的文章作为笔记，方便自己查找。</p>
-<table class="toolTable table" width="100%" cellspacing="0" cellpadding="0">    <tbody><tr>        <th class="separateColor" width="60px;">状态码</th>        <th>含义</th>    </tr>    <tr>        <td>100</td>        <td>客户端应当继续发送请求。这个临时响应是用来通知客户端它的部分请求已经被服务器接收，且仍未被拒绝。客户端应当继续发送请求的剩余部分，或者如果请求已经完成，忽略这个响应。服务器必须在请求完成后向客户端发送一个最终响应。</td>    </tr>    <tr>        <td>101</td>        <td>服务器已经理解了客户端的请求，并将通过Upgrade 消息头通知客户端采用不同的协议来完成这个请求。在发送完这个响应最后的空行后，服务器将会切换到在Upgrade 消息头中定义的那些协议。<br>　　只有在切换新的协议更有好处的时候才应该采取类似措施。例如，切换到新的HTTP 版本比旧版本更有优势，或者切换到一个实时且同步的协议以传送利用此类特性的资源。</td>    </tr>    <tr>        <td>102</td>        <td>由WebDAV（RFC 2518）扩展的状态码，代表处理将被继续执行。</td>    </tr>    <tr>        <td>200</td>        <td>请求已成功，请求所希望的响应头或数据体将随此响应返回。</td>    </tr>    <tr>        <td>201</td>        <td>请求已经被实现，而且有一个新的资源已经依据请求的需要而建立，且其 URI 已经随Location 头信息返回。假如需要的资源无法及时建立的话，应当返回 ‘202 Accepted’。</td>    </tr>    <tr>        <td>202</td>        <td>服务器已接受请求，但尚未处理。正如它可能被拒绝一样，最终该请求可能会也可能不会被执行。在异步操作的场合下，没有比发送这个状态码更方便的做法了。<br>　　返回202状态码的响应的目的是允许服务器接受其他过程的请求（例如某个每天只执行一次的基于批处理的操作），而不必让客户端一直保持与服务器的连接直到批处理操作全部完成。在接受请求处理并返回202状态码的响应应当在返回的实体中包含一些指示处理当前状态的信息，以及指向处理状态监视器或状态预测的指针，以便用户能够估计操作是否已经完成。</td>    </tr>    <tr>        <td>203</td>        <td>服务器已成功处理了请求，但返回的实体头部元信息不是在原始服务器上有效的确定集合，而是来自本地或者第三方的拷贝。当前的信息可能是原始版本的子集或者超集。例如，包含资源的元数据可能导致原始服务器知道元信息的超级。使用此状态码不是必须的，而且只有在响应不使用此状态码便会返回200 OK的情况下才是合适的。</td>    </tr>    <tr>        <td>204</td>        <td>服务器成功处理了请求，但不需要返回任何实体内容，并且希望返回更新了的元信息。响应可能通过实体头部的形式，返回新的或更新后的元信息。如果存在这些头部信息，则应当与所请求的变量相呼应。<br>　　如果客户端是浏览器的话，那么用户浏览器应保留发送了该请求的页面，而不产生任何文档视图上的变化，即使按照规范新的或更新后的元信息应当被应用到用户浏览器活动视图中的文档。<br>　　由于204响应被禁止包含任何消息体，因此它始终以消息头后的第一个空行结尾。</td>    </tr>    <tr>        <td>205</td>        <td>服务器成功处理了请求，且没有返回任何内容。但是与204响应不同，返回此状态码的响应要求请求者重置文档视图。该响应主要是被用于接受用户输入后，立即重置表单，以便用户能够轻松地开始另一次输入。<br>　　与204响应一样，该响应也被禁止包含任何消息体，且以消息头后的第一个空行结束。</td>    </tr>    <tr>        <td>206</td>        <td>服务器已经成功处理了部分 GET 请求。类似于 FlashGet 或者迅雷这类的 HTTP 下载工具都是使用此类响应实现断点续传或者将一个大文档分解为多个下载段同时下载。<br>　　该请求必须包含 Range 头信息来指示客户端希望得到的内容范围，并且可能包含 If-Range 来作为请求条件。<br>　　响应必须包含如下的头部域：<br>　　Content-Range 用以指示本次响应中返回的内容的范围；如果是 Content-Type 为 multipart/byteranges 的多段下载，则每一 multipart 段中都应包含 Content-Range 域用以指示本段的内容范围。假如响应中包含 Content-Length，那么它的数值必须匹配它返回的内容范围的真实字节数。<br>　　Date<br>　　ETag 和/或 Content-Location，假如同样的请求本应该返回200响应。<br>　　Expires, Cache-Control，和/或 Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。<br>　　假如本响应请求使用了 If-Range 强缓存验证，那么本次响应不应该包含其他实体头；假如本响应的请求使用了 If-Range 弱缓存验证，那么本次响应禁止包含其他实体头；这避免了缓存的实体内容和更新了的实体头信息之间的不一致。否则，本响应就应当包含所有本应该返回200响应中应当返回的所有实体头部域。<br>　　假如 ETag 或 Last-Modified 头部不能精确匹配的话，则客户端缓存应禁止将206响应返回的内容与之前任何缓存过的内容组合在一起。<br>　　任何不支持 Range 以及 Content-Range 头的缓存都禁止缓存206响应返回的内容。</td>    </tr>    <tr>        <td>207</td>        <td>由WebDAV(RFC 2518)扩展的状态码，代表之后的消息体将是一个XML消息，并且可能依照之前子请求数量的不同，包含一系列独立的响应代码。</td>    </tr>    <tr>        <td>300</td>        <td>被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向。<br>　　除非这是一个 HEAD 请求，否则该响应应当包括一个资源特性及地址的列表的实体，以便用户或浏览器从中选择最合适的重定向地址。这个实体的格式由 Content-Type 定义的格式所决定。浏览器可能根据响应的格式以及浏览器自身能力，自动作出最合适的选择。当然，RFC 2616规范并没有规定这样的自动选择该如何进行。<br>　　如果服务器本身已经有了首选的回馈选择，那么在 Location 中应当指明这个回馈的 URI；浏览器可能会将这个 Location 值作为自动重定向的地址。此外，除非额外指定，否则这个响应也是可缓存的。</td>    </tr>    <tr>        <td>301</td>        <td>被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个 URI 之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。除非额外指定，否则这个响应也是可缓存的。<br>　　新的永久性的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。<br>　　如果这不是一个 GET 或者 HEAD 请求，因此浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。<br>　　注意：对于某些使用 HTTP/1.0 协议的浏览器，当它们发送的 POST 请求得到了一个301响应的话，接下来的重定向请求将会变成 GET 方式。</td>    </tr>    <tr>        <td>302</td>        <td>请求的资源现在临时从不同的 URI 响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。<br>　　新的临时性的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。<br>　　如果这不是一个 GET 或者 HEAD 请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。<br>　　注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用 GET 方式访问在 Location 中规定的 URI，而无视原先请求的方法。状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</td>    </tr>        <tr>        <td>303</td>        <td>对应当前请求的响应可以在另一个 URI 上被找到，而且客户端应当采用 GET 的方式访问那个资源。这个方法的存在主要是为了允许由脚本激活的POST请求输出重定向到一个新的资源。这个新的 URI 不是原始资源的替代引用。同时，303响应禁止被缓存。当然，第二个请求（重定向）可能被缓存。<br>　　新的 URI 应当在响应的 Location 域中返回。除非这是一个 HEAD 请求，否则响应的实体中应当包含指向新的 URI 的超链接及简短说明。<br>　　注意：许多 HTTP/1.1 版以前的 浏览器不能正确理解303状态。如果需要考虑与这些浏览器之间的互动，302状态码应该可以胜任，因为大多数的浏览器处理302响应时的方式恰恰就是上述规范要求客户端处理303响应时应当做的。</td>    </tr>        <tr>        <td>304</td>        <td>如果客户端发送了一个带条件的 GET 请求且该请求已被允许，而文档的内容（自上次访问以来或者根据请求的条件）并没有改变，则服务器应当返回这个状态码。304响应禁止包含消息体，因此始终以消息头后的第一个空行结尾。<br>　　该响应必须包含以下的头信息：<br>　　Date，除非这个服务器没有时钟。假如没有时钟的服务器也遵守这些规则，那么代理服务器以及客户端可以自行将 Date 字段添加到接收到的响应头中去（正如RFC 2068中规定的一样），缓存机制将会正常工作。<br>　　ETag 和/或 Content-Location，假如同样的请求本应返回200响应。<br>　　Expires, Cache-Control，和/或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。<br>　　假如本响应请求使用了强缓存验证，那么本次响应不应该包含其他实体头；否则（例如，某个带条件的 GET 请求使用了弱缓存验证），本次响应禁止包含其他实体头；这避免了缓存了的实体内容和更新了的实体头信息之间的不一致。<br>　　假如某个304响应指明了当前某个实体没有缓存，那么缓存系统必须忽视这个响应，并且重复发送不包含限制条件的请求。<br>　　假如接收到一个要求更新某个缓存条目的304响应，那么缓存系统必须更新整个条目以反映所有在响应中被更新的字段的值。</td>    </tr>        <tr>        <td>305</td>        <td>被请求的资源必须通过指定的代理才能被访问。Location 域中将给出指定的代理所在的 URI 信息，接收者需要重复发送一个单独的请求，通过这个代理才能访问相应资源。只有原始服务器才能建立305响应。<br>　　注意：RFC 2068中没有明确305响应是为了重定向一个单独的请求，而且只能被原始服务器建立。忽视这些限制可能导致严重的安全后果。</td>    </tr>        <tr>        <td>306</td>        <td>在最新版的规范中，306状态码已经不再被使用。</td>    </tr>        <tr>        <td>307</td>        <td>请求的资源现在临时从不同的URI 响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。<br>　　新的临时性的URI 应当在响应的 Location 域中返回。除非这是一个HEAD 请求，否则响应的实体中应当包含指向新的URI 的超链接及简短说明。因为部分浏览器不能识别307响应，因此需要添加上述必要信息以便用户能够理解并向新的 URI 发出访问请求。<br>　　如果这不是一个GET 或者 HEAD 请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</td>    </tr>        <tr>        <td>400</td>        <td>1、语义有误，当前请求无法被服务器理解。除非进行修改，否则客户端不应该重复提交这个请求。<br>　　2、请求参数有误。</td>    </tr>            <tr>        <td>401</td>        <td>当前请求需要用户验证。该响应必须包含一个适用于被请求资源的 WWW-Authenticate 信息头用以询问用户信息。客户端可以重复提交一个包含恰当的 Authorization 头信息的请求。如果当前请求已经包含了 Authorization 证书，那么401响应代表着服务器验证已经拒绝了那些证书。如果401响应包含了与前一个响应相同的身份验证询问，且浏览器已经至少尝试了一次验证，那么浏览器应当向用户展示响应中包含的实体信息，因为这个实体信息中可能包含了相关诊断信息。参见RFC 2617。</td>    </tr>        <tr>        <td>402</td>        <td>该状态码是为了将来可能的需求而预留的。</td>    </tr>        <tr>        <td>403</td>        <td>服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助，而且这个请求也不应该被重复提交。如果这不是一个 HEAD 请求，而且服务器希望能够讲清楚为何请求不能被执行，那么就应该在实体内描述拒绝的原因。当然服务器也可以返回一个404响应，假如它不希望让客户端获得任何信息。</td>    </tr>        <tr>        <td>404</td>        <td>请求失败，请求所希望得到的资源未被在服务器上发现。没有信息能够告诉用户这个状况到底是暂时的还是永久的。假如服务器知道情况的话，应当使用410状态码来告知旧资源因为某些内部的配置机制问题，已经永久的不可用，而且没有任何可以跳转的地址。404这个状态码被广泛应用于当服务器不想揭示到底为何请求被拒绝或者没有其他适合的响应可用的情况下。</td>    </tr>        <tr>        <td>405</td>        <td>请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow 头信息用以表示出当前资源能够接受的请求方法的列表。<br>　　鉴于 PUT，DELETE 方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认配置下不允许上述请求方法，对于此类请求均会返回405错误。</td>    </tr>        <tr>        <td>406</td>        <td>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。<br>　　除非这是一个 HEAD 请求，否则该响应就应当返回一个包含可以让用户或者浏览器从中选择最合适的实体特性以及地址列表的实体。实体的格式由 Content-Type 头中定义的媒体类型决定。浏览器可以根据格式及自身能力自行作出最佳选择。但是，规范中并没有定义任何作出此类自动选择的标准。</td>    </tr>        <tr>        <td>407</td>        <td>　与401响应类似，只不过客户端必须在代理服务器上进行身份验证。代理服务器必须返回一个 Proxy-Authenticate 用以进行身份询问。客户端可以返回一个 Proxy-Authorization 信息头用以验证。参见RFC 2617。</td>    </tr>        <tr>        <td>408</td>        <td>请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。</td>    </tr>        <tr>        <td>409</td>        <td>由于和被请求的资源的当前状态之间存在冲突，请求无法完成。这个代码只允许用在这样的情况下才能被使用：用户被认为能够解决冲突，并且会重新提交新的请求。该响应应当包含足够的信息以便用户发现冲突的源头。<br>　　冲突通常发生于对 PUT 请求的处理中。例如，在采用版本检查的环境下，某次 PUT 提交的对特定资源的修改请求所附带的版本信息与之前的某个（第三方）请求向冲突，那么此时服务器就应该返回一个409错误，告知用户请求无法完成。此时，响应实体中很可能会包含两个冲突版本之间的差异比较，以便用户重新提交归并以后的新版本。</td>    </tr>        <tr>        <td>410</td>        <td>被请求的资源在服务器上已经不再可用，而且没有任何已知的转发地址。这样的状况应当被认为是永久性的。如果可能，拥有链接编辑功能的客户端应当在获得用户许可后删除所有指向这个地址的引用。如果服务器不知道或者无法确定这个状况是否是永久的，那么就应该使用404状态码。除非额外说明，否则这个响应是可缓存的。<br>　　410响应的目的主要是帮助网站管理员维护网站，通知用户该资源已经不再可用，并且服务器拥有者希望所有指向这个资源的远端连接也被删除。这类事件在限时、增值服务中很普遍。同样，410响应也被用于通知客户端在当前服务器站点上，原本属于某个个人的资源已经不再可用。当然，是否需要把所有永久不可用的资源标记为’410 Gone’，以及是否需要保持此标记多长时间，完全取决于服务器拥有者。</td>    </tr>        <tr>        <td>411</td>        <td>服务器拒绝在没有定义 Content-Length 头的情况下接受请求。在添加了表明请求消息体长度的有效 Content-Length 头之后，客户端可以再次提交该请求。</td>    </tr>        <tr>        <td>412</td>        <td>服务器在验证在请求的头字段中给出先决条件时，没能满足其中的一个或多个。这个状态码允许客户端在获取资源时在请求的元信息（请求头字段数据）中设置先决条件，以此避免该请求方法被应用到其希望的内容以外的资源上。</td>    </tr>        <tr>        <td>413</td>        <td>服务器拒绝处理当前请求，因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围。此种情况下，服务器可以关闭连接以免客户端继续发送此请求。<br>　　如果这个状况是临时的，服务器应当返回一个 Retry-After 的响应头，以告知客户端可以在多少时间以后重新尝试。</td>    </tr>        <tr>        <td>414</td>        <td>请求的URI 长度超过了服务器能够解释的长度，因此服务器拒绝对该请求提供服务。这比较少见，通常的情况包括：<br>　　本应使用POST方法的表单提交变成了GET方法，导致查询字符串（Query String）过长。<br>　　重定向URI “黑洞”，例如每次重定向把旧的 URI 作为新的 URI 的一部分，导致在若干次重定向后 URI 超长。<br>　　客户端正在尝试利用某些服务器中存在的安全漏洞攻击服务器。这类服务器使用固定长度的缓冲读取或操作请求的 URI，当 GET 后的参数超过某个数值后，可能会产生缓冲区溢出，导致任意代码被执行[1]。没有此类漏洞的服务器，应当返回414状态码。</td>    </tr>        <tr>        <td>415</td>        <td>对于当前请求的方法和所请求的资源，请求中提交的实体并不是服务器中所支持的格式，因此请求被拒绝。</td>    </tr>        <tr>        <td>416</td>        <td>如果请求中包含了 Range 请求头，并且 Range 中指定的任何数据范围都与当前资源的可用范围不重合，同时请求中又没有定义 If-Range 请求头，那么服务器就应当返回416状态码。<br>　　假如 Range 使用的是字节范围，那么这种情况就是指请求指定的所有数据范围的首字节位置都超过了当前资源的长度。服务器也应当在返回416状态码的同时，包含一个 Content-Range 实体头，用以指明当前资源的长度。这个响应也被禁止使用 multipart/byteranges 作为其 Content-Type。</td>    </tr>        <tr>        <td>417</td>        <td>在请求头 Expect 中指定的预期内容无法被服务器满足，或者这个服务器是一个代理服务器，它有明显的证据证明在当前路由的下一个节点上，Expect 的内容无法被满足。</td>    </tr>        <tr>        <td>421</td>        <td>从当前客户端所在的IP地址到服务器的连接数超过了服务器许可的最大范围。通常，这里的IP地址指的是从服务器上看到的客户端地址（比如用户的网关或者代理服务器地址）。在这种情况下，连接数的计算可能涉及到不止一个终端用户。</td>    </tr>        <tr>        <td>422</td>        <td>从当前客户端所在的IP地址到服务器的连接数超过了服务器许可的最大范围。通常，这里的IP地址指的是从服务器上看到的客户端地址（比如用户的网关或者代理服务器地址）。在这种情况下，连接数的计算可能涉及到不止一个终端用户。</td>    </tr>        <tr>        <td>422</td>        <td>请求格式正确，但是由于含有语义错误，无法响应。（RFC 4918 WebDAV）423 Locked<br>　　当前资源被锁定。（RFC 4918 WebDAV）</td>    </tr>        <tr>        <td>424</td>        <td>由于之前的某个请求发生的错误，导致当前请求失败，例如 PROPPATCH。（RFC 4918 WebDAV）</td>    </tr>        <tr>        <td>425</td>        <td>在WebDav Advanced Collections 草案中定义，但是未出现在《WebDAV 顺序集协议》（RFC 3658）中。</td>    </tr>        <tr>        <td>426</td>        <td>客户端应当切换到TLS/1.0。（RFC 2817）</td>    </tr>        <tr>        <td>449</td>        <td>由微软扩展，代表请求应当在执行完适当的操作后进行重试。</td>    </tr>        <tr>        <td>500</td>        <td>服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。一般来说，这个问题都会在服务器的程序码出错时出现。</td>    </tr>        <tr>        <td>501</td>        <td>服务器不支持当前请求所需要的某个功能。当服务器无法识别请求的方法，并且无法支持其对任何资源的请求。</td>    </tr>        <tr>        <td>502</td>        <td>作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应。</td>    </tr>        <tr>        <td>503</td>        <td>由于临时的服务器维护或者过载，服务器当前无法处理请求。这个状况是临时的，并且将在一段时间以后恢复。如果能够预计延迟时间，那么响应中可以包含一个 Retry-After 头用以标明这个延迟时间。如果没有给出这个 Retry-After 信息，那么客户端应当以处理500响应的方式处理它。<br>　　注意：503状态码的存在并不意味着服务器在过载的时候必须使用它。某些服务器只不过是希望拒绝客户端的连接。</td>    </tr>        <tr>        <td>504</td>        <td>作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。<br>　　注意：某些代理服务器在DNS查询超时时会返回400或者500错误</td>    </tr>        <tr>        <td>505</td>        <td>服务器不支持，或者拒绝支持在请求中使用的 HTTP 版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体。</td>    </tr>        <tr>        <td>506</td>        <td>由《透明内容协商协议》（RFC 2295）扩展，代表服务器存在内部配置错误：被请求的协商变元资源被配置为在透明内容协商中使用自己，因此在一个协商处理中不是一个合适的重点。</td>    </tr>    <tr>        <td>507</td>        <td>服务器无法存储完成请求所必须的内容。这个状况被认为是临时的。WebDAV (RFC 4918)</td>    </tr>        <tr>        <td>509</td>        <td>服务器达到带宽限制。这不是一个官方的状态码，但是仍被广泛使用。</td>    </tr>        <tr>        <td>510</td>        <td>获取资源所需要的策略并没有没满足。（RFC 2774）</td>    </tr></tbody></table>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/17/Http状态码详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Javascript节流和防抖[转载]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/Javascript节流和防抖[转载]/">Javascript节流和防抖</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/03/Javascript节流和防抖[转载]/" class="archive-article-date">
-  	<time datetime="2018-03-03T03:40:23.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div class="post-body" itemprop="articleBody" style="opacity: 1; display: block; transform: translateY(0px);"><br><p>在前端开发中可能会遇到一些频发触发的事件，例如</p><ol><li>window 的 resize(浏览器窗口或者HTML对象改变大小)、scroll(滚动条事件）</li><li>mousedown(鼠标在元素上按下事执行事件)、onmousemove(鼠标指针移动到元素上触发)</li><li>keyup(按键被释放触发)、keydown(按键被按下触发)<a id="more"></a> 举例</li></ol><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTML</span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    #root{</span></span><br><span class="line"><span class="undefined">        width: 100%; height: 200px; line-height: 200px; text-align: center; color: #fff; background-color: #444; font-size: 30px;</span></span><br><span class="line"><span class="undefined">    }</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">‘root’</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">‘./demo.js’</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dome.js</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> conut = <span class="number">1</span>; <span class="comment">// 声明一个变量储存触发次数</span></span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.getElementById(<span class="string">‘root’</span>); <span class="comment">// 获取id为root的div</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAction</span>(<span class="params"></span>) </span>{ <span class="comment">// 声明一个函数更改root的HTML为conut的值并将conut值++</span></span><br><span class="line">        root.innerHTML = conut++;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">root.onmousemove = getUserAction;</span><br></pre></td></tr></tbody></table></figure><p>效果如下</p><p><a href="https://github.com/mqyqingfeng/Blog/raw/master/Images/debounce/debounce.gif" class="fancybox fancybox.image" rel="external" target="_blank"><img src="https://github.com/mqyqingfeng/Blog/raw/master/Images/debounce/debounce.gif" alt=""></a></p><p>从图上可以看到从左边到右边一共触发了160多次onmousemove事件，同样执行了160多次getUserAction函数。<br>因为这个例子简单，浏览器可以处理的过来，如果换成请求， 频繁触发就会出现卡顿。</p><p>修改一下</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> dome.js</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> conut = <span class="number">1</span>; <span class="comment">// 声明一个变量储存触发次数</span></span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.getElementById(<span class="string">‘root’</span>); <span class="comment">// 获取id为root的div</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAction</span>(<span class="params"></span>) </span>{ <span class="comment">// 声明一个函数更改root的HTML为conut的值并将conut值++</span></span><br><span class="line">        root.innerHTML = conut++;</span><br><span class="line">    }</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>{ <span class="comment">// 声明一个函数，函数接受两个参数。</span></span><br><span class="line">    <span class="keyword">var</span> timeout; <span class="comment">// 声明一个变量储存定时器的返回值；</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">        clearTimeout(timeout) 函数被执行了先清除先前定时器的返回值(传入一个错误的ID 给 clearTime 不会有任何影响（也不会抛出异常）)</span><br><span class="line">        timeout = setTimeout(fn, wait); <span class="comment">// 定时器会返回一个id给timeout</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">root.onmousemove = debounce(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure><p>上面这个函数</p><p>分析一下上面的操作</p><ol><li>鼠标移动触发onmousemove事件。</li><li>onmousemove事件调用debounce函数</li><li>debounce函数接收到getUserAction， 1000函数之后返回一个匿名函数-清除前面的定时器-执行新的定时器</li></ol><p>然后只要鼠标移动就会1-2-3执行，直至鼠标停留超过一秒，才会执行getUserAction函数。</p><h3 id="JavaScript节流"><a href="#JavaScript节流" class="headerlink" title="JavaScript节流"></a>JavaScript节流</h3><p>节流就是如果持续触发事件，则每个一段时间，只执行一次事件。</p><p>主流有两种方法：<code>使用时间戳</code>， <code>设置定时器</code></p><p>使用时间戳</p><p>使用时间戳，当事件触发时，去除当前的时间戳，然后减去之前的时间戳，最开始可以设置为0，如果大于设置的时间周期，就执行函数，然后更新时间戳为当前时间戳，如果小于，则不执行。</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fu, wait</span>) </span>{</span><br><span class="line">    <span class="keyword">var</span> previos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">        <span class="keyword">var</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// new Date()做一个+运算，触发对象执行valueOf进行求值得到为毫秒数</span></span><br><span class="line">        <span class="keyword">if</span> (now - previous &gt; wait) { <span class="comment">// 判断当前的毫秒数减去预制的毫秒数是否大于传入参数的设置</span></span><br><span class="line">            fu(); <span class="comment">// 执行传入的函数</span></span><br><span class="line">            previous = now; <span class="comment">// 更新储存的毫秒数为此次执行的</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">root.onmousemove = throttle(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure><p>使用定时器</p><p>当事件被触发的时候设置一个定时器，在触发事件，如果定时器存在则不执行，直至定时器执行然后执行函数，清空定时器。</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, wait</span>) </span>{</span><br><span class="line">    <span class="keyword">var</span> timeout; <span class="comment">// 声明一个变量储存定时器返回值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> {  <span class="comment">// 返回一个函数</span></span><br><span class="line">        <span class="keyword">if</span>(!timeout) { <span class="comment">// 判断timeout是否存有定时器返回值</span></span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>{</span><br><span class="line">                timeout = <span class="literal">null</span>;<span class="comment">// 定时器执行</span></span><br><span class="line">                fun(); <span class="comment">// 执行传入函数</span></span><br><span class="line">            }, wait) <span class="comment">// 延迟多久</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">root.onmousemove = throttle(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure></div>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/03/Javascript节流和防抖[转载]/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-html 文本框onfocus（获得焦点） 执行了多次原因" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">html 文本框onfocus（获得焦点） 执行了多次原因</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/" class="archive-article-date">
-  	<time datetime="2018-03-03T02:24:54.645Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>代码如下，非常的简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"></div><div class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;文本框获得焦点&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;input id=&quot;text&quot; type=&quot;text&quot;onfocus=&quot;alert(&apos;你点击了&apos;)&quot; &gt;&lt;/input&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line"></div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>效果图如下：<br><img src="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-<p>实际上运行的效果并不是我想的那样，而是一直都在弹出 alert（）提示框</p>
-<p>终于知道什么原因了，都是我的这个alert() 写的，因为我的 onfocus =” “ 这个属性是文本框获得焦点的属性，而alert 这个是</p>
-<p>弹出对话框，当你点击弹出框的“确定”时，你的文本框就失去焦点了，而你点击了之后文本框又获得焦点了，这个时候就陷入死循环了</p>
-<p>解决的办法： 不用这个onfocus =” “ 属性，换成 onclick=””属性，就O了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/">flux中Cannot dispatch in the middle of a dispatch问题的解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/" class="archive-article-date">
-  	<time datetime="2018-03-03T02:22:04.770Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用flux进行数据交互的时候，出现了一个问题<code>Flux Dispatch.dispatch(…): Cannot dispatch in the middle of a dispatch</code>，在国内竟然没有找到解决方案，最后在<a href="https://stackoverflow.com上找到了解决方案，但是原理不清楚【这不是我的风格，空下来一定搞懂】。" target="_blank" rel="external">https://stackoverflow.com上找到了解决方案，但是原理不清楚【这不是我的风格，空下来一定搞懂】。</a></p>
-<p>解决方案：</p>
-<p>老外是这么说的:<br>You can make it work by “scheduling” the next action instead of calling it directly, here is an example code:<br>译：你可以在指定的时间调度一个action而不是直接调用它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// instead of doing this</div><div class="line">Dispatcher.dispatch(...);</div><div class="line"></div><div class="line">// go like this</div><div class="line">setTimeout(function() &#123;</div><div class="line">  Dispatcher.dispatch(...);</div><div class="line">&#125;, 1);</div></pre></td></tr></table></figure></p>
-<p>我的解决方案:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout(function () &#123;</div><div class="line">      Actions.synchronizePanekeyToStore(currenPaneKey);</div><div class="line">    &#125;, 1);</div></pre></td></tr></table></figure>
-<p>这样就可以了，真心感觉老外很热心。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -937,7 +331,7 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
+		isHome: false,
 		isPost: false,
 		isArchive: false,
 		isTag: false,
