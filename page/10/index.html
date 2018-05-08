@@ -157,6 +157,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-用JAVA判断一个URL是否有效" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/用JAVA判断一个URL是否有效/">用JAVA判断一个URL是否有效</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/用JAVA判断一个URL是否有效/" class="archive-article-date">
+  	<time datetime="2017-08-29T01:03:36.189Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近因项目需求，需要针对一些URL地址进行检测是否可用，使用Java.NET 下的类来实现，主要用到了 URL和HttpURLConnection 二个类 ，URL 是统一资源标识符的引用，一个URL实例代表着一个url的引用，开始使用了URL中的的openStream()方法，这样使用倒是可以，但是速度慢，代码如下：</p>
+<hr>
+<p>[java] view plain copy<br>try {<br>     url = new URL(“<a href="http://127.0.0.1/sj/user/getUser" target="_blank" rel="external">http://127.0.0.1/sj/user/getUser</a>“);<br>     in = url.openStream();<br>} catch (Exception e1) {<br>     System.out.println(“连接打不开!”);<br>     url = null;<br>}  </p>
+<p>下面判断url是不是null就可以了，速度慢<br>最后使用了HttpURLConnection 中的 getResponseCode（）；方法，HttpURLConnection ： 通常一个HttpURLConnection 的实例可以生成一个请求，它有个方法 getResponseCode（）；可以得到请求的响应状态，该方法返回一个 int 分别是 200 and 404 如无法从响应中识别任何代码则返回 -1，代码如下：</p>
+<hr>
+<p>[java] view plain copy<br>/** </p>
+<ul>
+<li>文件名称为：URLAvailability.java </li>
+<li>文件功能简述： 描述一个URL地址是否有效 </li>
+<li>@author Jason </li>
+<li>@time   2010-9-14  </li>
+<li>*/<br>public class URLAvailability {<br>private static URL url;<br>private static HttpURLConnection con;<br>private static int state = -1;  </li>
+</ul>
+<p>/** </p>
+<ul>
+<li>功能：检测当前URL是否可连接或是否有效, </li>
+<li>描述：最多连接网络 5 次, 如果 5 次都不成功，视为该地址不可用 </li>
+<li>@param urlStr 指定URL网络地址 </li>
+<li>@return URL<br>*/<br>public synchronized URL isConnect(String urlStr) {<br>int counts = 0;<br>if (urlStr == null || urlStr.length() &lt;= 0) {<br>return null;<br>}<br>while (counts &lt; 5) {<br>try {<br>url = new URL(urlStr);<br>con = (HttpURLConnection) url.openConnection();<br>state = con.getResponseCode();<br>System.out.println(counts +”= “+state);<br>if (state == 200) {<br> System.out.println(“URL可用！”);<br>}<br>break;<br>}catch (Exception ex) {<br>counts++;<br>System.out.println(“URL不可用，连接第 “+counts+” 次”);<br>urlStr = null;<br>continue;<br>}<br>}<br>return url;<br>}<br>}  </li>
+</ul>
+<p>第二种方法速度很快，如果想返回json结果也是很容易的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/用JAVA判断一个URL是否有效/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-J2EE中session的深入理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
