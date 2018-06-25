@@ -157,6 +157,172 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">redis启动出错</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/" class="archive-article-date">
+  	<time datetime="2017-09-06T13:11:39.205Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>windows下安装redis第一次启动报错：
+</code></pre><p>[2368] 21 Apr 02:57:05.611 # Creating Server TCP listening socket 127.0.0.1:6379: bind: No error</p>
+<p>解决方法：在命令行中运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">redis-cli.exe</div><div class="line">//如果设置了密码,则此处需要先输入认证即密码:</div><div class="line">127.0.0.1:6379&gt;auth yourpassword</div><div class="line">127.0.0.1:6379&gt;shutdown</div><div class="line">not connected&gt;exit</div></pre></td></tr></table></figure>
+<p>然后重新运行redis-server.exe redis.windows.conf 【–maxmemory 200M】，启动成功！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/redis启动出错Creating Server TCP listening socket 127.0.0.1-6379- bind- No error/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SpringMVC集成redis " class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/SpringMVC集成redis /">SpringMVC集成redis</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/SpringMVC集成redis /" class="archive-article-date">
+  	<time datetime="2017-09-06T12:18:35.821Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<blockquote>
+<p><strong>Redis 简介</strong><br>Redis 是完全开源免费的，遵守BSD协议，是一个高性能的key-value数据库。 Redis 与其他 key -<br>value 缓存产品有以下三个特点： Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。<br>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。<br>Redis支持数据的备份，即master-slave模式的数据备份。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>Redis 优势</strong><br> 性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 。 丰富的数据类型 –<br>Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。 原子 –<br>Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。 丰富的特性 – Redis还支持<br>publish/subscribe, 通知, key 过期等等特性。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>Redis与其他key-value存储有什么不同？</strong><br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</p>
+</blockquote>
+<p><strong>Redis 的 5 个常见使用场景</strong></p>
+<p><em>1、会话缓存（Session Cache）</em></p>
+<p>最常用的一种使用Redis的情景是会话缓存（session cache）。用Redis缓存会话比其他存储（如Memcached）的优势在于：Redis提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？</p>
+<p>幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用Redis来缓存会话的文档。甚至广为人知的商业平台Magento也提供Redis的插件。</p>
+<p><em>2、全页缓存（FPC）</em></p>
+<p>除基本的会话token之外，Redis还提供很简便的FPC平台。回到一致性问题，即使重启了Redis实例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似PHP本地FPC。</p>
+<p>再次以Magento为例，Magento提供一个插件来使用Redis作为全页缓存后端。</p>
+<p>此外，对WordPress的用户来说，Pantheon有一个非常好的插件  wp-redis，这个插件能帮助你以最快速度加载你曾浏览过的页面。</p>
+<p><em>3、队列</em></p>
+<p>Reids在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得Redis能作为一个很好的消息队列平台来使用。Redis作为队列使用的操作，就类似于本地程序语言（如Python）对 list 的 push/pop 操作。</p>
+<p>如果你快速的在Google中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是利用Redis创建非常好的后端工具，以满足各种队列需求。例如，Celery有一个后台就是使用Redis作为broker，你可以从这里去查看。</p>
+<p><em>4.排行榜/计数器</em></p>
+<p>Redis在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也使得我们在执行这些操作的时候变的非常简单，Redis只是正好提供了这两种数据结构。所以，我们要从排序集合中获取到排名最靠前的10个用户–我们称之为“user_scores”，我们只需要像下面一样执行即可：</p>
+<p>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执行：</p>
+<p>ZRANGE user_scores 0 10 WITHSCORES</p>
+<p>Agora Games就是一个很好的例子，用Ruby实现的，它的排行榜就是使用Redis来存储数据的，你可以在这里看到。</p>
+<p><em>5、发布/订阅</em></p>
+<p>最后（但肯定不是最不重要的）是Redis的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用Redis的发布/订阅功能来建立聊天系统！（不，这是真的，你可以去核实）。</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/u012775558/article/details/68937298?locationNum=7&amp;fps=1" target="_blank" rel="external">本文将着重说明SpringMVC集成redis后的数据的增删改查;</a><br><a href="https://github.com/JunZhou2016/CRU4DRedis" target="_blank" rel="external">Demo</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><a href="https://www.cc520.me/article.html?c=5&amp;index=86" target="_blank" rel="external">shiro使用redis缓存session会话、authentication信息、authorization信息简述</a></p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/SpringMVC集成redis /">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用Jenkins配置Git+Maven的自动化构建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1040,160 +1206,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/码农进化之Oracle学习篇/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-面向对象程序设计六大原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/面向对象程序设计六大原则/">面向对象程序设计原则</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/面向对象程序设计六大原则/" class="archive-article-date">
-  	<time datetime="2017-08-29T09:50:22.302Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>面向对象程序设计原则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">一、单一职责原则：</div></pre></td></tr></table></figure>
-<p>全称：“Single-Responsibility Principle”<br>说明：就一个类而言，应该只专注于做一件事和仅有一个引起它变化的原因。所谓职责，我们可以理解他为功能，就是设计的这个类功能应该只有一个，而不是两个或更多。也可以理解为引用变化的原因，当你发现有两个变化会要求我们修改这个类，那么你就要考虑撤分这个类了。因为职责是变化的一个轴线，当需求变化时，该变化会反映类的职责的变化。<br>使用SRP注意点：<br>1、一个合理的类，应该仅有一个引起它变化的原因，即单一职责；<br>2、在没有变化征兆的情况下应用SRP或其他原则是不明智的；<br>3、在需求实际发生变化时就应该应用SRP等原则来重构代码；<br>4、使用测试驱动开发会迫使我们在设计出现臭味之前分离不合理代码；<br>5、如果测试不能迫使职责分离，僵化性和脆弱性的臭味会变得很强烈，那就应该用Facade或Proxy模式对代码重构；SRP优点：消除耦合，减小因需求变化引起代码僵化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">二、里氏代换原则</div></pre></td></tr></table></figure>
-<p>全称：“Liskov Substitution Principle”<br>说明：子类型必须能够替换它们的基类型。一个软件实体如果使用的是一个基类，那么当把这个基类替换成继承该基类的子类，程序的行为不会发生任何变化。软件实体察觉不出基类对象和子类对象的区别。<br>优点：可以很容易的实现同一父类下各个子类的互换，而客户端可以毫不察觉。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">三、依赖倒置原则</div></pre></td></tr></table></figure>
-<p>全称：“Dependence Inversion Principle”<br>说明：<br>1、高层模块不应该依赖低层模块，两者都应该依赖于抽象（抽象类或接口）</p>
-<p>2、抽象（抽象类或接口）不应该依赖于细节（具体实现类）</p>
-<p>3、细节（具体实现类）应该依赖抽象</p>
-<p>抽象：即抽象类或接口，两者是不能够实例化的</p>
-<p>细节：即具体的实现类，实现接口或者继承抽象类所产生的类，两者可以通过关键字new直接被实例化</p>
-<p>而依赖倒置原则的本质骑士就是通过抽象（抽象类或接口）使各个类或模块的实现彼此独立，不相互影响，实现模块间的松耦合。但是这个原则也是6个设计原则中最难以实现的了，如果没有实现这个原则，那么也就意味着开闭原则（对扩展开发，对修改关闭）也无法实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">四、接口隔离原则</div></pre></td></tr></table></figure>
-<p>全称：“Interface Segregation Principle”<br>说明：使用多个专一功能的接口比使用一个的总接口总要好。从一个客户类的角度来讲：一个类对另外一个类的依赖性应当是建立在最小接口上的。过于臃肿的接口是对接口的污染，不应该强迫客户依赖于它们不用的方法。<br>优点：会使一个软件系统功能扩展时，修改的压力不会传到别的对象那里。<br>如何实现接口隔离原则<br>不应该强迫用户依赖于他们不用的方法。<br>1、利用委托分离接口。<br>2、利用多继承分离接口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">五、迪米特原则</div></pre></td></tr></table></figure>
-<p>全称：“Law of Demeter”<br>说明：对象与对象之间应该使用尽可能少的方法来关联，避免千丝万缕的关系。<br>如何实现迪米特法则？<br>迪米特法则的主要用意是控制信息的过载，在将其运用到系统设计中应注意以下几点：<br>1) 在类的划分上，应当创建有弱耦合的类。类之间的耦合越弱，就越有利于复用。<br>2) 在类的结构设计上，每一个类都应当尽量降低成员的访问权限。一个类不应当public自己的属性，而应当提供取值和赋值的方法让外界间接访问自己的属性。<br>3) 在类的设计上，只要有可能，一个类应当设计成不变类。<br>4) 在对其它对象的引用上，一个类对其它对象的引用应该降到最低。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">六、开放－封闭原则</div></pre></td></tr></table></figure>
-<p>全称：“Open-Closed Principle”<br>说明：所谓开放封闭原则就是软件实体应该对扩展开发，而对修改封闭。开放封闭原则是所有面向对象原则的核心。软件设计本身所追求的目标就是封装变化，降低耦合，而开放封闭原则正是对这一目标的最直接体现。<br>   开放封闭原则主要体现在两个方面：</p>
-<p>   对扩展开放，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。</p>
-<p>   对修改封闭，意味着类一旦设计完成，就可以独立其工作，而不要对类尽任何修改。</p>
-<p>为什么要用到开放封闭原则呢？</p>
-<p>软件需求总是变化的，世界上没有一个软件的是不变的，因此对软件设计人员来说，必须在不需要对原有系统进行修改的情况下，实现灵活的系统扩展。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/面向对象程序设计六大原则/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring+quartz实现任务调度的小例子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">Spring+quartz实现任务调度的小例子</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
-  	<time datetime="2017-08-29T03:11:50.899Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>实现任务调度分为三大模块：1.任务调度器Scheduler;<br>                                            2.触发器cronTrigger；<br>                                            3.自定义任务JobtTask；</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">*自定义任务JobtTask*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.quartz.Job;</div><div class="line">import org.quartz.JobExecutionContext;</div><div class="line">import org.quartz.JobExecutionException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 自定义任务;</div><div class="line"> */</div><div class="line">public class MyJob implements Job &#123;</div><div class="line">	// 自定义任务Task;</div><div class="line">	public void execute(JobExecutionContext context) throws JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;当前任务开始执行: &quot; +</div><div class="line">	     new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;)</div><div class="line">	     .format(new Date()));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">*测试类*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line">import java.text.ParseException;</div><div class="line"></div><div class="line">import org.quartz.JobExecutionException;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line">/**</div><div class="line"> *  测试类</div><div class="line"> */</div><div class="line">public class Test &#123;</div><div class="line">	@SuppressWarnings(&quot;resource&quot;)</div><div class="line">	public static void main(String[] args) throws ParseException, JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;--------------------------------&quot;);</div><div class="line">		new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">配置文件</div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans  </div><div class="line">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </div><div class="line">	http://www.springframework.org/schema/context  </div><div class="line">	http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;</div><div class="line">	default-autowire=&quot;byName&quot;&gt;</div><div class="line"></div><div class="line">	&lt;!-- 调度器 --&gt;</div><div class="line">	&lt;bean class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;triggers&quot;&gt;</div><div class="line">			&lt;list&gt;</div><div class="line">				&lt;!-- 触发器列表 --&gt;</div><div class="line">				&lt;ref bean=&quot;cronTrigger&quot; /&gt;</div><div class="line">			&lt;/list&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;!-- 加载配置文件, 如果不配置, 将会使用quartz默认的配置 --&gt;</div><div class="line">		&lt;property name=&quot;configLocation&quot; value=&quot;classpath:quartz.properties&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- 触发器 --&gt;</div><div class="line">	&lt;bean id=&quot;cronTrigger&quot; class=&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;&gt;</div><div class="line">		&lt;!-- 指向我们的任务 --&gt;</div><div class="line">		&lt;property name=&quot;jobDetail&quot; ref=&quot;myJobtTask&quot; /&gt;</div><div class="line">		&lt;!-- 每天11点1分到59分,每分钟运行一次 --&gt;</div><div class="line">		&lt;property name=&quot;cronExpression&quot; value=&quot;0 0/1 9 * * ?&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 处理类 --&gt;</div><div class="line">	&lt;bean name=&quot;myJobtTask&quot; class=&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;jobClass&quot; value=&quot;com.zjt.quartz.MyJob&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">*quartz.properties*</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure Main Scheduler Properties  </div><div class="line">#============================================================================</div><div class="line">org.quartz.scheduler.instanceName = DefaultQuartzScheduler</div><div class="line">org.quartz.scheduler.instanceId = AUTO</div><div class="line">org.quartz.scheduler.rmi.export = false</div><div class="line">org.quartz.scheduler.rmi.proxy = false</div><div class="line">org.quartz.scheduler.wrapJobExecutionInUserTransaction = false</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure ThreadPool  </div><div class="line">#============================================================================</div><div class="line">org.quartz.threadPool.threadCount = 10</div><div class="line">org.quartz.threadPool.threadPriority = 5</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure JobStore  </div><div class="line">#============================================================================</div><div class="line">org.quartz.jobStore.misfireThreshold = 60000</div></pre></td></tr></table></figure>
-<p><strong>下载链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">http://download.csdn.net/my</a></strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">展开全文 >></a>
         </p>
       
 

@@ -157,6 +157,160 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-面向对象程序设计六大原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/面向对象程序设计六大原则/">面向对象程序设计原则</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/面向对象程序设计六大原则/" class="archive-article-date">
+  	<time datetime="2017-08-29T09:50:22.302Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>面向对象程序设计原则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">一、单一职责原则：</div></pre></td></tr></table></figure>
+<p>全称：“Single-Responsibility Principle”<br>说明：就一个类而言，应该只专注于做一件事和仅有一个引起它变化的原因。所谓职责，我们可以理解他为功能，就是设计的这个类功能应该只有一个，而不是两个或更多。也可以理解为引用变化的原因，当你发现有两个变化会要求我们修改这个类，那么你就要考虑撤分这个类了。因为职责是变化的一个轴线，当需求变化时，该变化会反映类的职责的变化。<br>使用SRP注意点：<br>1、一个合理的类，应该仅有一个引起它变化的原因，即单一职责；<br>2、在没有变化征兆的情况下应用SRP或其他原则是不明智的；<br>3、在需求实际发生变化时就应该应用SRP等原则来重构代码；<br>4、使用测试驱动开发会迫使我们在设计出现臭味之前分离不合理代码；<br>5、如果测试不能迫使职责分离，僵化性和脆弱性的臭味会变得很强烈，那就应该用Facade或Proxy模式对代码重构；SRP优点：消除耦合，减小因需求变化引起代码僵化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">二、里氏代换原则</div></pre></td></tr></table></figure>
+<p>全称：“Liskov Substitution Principle”<br>说明：子类型必须能够替换它们的基类型。一个软件实体如果使用的是一个基类，那么当把这个基类替换成继承该基类的子类，程序的行为不会发生任何变化。软件实体察觉不出基类对象和子类对象的区别。<br>优点：可以很容易的实现同一父类下各个子类的互换，而客户端可以毫不察觉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">三、依赖倒置原则</div></pre></td></tr></table></figure>
+<p>全称：“Dependence Inversion Principle”<br>说明：<br>1、高层模块不应该依赖低层模块，两者都应该依赖于抽象（抽象类或接口）</p>
+<p>2、抽象（抽象类或接口）不应该依赖于细节（具体实现类）</p>
+<p>3、细节（具体实现类）应该依赖抽象</p>
+<p>抽象：即抽象类或接口，两者是不能够实例化的</p>
+<p>细节：即具体的实现类，实现接口或者继承抽象类所产生的类，两者可以通过关键字new直接被实例化</p>
+<p>而依赖倒置原则的本质骑士就是通过抽象（抽象类或接口）使各个类或模块的实现彼此独立，不相互影响，实现模块间的松耦合。但是这个原则也是6个设计原则中最难以实现的了，如果没有实现这个原则，那么也就意味着开闭原则（对扩展开发，对修改关闭）也无法实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">四、接口隔离原则</div></pre></td></tr></table></figure>
+<p>全称：“Interface Segregation Principle”<br>说明：使用多个专一功能的接口比使用一个的总接口总要好。从一个客户类的角度来讲：一个类对另外一个类的依赖性应当是建立在最小接口上的。过于臃肿的接口是对接口的污染，不应该强迫客户依赖于它们不用的方法。<br>优点：会使一个软件系统功能扩展时，修改的压力不会传到别的对象那里。<br>如何实现接口隔离原则<br>不应该强迫用户依赖于他们不用的方法。<br>1、利用委托分离接口。<br>2、利用多继承分离接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">五、迪米特原则</div></pre></td></tr></table></figure>
+<p>全称：“Law of Demeter”<br>说明：对象与对象之间应该使用尽可能少的方法来关联，避免千丝万缕的关系。<br>如何实现迪米特法则？<br>迪米特法则的主要用意是控制信息的过载，在将其运用到系统设计中应注意以下几点：<br>1) 在类的划分上，应当创建有弱耦合的类。类之间的耦合越弱，就越有利于复用。<br>2) 在类的结构设计上，每一个类都应当尽量降低成员的访问权限。一个类不应当public自己的属性，而应当提供取值和赋值的方法让外界间接访问自己的属性。<br>3) 在类的设计上，只要有可能，一个类应当设计成不变类。<br>4) 在对其它对象的引用上，一个类对其它对象的引用应该降到最低。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">六、开放－封闭原则</div></pre></td></tr></table></figure>
+<p>全称：“Open-Closed Principle”<br>说明：所谓开放封闭原则就是软件实体应该对扩展开发，而对修改封闭。开放封闭原则是所有面向对象原则的核心。软件设计本身所追求的目标就是封装变化，降低耦合，而开放封闭原则正是对这一目标的最直接体现。<br>   开放封闭原则主要体现在两个方面：</p>
+<p>   对扩展开放，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。</p>
+<p>   对修改封闭，意味着类一旦设计完成，就可以独立其工作，而不要对类尽任何修改。</p>
+<p>为什么要用到开放封闭原则呢？</p>
+<p>软件需求总是变化的，世界上没有一个软件的是不变的，因此对软件设计人员来说，必须在不需要对原有系统进行修改的情况下，实现灵活的系统扩展。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/面向对象程序设计六大原则/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Spring+quartz实现任务调度的小例子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">Spring+quartz实现任务调度的小例子</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
+  	<time datetime="2017-08-29T03:11:50.899Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>实现任务调度分为三大模块：1.任务调度器Scheduler;<br>                                            2.触发器cronTrigger；<br>                                            3.自定义任务JobtTask；</p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">*自定义任务JobtTask*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.quartz.Job;</div><div class="line">import org.quartz.JobExecutionContext;</div><div class="line">import org.quartz.JobExecutionException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 自定义任务;</div><div class="line"> */</div><div class="line">public class MyJob implements Job &#123;</div><div class="line">	// 自定义任务Task;</div><div class="line">	public void execute(JobExecutionContext context) throws JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;当前任务开始执行: &quot; +</div><div class="line">	     new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;)</div><div class="line">	     .format(new Date()));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">*测试类*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line">import java.text.ParseException;</div><div class="line"></div><div class="line">import org.quartz.JobExecutionException;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line">/**</div><div class="line"> *  测试类</div><div class="line"> */</div><div class="line">public class Test &#123;</div><div class="line">	@SuppressWarnings(&quot;resource&quot;)</div><div class="line">	public static void main(String[] args) throws ParseException, JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;--------------------------------&quot;);</div><div class="line">		new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">配置文件</div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans  </div><div class="line">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </div><div class="line">	http://www.springframework.org/schema/context  </div><div class="line">	http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;</div><div class="line">	default-autowire=&quot;byName&quot;&gt;</div><div class="line"></div><div class="line">	&lt;!-- 调度器 --&gt;</div><div class="line">	&lt;bean class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;triggers&quot;&gt;</div><div class="line">			&lt;list&gt;</div><div class="line">				&lt;!-- 触发器列表 --&gt;</div><div class="line">				&lt;ref bean=&quot;cronTrigger&quot; /&gt;</div><div class="line">			&lt;/list&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;!-- 加载配置文件, 如果不配置, 将会使用quartz默认的配置 --&gt;</div><div class="line">		&lt;property name=&quot;configLocation&quot; value=&quot;classpath:quartz.properties&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- 触发器 --&gt;</div><div class="line">	&lt;bean id=&quot;cronTrigger&quot; class=&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;&gt;</div><div class="line">		&lt;!-- 指向我们的任务 --&gt;</div><div class="line">		&lt;property name=&quot;jobDetail&quot; ref=&quot;myJobtTask&quot; /&gt;</div><div class="line">		&lt;!-- 每天11点1分到59分,每分钟运行一次 --&gt;</div><div class="line">		&lt;property name=&quot;cronExpression&quot; value=&quot;0 0/1 9 * * ?&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 处理类 --&gt;</div><div class="line">	&lt;bean name=&quot;myJobtTask&quot; class=&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;jobClass&quot; value=&quot;com.zjt.quartz.MyJob&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">*quartz.properties*</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure Main Scheduler Properties  </div><div class="line">#============================================================================</div><div class="line">org.quartz.scheduler.instanceName = DefaultQuartzScheduler</div><div class="line">org.quartz.scheduler.instanceId = AUTO</div><div class="line">org.quartz.scheduler.rmi.export = false</div><div class="line">org.quartz.scheduler.rmi.proxy = false</div><div class="line">org.quartz.scheduler.wrapJobExecutionInUserTransaction = false</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure ThreadPool  </div><div class="line">#============================================================================</div><div class="line">org.quartz.threadPool.threadCount = 10</div><div class="line">org.quartz.threadPool.threadPriority = 5</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure JobStore  </div><div class="line">#============================================================================</div><div class="line">org.quartz.jobStore.misfireThreshold = 60000</div></pre></td></tr></table></figure>
+<p><strong>下载链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">http://download.csdn.net/my</a></strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用hexo+github搭建个人微博" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1200,140 +1354,6 @@ protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/mysql中文乱码的解决方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java中类和类之间的关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/java中类和类之间的关系/">java中类和类之间的关系</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/java中类和类之间的关系/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.202Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>java中类和类之间的关系</strong><br>       <em>(如下图所示)：</em><br>       <img src="http://img.blog.csdn.net/20170726102604990?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/java中类和类之间的关系/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-J2EE中连接池的深入理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/J2EE中连接池的深入理解/">J2EE中连接池的深入理解</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/J2EE中连接池的深入理解/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.199Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>  <em>首先介绍使用连接池的好处</em><br>      在WEB开发中，使用连接池相对于普通的jdbc方式访问数据库可以成倍的增加数据库的访问效率。</p>
-<p>   <em>JDBC方式访问数据库较慢的原因</em><br>   使用JDBC方式访问数据库的时候，每次访问都必须要和数据库建立连接，而连接是可以被复用的，因此，JDBC方式在这个过程中浪费了时间，从而访问效率降低.</p>
-<p> <em>连接池增加数据访问效率的原理</em><br>      使用连接池的时候，可以通过配置web.xml文件使得服务器在启动的时候即创建一定数量的连接【相当于设计模式中的饿汉模式】并存储于连接池中【一块存储区域，这里只是有个名称而已，没有特殊的含义】，因此当需要使用的时候可以直接从连接池中获取实例，用完后必须要释放连接实例【只是将连接放回了连接池，并没有真正的关闭这个和数据库的连接】，因为数据库的连接是有限的;</p>
-<hr>
-<p><em>使用连接池时需要注意的问题</em></p>
-<p><em>使用连接池的时候需要手动关闭连接？</em><br>    首先确定以下几个概念:<br>1、连接池即使回收Connection，也不是马上释放，而是会过一阵子才释放；<br>2、连接池概念本身是代为管理Connection,当我们使用close()关闭连接时，只是把该连接放回了连接池中，并没有真正的关闭这个连接；<br>3、Connection Pool在有外来请求，而没有空闲的Connection时，会按照时间顺序回收Connection,而不是全部回收；<br>因此，基于连接池数量有限的前提，即使是连接池中的连接，在使用完毕之后也要手动进行关闭。</p>
-<p><em>下面将通过图解的方式对连接池和JDBC两种方式进行说明</em><br><img src="http://img.blog.csdn.net/20170525215239419?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>案例链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">Oracel连接池案例代码</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/J2EE中连接池的深入理解/">展开全文 >></a>
         </p>
       
 

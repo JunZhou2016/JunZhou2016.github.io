@@ -157,6 +157,144 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringBoot中AOP的简单实现。" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/25/SpringBoot中AOP的简单实现。/">SpringBoot中AOP的简单实现。</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/25/SpringBoot中AOP的简单实现。/" class="archive-article-date">
+  	<time datetime="2018-06-25T14:33:36.295Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在SpringBoot中实现AOP很简单。<br>      1、添加依赖：</p>
+<p>//注意依赖的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>   2、定义切面：<br>    WebLogAspect.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">package com.fangshuo.Aspect;</div><div class="line"></div><div class="line">import java.util.Arrays;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">import org.apache.log4j.Logger;</div><div class="line">import org.aspectj.lang.JoinPoint;</div><div class="line">import org.aspectj.lang.annotation.AfterReturning;</div><div class="line">import org.aspectj.lang.annotation.Aspect;</div><div class="line">import org.aspectj.lang.annotation.Before;</div><div class="line">import org.aspectj.lang.annotation.Pointcut;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.context.request.RequestContextHolder;</div><div class="line">import org.springframework.web.context.request.ServletRequestAttributes;</div><div class="line"></div><div class="line">@Aspect  </div><div class="line">@Component  </div><div class="line">public class WebLogAspect &#123;  </div><div class="line">  </div><div class="line">    private Logger logger = Logger.getLogger(getClass());  </div><div class="line">    @Pointcut(&quot;execution(public * com.fangshuo.controller.*.*(..))&quot;)  </div><div class="line">    public void webLog()&#123;&#125;  </div><div class="line">  </div><div class="line">    @Before(&quot;webLog()&quot;)  </div><div class="line">    public void doBefore(JoinPoint joinPoint) throws Throwable &#123;  </div><div class="line">        // 接收到请求，记录请求内容  </div><div class="line">        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();  </div><div class="line">        HttpServletRequest request = attributes.getRequest();  </div><div class="line">  </div><div class="line">        // 记录下请求内容  </div><div class="line">        logger.info(&quot;URL : &quot; + request.getRequestURL().toString());  </div><div class="line">        logger.info(&quot;HTTP_METHOD : &quot; + request.getMethod());  </div><div class="line">        logger.info(&quot;IP : &quot; + request.getRemoteAddr());  </div><div class="line">        logger.info(&quot;CLASS_METHOD : &quot; + joinPoint.getSignature().getDeclaringTypeName() + &quot;.&quot; + joinPoint.getSignature().getName());  </div><div class="line">        logger.info(&quot;ARGS : &quot; + Arrays.toString(joinPoint.getArgs()));  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)  </div><div class="line">    public void doAfterReturning(Object ret) throws Throwable &#123;  </div><div class="line">        // 处理完请求，返回内容  </div><div class="line">        logger.info(&quot;RESPONSE : &quot; + ret);</div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整个AOP的代码结构如下:<br>     <img src="https://img-blog.csdn.net/20180625223007389?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>注意点：</p>
+<p>在后置通知中returning = “ret”中定义的参数名必须和通知方法受那个的参数匹配，即returning = “ret”中定义的是ret,通知方法中也必须是”ret”,否则将抛出异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)  </div><div class="line">  public void doAfterReturning(Object ret) throws Throwable &#123;  </div><div class="line">      // 处理完请求，返回内容  </div><div class="line">      logger.info(&quot;RESPONSE : &quot; + ret);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>3、参考文章：<br><a href="https://www.cnblogs.com/lic309/p/4079194.html" target="_blank" rel="external">spring aop 面向切面编程初接触</a><br><a href="https://blog.csdn.net/owen_william/article/details/50812771" target="_blank" rel="external">Spring AOP(二)之AfterReturning增强处理</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/25/SpringBoot中AOP的简单实现。/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SSO单点登录探究【基于cookie共享】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/25/SSO单点登录探究【基于cookie共享】/">SSO单点登录探究【基于cookie共享】</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/25/SSO单点登录探究【基于cookie共享】/" class="archive-article-date">
+  	<time datetime="2018-06-25T14:19:35.486Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近看到公司的需求里面有单点登录，就去了解了一下。下面将从SSO单点登录的原理、实现步骤以及实现demo几个方面来讲述自己的理解。</p>
+<hr>
+<p>   1、SSO根本原理:<br>               登录状态的共享;<br>            1)、登录状态的共享有两种实现方式:<br>            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。<br>            二：通过Session共享登录状态。【Spring Session共享方案，分布式系统中常用】<br>            三：通过IP+Agent+User的方式实现状态共享，实际上是模仿了cookie合session机制。【我自己研究的，适合绝对跨域的分布式系统】因为通过IP+Agent+User的形式理论上可以模仿cookie合session识别一次会话。<br>            <img src="https://img-blog.csdn.net/20180625214949431?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>    2、实现的概要步骤【网络上的步骤乱七八糟各种不合理，自己整理了下】<br>            1）、子系统一登陆，未登陆则进入SSO认证中心认证，成功则更新登陆状态【创建全局会话】，返回共享媒介；<br>            2）、子系统二携带共享媒介，获取全局会话，读取登陆信息和登陆状态，实质是通过共享媒介保持了会话状态。<br>            ３）、退出时只需要注销全局会话状态即可。</p>
+<pre><code>【以上的概要步骤对SSO根本原理的一、二、三都适用】
+</code></pre><p>   ３、SSＯ登陆的demo[通过cookie共享实现的]<br>       SSOAuth：<br><img src="https://img-blog.csdn.net/20180625220358147?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>     SSOWebDemo1：<br>     <img src="https://img-blog.csdn.net/20180625220619238?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>     SSOWebDemo2：<br>     <img src="https://img-blog.csdn.net/20180625220752662?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p> <a href="https://download.csdn.net/download/zj20142213/10499008" target="_blank" rel="external">SSO单点登录的源码。</a></p>
+<p>   四：参考文章:<br>         <a href="https://www.cnblogs.com/ywlaker/p/6113927.html" target="_blank" rel="external">单点登录原理与简单实现</a><br>         <a href="https://baike.baidu.com/item/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/4940767?fr=aladdin" target="_blank" rel="external">单点登录</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/25/SSO单点登录探究【基于cookie共享】/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-API扫描工具类的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -714,188 +852,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/04/15/Java 对象的存储区域/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-分布式架构学习之如何将session信息存储到数据库中" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">分布式架构学习之如何将session信息存储到数据库中</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:11:12.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近实践了一把SpringCloud集成注册中心、网关、配置中心、微服务，恰好电脑上的redis出现了各种问题，索性不用redis，自己写了个中间件，将存储到了MySQL中。下面是期间遇到的各种问题总结。<br>   手先介绍基实现的本原理。我请教了下师傅，总结出了将Session持久化的几条要点。</p>
-<ol>
-<li>Http是无状态的协议；</li>
-</ol>
-<blockquote>
-<p> 所谓http是无状态协议，言外之意是说http协议没法保存客户机信息，也就没法区分每次请求的不同之处，服务器无法区分通过http发送的请求是来源于甲用户还是来源于乙用户的。关于http无状态阻碍了交互式应用程序的实现。比如记录用户浏览哪些网页、判断用户是否拥有权限访问等。于是，两种用于保持HTTP状态的技术就应运而生了，一个是Cookie，而另一个则是Session。</p>
-</blockquote>
-<p> 2.Fetch是默认不携带cookies的；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">fetch默认是不携带cookie到后台的，想要携带cookie必须</div><div class="line">添加credentials: &quot;include&quot;这个设置；</div><div class="line"></div><div class="line">fetch(url, &#123;</div><div class="line">              method: &apos;GET&apos;,</div><div class="line">              headers: myHeaders,</div><div class="line">              --&gt;credentials: &quot;include&quot;&lt;--</div><div class="line">            &#125;)</div><div class="line">            </div><div class="line">这个时候服务端确实拿到了cookie，但是数据返回报错：</div><div class="line">ERROR :Fetch API cannot load http://localhost:8077/sonny/l... The value of the &apos;Access-Control-Allow-Origin&apos; header in the response must not be the wildcard &apos;*&apos; when the request&apos;s credentials mode is &apos;include&apos;. Origin &apos;http://localhost:8080&apos; is therefore not allowed access.</div><div class="line">这段鸟语翻译过来就是：当请求中的认证模式为‘include’时，响应的头部中的&apos;Access-Control-Allow-Origin&apos;不能设置为通配符“*”，这是因为cookie在设置的时候是不允许跨域的，如何在协达cookie的前后端分离项目中实现类似通配符”*“的功能将在下面讲述。因为报错了，因此得在后端添加：</div></pre></td></tr></table></figure>
-<p>response.setHeader(“Access-Control-Allow-Credentials”,”true”);<br>  response.setHeader(“Access-Control-Allow-Origin”, “<a href="http://192.168.0.1" target="_blank" rel="external">http://192.168.0.1</a>“);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这样就解决了跨域传递session的问题。</div></pre></td></tr></table></figure></p>
-<p>3.Cookis是不允许跨域的；</p>
-<blockquote>
-<p> Cookie一班是不允许跨域传递的，解决方案除了上面那种，还可以通过Nginx；<br> <a href="https://www.cnblogs.com/hujunzheng/p/5744755.html" target="_blank" rel="external">解决cookie跨域问题之nginx反向代理</a></p>
-</blockquote>
-<p> 4.浏览器是通过OPTION请求获取服务器对请求的支持信息；</p>
-<blockquote>
-<p>OPTIONS 方法比较少见，该方法用于请求服务器告知其支持哪些其他的功能和方法。通过 OPTIONS 方法，可以询问服务器具体支持哪些方法，或者服务器会使用什么样的方法来处理一些特殊资源。可以说这是一个探测性的方法，客户端通过该方法可以在不访问服务器上实际资源的情况下就知道处理该资源的最优方式。</p>
-</blockquote>
-<p>5.既然比较少见，什么情况下会使用OPTION这个方法呢？</p>
-<blockquote>
-<p>当发送的请求为简单请求的时候，服务器会自动在响应的头部添加添加一个Origin字段，其值将被自动设置为对应的请求域，<code>Origin: http://api.bob.com</code>因此可以说，对与简单请求是不存在跨域问题的。</p>
-<p>  A）、什么是简单请求呢？<br>浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>只要同时满足以下两大条件，就属于简单请求。<br>（1) 请求方法是以下三种方法之一：<br>HEAD<br>GET<br>POST<br>（2）HTTP的头信息不超出以下几种字段：<br>Accept<br>Accept-Language<br>Content-Language<br>Last-Event-ID<br>Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain<br>凡是不同时满足上面两个条件，就属于非简单请求。<br>浏览器对这两种请求的处理，是不一样的。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>凡是不同时满足上面两个条件，就属于非简单请求。 浏览器对这两种请求的处理，是不一样的。</p>
-<p>非简单请求是那种对服务器有特殊要求的请求，比如请求方法是PUT或DELETE，或者Content-Type字段的类型是application/json。<br>非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为”预检”请求（preflight）。<br>浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP动词和头信息字段。只有得到肯定答复，浏览器才会发出正式的XMLHttpRequest请求，否则就报错。</p>
-</blockquote>
-<p><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="external">跨域资源共享 CORS 详解</a></p>
-<p> 6.Session是通过Cookies中的信息来识别的；</p>
-<p> 当解决了跨域和cookie携带的问题，以后每次浏览器发送请求就会携带一个cookie的信息，那么Session和JSESessionId是如何产生联系的？</p>
-<blockquote>
-<p>首先我们需要知道Session在何时创建呢？<br><a href="https://www.cnblogs.com/woshimrf/p/5317776.html" target="_blank" rel="external">sessionid如何产生？由谁产生？保存在哪里？</a></p>
-</blockquote>
-<hr>
-<blockquote>
-<p>当然还是在服务器端程序运行的过程中创建的，不同语言实现的应用程序有不同创建Session的方法，而在Java中是通过调用HttpServletRequest的getSession方法（使用true作为参数）创建的。在创建了Session的同时，服务器会为该Session生成唯一的Session id，而这个Session id在随后的请求中会被用来重新获得已经创建的Session；在Session被创建之后，就可以调用Session相关的方法往Session中增加内容了，而这些内容只会保存在服务器中，发到客户端的只有Session id；当客户端再次发送请求的时候，会将这个Session id带上。</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>服务器上为每个用户都保存了一个session，那当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>这时jsessionid就派上用场了。每一个session都有一个id来作为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
-</blockquote>
-<hr>
-<p>下面看代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">import org.springframework.context.ApplicationContext;</div><div class="line"></div><div class="line">import com.spring.boot.gp4zj.model.UserSession;</div><div class="line">import com.spring.boot.gp4zj.model.Worker;</div><div class="line">import com.spring.boot.gp4zj.service.AuthenticationService;</div><div class="line">import com.spring.boot.gp4zj.service.impl.AuthenticationServiceImpl;</div><div class="line"></div><div class="line">import cn.lz.cloud.common.service.ReqObject;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 我自己封装的session工具类;</div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class MySession &#123;</div><div class="line">	 //私有的静态内部类保证了单例，并且是懒汉模式的;</div><div class="line">    private static class SingletonHolder&#123;</div><div class="line">      private static final MySession INSTANCE = new MySession();</div><div class="line">    &#125;</div><div class="line">    private MySession()&#123;&#125;</div><div class="line">    </div><div class="line">    public static final MySession getInstance()&#123;</div><div class="line">    	  return SingletonHolder.INSTANCE;</div><div class="line">    &#125;</div><div class="line">	private ApplicationContext applicationContext = SpringUtils.getApplicationContext();</div><div class="line">	private AuthenticationService authenticationService = applicationContext.getBean(AuthenticationServiceImpl.class);</div><div class="line">	/**</div><div class="line">	 * 根据请求中携带的session信息获取用‘session’中的用户户信息;</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">  public Worker getAttributeOfUserInfo(HttpServletRequest request) &#123;</div><div class="line">	  //获取jseSessionId;</div><div class="line">	  String jsessionid = HttpUtils.getJsessionidFromHeader(request);// 获取请求携带的sessioId;</div><div class="line">	  //查询用户信息;</div><div class="line">	  UserSession requestAttachmentInfo = new UserSession();</div><div class="line">	  requestAttachmentInfo.setJsessionid(jsessionid);</div><div class="line">	  ReqObject&lt;UserSession&gt; sessionSelecCondition = new ReqObject&lt;UserSession&gt;();</div><div class="line">	  sessionSelecCondition.setObject(requestAttachmentInfo);</div><div class="line">	  UserSession sessionVo = authenticationService.selectUserSessionBySessionID(sessionSelecCondition);</div><div class="line">	  Worker workerInfo = new Worker();</div><div class="line">	  String workerName = sessionVo.getWorkerName();</div><div class="line">	  String workerPassword = sessionVo.getWorkerPassword();</div><div class="line">	  workerInfo.setWorkerName(workerName);</div><div class="line">	  workerInfo.setWorkerPassword(workerPassword);</div><div class="line">	  Worker sessionAttruVO = authenticationService.doGetAuthenticationInfo(workerInfo);</div><div class="line">	return sessionAttruVO;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div></pre></td><td class="code"><pre><div class="line">package com.spring.boot.gp4zj.util;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.io.PrintWriter;</div><div class="line">import java.net.InetAddress;</div><div class="line">import java.net.UnknownHostException;</div><div class="line">import java.nio.charset.Charset;</div><div class="line">import java.util.Enumeration;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">import com.google.gson.Gson;</div><div class="line"></div><div class="line">public class HttpUtils &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		HttpServletResponse response = null;</div><div class="line">		responseOutWithJson(response, null);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static String getHostIp() &#123;</div><div class="line">		InetAddress addr;</div><div class="line">		String currentIP = null;</div><div class="line">		try &#123;</div><div class="line">			addr = InetAddress.getLocalHost();</div><div class="line">			currentIP = addr.getHostAddress().toString(); //获取本机ip</div><div class="line">		&#125; catch (UnknownHostException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		return currentIP;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void responseOutWithJson(HttpServletResponse response, Object responseObject) &#123;</div><div class="line">		// Person person=new Person();</div><div class="line">		Gson gson = new Gson();</div><div class="line">		// Object stu = new Student(&quot;ShaHao&quot;, 21);</div><div class="line">		String objStrJson = gson.toJson(responseObject);</div><div class="line">		// System.out.println(objStrJson);</div><div class="line">		response.reset();</div><div class="line">		response.setCharacterEncoding(&quot;UTF-8&quot;);</div><div class="line">		response.setContentType(&quot;application/json; charset=utf-8&quot;);</div><div class="line">		PrintWriter out = null;</div><div class="line">		try &#123;</div><div class="line">			out = response.getWriter();</div><div class="line">			out.print(objStrJson);</div><div class="line">			out.flush();</div><div class="line">			out.close();</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (out != null) &#123;</div><div class="line">				out.close();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取post请求中的Body</div><div class="line">	 *</div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getBodyString(HttpServletRequest request) &#123;</div><div class="line">		System.out.println(&quot;--------HttpUtils---------HttpUtils--------&quot;);</div><div class="line">		Enumeration&lt;?&gt; ele = request.getHeaderNames();</div><div class="line">		while (ele.hasMoreElements()) &#123;</div><div class="line">			String name = (String) ele.nextElement();</div><div class="line">			String value = request.getHeader(name);</div><div class="line">			System.out.println(name + &quot; = &quot; + value);</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		try &#123;</div><div class="line">			inputStream = request.getInputStream();</div><div class="line">			// 读取流并将流写出去,避免数据流中断;</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return sb.toString();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 从请求的头部获取用户的身份识别id;</div><div class="line">	 * </div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getJsessionidFromHeader(HttpServletRequest request) &#123;</div><div class="line">		String jsessionid = null;// 识别用户身份的id;</div><div class="line">		Enumeration&lt;?&gt; e = request.getHeaderNames();</div><div class="line">		while (e.hasMoreElements()) &#123;</div><div class="line">			String name = (String) e.nextElement();</div><div class="line">			String value = request.getHeader(name);</div><div class="line">			// cookie = JSESSIONID=B926F6024438D4C693A5E5881595160C;</div><div class="line">			// SESSION=458e80dc-e354-4af3-a501-74504a873e70</div><div class="line">			if (&quot;cookie&quot;.equals(name)) &#123;</div><div class="line">				jsessionid = value.split(&quot;;&quot;)[0].split(&quot;=&quot;)[1];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return jsessionid;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其实所有的根本就是获取有效的SessionId就可以了。参考文章都在上面了，里面结合了我的理解和参考的内容，希望可以帮助到大家。</p>
-<p><img src="https://img-blog.csdn.net/20180415210950924?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>夏天了，又到了长肉的季节了。。。。。。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/分布式架构学习之如何将session信息存储到数据库中/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java乱码解决之道" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/17/java乱码解决之道/">java乱码解决之道</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/17/java乱码解决之道/" class="archive-article-date">
-  	<time datetime="2018-03-17T01:49:20.120Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>收藏了一篇解决java乱码的文章，希望作者的博客不要挂掉了，不然查询又不方便了。<br>网址:<a href="http://cmsblogs.com/?p=1530" target="_blank" rel="external">java乱码解决之道</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/17/java乱码解决之道/">展开全文 >></a>
         </p>
       
 
