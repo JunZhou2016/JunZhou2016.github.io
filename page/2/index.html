@@ -157,6 +157,70 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java 对象的存储区域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/15/Java 对象的存储区域/">Java 对象的存储区域</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/15/Java 对象的存储区域/" class="archive-article-date">
+  	<time datetime="2018-04-15T13:34:11.015Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>程序运行时，我们最好对数据保存到什么地方做到心中有数。特别要注意的是内存的分配。有六个地方都可以保存数据：<br>       转载自：<a href="https://blog.csdn.net/kdnuggets/article/details/1901144" target="_blank" rel="external">Java 对象的存储区域</a><br>  (1)寄存器；<br>    这是最快的保存区域，因为它位于和其他所有保存方式不同的地方：处理器内部。然而，寄存器的数量十分有限，所以寄存器是根据需要由编译器分配。我们对此没有直接的控制权，也不可能在自己的程序里找到寄存器存在的任何踪迹。<br>    (2)堆栈；<br>        驻留于常规RAM（随机访问存储器）区域，但可通过它的“堆栈指针”获得处理的直接支持。堆栈指针若向下移，会创建新的内存；若向上移，则会释放那些内存。这是一种特别快、特别有效的数据保存方式，仅次于寄存器。创建程序时，Java编译器必须准确地知道堆栈内保存的所有数据的“长度”以及“存在时间”。这是由于它必须生成相应的代码，以便向上和向下移动指针。这一限制无疑影响了程序的灵活性，所以尽管有些Java数据要保存在堆栈里——特别是对象句柄，但Java对象并不放到其中。<br>    (3) 堆；<br>       一种常规用途的内存池（也在RAM区域），其中保存了Java对象。和堆栈不同，“内存堆”或“堆”（Heap）最吸引人的地方在于编译器不必知道要从堆里分配多少存储空间，也不必知道存储的数据要在堆里停留多长的时间。因此，用堆保存数据时会得到更大的灵活性。要求创建一个对象时，只需用new命令编制相关的代码即可。执行这些代码时，会在堆里自动进行数据的保存。当然，为达到这种灵活性，必然会付出一定的代价：在堆里分配存储空间时会花掉更长的时间！<br>    (4)静态存储；<br>        这儿的“静态”（Static）是指“位于固定位置”（尽管也在RAM里）。程序运行期间，静态存储的数据将随时等候调用。可用static关键字指出一个对象的特定元素是静态的。但Java对象本身永远都不会置入静态存储空间。<br>    (5)常数存储；<br>      常数值通常直接置于程序代码内部。这样做是安全的，因为它们永远都不会改变。有的常数需要严格地保护，所以可考虑将它们置入只读存储器（ROM）。<br>    (6)非RAM存储；<br>       若数据完全独立于一个程序之外，则程序不运行时仍可存在，并在程序的控制范围之外。其中两个最主要的例子便是“流式对象”和“固定对象”。对于流式对象，对象会变成字节流，通常会发给另一台机器。而对于固定对象，对象保存在磁盘中。即使程序中止运行，它们仍可保持自己的状态不变。对于这些类型的数据存储，一个特别有用的技巧就是它们能存在于其他媒体中。一旦需要，甚至能将它们恢复成普通的、基于RAM的对象。Java 1.1提供了对Lightweight persistence的支持。未来的版本甚至可能提供更完整的方案。</p>
+<p>《Think in Java》Chapter 2</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/15/Java 对象的存储区域/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-分布式架构学习之如何将session信息存储到数据库中" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -778,77 +842,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/03/02/快速掌握react-motion动画库[转载]/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mysql中使用递归实现父级部门所有子级信息的查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/">mysql中使用递归实现父级部门所有子级信息的查询</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/" class="archive-article-date">
-  	<time datetime="2018-03-02T14:05:04.868Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在项目中遇到了根据父级部门的部门id查询其所有子级部门的需求，下面介绍其详细过程和原理。<br>1、创建部门表。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Navicat MySQL Data Transfer</div><div class="line"></div><div class="line">Source Server         : LongZheng</div><div class="line">Source Server Version : 50718</div><div class="line">Source Host           : localhost:3306</div><div class="line">Source Database       : ljy</div><div class="line"></div><div class="line">Target Server Type    : MYSQL</div><div class="line">Target Server Version : 50718</div><div class="line">File Encoding         : 65001</div><div class="line"></div><div class="line">Date: 2018-03-02 21:39:04</div><div class="line">*/</div><div class="line"></div><div class="line">SET FOREIGN_KEY_CHECKS=0;</div><div class="line"></div><div class="line">-- ----------------------------</div><div class="line">-- Table structure for hr_dept</div><div class="line">-- ----------------------------</div><div class="line">DROP TABLE IF EXISTS `hr_dept`;</div><div class="line">CREATE TABLE `hr_dept` (</div><div class="line">  `deptId` bigint(200) NOT NULL,</div><div class="line">  `parent_id` bigint(200) DEFAULT NULL,</div><div class="line">  `dept_name` varchar(128) DEFAULT NULL,</div><div class="line">  `dept_code` varchar(24) DEFAULT NULL,</div><div class="line">  `dept_desc` varchar(512) DEFAULT NULL,</div><div class="line">  `dept_office_address` varchar(128) DEFAULT NULL,</div><div class="line">  `is_delete` varchar(255) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`deptId`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line"></div><div class="line">-- ----------------------------</div><div class="line">-- Records of hr_dept</div><div class="line">-- ----------------------------</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;1&apos;, &apos;3&apos;, &apos;行政部门&apos;, &apos;100004&apos;, &apos;管理公司事物&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;2&apos;, &apos;3&apos;, &apos;人事部门&apos;, &apos;100003&apos;, &apos;管理公司员工&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;3&apos;, &apos;1&apos;, &apos;测试部门&apos;, &apos;100005&apos;, &apos;前后台测试&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;4&apos;, &apos;1&apos;, &apos;移动应用部&apos;, &apos;100006&apos;, &apos;手机端开发&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;5&apos;, &apos;1&apos;, &apos;金融业务部门&apos;, &apos;100007&apos;, &apos;银行业务&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;6&apos;, &apos;1&apos;, &apos;战略规划部&apos;, &apos;100001&apos;, &apos;研发软件架构&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;7&apos;, &apos;2&apos;, &apos;应用开发部&apos;, &apos;100002&apos;, &apos;PC端后台开发&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;8&apos;, &apos;2&apos;, &apos;咨询部&apos;, &apos;100008&apos;, &apos;接洽外部项目&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;9&apos;, &apos;2&apos;, &apos;华北交付中心&apos;, &apos;100009&apos;, &apos;调试软件项目&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div></pre></td></tr></table></figure>
-<p>2、创建存储过程.<br>执行下面的语句就可以创建function了，也就是执行语句创建存储过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">create function getChildrenOrgOfHr(orgid INT)</div><div class="line">returns varchar(4000)</div><div class="line">BEGIN</div><div class="line">DECLARE oTemp VARCHAR(4000);</div><div class="line">DECLARE oTempChild VARCHAR(4000);</div><div class="line"></div><div class="line">SET oTemp = &apos;&apos;;</div><div class="line">SET oTempChild = CAST(orgid AS CHAR);</div><div class="line"></div><div class="line">WHILE oTempChild IS NOT NULL</div><div class="line">DO</div><div class="line">SET oTemp = CONCAT(oTemp,&apos;,&apos;,oTempChild);</div><div class="line">SELECT GROUP_CONCAT(deptId) INTO oTempChild FROM hr_dept WHERE FIND_IN_SET(parent_id,oTempChild) &gt; 0;</div><div class="line">END WHILE;</div><div class="line">RETURN oTemp;</div><div class="line">END</div></pre></td></tr></table></figure></p>
-<p>3、测试</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from  hr_dept where FIND_IN_SET(deptId,getChildrenOrgOfHr(2));</div></pre></td></tr></table></figure>
-<p><img src="http://img.blog.csdn.net/20180302220013439?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-<p>4、原理<br>其实就是一个递归的过程，在存储过程中最终返回的是一个字符串数组，这个字符串数组中包含当前父级节点和所有子级节点的id,而这个字符串数组是通过递归进行拼接逐次增加的哦。<br>5、可能会出现的问题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Data too long for column &apos;oTemp&apos; at row 1</div></pre></td></tr></table></figure>
-<p>6、参考文章<br><a href="http://blog.csdn.net/moyanxuan_1993_2_24/article/details/52790314" target="_blank" rel="external">mysql递归查询组织机构</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/">展开全文 >></a>
         </p>
       
 
