@@ -157,6 +157,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-快速掌握react-motion动画库[转载]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/02/快速掌握react-motion动画库[转载]/">react-motion动画库</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/快速掌握react-motion动画库[转载]/" class="archive-article-date">
+  	<time datetime="2018-03-02T14:24:05.618Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="preview"><br>                <div class="show-content"><br>                    <div><b>react-motion</b>是一个强大的react动画库。</div><div><br></div><div>官网：<a href="https://github.com/chenglou/react-motion" target="_blank" rel="external">react-motion</a><br></div><div><br></div><div>基于<b>react-motion</b>，写了三个简单的动画来讲解使用方法。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><ol><li><b>方块移动</b></li><li><b>跟随鼠标</b></li><li><b>折叠</b></li></ol></div><div><br></div><div>在开始讲解实例之前，我们先来了解一个重要的函数：<span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">spring()</span><br></div><div><br></div><div>语法：<br></div><div><pre><code class="hljs http"><p><span class="hljs-attribute">spring(val</span>: number, config?: SpringHelperConfig)<br></p></code></pre></div><div><ul><li><code class="inline-code">val</code>：number, 终点值</li><li><code class="inline-code">config</code>: 用于生成动画缓动效果的配置</li></ul>    - <code class="inline-code">stiffness</code>：默认值170<br>    - <code class="inline-code">damping</code>：默认值26<br>    - <code class="inline-code">precision</code>： 默认值0.01，用于配置val的精确度，一般不需改动<br></div><div><br></div><div>仅从文字很慢描述，一起来感受一下效果：<br></div><div><a href="http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser" target="_blank">http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser</a></div><div><br>对比下面两个弹簧：<br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg" alt=""><br></div><div><br></div><div> 我们可以将设置动画物体想象成弹簧，而<code class="inline-code">stiffness</code>就相当于弹簧的强度，也可理解为弹簧被拉伸的长度（有效范围）；<code class="inline-code">damping</code>就相当于弹簧的硬度。</div><div><ul><li>相同硬度下，你拉的越长，它的回弹速度就越快；</li><li>相同强度下，硬度越大，回弹（缓冲）的次数就越少。</li></ul></div><div><br></div><div>Github：<a href="https://github.com/IronPans/react-motion-demo" target="_blank" rel="external">react-motion-demo</a></div><div><br></div><div><b>1. 方块移动</b><br></div><div><br></div><div>方块移动实例使用了Motion组件。<br></div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;Motion&gt;</span>适合编写单个组件的形变动画。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">style</code>：Object，动画样式</li><li><code class="inline-code">defaultStyle</code>：Object，初始样式</li><li><code class="inline-code">children</code>：子元素</li><li><code class="inline-code">onRest</code>：动画结束时触发回调</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif" alt=""><br></div><div><br></div><div><br></div><div><b>2. 跟随鼠标</b><br></div><div><br></div><div>跟随鼠标实例使用了StaggeredMotion组件。</div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;StaggeredMotion&gt;</span>用于编写一串有相互关联关系的实体的动画。<br></div><div><br></div><div>属性：</div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif" alt=""><br></div><div><br></div><div><b>3. 折叠</b></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">折叠实例使用了TransitionMOtion组件。</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;TransitionMotion&gt;</span><span style="font-size: 1.8rem;">则是用来编写组件mount和unmount的动画</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif" alt=""><br></div><div><br></div><div><br></div>                </div>
+</div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/02/快速掌握react-motion动画库[转载]/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mysql中使用递归实现父级部门所有子级信息的查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -750,88 +813,6 @@ java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/31/使用七牛上传图片的demo/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java8之lambda表达式略解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/29/Java8之lambda表达式略解/">Java8之lambda表达式略解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/29/Java8之lambda表达式略解/" class="archive-article-date">
-  	<time datetime="2018-01-29T14:53:15.248Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、什么是lambda表达式？</p>
-<pre><code>Lambda 表达式，其实就是匿名函数。而函数其实就是功能（function），匿名函数，就是匿名的功能代码了，我们可以把 Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递)。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使 Java的语言表达能力得到了提升。Lambda就是为了替换匿名函数而存在的【本人的理解】;
-</code></pre><p>二、lambda的使用场景。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Lambda表达式是用于替代匿名函数，写出更简洁的代码的，因此，所有期待匿名函数、或者函数式接口类型参数出现的地方都可以使用Lambda替换。</div></pre></td></tr></table></figure>
-<p>三、什么是函数式接口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">函数式接口：Functional Interface. </div><div class="line">定义的一个接口，接口里面必须 有且只有一个抽象方法 ，这样的接口就成为函数式接口。 </div><div class="line">在可以使用lambda表达式的地方，方法声明时必须包含一个函数式的接口，匿名内部类其实是函数式接口的实现类。 </div><div class="line">（JAVA8的接口可以有多个default方法）</div></pre></td></tr></table></figure>
-<p>四、写法、规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">基本语法: </div><div class="line">(parameters) -&gt; expression 或 (parameters) -&gt;&#123; statements; &#125; </div><div class="line">即: 参数 -&gt; 带返回值的表达式/无返回值的陈述</div><div class="line"></div><div class="line"></div><div class="line">----------</div><div class="line"></div><div class="line"></div><div class="line">//1. 接收2个int型整数,返回他们的和</div><div class="line">(int x, int y) -&gt; x + y;</div><div class="line"></div><div class="line">//2. 接受一个 string 对象,并在控制台打印,不返回任何值(看起来像是返回void)</div><div class="line">(String s) -&gt; System.out.print(s);</div><div class="line"></div><div class="line"></div><div class="line">----------</div><div class="line">lambda表达式的结构</div><div class="line"></div><div class="line">参数可以是零个或多个</div><div class="line">参数类型可指定，可省略（根据表达式上下文推断）</div><div class="line">参数包含在圆括号中，用逗号分隔</div><div class="line">表达式主体可以是零条或多条语句,包含在花括号中</div><div class="line">表达式主体只有一条语句时,花括号可省略</div><div class="line">表达式主体有一条以上语句时，表达式的返回类型与代码块的返回类型一致</div><div class="line">表达式只有一条语句时，表达式的返回类型与该语句的返回类型一致</div><div class="line">//零个</div><div class="line"> ()-&gt; System.out.println(&quot;no argument&quot;);</div><div class="line"></div><div class="line">//一个</div><div class="line">  x-&gt;x+1</div><div class="line"></div><div class="line">//两个</div><div class="line">  (x,y)-&gt;x+y</div><div class="line"></div><div class="line">//省略参数类型</div><div class="line"> View.OnClickListener oneArgument = view-&gt;Log.d(TAG,&quot;one argument&quot;);</div><div class="line"> //指定参数类型</div><div class="line"> View.OnClickListener oneArgument = (View view)-&gt;Log.d(TAG,&quot;one argument&quot;);</div><div class="line"></div><div class="line">//多行语句</div><div class="line">//返回类型是代码块返回的void</div><div class="line">View.OnClickListener multiLine = (View view)-&gt;&#123;</div><div class="line">      Log.d(TAG,&quot;multi statements&quot;);</div><div class="line">      Log.d(TAG,&quot;second line&quot;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//返回类型是表达式主体语句的返回类型int</div><div class="line">(int x)-&gt;x+1</div></pre></td></tr></table></figure>
-<p>五.几个特性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. 类型推导 </div><div class="line">编译器负责推导lambda表达式的类型。它利用lambda表达式所在上下文所期待的类型进行推导， </div><div class="line">这个被期待的类型被称为目标类型。就是说我们传入的参数可以无需写类型了！</div></pre></td></tr></table></figure>
-<p>六、demo<br>1.使用lambda表达式实现Runnable</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">package com.lz.test;</div><div class="line">/**</div><div class="line"> * 使用lambda表达式替换Runnable匿名内部类</div><div class="line"> * @author MingChenchen</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class RunableTest &#123;</div><div class="line">    /**</div><div class="line">     * 普通的Runnable</div><div class="line">     */</div><div class="line">    public static void runSomeThing()&#123;</div><div class="line">        //new Runnable()实际上实现的接口的匿名子类;</div><div class="line">        Runnable runnable = new Runnable() &#123;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                System.out.println(&quot;I am running&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        new Thread(runnable).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 使用lambda后的</div><div class="line">     */</div><div class="line">    public static void runSomeThingByLambda()&#123;</div><div class="line">    	//此处期待的是一个函数式类型的参数，因此可以使用lambda表达式进行替换;</div><div class="line">        new Thread(() -&gt; System.out.println(&quot;I am running&quot;)).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        //runSomeThing();</div><div class="line">     runSomeThingByLambda();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>上述代码中：<br>() -&gt; System.out.println(“I am running”)就是一个lambda表达式，<br>可以看出，它是替代了new Runnable(){}这个匿名内部类。</p>
-</blockquote>
-<p>2.使用lambda表达式实现Comparator</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">Students.java</div><div class="line"></div><div class="line"></div><div class="line">----------</div><div class="line"></div><div class="line"></div><div class="line">package com.lz.test;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Lambda表达式测试实体;</div><div class="line"> * @author JunZhou</div><div class="line"> * @Time 2018年1月29日下午10:44:56</div><div class="line"> */</div><div class="line">public class Students &#123;</div><div class="line">	private int age;</div><div class="line">	private int score;</div><div class="line"></div><div class="line">	public Students(int age, int score) &#123;</div><div class="line">		super();</div><div class="line">		this.age = age;</div><div class="line">		this.score = score;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getAge() &#123;</div><div class="line">		return age;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setAge(int age) &#123;</div><div class="line">		this.age = age;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getScore() &#123;</div><div class="line">		return score;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setScore(int score) &#123;</div><div class="line">		this.score = score;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">package com.lz.test;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.Comparator;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class LambdaTestDemo &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		List&lt;Students&gt; students = new ArrayList&lt;Students&gt;();</div><div class="line">		students.add(new Students(23, 100));</div><div class="line">		students.add(new Students(27, 98));</div><div class="line">		students.add(new Students(29, 99));</div><div class="line">		students.add(new Students(29, 98));</div><div class="line">		students.add(new Students(22, 89));</div><div class="line">		// 未使用lambda表达式之前的代码;</div><div class="line">		/*</div><div class="line">		 * Collections.sort(students, new Comparator&lt;Students&gt;() &#123;</div><div class="line">		 * </div><div class="line">		 * @Override public int compare(Students o1, Students o2) &#123; int i =</div><div class="line">		 * o1.getScore() - o2.getScore(); if(i == 0)&#123; return o1.getAge() -</div><div class="line">		 * o2.getAge(); &#125; return i; &#125; &#125;);</div><div class="line">		 */</div><div class="line"></div><div class="line">		// 使用lambda表达式替换之后的代码;</div><div class="line">		Collections.sort(students, (Students o1, Students o2) -&gt; &#123;</div><div class="line">			int i = o1.getScore() - o2.getScore();</div><div class="line">			if (i == 0) &#123;</div><div class="line">				return o1.getAge() - o2.getAge();</div><div class="line">			&#125;</div><div class="line">			return i;</div><div class="line">		&#125;);</div><div class="line">		for (Students stu : students) &#123;</div><div class="line">			System.out.println(&quot;score:&quot; + stu.getScore() + &quot;:age&quot; + stu.getAge());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>7、参考文章<br> <a href="http://blog.csdn.net/jinzhencs/article/details/50748202" target="_blank" rel="external">JAVA8之lambda表达式详解，及stream中的lambda使用</a></p>
-<p><a href="https://juejin.im/entry/5763b1e1d342d30058de759e" target="_blank" rel="external">30 分钟入门 Java8 之 lambda 表达式</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/29/Java8之lambda表达式略解/">展开全文 >></a>
         </p>
       
 

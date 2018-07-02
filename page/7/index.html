@@ -157,6 +157,105 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-AOP中的概念通知、切点、切面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/AOP中的概念通知、切点、切面/">AOP中的概念通知、切点、切面</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/07/AOP中的概念通知、切点、切面/" class="archive-article-date">
+  	<time datetime="2017-11-07T08:06:01.157Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong><strong>通知、增强处理（Advice）</strong></strong></p>
+<hr>
+<p>通知、增强处理（Advice） 就是你想要的功能，也就是上说的安全、事物、日子等。你给先定义好，然后再想用的地方用一下。包含Aspect的一段处理代码</p>
+<p><strong><em>连接点（JoinPoint）</em></strong></p>
+<hr>
+<p>连接点（JoinPoint） 这个就更好解释了，就是spring允许你是通知（Advice）的地方，那可就真多了，基本每个方法的钱、后（两者都有也行），或抛出异常是时都可以是连接点，spring只支持方法连接点。其他如AspectJ还可以让你在构造器或属性注入时都行，不过那不是咱们关注的，只要记住，和方法有关的前前后后都是连接点。</p>
+<p><strong><em>切入点（Pointcut）</em></strong> </p>
+<hr>
+<p>切入点（Pointcut） 上面说的连接点的基础上，来定义切入点，你的一个类里，有15个方法，那就有十几个连接点了对吧，但是你并不想在所有方法附件都使用通知（使用叫织入，下面再说），你只是想让其中几个，在调用这几个方法之前、之后或者抛出异常时干点什么，那么就用切入点来定义这几个方法，让切点来筛选连接点，选中那几个你想要的方法。</p>
+<p><strong><em>切面（Aspect）</em></strong></p>
+<hr>
+<p>切面（Aspect） 切面是通知和切入点的结合。现在发现了吧，没连接点什么事，链接点就是为了让你好理解切点搞出来的，明白这个概念就行了。通知说明了干什么和什么时候干（什么时候通过方法名中的befor，after，around等就能知道），二切入点说明了在哪干（指定到底是哪个方法），这就是一个完整的切面定义。</p>
+<hr>
+<blockquote>
+<p>引入（introduction）</p>
+<p>引入（introduction） 允许我们向现有的类添加新方法属性。这不就是把切面（也就是新方法属性：通知定义的）用到目标类中吗</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>目标（target）</p>
+<p>目标（target）<br>引入中所提到的目标类，也就是要被通知的对象，也就是真正的业务逻辑，他可以在毫不知情的情况下，被咋们织入切面。二自己专注于业务本身的逻辑。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>代理（proxy）</p>
+<p>代理（proxy） 怎么实现整套AOP机制的，都是通过代理，这个一会儿给细说。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>织入（weaving）</p>
+<p>织入（weaving） 把切面应用到目标对象来创建新的代理对象的过程。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">目标对象 – 项目原始的Java组件。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理  – 由AOP框架生成java对象。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理方法 = advice +　目标对象的方法。</div></pre></td></tr></table></figure>
+<p>example :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 通知 --&gt;</div><div class="line">	&lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;</div><div class="line">		&lt;tx:attributes&gt;</div><div class="line">			&lt;!-- 传播行为 --&gt;</div><div class="line">			&lt;tx:method name=&quot;save*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;insert*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;find*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;get*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;query*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">		&lt;/tx:attributes&gt;</div><div class="line">	&lt;/tx:advice&gt;</div><div class="line"></div><div class="line">	&lt;!-- 切面 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">		&lt;aop:advisor advice-ref=&quot;txAdvice&quot;[具体的增强逻辑，此处是事物，上面已经定义好了]</div><div class="line">			pointcut=&quot;execution(* cn.itcast.ssm.service.*.*(..))&quot; [增强逻辑的具体作用位置]/&gt;</div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/07/AOP中的概念通知、切点、切面/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mybatis中#{}【占位符】和${}【字符串】拼接的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -932,69 +1031,6 @@ return returnValue;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/07/单例模式的几种实现方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CentOS 中 nginx 负载均衡和反向代理的搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">CentOS 中 nginx 负载均衡和反向代理的搭建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/" class="archive-article-date">
-  	<time datetime="2017-09-07T05:19:24.254Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>请参照博客：<br>      (1.) <a href="http://blog.csdn.net/zjx86320/article/details/51730388" target="_blank" rel="external">Nginx的好处和原理</a><br>       (2.)<a href="https://nginx.org/download/" target="_blank" rel="external">nginx下载</a><br>       (3.)<em><a href="https://juejin.im/entry/57763aa21532bc0060d96284" target="_blank" rel="external">CentOS 中 nginx 负载均衡和反向代理的搭建；</a></em><br>       (4.)<a href="https://junzhou2016.github.io/2017/09/05/Linux%20%E4%B8%8B%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E6%AD%A5%E9%AA%A4%EF%BC%88CentOS%EF%BC%89/" target="_blank" rel="external">修改hosts</a><br>       (5.)<a href="https://crossoverjie.top/2016/09/20/Linux-normal2/" target="_blank" rel="external">Linux（二）服务器运行环境配置 </a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/CentOS 中 nginx 负载均衡和反向代理的搭建/">展开全文 >></a>
         </p>
       
 
