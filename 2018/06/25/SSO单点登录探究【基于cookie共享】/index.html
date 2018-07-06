@@ -14,15 +14,15 @@
 <meta property="og:url" content="http://yoursite.com/2018/06/25/SSO单点登录探究【基于cookie共享】/index.html">
 <meta property="og:site_name" content="Blog4Jun">
 <meta property="og:description" content="最近看到公司的需求里面有单点登录，就去了解了一下。下面将从SSO单点登录的原理、实现步骤以及实现demo几个方面来讲述自己的理解。     1、SSO根本原理:               登录状态的共享;            1)、登录状态的共享有两种实现方式:            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。">
-<meta property="og:image" content="https://img-blog.csdn.net/20180625214949431?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180625220358147?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180625220619238?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180625220752662?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2018-06-25T14:37:40.068Z">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/sso01.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/sso02.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/sso03.png">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/sso04.png">
+<meta property="og:updated_time" content="2018-07-06T03:18:04.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSO单点登录探究【基于cookie共享】">
 <meta name="twitter:description" content="最近看到公司的需求里面有单点登录，就去了解了一下。下面将从SSO单点登录的原理、实现步骤以及实现demo几个方面来讲述自己的理解。     1、SSO根本原理:               登录状态的共享;            1)、登录状态的共享有两种实现方式:            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20180625214949431?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta name="twitter:image" content="http://ouuy81imh.bkt.clouddn.com/sso01.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -192,9 +192,9 @@
       
         <p>最近看到公司的需求里面有单点登录，就去了解了一下。下面将从SSO单点登录的原理、实现步骤以及实现demo几个方面来讲述自己的理解。</p>
 <hr>
-<p>   1、SSO根本原理:<br>               登录状态的共享;<br>            1)、登录状态的共享有两种实现方式:<br>            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。<br>            二：通过Session共享登录状态。【Spring Session共享方案，分布式系统中常用】<br>            三：通过IP+Agent+User的方式实现状态共享，实际上是模仿了cookie合session机制。【我自己研究的，适合绝对跨域的分布式系统】因为通过IP+Agent+User的形式理论上可以模仿cookie合session识别一次会话。<br>            <img src="https://img-blog.csdn.net/20180625214949431?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>    2、实现的概要步骤【网络上的步骤乱七八糟各种不合理，自己整理了下】<br>            1）、子系统一登陆，未登陆则进入SSO认证中心认证，成功则更新登陆状态【创建全局会话】，返回共享媒介；<br>            2）、子系统二携带共享媒介，获取全局会话，读取登陆信息和登陆状态，实质是通过共享媒介保持了会话状态。<br>            ３）、退出时只需要注销全局会话状态即可。</p>
+<p>   1、SSO根本原理:<br>               登录状态的共享;<br>            1)、登录状态的共享有两种实现方式:<br>            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。<br>            二：通过Session共享登录状态。【Spring Session共享方案，分布式系统中常用】<br>            三：通过IP+Agent+User的方式实现状态共享，实际上是模仿了cookie合session机制。【我自己研究的，适合绝对跨域的分布式系统】因为通过IP+Agent+User的形式理论上可以模仿cookie合session识别一次会话。<br>            <img src="http://ouuy81imh.bkt.clouddn.com/sso01.png" alt="这里写图片描述"><br>    2、实现的概要步骤【网络上的步骤乱七八糟各种不合理，自己整理了下】<br>            1）、子系统一登陆，未登陆则进入SSO认证中心认证，成功则更新登陆状态【创建全局会话】，返回共享媒介；<br>            2）、子系统二携带共享媒介，获取全局会话，读取登陆信息和登陆状态，实质是通过共享媒介保持了会话状态。<br>            ３）、退出时只需要注销全局会话状态即可。</p>
 <pre><code>【以上的概要步骤对SSO根本原理的一、二、三都适用】
-</code></pre><p>   ３、SSＯ登陆的demo[通过cookie共享实现的]<br>       SSOAuth：<br><img src="https://img-blog.csdn.net/20180625220358147?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>     SSOWebDemo1：<br>     <img src="https://img-blog.csdn.net/20180625220619238?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>     SSOWebDemo2：<br>     <img src="https://img-blog.csdn.net/20180625220752662?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</code></pre><p>   ３、SSＯ登陆的demo[通过cookie共享实现的]<br>       SSOAuth：<br><img src="http://ouuy81imh.bkt.clouddn.com/sso02.png" alt="这里写图片描述"><br>     SSOWebDemo1：<br>     <img src="http://ouuy81imh.bkt.clouddn.com/sso03.png" alt="这里写图片描述"><br>     SSOWebDemo2：<br>     <img src="http://ouuy81imh.bkt.clouddn.com/sso04.png" alt="这里写图片描述"></p>
 <p> <a href="https://download.csdn.net/download/zj20142213/10499008" target="_blank" rel="external">SSO单点登录的源码。</a></p>
 <p>   四：参考文章:<br>         <a href="https://www.cnblogs.com/ywlaker/p/6113927.html" target="_blank" rel="external">单点登录原理与简单实现</a><br>         <a href="https://baike.baidu.com/item/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/4940767?fr=aladdin" target="_blank" rel="external">单点登录</a></p>
 
