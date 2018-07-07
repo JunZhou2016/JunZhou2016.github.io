@@ -163,6 +163,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-运行时异常-RunTimeExcepption" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/19/运行时异常-RunTimeExcepption/">运行时异常-RunTimeExcepption</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/19/运行时异常-RunTimeExcepption/" class="archive-article-date">
+  	<time datetime="2018-04-19T14:07:54.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天写代码的时候，遇到一个需求，保存的时候如果重名则不执行保存，并抛出异常。但是当我抛出的不是运行时异常的时候，这个异常就需要一层层的捕获。就像下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">ExceptionTest .java</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() throws Exception &#123;</div><div class="line">	  //throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">	   throw new Exception();</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Test.java</div><div class="line"></div><div class="line">package com.lz;</div><div class="line"></div><div class="line">import com.lz.utils.ExceptionTest;</div><div class="line">import com.lz.utils.GetDBPhysicDesignTxt;</div><div class="line"></div><div class="line">public class Test &#123;</div><div class="line">public static void main(String[] args) throws Exception &#123;</div><div class="line">	ExceptionTest.testRunTimeException();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>或者这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">ExceptionTest.java</div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() &#123;</div><div class="line">	  //throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">	   try &#123;</div><div class="line">		throw new Exception();</div><div class="line">	&#125; catch (Exception e) &#123;</div><div class="line">		// TODO Auto-generated catch block</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是从一个程序员的角度，考虑，重名属于运行后进行操作才产生的异常，正常情况下应该抛出运行时异常，并且公司我最膜拜的架构师【据说是离神最近的男人】是已经封装好了异常，自定义运行时异常，因此就使用了运行时异常实现：<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">MyRunTimeException.java</div><div class="line">自定义的运行时异常类：</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class MyRunTimeException extends RuntimeException &#123;</div><div class="line">	public MyRunTimeException(String info) &#123;</div><div class="line">		super(info);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">ExceptionTest.java</div><div class="line"></div><div class="line">package com.lz.utils;</div><div class="line"></div><div class="line">public class ExceptionTest &#123;</div><div class="line">   public static void testRunTimeException() &#123;</div><div class="line">	  throw new MyRunTimeException(&quot;运行时的异常！&quot;);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用自定义运行时异常后，发现省事好多，异常并不需要一级一级的向上抛出或者在当前类捕获。</p>
+<p>借助这个案例分析了下运行时异常的特点：</p>
+<blockquote>
+<ul>
+<li>A: 运行时期异常的概述: <ul>
+<li>RuntimeException和他的所有子类异常,都属于运行时期异常。<br>  NullPointerException,ArrayIndexOutOfBoundsException等都属于运行时期异常.</li>
+</ul>
+</li>
+<li>B：运行时期异常的特点<ul>
+<li>a：方法中抛出运行时期异常,方法定义中无需throws声明,调用者也无需处理此异常。</li>
+<li>b：运行时期异常一旦发生,需要程序人员修改源代码。<br>设计原因:<br>  运行异常,不能发生,但是如果发生了,程序人员停止程序修改源代码<br>  运行异常: 一旦发生,不要处理,请你修改源代码,运行异常一旦发生,后面的代码没有执行的意义</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<p>这就是运行时异常的总结，就问还有谁。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/19/运行时异常-RunTimeExcepption/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot配置文件的读取方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -847,77 +932,9 @@
 
 
   
-    <article id="post-Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/">flux中Cannot dispatch in the middle of a dispatch问题的解决方案</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/" class="archive-article-date">
-  	<time datetime="2018-03-03T02:22:04.770Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用flux进行数据交互的时候，出现了一个问题<code>Flux Dispatch.dispatch(…): Cannot dispatch in the middle of a dispatch</code>，在国内竟然没有找到解决方案，最后在<a href="https://stackoverflow.com上找到了解决方案，但是原理不清楚【这不是我的风格，空下来一定搞懂】。" target="_blank" rel="external">https://stackoverflow.com上找到了解决方案，但是原理不清楚【这不是我的风格，空下来一定搞懂】。</a></p>
-<p>解决方案：</p>
-<p>老外是这么说的:<br>You can make it work by “scheduling” the next action instead of calling it directly, here is an example code:<br>译：你可以在指定的时间调度一个action而不是直接调用它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// instead of doing this</div><div class="line">Dispatcher.dispatch(...);</div><div class="line"></div><div class="line">// go like this</div><div class="line">setTimeout(function() &#123;</div><div class="line">  Dispatcher.dispatch(...);</div><div class="line">&#125;, 1);</div></pre></td></tr></table></figure></p>
-<p>我的解决方案:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout(function () &#123;</div><div class="line">      Actions.synchronizePanekeyToStore(currenPaneKey);</div><div class="line">    &#125;, 1);</div></pre></td></tr></table></figure>
-<p>这样就可以了，真心感觉老外很热心。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/03/Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 

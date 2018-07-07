@@ -163,6 +163,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Des加密中错误Input length not multiple of 8 bytes的解决办法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
+  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、最近在使用des加密的过程中出现了如下错误：<br><img src="http://img.blog.csdn.net/20180119105544192?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>错误提示的意思是：输入的加密源数据不足8个字节,推测是加密的填充模式不对；<br>2、错误原因:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">DES、AES 或者 3DES 属于块加密算法，一般来说原文必须是 8 的整数倍，所以块加密算法除子加密模式之外，还涉及到一个填充模式。</div><div class="line"></div><div class="line">如果一定要用 NoPadding 的话，那么必须保证原文字节是 8 的倍数，否则的话需要使用其他的填充模式。</div><div class="line"></div><div class="line">在 Sun JCE 中默认的填充模式除了 NoPadding 之外，还有：</div><div class="line"></div><div class="line">PKCS5Padding 和 ISO10126Padding</div><div class="line"></div><div class="line">PKCS5Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值为填充数量数。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 07 07 07 07 07 07 07</div><div class="line"></div><div class="line">ISO10126Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值最后一个字节为填充的数量数，其他字节随机处理。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 3F 7A B4 09 14 36 07</div><div class="line"></div><div class="line"></div><div class="line">使用填充模式后原文字节并不需要是 8 的整数倍，采用填充模式之后，块加密的密文长度为：</div><div class="line"></div><div class="line">(N / 8 * 8) + 8</div><div class="line"></div><div class="line">如上，假如原文长度为 15 个字节，密文长度就是 16 个字节。假如原文长度为 16 个字节，密文长度就为 24 个字节。也就是说，采用填充模式后必须进行填充，哪怕是 8 的整数倍。</div></pre></td></tr></table></figure>
+<p><strong>注意点:</strong>2.1使用哪一种填充模式加密的，也必须采用哪种填充模式解密;<br>             2.2CBC 加密模式需要有一个 IV 参数（也就是初始化向量），这个值在加    密时会随机生成，但必须保存下来，否则无法完成解密工作。<br>            2.3建议采用 ECB 模式，或者在使用 CBC 时将初始化向量保存，在解密时使用。 </p>
+<p>3、解决方案:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//算法名称/加密模式/填充方式 </div><div class="line">    //DES共有四种工作模式--&gt;&gt;ECB：电子密码本模式、CBC：加密分组链接模式、CFB：加密反馈模式、OFB：输出反馈模式</div><div class="line">    //此处应该注意加密模式的取值,建议使用ebc模式下的PKCS5Padding自动填充形式;</div><div class="line">    [修改前的模式]</div><div class="line">    //public static final String CIPHER_ALGORITHM = &quot;DES/ECB/NoPadding&quot;;</div><div class="line">    [修改后的模式]</div><div class="line">    public static final String CIPHER_ALGORITHM = &quot;DES/ECB/PKCS5Padding &quot;;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DES加密算法探究【Java版本】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -789,78 +856,9 @@
 
 
   
-    <article id="post-react中深层原理解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/react中深层原理解析/">react中router底层原理结合参考资料的分析</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/26/react中深层原理解析/" class="archive-article-date">
-  	<time datetime="2017-12-26T15:11:54.782Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文为我对react中router底层原理结合参考资料的分析:<br>1.路由是什么<br>       个人理解:路由是访问各个组件的转发器;<br>        路由的分类：路由分为一级路由和嵌套路由了;<br>        路由的实现原理:<br>       由UI = reducer(stateorproperty);可知，路由的底层原理还是状态或者属性改变驱动的；<br>       可以理解为路由有一个location属性，通过浏览器可以改变Router的属性值，从而驱动属性进行渲染:<br>3.使用路由进行页面跳转会导致渲染效率的降低么?<br>答案是不会的，当通过嵌套路由<strong>首次</strong>       访问嵌套的组件的时候，被嵌套的子组件的父级组件也会进行加载渲染，此时父子组件的生命周期函数将被执行，但是首次访问但并未离开当前页面【顶级路由路径未改变的时候】，访问嵌套的其他组件的时候，会根据访问的路径加载指定的组件，此只会加载路径中体现变更部分的组件。<br>如下图所示:<br>1.首次访问的时候，路径匹配的组件的生命周期函数都将被执行[注意访问的路径是嵌套路由的路径]:<br><img src="http://img.blog.csdn.net/20171226225338246?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>2.再次访问的时候，只会加载调用匹配路径中发生改变的部分的组件的生命周期函数:<br><img src="http://img.blog.csdn.net/20171226230012717?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>3.（1.0）路由实际是一个组件，其中嵌套了所有的希望访问的可以访问的组件；<br>   （2.0）通过路由访问的知识路径匹配的组件;<br>    (3.0)当存在页面内无刷新内容变换的时候建议使用嵌套路由<br>  4.路由使用的小案例:</p>
-<p>root.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">import ReactDOM from &apos;react-dom&apos;;</div><div class="line">import Index from &apos;./index&apos;;</div><div class="line">import ComponentList from &apos;./components/list&apos;;</div><div class="line">import ComponentDetails from &apos;./components/details&apos;;</div><div class="line">import ComponentDetails2 from &apos;./components/details2&apos;;</div><div class="line">import &#123;Router,Route,hashHistory&#125; from &apos;react-router&apos;;</div><div class="line"></div><div class="line">export default class Root extends React.Component&#123;</div><div class="line">  render()&#123;</div><div class="line">    return (</div><div class="line">      //这里替换了之前的 Index，变成了程序的入口</div><div class="line">      &lt;Router history=&#123;hashHistory&#125;&gt;</div><div class="line"></div><div class="line">        &lt;Route component=&#123;Index&#125; path=&quot;/&quot;&gt;</div><div class="line">          &lt;Route component=&#123;ComponentDetails&#125; path=&quot;details&quot;&gt;&lt;/Route&gt;</div><div class="line">          &lt;Route component=&#123;ComponentDetails2&#125; path=&quot;details2&quot;&gt;&lt;/Route&gt;</div><div class="line">        &lt;/Route&gt;</div><div class="line"></div><div class="line">        &lt;Route component=&#123;ComponentList&#125; path=&quot;list/:id&quot;&gt;&lt;/Route&gt;</div><div class="line"></div><div class="line">      &lt;/Router&gt;</div><div class="line">    );</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">ReactDOM.render(&lt;Root/&gt;, document.getElementById(&apos;example&apos;));</div></pre></td></tr></table></figure></p>
-<p>   index.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">var React = require(&apos;react&apos;);</div><div class="line">var ReactDOM = require(&apos;react-dom&apos;);</div><div class="line">import ComponentHeader from &apos;./components/header&apos;;</div><div class="line">import ComponentFooter from &apos;./components/footer&apos;;</div><div class="line">import BodyIndex from &apos;./components/bodyindex&apos;;</div><div class="line"></div><div class="line">import &apos;antd/dist/antd.css&apos;;</div><div class="line"></div><div class="line">export default class Index extends React.Component &#123;</div><div class="line"></div><div class="line">	constructor(props) &#123;</div><div class="line"> 	 super(props);</div><div class="line"> 	 alert(&apos;父级组件中的构造函数被执行&apos;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">	componentWillMount()&#123;</div><div class="line">		//定义你的逻辑即可</div><div class="line">		alert(&apos;父级组件中的构造函数被执行&apos;);</div><div class="line">		console.log(&quot;Index - componentWillMount&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	componentDidMount()&#123;</div><div class="line">		console.log(&quot;Index - componentDidMount&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	render() &#123;</div><div class="line">		/*</div><div class="line">		var component;</div><div class="line">		if (用户已登录) &#123;</div><div class="line">			component = &lt;ComponentLoginedHeader/&gt;</div><div class="line">		&#125;</div><div class="line">		else&#123;</div><div class="line">			component = &lt;ComponentHeader/&gt;</div><div class="line">		&#125;</div><div class="line">		*/</div><div class="line">		return (</div><div class="line">			&lt;div&gt;</div><div class="line">				&lt;ComponentHeader/&gt;</div><div class="line">				&lt;BodyIndex userid=&#123;999&#125; username=&#123;&quot;Parry1&quot;&#125;/&gt;</div><div class="line">				&lt;div&gt;</div><div class="line">					&#123;this.props.children&#125;</div><div class="line">				&lt;/div&gt;</div><div class="line">				&lt;ComponentFooter/&gt;</div><div class="line">			&lt;/div&gt;</div><div class="line">		);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>detail.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">export default class ComponentDetails extends React.Component&#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    alert(&apos;子级组件中的构造函数被执行&apos;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount()&#123;</div><div class="line">    //定义你的逻辑即可</div><div class="line">    alert(&apos;子级组件中的构造函数被执行&apos;);</div><div class="line">    console.log(&quot;ComponentDetails - componentWillMount&quot;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render()&#123;</div><div class="line">    return (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;h2&gt;这里是嵌套在首页中的详细的页面，测试构造函数是否会被加载&lt;/h2&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>detail2.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">export default class ComponentDetails extends React.Component&#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    alert(&apos;子级组件2中的构造函数被执行&apos;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount()&#123;</div><div class="line">    //定义你的逻辑即可</div><div class="line">    alert(&apos;子级组件2中的构造函数被执行&apos;);</div><div class="line">    console.log(&quot;ComponentDetails - componentWillMount&quot;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render()&#123;</div><div class="line">    return (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;h2&gt;这里是嵌套在首页中的详细的页面2，测试构造函数是否会被加载&lt;/h2&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/react中深层原理解析/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 

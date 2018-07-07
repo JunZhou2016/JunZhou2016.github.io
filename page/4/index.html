@@ -163,6 +163,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用jenkins+github+tomcat实现Springboot半自动化部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/05/使用jenkins+github+tomcat实现Springboot半自动化部署/">使用jenkins+github+tomcat实现Springboot半自动化部署</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/05/使用jenkins+github+tomcat实现Springboot半自动化部署/" class="archive-article-date">
+  	<time datetime="2018-02-05T12:57:39.872Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文讲解的是使用jenkins+github+tomcat实现springboot项目的半自动化部署，为啥叫做半自动化部署？因为我没钱买服务器，webhook又无法访问本地服务器，因此没有使用webhook进行全自动的部署演示，并且我本人认为，全自动的部署是没有必要的，因为这可能影响项目的测试进度。<br>下面演示具体的配置步骤。<br>1、去<a href="https://jenkins.io/" target="_blank" rel="external">jenkins官网</a>下载jenkinds.war,用于jenkins的部署与启动。<br>2、添加jenkins.war到tomcat的webapps下，启动tomcat将自动解压，访问<a href="http://localhost:8080/jenkins即可访问jenkins页面；" target="_blank" rel="external">http://localhost:8080/jenkins即可访问jenkins页面；</a><br>3、跟着提示的步骤走，安装必要的插件并设置登录密码和用户名。<br>4、全局插件配置(Global Tool Configuration)【次数只介绍maven的相关配置】<br>5、新建一个自由风格的项目。<br>【<a href="https://www.cc520.me/article/35" target="_blank" rel="external">三四步的详细步骤可以参考文章</a>】<br>6、需要注意的地方<br>(1、)源码管理中Credentials配置添加的是你的github的账户，用于提供便利给jenkins,方便jenkins自动从github上抓取提交的代码。<br>A、<br><img src="http://img.blog.csdn.net/20180205204125423?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>B、<br><img src="http://img.blog.csdn.net/20180205204254158?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(2、)因为springboot项目嵌入了内置的web容器，因此springboot项目的发布和普通的j2ee项目略有不同。<br>A、首先执行maven的clean install命令；<br>B、执行windows批处理命令<code>cd C:\Users\xdsm\.jenkins\workspace\JenkinsTestDemo3\target
+java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是跳转至xxx.jar的根目录，并启动执行jar,和在windows上执行springboot打包后的项目并无差异。<br>【此处需要安装一个插件：    SSH plugin】<br><img src="http://img.blog.csdn.net/20180205205159881?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>7、测试<br>构建项目，在项目启动成功后访问项目如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:9008/demo/test?data=xiangxiang</div></pre></td></tr></table></figure>
+<p>即可。<br>8、参考文章<br><a href="https://www.cc520.me/article/35" target="_blank" rel="external">使用Jenkins启动maven作为项目构建管理工具的web项目</a></p>
+<p><a href="http://blog.csdn.net/lynnos/article/details/78154753" target="_blank" rel="external">Jenkins+Github+webhook step by step【结合webhook实现自动化部署】</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/05/使用jenkins+github+tomcat实现Springboot半自动化部署/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用七牛上传图片的demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -797,76 +864,9 @@
 
 
   
-    <article id="post-Des加密中错误Input length not multiple of 8 bytes的解决办法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
-  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、最近在使用des加密的过程中出现了如下错误：<br><img src="http://img.blog.csdn.net/20180119105544192?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>错误提示的意思是：输入的加密源数据不足8个字节,推测是加密的填充模式不对；<br>2、错误原因:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">DES、AES 或者 3DES 属于块加密算法，一般来说原文必须是 8 的整数倍，所以块加密算法除子加密模式之外，还涉及到一个填充模式。</div><div class="line"></div><div class="line">如果一定要用 NoPadding 的话，那么必须保证原文字节是 8 的倍数，否则的话需要使用其他的填充模式。</div><div class="line"></div><div class="line">在 Sun JCE 中默认的填充模式除了 NoPadding 之外，还有：</div><div class="line"></div><div class="line">PKCS5Padding 和 ISO10126Padding</div><div class="line"></div><div class="line">PKCS5Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值为填充数量数。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 07 07 07 07 07 07 07</div><div class="line"></div><div class="line">ISO10126Padding 的填充规则是：</div><div class="line"></div><div class="line">填充至符合块大小的整数倍，填充值最后一个字节为填充的数量数，其他字节随机处理。例如：</div><div class="line">原始：FF FF FF FF FF FF FF FF FF</div><div class="line">填充：FF FF FF FF FF FF FF FF FF 3F 7A B4 09 14 36 07</div><div class="line"></div><div class="line"></div><div class="line">使用填充模式后原文字节并不需要是 8 的整数倍，采用填充模式之后，块加密的密文长度为：</div><div class="line"></div><div class="line">(N / 8 * 8) + 8</div><div class="line"></div><div class="line">如上，假如原文长度为 15 个字节，密文长度就是 16 个字节。假如原文长度为 16 个字节，密文长度就为 24 个字节。也就是说，采用填充模式后必须进行填充，哪怕是 8 的整数倍。</div></pre></td></tr></table></figure>
-<p><strong>注意点:</strong>2.1使用哪一种填充模式加密的，也必须采用哪种填充模式解密;<br>             2.2CBC 加密模式需要有一个 IV 参数（也就是初始化向量），这个值在加    密时会随机生成，但必须保存下来，否则无法完成解密工作。<br>            2.3建议采用 ECB 模式，或者在使用 CBC 时将初始化向量保存，在解密时使用。 </p>
-<p>3、解决方案:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//算法名称/加密模式/填充方式 </div><div class="line">    //DES共有四种工作模式--&gt;&gt;ECB：电子密码本模式、CBC：加密分组链接模式、CFB：加密反馈模式、OFB：输出反馈模式</div><div class="line">    //此处应该注意加密模式的取值,建议使用ebc模式下的PKCS5Padding自动填充形式;</div><div class="line">    [修改前的模式]</div><div class="line">    //public static final String CIPHER_ALGORITHM = &quot;DES/ECB/NoPadding&quot;;</div><div class="line">    [修改后的模式]</div><div class="line">    public static final String CIPHER_ALGORITHM = &quot;DES/ECB/PKCS5Padding &quot;;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 
