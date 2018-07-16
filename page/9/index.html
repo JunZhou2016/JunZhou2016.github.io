@@ -163,89 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Linux 下虚拟机克隆步骤（CentOS）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">Linux 下虚拟机克隆步骤（CentOS）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/" class="archive-article-date">
-  	<time datetime="2017-09-05T08:22:34.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；<br>   linux虚拟机克隆主要涉及网络方面的问题：</p>
-<p><strong>1.关闭要克隆的Linux 关机命令：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init 0  或者  shutdown -h now</div></pre></td></tr></table></figure>
-<p><strong>2.新建快照，给母本一个备份,如下图所示:</strong><br><img src="http://img.blog.csdn.net/20170905161029126?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：</strong></p>
-<p><img src="http://img.blog.csdn.net/20170905161335542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在这里要选择创建完整的克隆</p>
-<p><img src="http://img.blog.csdn.net/20170905161358161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在这里虚拟机的存放路径一定要不能包含中文字和字符</p>
-<p><strong>4.克隆的速度很快，完成以后启动克隆的虚拟机，用户名和密码都是被克隆的linux的用户名密码：</strong></p>
-<p><strong>5.克隆之后由于是完全的克隆过来的Linux所以需要更改这几项：操作系统物理地址、IP地址、主机名：</strong></p>
-<p>使用vi命令删除网卡中的UUID和物理地址两行（这两行在Linux重启之后，操作系统会自动生成的,如果不进行更改会造成IP冲突），同时更改一个新的IP地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/network-scripts/ifcfg-eth0</div></pre></td></tr></table></figure>
-<p>更改成下图：</p>
-<p><img src="http://img.blog.csdn.net/20170905161756674?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>更改完成以后保存并退出，然后删除Linux物理地址绑定的文件（该文件会在操作系统重启并生成物理地址以后将物理地址绑定到IP上）；</p>
-<p>如果不删除，则操作系统会一直绑定着克隆过来的物理地址；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">使用命令：</div><div class="line">rm -rf /etc/udev/rules.d/70-persistent-net.rules</div></pre></td></tr></table></figure>
-<p><strong>6.更改主机名还是使用vi命令：</strong><br>     更改主机名称的意图是可以通过主机名进行SSH访问，简化了访问操作，因为主机名映射了IP；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/network</div></pre></td></tr></table></figure></p>
-<p>设置完成以后，保存并退出，然后重启Linux就完成了克隆后的设置，重启Linux命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init 6  或者  shutdown -r now</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-linux运维常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1221,6 +1138,71 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/Windows服务器端软件的安装/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tomcat配置外部静态资源映射路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/tomcat配置外部静态资源映射路径/">tomcat配置外部静态资源映射路径</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/tomcat配置外部静态资源映射路径/" class="archive-article-date">
+  	<time datetime="2017-08-29T01:03:36.214Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="tomcat配置外部静态资源映射路径"><a href="#tomcat配置外部静态资源映射路径" class="headerlink" title="tomcat配置外部静态资源映射路径"></a>tomcat配置外部静态资源映射路径</h2><p>修改apache-tomcat-7.0.56\conf文件夹下的server.xml即可；<br><em>注意修改服务器中的配置文件的过程中切忌出现中文，注释中文可能导致服务无法启动</em></p>
+<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;localhost&quot; appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- SingleSignOn valve, share authentication between web applications Documentation at: /docs/config/valve.html --&gt;</div><div class="line">&lt;!--</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- Access log processes all example.Documentation at: /docs/config/valve.html Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;</div><div class="line">　　　　prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;</div><div class="line">　　　　pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;</div><div class="line">　　</div><div class="line"></div><div class="line">　　&lt;!-- 增加的静态资源映射配置 --&gt;</div><div class="line">　　&lt;Context path=&quot;/RecordFile&quot; docBase=&quot;/home/lings/recordings&quot; reloadable=&quot;true&quot; crossContext=&quot;true&quot;&gt;&lt;/Context&gt;</div><div class="line"></div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
+<p>红色那一行就是增加的静态资源映射配置。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/tomcat配置外部静态资源映射路径/">展开全文 >></a>
         </p>
       
 
