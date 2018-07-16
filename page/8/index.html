@@ -163,6 +163,133 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-设计模式之---适配器模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/设计模式之---适配器模式/">适配器模式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/08/设计模式之---适配器模式/" class="archive-article-date">
+  	<time datetime="2017-09-08T10:52:51.163Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。适配器模式是一种常用设计模式，适配器模式是对类的增强，例如[在Spring AOP中使用适配器模式将通知封装为对应的方法拦截器。](http://blog.csdn.net/adoocoke/article/details/8286902)
+</code></pre><p>适配器模式有类适配器模式和对象的适配器模式两种不同的形式。如下图所示，左边是的类的适配器模式（继承），右边是对象的适配器模式（引用）。<br><img src="http://img.blog.csdn.net/20170908175930761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>两种适配器模式中，对象适配器更为灵活，对象适配器可以根据给定的源（adaptee）灵活的适配多个对象，而类适配器适配的对象则是固定的，不利于扩。针对不同的使用场景，两者各有优点。</p>
+<p><strong>类的适配器模式</strong></p>
+<hr>
+<p>类的适配器模式把被适配的类的API转换成目标类的API，其静态结构图如下所示。</p>
+<p><img src="http://img.blog.csdn.net/20170908180737448?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>在上图中可以看出，Adaptee类并没有simpleOperation2()方法，而客户端则期待这个方法。为使客户端能够使用Adaptee类，提供一个中间环节，即类Adapter，把Adaptee的API与Target类的API衔接起来。Adapter与Adaptee是继承关系，这决定了这个适配器模式是类的。</p>
+<p>模式所涉及的角色有：</p>
+<pre><code>目标（Target）角色：这就是所期待得到的接口。注意，由于这里讨论的是类适配器模式，因此目标不可以是类。
+源（Adaptee）角色：现有需要配置的接口。
+适配器（Adapter）角色：适配器类是本模式的核心。适配器把源接口转换成目标接口。显然，这一叫色不可以是接口，而必须是具体类。
+</code></pre><p><strong>对象的适配器模式</strong></p>
+<hr>
+<p>与类的适配器模式一样，对象的适配器模式把被适配的类的API转换成目标类的API，与类的适配器模式不同的是，对象的适配器模式不是使用继承关系连接到Adaptee类，而是使用委派关系连接到Adaptee类。对象的适配器模式的静态结构如下图所示。</p>
+<p><img src="http://img.blog.csdn.net/20170908181129175?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>从上图中可以看出，Adaptee类并没有simpleOperation2()方法，而客户端则期待这个方法。为使客户端能够使用Adaptee类，需要提供一个包装（Wrapper）类Adapter。这个包装类包装了一个Adaptee的实例，从而此包装类能够把Adaptee的API与Target类的API衔接起来。Adapter与Adaptee是委派关系，这决定了这个适配器模式是对象的。<br>从上图可以看出，模式所涉及的角色有：</p>
+<blockquote>
+<p> 目标（Target）角色：这就是所期待的接口，目标可以是具体的或抽象的类。<br>    源（Adaptee）角色：现有需要适配的接口。<br>    适配器（Adapter）角色：适配器类是本模式的核心。适配器把源接口转换成目标接口，显然，这一角色必须是具体类。</p>
+</blockquote>
+<pre><code>***代码示例***
+</code></pre><p>类的适配器模式代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public interface Target &#123;</div><div class="line">    /**</div><div class="line">     * 这是源类也有的方法simpleOperation1</div><div class="line">     */</div><div class="line">    void simpleOperation1();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这是源类没有的方法simpleOperation2</div><div class="line">     */</div><div class="line">    void simpleOperation2();</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面给出的是目标角色的源代码，这个角色是以一个Java接口的形式实现的。可以看出，这个接口声明了两个方法：simpleOperation1()和simpleOperation2()。而<strong>源角色Adatpee是一个具体类</strong>，它有一个simpleOperation1()方法，但是没有simpleOperation2()方法，如下面代码清单所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class Adaptee &#123;</div><div class="line">    /**</div><div class="line">     * 源类含有方法simpleOperation1</div><div class="line">     */</div><div class="line">    public void simpleOperation1()&#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>适配器角色Adapter扩展了Adaptee,同时又实现了目标接口。由于Adaptee没有提供simpleOperation2()方法，而目标接口又要求这个方法，因此适配器角色Adatper实现了这个方法，如下面代码清单所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Adapter extends Adaptee implements Target &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 由于源类没有方法simpleOperation2</div><div class="line">     * 因此适配器类补充上这个方法</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation2() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>类的适配器模式的效果：</p>
+<p>   缺点: 使用一个具体类把源（Adaptee）适配到目标（Target）中。这样一来，如果源以及源的子<br>   类都使用此类适配，就行不通了。<br>    由于适配器类是源的子类，因此可以适配器类中之换掉（Override）源的一些方法。<br>    由于只引进了一个适配器类，因此只有一个路线到目标类，使问题得到简化。</p>
+<p><strong>对象的适配器模式代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public interface Target &#123;</div><div class="line">    /**</div><div class="line">     * 这是源类也有的方法simpleOperation1</div><div class="line">     */</div><div class="line">    void simpleOperation1();</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这是源类没有的方法simpleOperation2</div><div class="line">     */</div><div class="line">    void simpleOperation2();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面给出的是目标角色的源代码，这个角色是以一个Java接口的形式实现的。可以看出，这个接口声明了两个方法：simpleOperation1()和simpleOperation2()。而源角色Adapatee是一个具体类，它有一个simpleOperation1()方法，但是没有simpleOperation2()方法，如下面带入清单所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class Adaptee &#123;</div><div class="line">    /**</div><div class="line">     * 源类含有方法simpleOperation1</div><div class="line">     */</div><div class="line">    public void simpleOperation1()&#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>适配器类的源代码如下面代码清单所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public class Adapter implements Target &#123;</div><div class="line"></div><div class="line"></div><div class="line">    private Adaptee adaptee;</div><div class="line"></div><div class="line"></div><div class="line">    public Adapter(Adaptee adaptee) &#123;</div><div class="line">        super();</div><div class="line">        this.adaptee = adaptee;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 源类有方法simpleOperation1</div><div class="line">     * 因此适配器类直接委派即可</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation1() &#123;</div><div class="line">        adaptee.simpleOperation1();</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 源类没有方法simpleOperation2</div><div class="line">     * 因此适配器类补充上这个方法</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void simpleOperation2() &#123;</div><div class="line">        //write you code here</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对象的适配器模式的效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">**一个适配器可以把多种不同的源适配到同一个目标。换言之，同一个适配器可以把源类和它的子类都适配到目标接口。**</div></pre></td></tr></table></figure>
+<pre><code>与类的适配器模式相比，要想置换源类的方法就不容易。如果一定要置换掉源类的一个或多个方法，就只好先做一个源类的子类，将源类的方法置换掉，然后再把源类的子类当作真正的源进行适配。
+虽然想要置换源类的方法不容易，但是要想增加一些新的方法则方便得很，而且新增加的方法可同时适用于所有的源。
+</code></pre><p>总结</p>
+<p>适配器模式将现有接口转化为客户类所期望的接口，实现了对现有类的复用，它是一种使用频率非常高的设计模式，在软件开发中得以广泛应用，在Spring等开源框架、驱动程序设计（如JDBC中的数据库驱动程序）中也使用了适配器模式。</p>
+<ol>
+<li><p>主要优点<br>无论是对象适配器模式还是类适配器模式都具有如下优点：</p>
+<p> 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无须修改原有结构。<br> 增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一个适配者类可以在多个不同的系统中复用。<br> 灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</p>
+</li>
+</ol>
+<p>具体来说，类适配器模式还有如下优点：</p>
+<pre><code>由于适配器类是适配者类的子类，因此可以在适配器类中置换一些适配者的方法，使得适配器的灵活性更强。
+</code></pre><p>对象适配器模式还有如下优点：</p>
+<pre><code>一个对象适配器可以把多个不同的适配者适配到同一个目标；
+可以适配一个适配者的子类，由于适配器和适配者之间是关联关系，根据“里氏代换原则”，适配者的子类也可通过该适配器进行适配。
+</code></pre><ol>
+<li><p>主要缺点<br>类适配器模式的缺点如下：</p>
+<p> 对于Java、C#等不支持多重类继承的语言，一次最多只能适配一个适配者类，不能同时适配多个适配者；<br> 适配者类不能为最终类，如在Java中不能为final类，C#中不能为sealed类；<br> 在Java、C#等语言中，类适配器模式中的目标抽象类只能为接口，不能为类，其使用有一定的局限性。</p>
+</li>
+</ol>
+<p>对象适配器模式的缺点如下：</p>
+<pre><code>与类适配器模式相比，要在适配器中置换适配者类的某些方法比较麻烦。如果一定要置换掉适配者类的一个或多个方法，可以先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。
+</code></pre><ol>
+<li><p>适用场景<br>在以下情况下可以考虑使用适配器模式：</p>
+<p> 系统需要使用一些现有的类，而这些类的接口（如方法名）不符合系统的需要，甚至没有这些类的源代码。<br> 想创建一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。<br> （对对象的适配器模式而言）在设计里，需要改变多个已有的子类的接口，如果使用类的适配器模式，就要针对每一个子类做一个适配器类，而这不太实际。</p>
+</li>
+</ol>
+<p>整理的适配器模式思维导图</p>
+<p><img src="http://img.blog.csdn.net/20170908185218094?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/08/设计模式之---适配器模式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JAVA学习中收藏的大神的博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -859,89 +986,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/05/Linux部署Java web项目/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Linux 下虚拟机克隆步骤（CentOS）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">Linux 下虚拟机克隆步骤（CentOS）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/" class="archive-article-date">
-  	<time datetime="2017-09-05T08:22:34.449Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当一个Linux完全设置完成以后，就可以使用克隆的方式来在短时间内创建出多个Linux来；<br>   linux虚拟机克隆主要涉及网络方面的问题：</p>
-<p><strong>1.关闭要克隆的Linux 关机命令：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init 0  或者  shutdown -h now</div></pre></td></tr></table></figure>
-<p><strong>2.新建快照，给母本一个备份,如下图所示:</strong><br><img src="http://img.blog.csdn.net/20170905161029126?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong>3.右击要克隆的虚拟机-》管理-》克隆，在选择克隆的步骤中有两步比较重要：</strong></p>
-<p><img src="http://img.blog.csdn.net/20170905161335542?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在这里要选择创建完整的克隆</p>
-<p><img src="http://img.blog.csdn.net/20170905161358161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>在这里虚拟机的存放路径一定要不能包含中文字和字符</p>
-<p><strong>4.克隆的速度很快，完成以后启动克隆的虚拟机，用户名和密码都是被克隆的linux的用户名密码：</strong></p>
-<p><strong>5.克隆之后由于是完全的克隆过来的Linux所以需要更改这几项：操作系统物理地址、IP地址、主机名：</strong></p>
-<p>使用vi命令删除网卡中的UUID和物理地址两行（这两行在Linux重启之后，操作系统会自动生成的,如果不进行更改会造成IP冲突），同时更改一个新的IP地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/network-scripts/ifcfg-eth0</div></pre></td></tr></table></figure>
-<p>更改成下图：</p>
-<p><img src="http://img.blog.csdn.net/20170905161756674?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>更改完成以后保存并退出，然后删除Linux物理地址绑定的文件（该文件会在操作系统重启并生成物理地址以后将物理地址绑定到IP上）；</p>
-<p>如果不删除，则操作系统会一直绑定着克隆过来的物理地址；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">使用命令：</div><div class="line">rm -rf /etc/udev/rules.d/70-persistent-net.rules</div></pre></td></tr></table></figure>
-<p><strong>6.更改主机名还是使用vi命令：</strong><br>     更改主机名称的意图是可以通过主机名进行SSH访问，简化了访问操作，因为主机名映射了IP；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/network</div></pre></td></tr></table></figure></p>
-<p>设置完成以后，保存并退出，然后重启Linux就完成了克隆后的设置，重启Linux命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">init 6  或者  shutdown -r now</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/Linux 下虚拟机克隆步骤（CentOS）/">展开全文 >></a>
         </p>
       
 
