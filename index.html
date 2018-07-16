@@ -163,99 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-MySql中Group By的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/16/MySql中Group By的理解/">MySql中Group By的理解</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/16/MySql中Group By的理解/" class="archive-article-date">
-  	<time datetime="2018-07-16T15:29:33.270Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><div class="container clearfix pt0" id="mainBox"><br>    <main><br>        <div class="blog-content-box"><br>    <div class="article-title-box"><br>            <span class="article-type type-2 float-left">转</span>        <h1 class="title-article">理解group by</h1><br>    </div><br>    <div class="article-info-box"><br>        <div class="article-bar-top d-flex"><br>                                                <span class="time">2017年04月07日 15:09:34</span><br>            <div class="float-right"><br>                <span class="read-count">阅读数：35234</span><br>                                            </div><br>        </div><br>    </div><br>    <article><br>        <div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post"><br>                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css"><br>                        <div class="htmledit_views"></div></div></article></div></main></div></p>
-<p></p><h1><a name="t0"></a><strong><span style="font-size:24px;">文章出处：<a href="http://www.cnblogs.com/wuguanglei/p/4229938.html" rel="nofollow" target="_blank">理解group by和聚合函数</a></span></strong></h1><p></p>
-<p></p><h1><br></h1><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　先来看下表1，表名为test：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162344381367279.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br>表1</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　执行如下SQL语句：</p><p></p>
-<p><div class="cnblogs_Highlighter sh-gutter" style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"></div></p>
-<p><div id="highlighter_489403" class="syntaxhighlighter sql" style="overflow:auto !important;font-size:1em !important;"></div></p>
-<p><table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;font-size:12px !important;min-height:auto !important;"><tbody style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><tr style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><td class="gutter" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(175,175,175) !important;"></td></tr></tbody></table></p>
-<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>1</div></p>
-<p><div class="line number2 index1 alt1" style="border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>2</div><br></p>
-<p><td class="code" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;"></td></p>
-<p><div style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"></div></p>
-<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">SELECT</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">FROM</code>&nbsp;<code class="sql plain" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;">test</code></div></p>
-<p><div class="line number2 index1 alt1" style="border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">GROUP</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">BY</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code></div><br><br><br><br></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　你应该很容易知道运行的结果，没错，就是下表2：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162345461519459.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br><strong>表2</strong></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　可是为了能够更好的理解<strong>“group by”多个列“</strong>和<strong>”聚合函数“</strong>的应用，我建议在思考的过程中，由表1到表2的过程中，增加一个虚构的中间表：<strong>虚拟表3</strong>。下面说说如何来思考上面SQL语句执行情况：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>1.FROM test：该句执行后，应该结果和表1一样，就是原来的表。</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>2.FROM test Group BY name：该句执行后，我们想象生成了<strong>虚拟表3，</strong>如下所图所示，生成过程是这样的：group by name，那么找name那一列，具有相同name值的行，合并成一行，如对于name值为aa的，那么&lt;1 aa 2&gt;与&lt;2 aa 3&gt;两行合并成1行，所有的id值和number值写到一个单元格里面。</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162343319172617.jpg" alt="" style="border:0px;"></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>3.接下来就要针对<strong>虚拟表3</strong>执行Select语句了：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（1）如果执行select <em>的话，那么返回的结果应该是虚拟表3，可是id和number中有的单元格里面的内容是多个值的，而关系数据库就是基于关系的，单元格中是不允许有多个值的，所以你看，执行select </em> 语句就报错了。</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（2）我们再看name列，每个单元格只有一个数据，所以我们select name的话，就没有问题了。为什么name列每个单元格只有一个值呢，因为我们就是用name列来group by的。</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（3）那么对于id和number里面的单元格有多个数据的情况怎么办呢？答案就是用<strong>聚合函数，聚合函数就用来输入多个数据，输出一个数据的。</strong>如cout(id)，sum(number)，而每个聚合函数的输入就是每一个多数据的单元格。</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（4）例如我们执行select name,sum(number) from test group by name，那么sum就对虚拟表3的number列的每个单元格进行sum操作，例如对name为aa的那一行的number列执行sum操作，即2+3，返回5，最后执行结果如下：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170013481981068.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;（5）group by 多个字段该怎么理解呢：如group by name,number，我们可以把name和number 看成一个<strong>整体字段</strong>，以他们整体来进行分组的。如下图<img src="http://images.cnitblog.com/blog/639022/201501/170005273394852.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（6）接下来就可以配合select和聚合函数进行操作了。如执行select name,sum(id) from test group by name,number，结果如下图：</p><p></p>
-<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170016502617188.jpg" alt="" style="border:0px;display:block;margin-left:auto;">（表6【t_6】）</p><br>需要注意的是：以上excel仅是帮助理解的，实际使用可能有些不同，例如虽然表格中group的列合并为了一个，实际上也是可以进行正确的count（column）操作的：<br>EG:统计同名名称各个名称下有多少人同名：<br>        select name from t_6 group by name having count(name)&gt;1<p></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/16/MySql中Group By的理解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-MySQL优化之------索引原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -872,6 +779,69 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/05/08/梦想是一个天真的词，实现梦想是一个残酷的词/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/">cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/" class="archive-article-date">
+  	<time datetime="2018-05-03T01:04:03.401Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://obkoro1.com/2017/11/25/cookie%E3%80%81localStorage%E5%92%8CsessionStorage%20%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E5%AD%98%E5%82%A8%E3%80%81%E8%8E%B7%E5%8F%96%E3%80%81%E5%88%A0%E9%99%A4%E7%AD%89%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F/" target="_blank" rel="external">cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/">展开全文 >></a>
         </p>
       
 

@@ -163,69 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Linux部署Java web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/Linux部署Java web项目/">Linux部署Java web项目</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/Linux部署Java web项目/" class="archive-article-date">
-  	<time datetime="2017-09-05T09:02:33.925Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>详情请参照下面的博客<br><a href="https://juejin.im/post/5847cac461ff4b006bae5a12" target="_blank" rel="external">https://juejin.im/post/5847cac461ff4b006bae5a12</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/Linux部署Java web项目/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Linux 下虚拟机克隆步骤（CentOS）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1197,6 +1134,93 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Windows服务器端软件的安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/29/Windows服务器端软件的安装/">Windows服务器端软件的安装</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/29/Windows服务器端软件的安装/" class="archive-article-date">
+  	<time datetime="2017-08-29T01:03:36.216Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Windows服务器端软件的安装"><a href="#Windows服务器端软件的安装" class="headerlink" title="*Windows服务器端软件的安装*"></a><strong>*</strong>Windows服务器端软件的安装<strong>*</strong></h2><p><strong><em>MYSQL的操作安装</em></strong></p>
+<p>1.将下载下载的包解压到指定目录，（本人）解压到：D:\Program Files (x86) 目录下。<br>因此，MySQL的(安装)包的完整路径为：D:\Program Files (x86)\mysql-5.7.18-winx64<br>2.<br>2.解压后，配置好系统环境变量。<br>新增系统环境变量：<br>键名：MYSQL_HOME<br>值为：D:\Program Files (x86)\mysql-5.7.18-winx64<br>接着在 Path 中添加：%MYSQL_HOME%\bin</p>
+<p>3.解压后，准备好 my.ini 文件。<br>注意：（据说）以前版本解压后，在解压目录下都会有 my-default.ini 或 my.ini 文件，不过，v5.7.18 版本中解压后，是没有这些文件的。因此，需要手动创建好 my.ini 文件，文件的具体（完整的）内容如下：</p>
+<p>[client]port=3306default-character-set=utf8[mysqld]port=3306character_set_server=utf8basedir=%MYSQL_HOME%datadir=%MYSQL_HOME%\data[WinMySQLAdmin]%MYSQL_HOME%\bin\mysqld.exe</p>
+<p>编辑好 my.ini 文件后，将 my.ini 放在 bin 目录下</p>
+<p>4.以管理员身份打开 cmd 命令窗口，将目录切到MySQL安装包下的bin目录下</p>
+<p>5.安装MySQL数据库，执行如下命令：<br>mysqld.exe -install<br>执行命令后，提示：Service successfully installed. 表示安装成功<br>6.初始化mysql数据，并创建一个具有空密码的root用户，执行如下命令：<br>mysqld –initialize-insecure –user=mysql<br>注意：最后的参数 –user=mysql 在 windows 也可以不用添加，但在 unix 等系统下好像很重要。<br>执行命令后，等一会后，系统会自动生成相应的 data 目录，并自动创建好空密码的 root 用户。此时表示初始化成功。<br>7.启动 mysql 服务，执行如下命令：<br>net start mysql<br>执行后，提示：<br>MySQL服务正在启动..<br>MySQL服务已经启动成功。<br>注意：要想登录使用 mysql，服务是必需要先启动的。以后也一样。<br>8.在服务启动后，因为刚创建的 root 用户是空密码的，因此，需要先进行密码设定。可执行如下命令：<br>mysqladmin -u root -p password 此处输入新的密码<br>Enter password: 此处输入旧的密码<br>执行完以上两条命令后，只要 Enter password: 后输入的旧密码正确，则 root 用户的新密码就算设定成功了。此后，要想登录 root 用户，则都需要使用新密码。<br>注意：刚创建的 root 用户是空密码的，因此，在第一次修改 root 用户的密码时，在 Enter password: 后面不需要输入任何密码，直接回车即可。</p>
+<p>9.至此，MySQL v5.7.18 的解压安装就已经全部完成，因此，需要把先前已经启的 MySQL 服务给停止掉，执行如下命令：<br>net stop mysql<br>//———————————————<br>登录并使用MySQL</p>
+<p>前面已经完成对MySQL数据库的安装，只要安装成功后，就可以正常登录 root 用户，并进行数据的相关操作，如：建表、增、删、改、查等等。下面是简单的流程：</p>
+<p>以管理员身份打开 cmd，并切到 mysql 安装目录的 bin 目录下<br>net start mysql                // 说明：该命令是启动 mysql 服务<br>mysql -u root -p               // 说明：该命令是登录 root 用户<br>Enter password: 先前设置的 root 用户的密码<br>正确登录后，就可以对数据进行操作了如：增、删、改、查等等。示例：<br>mysql&gt; show databases;   // 显示所有数据库<br>mysql&gt; select 语句…………<br>…<br>不再使用数据库时，要退出用户，并停止服务，执行如下命令：<br>mysql&gt; quit;<br>net stop mysql<br>//———————————–</p>
+<p><strong><em>Mysql5.7解压版的安装和卸载及常见问题</em></strong></p>
+<hr>
+<p><img src="http://img.blog.csdn.net/20170709223332467?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong><em>Tomcat解压版的安装配置</em></strong></p>
+<p>1.修改service.bat文件，更新服务名称</p>
+<p>2.管理员身份打开命令窗口：<br> 注意：SERVICE_NAME的更改不需要空格;<br>  进入bin目录， 执行命令:service.bat install;</p>
+<p><strong><em>JDK的安装配置</em></strong></p>
+<p>1.系统变量→新建 JAVA_HOME 变量 。<br>变量值填写jdk的安装目录（本人是 E:\Java\jdk1.7.0)<br>2.系统变量→寻找 Path 变量→编辑<br>在变量值最后输入 %JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;<br>（注意原来Path的变量值末尾有没有;号，如果没有，先输入；号再输入上面的代码）</p>
+<p>3.系统变量→新建 CLASSPATH 变量<br>变量值填写   .;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar（注意最前面有一点）<br>系统变量配置完毕</p>
+<p>4.检验是否配置成功 运行cmd 输入 java -version （java 和 -version 之间有空格）<br>若如图所示 显示版本信息 则说明安装和配置成功。</p>
+<p><strong><em>新建出站入站规则</em></strong></p>
+<p>1.注意防火墙配置;</p>
+<p><strong><em>固定IP的分配</em></strong></p>
+<p> 作为服务器的电脑切记IP应该分配为固定的,否则将出现访问出错的情况.</p>
+<p> <img src="http://img.blog.csdn.net/20170709222659854?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/29/Windows服务器端软件的安装/">展开全文 >></a>
         </p>
       
 
