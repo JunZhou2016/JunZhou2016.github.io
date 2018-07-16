@@ -163,74 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-html 文本框onfocus（获得焦点） 执行了多次原因" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">html 文本框onfocus（获得焦点） 执行了多次原因</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/" class="archive-article-date">
-  	<time datetime="2018-03-03T02:24:54.645Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>代码如下，非常的简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"></div><div class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;文本框获得焦点&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;input id=&quot;text&quot; type=&quot;text&quot;onfocus=&quot;alert(&apos;你点击了&apos;)&quot; &gt;&lt;/input&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line"></div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>效果图如下：<br><img src="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-<p>实际上运行的效果并不是我想的那样，而是一直都在弹出 alert（）提示框</p>
-<p>终于知道什么原因了，都是我的这个alert() 写的，因为我的 onfocus =” “ 这个属性是文本框获得焦点的属性，而alert 这个是</p>
-<p>弹出对话框，当你点击弹出框的“确定”时，你的文本框就失去焦点了，而你点击了之后文本框又获得焦点了，这个时候就陷入死循环了</p>
-<p>解决的办法： 不用这个onfocus =” “ 属性，换成 onclick=””属性，就O了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -819,6 +751,73 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/02/05/java去除list中重复的数据【distinct】/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java中获取map的key和value的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/05/java中获取map的key和value的方法/">java中获取map的key和value的方法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/05/java中获取map的key和value的方法/" class="archive-article-date">
+  	<time datetime="2018-02-05T13:38:09.246Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。<br>获取map的key和value的方法分为两种形式：</p>
+<p>map.keySet()：先获取map的key，然后根据key获取对应的value；<br>map..entrySet()：同时查询map的key和value，只需要查询一次；<br>两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。</p>
+<p>1、以下是获取map的key和value，以及map里面的元素通过key或者value来比较大小并排序；<br>【注意：当map的value值相等时，根据key值进行排序】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">public class MapSort &#123;</div><div class="line"> public static void main(String[] args) &#123;</div><div class="line">  Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();</div><div class="line">  map.put(&quot;b&quot;,&quot;4&quot;);</div><div class="line">  map.put(&quot;a&quot;,&quot;5&quot;);</div><div class="line">  map.put(&quot;c&quot;,&quot;3&quot;);</div><div class="line">  map.put(&quot;d&quot;,&quot;5&quot;);</div><div class="line">  //通过map.keySet()方法</div><div class="line">  //方法一：通过得到key的值，然后获取value;</div><div class="line">  /*for(String key : map.keySet())&#123;</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot;  &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //使用迭代器，获取key;</div><div class="line">  /*Iterator&lt;String&gt; iter = map.keySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   String key=iter.next();</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">   */</div><div class="line"></div><div class="line">  //通过map.entrySet()方法</div><div class="line">  //方法一：循环map里面的每一对键值对，然后获取key和value</div><div class="line">  /*for(Entry&lt;String, String&gt; vo : map.entrySet())&#123;</div><div class="line">   vo.getKey();</div><div class="line">   vo.getValue();</div><div class="line">   System.out.println(vo.getKey()+&quot;  &quot;+vo.getValue());</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  /*//使用迭代器，获取key</div><div class="line">  Iterator&lt;Entry&lt;String,String&gt;&gt; iter = map.entrySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   Entry&lt;String,String&gt; entry = iter.next();</div><div class="line">   String key = entry.getKey();</div><div class="line">   String value = entry.getValue();</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //将map&lt;String,String&gt; 转化为ArryList,但list里面的元素为Entry&lt;String,String&gt;</div><div class="line">  List&lt;Entry&lt;String,String&gt;&gt; list = new ArrayList&lt;Map.Entry&lt;String,String&gt;&gt;(map.entrySet());</div><div class="line">  //通过匿名比较器的方式进行比较。</div><div class="line">  Collections.sort(list,new Comparator&lt;Entry&lt;String,String&gt;&gt;()&#123;</div><div class="line">   @Override</div><div class="line">   public int compare(Entry&lt;String, String&gt; o1,</div><div class="line">     Entry&lt;String, String&gt; o2) &#123;</div><div class="line">    int flag = o1.getValue().compareTo(o2.getValue());</div><div class="line">    if(flag==0)&#123;</div><div class="line">     return o1.getKey().compareTo(o2.getKey());</div><div class="line">    &#125;</div><div class="line">    return flag;</div><div class="line">   &#125;</div><div class="line">  &#125;);</div><div class="line">  //遍历list得到map里面排序后的元素</div><div class="line">  for(Entry&lt;String, String&gt; en : list)&#123;</div><div class="line">   System.out.println(en.getKey()+&quot; &quot;+en.getValue());</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2、注意Map中的元素是唯一无序的，如果希望根据存入的顺序取出数据，建议使用linkedhashmap,存入其中的数据是唯一且有序的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/05/java中获取map的key和value的方法/">展开全文 >></a>
         </p>
       
 
