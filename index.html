@@ -163,6 +163,180 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MySql中Group By的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/16/MySql中Group By的理解/">MySql中Group By的理解</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/16/MySql中Group By的理解/" class="archive-article-date">
+  	<time datetime="2018-07-16T15:29:33.270Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div class="container clearfix pt0" id="mainBox"><br>    <main><br>        <div class="blog-content-box"><br>    <div class="article-title-box"><br>            <span class="article-type type-2 float-left">转</span>        <h1 class="title-article">理解group by</h1><br>    </div><br>    <div class="article-info-box"><br>        <div class="article-bar-top d-flex"><br>                                                <span class="time">2017年04月07日 15:09:34</span><br>            <div class="float-right"><br>                <span class="read-count">阅读数：35234</span><br>                                            </div><br>        </div><br>    </div><br>    <article><br>        <div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post"><br>                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css"><br>                        <div class="htmledit_views"></div></div></article></div></main></div></p>
+<p></p><h1><a name="t0"></a><strong><span style="font-size:24px;">文章出处：<a href="http://www.cnblogs.com/wuguanglei/p/4229938.html" rel="nofollow" target="_blank">理解group by和聚合函数</a></span></strong></h1><p></p>
+<p></p><h1><br></h1><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　先来看下表1，表名为test：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162344381367279.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br>表1</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　执行如下SQL语句：</p><p></p>
+<p><div class="cnblogs_Highlighter sh-gutter" style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"></div></p>
+<p><div id="highlighter_489403" class="syntaxhighlighter sql" style="overflow:auto !important;font-size:1em !important;"></div></p>
+<p><table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;font-size:12px !important;min-height:auto !important;"><tbody style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><tr style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><td class="gutter" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(175,175,175) !important;"></td></tr></tbody></table></p>
+<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>1</div></p>
+<p><div class="line number2 index1 alt1" style="border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>2</div><br></p>
+<p><td class="code" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;"></td></p>
+<p><div style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"></div></p>
+<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">SELECT</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">FROM</code>&nbsp;<code class="sql plain" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;">test</code></div></p>
+<p><div class="line number2 index1 alt1" style="border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">GROUP</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">BY</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code></div><br><br><br><br></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　你应该很容易知道运行的结果，没错，就是下表2：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162345461519459.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br><strong>表2</strong></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　可是为了能够更好的理解<strong>“group by”多个列“</strong>和<strong>”聚合函数“</strong>的应用，我建议在思考的过程中，由表1到表2的过程中，增加一个虚构的中间表：<strong>虚拟表3</strong>。下面说说如何来思考上面SQL语句执行情况：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>1.FROM test：该句执行后，应该结果和表1一样，就是原来的表。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>2.FROM test Group BY name：该句执行后，我们想象生成了<strong>虚拟表3，</strong>如下所图所示，生成过程是这样的：group by name，那么找name那一列，具有相同name值的行，合并成一行，如对于name值为aa的，那么&lt;1 aa 2&gt;与&lt;2 aa 3&gt;两行合并成1行，所有的id值和number值写到一个单元格里面。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162343319172617.jpg" alt="" style="border:0px;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>3.接下来就要针对<strong>虚拟表3</strong>执行Select语句了：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（1）如果执行select <em>的话，那么返回的结果应该是虚拟表3，可是id和number中有的单元格里面的内容是多个值的，而关系数据库就是基于关系的，单元格中是不允许有多个值的，所以你看，执行select </em> 语句就报错了。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（2）我们再看name列，每个单元格只有一个数据，所以我们select name的话，就没有问题了。为什么name列每个单元格只有一个值呢，因为我们就是用name列来group by的。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（3）那么对于id和number里面的单元格有多个数据的情况怎么办呢？答案就是用<strong>聚合函数，聚合函数就用来输入多个数据，输出一个数据的。</strong>如cout(id)，sum(number)，而每个聚合函数的输入就是每一个多数据的单元格。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（4）例如我们执行select name,sum(number) from test group by name，那么sum就对虚拟表3的number列的每个单元格进行sum操作，例如对name为aa的那一行的number列执行sum操作，即2+3，返回5，最后执行结果如下：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170013481981068.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;（5）group by 多个字段该怎么理解呢：如group by name,number，我们可以把name和number 看成一个<strong>整体字段</strong>，以他们整体来进行分组的。如下图<img src="http://images.cnitblog.com/blog/639022/201501/170005273394852.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（6）接下来就可以配合select和聚合函数进行操作了。如执行select name,sum(id) from test group by name,number，结果如下图：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170016502617188.jpg" alt="" style="border:0px;display:block;margin-left:auto;">（表6【t_6】）</p><br>需要注意的是：以上excel仅是帮助理解的，实际使用可能有些不同，例如虽然表格中group的列合并为了一个，实际上也是可以进行正确的count（column）操作的：<br>EG:统计同名名称各个名称下有多少人同名：<br>        select name from t_6 group by name having count(name)&gt;1<p></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/16/MySql中Group By的理解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MySQL优化之------索引原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/16/MySQL优化之------索引原理/">MySQL优化之------索引原理</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/16/MySQL优化之------索引原理/" class="archive-article-date">
+  	<time datetime="2018-07-16T15:06:46.536Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近大佬优化了一条SQL，讲100万条的数据查询速度从27s降低到了0.8S,因此研究了下MySQL优化的原理和方式。下面将从Mysql中索引的本质，原理等方面介绍下MySQL中的索引原理。</p>
+<hr>
+<pre><code>1、MySQL中数据的存储方式;
+</code></pre><blockquote>
+<p> mysql的数据在磁盘上的存储：<br>       A、数据块：<br>        由多个磁盘block组成的块，存储引擎负责管理数据块。<br>        磁盘是block块设备，数据在磁盘上的存放也是按照块存放的。<br>        mysql读取表到内存的时候，也必然是按照一块一块的方式读取。假设     要查询的表在和其他表在都在同一个块内。加载块的时候除了读取要查询的表，其他表也一并被读取出来。<br>        当一个块内的部分表被删除时，这是就是形成了碎片。这样会降低装载到内存的速度。<br>        所以会生成一个块头，记录一个快内表的大小，有无空闲空间，空闲空间的位置。<br>        B、散列文件组织：<br>       人为将表分成多个部分，每个部分称为桶。根据行中的某个或某些字段做使用散列函数做哈希运算，运算结果属于某个范围的放在指定的桶中。多个桶组成一个表。<br>        桶有可能溢出。所以要选定一个合适散列函数，让行平均在各个桶中。</p>
+</blockquote>
+<hr>
+<pre><code>2、什么是MySQL的索引;
+</code></pre><blockquote>
+<p>引用块内容<br>MySQL官方对索引的定义为：索引(Index)是帮助MySQL高效获取数据的数据结构。我们可以简单理解为：快速查找排好序的一种数据结构。Mysql索引主要有两种结构：B+Tree索引和Hash索引。我们平常所说的索引，如果没有特别指明，一般都是指B树结构组织的索引(B+Tree索引)。索引也是一种数据，需要占用物理空间。B+Tree索引索引的数据结构如图所示：<br><img src="https://img-blog.csdn.net/2018071622342464?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>    3、MySQL中索引【hash和BTree】的实现原理;<br>    ……等我研究下两种算法再确定。<br>    4、两种索引【hash和BTree】的区别和缺点；<br>一、BTree<br>BTree索引是最常用的mysql数据库索引算法，因为它不仅可以被用在=,&gt;,&gt;=,&lt;,&lt;=和between这些比较操作符上，而且还可以用于like操作符，只要它的查询条件是一个不以通配符开头的常量，例如：<br>select <em> from user where name like ‘jack%’;<br>select </em> from user where name like ‘jac%k%’;<br>如果一通配符开头，或者没有使用常量，则不会使用索引，例如：<br>select <em> from user where name like ‘%jack’;<br>select </em> from user where name like simply_name;<br>二、Hash<br>Hash索引只能用于对等比较，例如=,&lt;=&gt;（相当于=）操作符。由于是一次定位数据，不像BTree索引需要从根节点到枝节点，最后才能访问到页节点这样多次IO访问，所以检索效率远高于BTree索引。<br>但为什么我们使用BTree比使用Hash多呢？主要Hash本身由于其特殊性，也带来了很多限制和弊端： </p>
+<ol>
+<li>Hash索引仅仅能满足“=”,“IN”,“&lt;=&gt;”查询，不能使用范围查询。 </li>
+<li>联合索引中，Hash索引不能利用部分索引键查询。<br>对于联合索引中的多个列，Hash是要么全部使用，要么全部不使用，并不支持BTree支持的联合索引的最优前缀，也就是联合索引的前面一个或几个索引键进行查询时，Hash索引无法被利用。 </li>
+<li>Hash索引无法避免数据的排序操作<br>由于Hash索引中存放的是经过Hash计算之后的Hash值，而且Hash值的大小关系并不一定和Hash运算前的键值完全一样，所以数据库无法利用索引的数据来避免任何排序运算。 </li>
+<li>Hash索引任何时候都不能避免表扫描<br>Hash索引是将索引键通过Hash运算之后，将Hash运算结果的Hash值和所对应的行指针信息存放于一个Hash表中，由于不同索引键存在相同Hash值，所以即使满足某个Hash键值的数据的记录条数，也无法从Hash索引中直接完成查询，还是要通过访问表中的实际数据进行比较，并得到相应的结果。 </li>
+<li>Hash索引遇到大量Hash值相等的情况后性能并不一定会比BTree高<br>对于选择性比较低的索引键，如果创建Hash索引，那么将会存在大量记录指针信息存于同一个Hash值相关联。这样要定位某一条记录时就会非常麻烦，会浪费多次表数据访问，而造成整体性能底下。</li>
+</ol>
+</blockquote>
+<p>5、参考文章。<br>   1、 <a href="http://blog.51cto.com/ggvylf/1679322" target="_blank" rel="external">mysql之mysql数据在磁盘的储存方式</a><br>   2、<a href="https://www.cnblogs.com/57rongjielong/p/8039452.html" target="_blank" rel="external">索引的优缺点</a><br>   3、<a href="https://blog.csdn.net/liutong123987/article/details/79384395" target="_blank" rel="external">什么是索引？Mysql目前主要的几种索引类型</a><br>   4、<a href="http://baijiahao.baidu.com/s?id=1596556730540273699&amp;wfr=spider&amp;for=pc" target="_blank" rel="external">MySQL的索引是什么？怎么优化？</a><br>   5、<a href="https://blog.csdn.net/tongdanping/article/details/79878302" target="_blank" rel="external">深入理解MySQL索引原理和实现——为什么索引可以加速查询？</a><br>    6、<a href="https://blog.csdn.net/u011305680/article/details/55520853" target="_blank" rel="external">数据库索引系列四：索引算法Hash与BTree的区别</a><br>    7、<a href="https://www.jianshu.com/p/d7665192aaaf?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">MySQL优化原理</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/16/MySQL优化之------索引原理/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Vue中v-if 与 v-show 的区别？" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -698,140 +872,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/05/08/梦想是一个天真的词，实现梦想是一个残酷的词/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/">cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/" class="archive-article-date">
-  	<time datetime="2018-05-03T01:04:03.401Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://obkoro1.com/2017/11/25/cookie%E3%80%81localStorage%E5%92%8CsessionStorage%20%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E5%AD%98%E5%82%A8%E3%80%81%E8%8E%B7%E5%8F%96%E3%80%81%E5%88%A0%E9%99%A4%E7%AD%89%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F/" target="_blank" rel="external">cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/03/cookie、localStorage和sessionStorage 三者之间的区别以及存储、获取、删除等使用方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Request的包装类HttpServletRequestWrapper的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/">Request的包装类HttpServletRequestWrapper的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/" class="archive-article-date">
-  	<time datetime="2018-04-19T14:38:01.220Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在使用zuul进行鉴权的时候，我们希望从请求Request中获取输入流，解析里面的内容，奈何InputStream只能被读取一次。为啥呢？源码里是这样说的：</p>
-<blockquote>
-<p>public int read(byte[] b,int off, int len)<br>　　　Reads up to len bytes of data into an array of bytes from this input stream. Ifpos equals count, then -1 is  returned to indicate     end of file. Otherwise, the number k of bytes read is equal to the smaller of len and count-pos.If k is positive, then bytes buf[pos] through buf[pos+k-1] are copied into b[off] through b[off+k-1] in the manner performed by System.arraycopy. The value k is added into pos and k is returned.<br>　　　<br>      大致的意思是：在InputStream读取的时候，会有一个pos指针，它指示每次读取之后下一次要读取的起始位置。在每次读取后会更新pos的值，当你下次再来读取的时候是从pos的位置开始的，而不是从头开始，所以第二次获取String中的值的时候是不全的，API中提供了一个解决办法：reset()。但我发现在inputStream和servlet中根本不起作用。提示 mark/reset not supported 。意思是只有重写过markSupported()方法的IO流才可以用。所以一般我们使用inputStream，最好在一次内处理完所有逻辑。</p>
-</blockquote>
-<p>那么就没法在中途获取请求流中的数据么？当然有办法了，我可是PPZ，只需要重写Request缓存一下流中的数据就好了，实现代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div></pre></td><td class="code"><pre><div class="line">BodyReaderHttpServletRequestWrapper.java</div><div class="line"></div><div class="line">package com.neo.authUtils;</div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.nio.charset.Charset;</div><div class="line">import java.util.Enumeration;</div><div class="line">import java.util.NoSuchElementException;</div><div class="line"></div><div class="line">import javax.servlet.ReadListener;</div><div class="line">import javax.servlet.ServletInputStream;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletRequestWrapper;  </div><div class="line">  </div><div class="line">public class BodyReaderHttpServletRequestWrapper extends  </div><div class="line">        HttpServletRequestWrapper &#123;  </div><div class="line">      </div><div class="line">   // private final byte[] body;  </div><div class="line">	 -----》private byte[] body;《------- </div><div class="line">  </div><div class="line">    public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123;  </div><div class="line">        super(request);  </div><div class="line">        System.out.println(&quot;-------------------打印请求的头信息------------------------------&quot;);    </div><div class="line">        Enumeration&lt;?&gt; e = request.getHeaderNames()   ;    </div><div class="line">         while(e.hasMoreElements())&#123;    </div><div class="line">             String name = (String) e.nextElement();    </div><div class="line">             String value = request.getHeader(name);    </div><div class="line">            // System.out.println(name+&quot; = &quot;+value);    </div><div class="line">                 </div><div class="line">         &#125;</div><div class="line">         -----》获取流中的数据缓存到字节数组中，以后要读数据就用这里的《------</div><div class="line">        body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;));  </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    /**</div><div class="line">     * 从请求的头部获取用户的身份识别id;</div><div class="line">     * @param request</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public String getJsessionidFromHeader(HttpServletRequest request) &#123;</div><div class="line">    	String jsessionid = null;//识别用户身份的id;</div><div class="line">    	Enumeration&lt;?&gt; e = request.getHeaderNames()   ;    </div><div class="line">        while(e.hasMoreElements())&#123;    </div><div class="line">            String name = (String) e.nextElement();    </div><div class="line">            String value = request.getHeader(name);</div><div class="line">            //cookie = JSESSIONID=B926F6024438D4C693A5E5881595160C; SESSION=458e80dc-e354-4af3-a501-74504a873e70</div><div class="line">            if(&quot;cookie&quot;.equals(name)) &#123;</div><div class="line">            	jsessionid = value.split(&quot;;&quot;)[0].split(&quot;=&quot;)[1];</div><div class="line">            &#125;</div><div class="line">            System.out.println(name+&quot;=&quot;+value);</div><div class="line">        &#125;</div><div class="line">       // System.out.println(&quot;======jsessionid========&gt;&quot;+jsessionid);</div><div class="line">		return jsessionid;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public BufferedReader getReader() throws IOException &#123;  </div><div class="line">        return new BufferedReader(new InputStreamReader(getInputStream()));  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public ServletInputStream getInputStream() throws IOException &#123;  </div><div class="line">         ------》从缓存的数据中读取数据《------</div><div class="line">        final ByteArrayInputStream bais = new ByteArrayInputStream(body);  </div><div class="line">  </div><div class="line">        return new ServletInputStream() &#123;  </div><div class="line">            public int read() throws IOException &#123;  </div><div class="line">                return bais.read();  </div><div class="line">            &#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public boolean isFinished() &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				return false;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public boolean isReady() &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				return false;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			@Override</div><div class="line">			public void setReadListener(ReadListener listener) &#123;</div><div class="line">				// TODO Auto-generated method stub</div><div class="line">				</div><div class="line">			&#125;  </div><div class="line">        &#125;;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public String getHeader(String name) &#123;  </div><div class="line">        return super.getHeader(name);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaderNames() &#123;  </div><div class="line">        return super.getHeaderNames();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">   /* @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;  */</div><div class="line">    </div><div class="line">    /**</div><div class="line">     * content-type=text/plain;charset=UTF-8</div><div class="line">     * 重写getHeaders方法，实现自定义Content-Type;</div><div class="line">     */</div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        if ((null != name &amp;&amp; name.equals(&quot;Content-Type&quot;))||(null != name &amp;&amp; name.equals(&quot;content-type&quot;))) &#123;  </div><div class="line">            return new Enumeration&lt;String&gt;() &#123;  </div><div class="line">                private boolean hasGetted = false;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public String nextElement() &#123;  </div><div class="line">                    if (hasGetted) &#123;  </div><div class="line">                        throw new NoSuchElementException();  </div><div class="line">                    &#125; else &#123;  </div><div class="line">                        hasGetted = true;</div><div class="line">                        return &quot;application/json;charset=utf-8&quot;;  </div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public boolean hasMoreElements() &#123;  </div><div class="line">                    return !hasGetted;  </div><div class="line">                &#125;  </div><div class="line">            &#125;;  </div><div class="line">        &#125;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;  </div><div class="line">    </div><div class="line">    /**</div><div class="line">     * 添加自定义信息到请求体;</div><div class="line">     * @param customMsg：自定义的添加到请求体中的信息;</div><div class="line">     */</div><div class="line">    public void appendCustomMsgToReqBody(String customMsg) &#123;</div><div class="line">    	String oldBodyString = HttpHelper.getBodyString(this);//oldBodyString一定是通过当前对象的输入流解析得来的，否则接收时会报EOFException；</div><div class="line">    	String appendMsg = HttpHelper.appendCustomMsgToReqBody(customMsg);</div><div class="line">    	String requestBodyAfterAppend = appendMsg + &quot;,&quot; +oldBodyString;</div><div class="line">    	//this.body = HttpHelper.appendCustomMsgToReqBody(HttpHelper.appendCustomMsgToReqBody(customMsg)+(HttpHelper.getBodyString(this))).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    	//this.body = HttpHelper.appendCustomMsgToReqBody((HttpHelper.getBodyString(this))).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    	this.body = HttpHelper.appendCustomMsgToReqBody(requestBodyAfterAppend).getBytes(Charset.forName(&quot;UTF-8&quot;));</div><div class="line">    &#125; </div><div class="line">&#125;  </div><div class="line"></div><div class="line"></div><div class="line">HttpHelper.java</div><div class="line"></div><div class="line">package com.neo.authUtils;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.io.UnsupportedEncodingException;</div><div class="line">import java.nio.charset.Charset;</div><div class="line"></div><div class="line">import javax.servlet.ServletRequest;</div><div class="line"></div><div class="line">public class HttpHelper &#123;</div><div class="line">	/**</div><div class="line">	 * 获取post请求中的Body</div><div class="line">	 *</div><div class="line">	 * @param request</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public static String getBodyString(ServletRequest request) &#123;</div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		try &#123;</div><div class="line">			inputStream = request.getInputStream();</div><div class="line">			//读取流并将流写出去,避免数据流中断;</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return sb.toString();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//添加自定义的信息到请求体中;</div><div class="line">	public static String appendCustomMsgToReqBody(String newReqBodyStr) &#123;</div><div class="line">		StringBuilder sb = new StringBuilder();</div><div class="line">		InputStream inputStream = null;</div><div class="line">		BufferedReader reader = null;</div><div class="line">		String newReqBody = null;</div><div class="line">		try &#123;</div><div class="line">			//通过字符串构造输入流;</div><div class="line">			inputStream = String2InputStream(newReqBodyStr);</div><div class="line">			reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));</div><div class="line">			String line = &quot;&quot;;</div><div class="line">			while ((line = reader.readLine()) != null) &#123;</div><div class="line">				sb.append(line);</div><div class="line">			&#125;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; finally &#123;</div><div class="line">			if (inputStream != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					inputStream.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if (reader != null) &#123;</div><div class="line">				try &#123;</div><div class="line">					reader.close();</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		//返回字符串;</div><div class="line">		newReqBody = sb.toString();</div><div class="line">		return newReqBody;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//将字符串转化为输入流;</div><div class="line">	public static InputStream String2InputStream(String str) &#123;</div><div class="line">	    ByteArrayInputStream stream = null;</div><div class="line">	    try &#123;</div><div class="line">	        stream = new ByteArrayInputStream(str.getBytes(&quot;UTF-8&quot;));</div><div class="line">	    &#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">	        e.printStackTrace();</div><div class="line">	    &#125;</div><div class="line">	    return stream;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述方案解决了使用request.getInpuStream()方法读取流中的数据只能读取一次的问题，其实当我们在使用第三方接口时，如果请求头信息和我们的服务所需不一致，例如第三方接口中头部信息为：content-type=text/plain;charset=UTF-8<br>而我们需要的是：”application/json;charset=utf-8”时，我们也是可以通过重写对应的方法对请求的头部信息进行修改的，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">     * content-type=text/plain;charset=UTF-8</div><div class="line">     * 重写getHeaders方法，实现自定义Content-Type;</div><div class="line">     */</div><div class="line">    @Override  </div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;  </div><div class="line">        if ((null != name &amp;&amp; name.equals(&quot;Content-Type&quot;))||(null != name &amp;&amp; name.equals(&quot;content-type&quot;))) &#123;  </div><div class="line">            return new Enumeration&lt;String&gt;() &#123;  </div><div class="line">                private boolean hasGetted = false;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public String nextElement() &#123;  </div><div class="line">                    if (hasGetted) &#123;  </div><div class="line">                        throw new NoSuchElementException();  </div><div class="line">                    &#125; else &#123;  </div><div class="line">                        hasGetted = true;</div><div class="line">                        return &quot;application/json;charset=utf-8&quot;;  </div><div class="line">                    &#125;  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">                @Override  </div><div class="line">                public boolean hasMoreElements() &#123;  </div><div class="line">                    return !hasGetted;  </div><div class="line">                &#125;  </div><div class="line">            &#125;;  </div><div class="line">        &#125;  </div><div class="line">        return super.getHeaders(name);  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>当我们在后端设置了头部信息后，如果不出意外，前端发送的请求将变为简单请求，这样，服务器的处理机制将简单很多。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/19/Request的包装类HttpServletRequestWrapper的使用/">展开全文 >></a>
         </p>
       
 

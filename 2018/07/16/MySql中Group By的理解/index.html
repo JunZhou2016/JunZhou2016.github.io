@@ -6,14 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>MySql中Group By的理解 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="转        理解group by                                                                2017年04月07日 15:09:34                            阅读数：35234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql中Group By的理解">
+<meta property="og:url" content="http://yoursite.com/2018/07/16/MySql中Group By的理解/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="转        理解group by                                                                2017年04月07日 15:09:34                            阅读数：35234">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/162344381367279.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/162345461519459.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/162343319172617.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/170013481981068.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/170005273394852.jpg">
+<meta property="og:image" content="http://images.cnitblog.com/blog/639022/201501/170016502617188.jpg">
+<meta property="og:updated_time" content="2018-07-16T15:35:01.142Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="MySql中Group By的理解">
+<meta name="twitter:description" content="转        理解group by                                                                2017年04月07日 15:09:34                            阅读数：35234">
+<meta name="twitter:image" content="http://images.cnitblog.com/blog/639022/201501/162344381367279.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -161,295 +172,183 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySql中Group By的理解" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySql中Group By的理解
+    </h1>
+  
+
+        
+        <a href="/2018/07/16/MySql中Group By的理解/" class="archive-article-date">
+  	<time datetime="2018-07-16T15:29:33.270Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div class="container clearfix pt0" id="mainBox"><br>    <main><br>        <div class="blog-content-box"><br>    <div class="article-title-box"><br>            <span class="article-type type-2 float-left">转</span>        <h1 class="title-article">理解group by</h1><br>    </div><br>    <div class="article-info-box"><br>        <div class="article-bar-top d-flex"><br>                                                <span class="time">2017年04月07日 15:09:34</span><br>            <div class="float-right"><br>                <span class="read-count">阅读数：35234</span><br>                                            </div><br>        </div><br>    </div><br>    <article><br>        <div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post"><br>                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css"><br>                        <div class="htmledit_views"></div></div></article></div></main></div></p>
+<p></p><h1><a name="t0"></a><strong><span style="font-size:24px;">文章出处：<a href="http://www.cnblogs.com/wuguanglei/p/4229938.html" rel="nofollow" target="_blank">理解group by和聚合函数</a></span></strong></h1><p></p>
+<p></p><h1><br></h1><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　先来看下表1，表名为test：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162344381367279.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br>表1</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　执行如下SQL语句：</p><p></p>
+<p><div class="cnblogs_Highlighter sh-gutter" style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"></div></p>
+<p><div id="highlighter_489403" class="syntaxhighlighter sql" style="overflow:auto !important;font-size:1em !important;"></div></p>
+<p><table border="0" cellpadding="0" cellspacing="0" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;font-size:12px !important;min-height:auto !important;"><tbody style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><tr style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><td class="gutter" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(175,175,175) !important;"></td></tr></tbody></table></p>
+<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>1</div></p>
+<p><div class="line number2 index1 alt1" style="border-width:0px 2px 0px 0px !important;border-top-style: !important;border-right-style:solid !important;border-bottom-style: !important;border-left-style: !important;border-top-color: !important;border-right-color:rgb(108,226,108) !important;border-bottom-color: !important;border-left-color: !important;line-height:1.8em !important;overflow:visible !important;text-align:right !important;vertical-align:baseline !important;min-height:auto !important;"><br>2</div><br></p>
+<p><td class="code" style="border:1px solid #C0C0C0;border-collapse:collapse;background:none !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;"></td></p>
+<p><div style="background:none !important;border:0px !important;line-height:1.1em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"></div></p>
+<p><div class="line number1 index0 alt2" style="background:rgb(244,244,244) none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">SELECT</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">FROM</code>&nbsp;<code class="sql plain" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;">test</code></div></p>
+<p><div class="line number2 index1 alt1" style="border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;min-height:auto !important;"><br><code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">GROUP</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">BY</code>&nbsp;<code class="sql keyword" style="background:none !important;border:0px !important;line-height:1.8em !important;overflow:visible !important;vertical-align:baseline !important;font-family:Consolas, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace !important;min-height:auto !important;color:rgb(0,0,255) !important;">name</code></div><br><br><br><br></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　你应该很容易知道运行的结果，没错，就是下表2：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162345461519459.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;text-align:center;"><br><strong>表2</strong></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>　　可是为了能够更好的理解<strong>“group by”多个列“</strong>和<strong>”聚合函数“</strong>的应用，我建议在思考的过程中，由表1到表2的过程中，增加一个虚构的中间表：<strong>虚拟表3</strong>。下面说说如何来思考上面SQL语句执行情况：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>1.FROM test：该句执行后，应该结果和表1一样，就是原来的表。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>2.FROM test Group BY name：该句执行后，我们想象生成了<strong>虚拟表3，</strong>如下所图所示，生成过程是这样的：group by name，那么找name那一列，具有相同name值的行，合并成一行，如对于name值为aa的，那么&lt;1 aa 2&gt;与&lt;2 aa 3&gt;两行合并成1行，所有的id值和number值写到一个单元格里面。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;<img src="http://images.cnitblog.com/blog/639022/201501/162343319172617.jpg" alt="" style="border:0px;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>3.接下来就要针对<strong>虚拟表3</strong>执行Select语句了：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（1）如果执行select <em>的话，那么返回的结果应该是虚拟表3，可是id和number中有的单元格里面的内容是多个值的，而关系数据库就是基于关系的，单元格中是不允许有多个值的，所以你看，执行select </em> 语句就报错了。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（2）我们再看name列，每个单元格只有一个数据，所以我们select name的话，就没有问题了。为什么name列每个单元格只有一个值呢，因为我们就是用name列来group by的。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（3）那么对于id和number里面的单元格有多个数据的情况怎么办呢？答案就是用<strong>聚合函数，聚合函数就用来输入多个数据，输出一个数据的。</strong>如cout(id)，sum(number)，而每个聚合函数的输入就是每一个多数据的单元格。</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（4）例如我们执行select name,sum(number) from test group by name，那么sum就对虚拟表3的number列的每个单元格进行sum操作，例如对name为aa的那一行的number列执行sum操作，即2+3，返回5，最后执行结果如下：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170013481981068.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>&nbsp;（5）group by 多个字段该怎么理解呢：如group by name,number，我们可以把name和number 看成一个<strong>整体字段</strong>，以他们整体来进行分组的。如下图<img src="http://images.cnitblog.com/blog/639022/201501/170005273394852.jpg" alt="" style="border:0px;display:block;margin-left:auto;"></p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br>（6）接下来就可以配合select和聚合函数进行操作了。如执行select name,sum(id) from test group by name,number，结果如下图：</p><p></p>
+<p></p><p style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;"><br><img src="http://images.cnitblog.com/blog/639022/201501/170016502617188.jpg" alt="" style="border:0px;display:block;margin-left:auto;">（表6【t_6】）</p><br>需要注意的是：以上excel仅是帮助理解的，实际使用可能有些不同，例如虽然表格中group的列合并为了一个，实际上也是可以进行正确的count（column）操作的：<br>EG:统计同名名称各个名称下有多少人同名：<br>        select name from t_6 group by name having count(name)&gt;1<p></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/20/java中枚举类略解/" class="archive-article-date">
-  	<time datetime="2018-01-20T06:33:03.155Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/20/java中枚举类略解/">java中枚举类略解</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/07/16/MySql中Group By的理解/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /" class="archive-article-date">
-  	<time datetime="2018-01-19T06:06:34.785Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/16/MySQL优化之------索引原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL优化之------索引原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /">SpringBoot+React前后端分离项目中跨域问题的完美解决方案</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
-  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
-  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/DES加密算法探究【Java版本】/">DES加密算法探究【Java版本】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" class="archive-article-date">
-  	<time datetime="2018-01-18T09:39:59.114Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">react结合d3.js和svg绘制条形统计图</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/" class="archive-article-date">
-  	<time datetime="2018-01-16T14:12:10.070Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/">POI实现excel的导入导出-[未采用反射实现的版本]</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
-  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/Nginx实现文件下载的限速功能/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:46:34.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/Nginx实现文件下载的限速功能/">Nginx实现文件下载限速的功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
-  	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/09/reflux的学习总结/" class="archive-article-date">
-  	<time datetime="2018-01-09T05:15:05.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/09/reflux的学习总结/">学习reflux的总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -473,8 +372,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

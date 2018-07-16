@@ -163,6 +163,136 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Javascript节流和防抖[转载]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/Javascript节流和防抖[转载]/">Javascript节流和防抖</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/03/Javascript节流和防抖[转载]/" class="archive-article-date">
+  	<time datetime="2018-03-03T03:40:23.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div class="post-body" itemprop="articleBody" style="opacity: 1; display: block; transform: translateY(0px);"><br><p>在前端开发中可能会遇到一些频发触发的事件，例如</p><ol><li>window 的 resize(浏览器窗口或者HTML对象改变大小)、scroll(滚动条事件）</li><li>mousedown(鼠标在元素上按下事执行事件)、onmousemove(鼠标指针移动到元素上触发)</li><li>keyup(按键被释放触发)、keydown(按键被按下触发)<a id="more"></a> 举例</li></ol><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTML</span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    #root{</span></span><br><span class="line"><span class="undefined">        width: 100%; height: 200px; line-height: 200px; text-align: center; color: #fff; background-color: #444; font-size: 30px;</span></span><br><span class="line"><span class="undefined">    }</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">‘root’</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">‘./demo.js’</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dome.js</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> conut = <span class="number">1</span>; <span class="comment">// 声明一个变量储存触发次数</span></span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.getElementById(<span class="string">‘root’</span>); <span class="comment">// 获取id为root的div</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAction</span>(<span class="params"></span>) </span>{ <span class="comment">// 声明一个函数更改root的HTML为conut的值并将conut值++</span></span><br><span class="line">        root.innerHTML = conut++;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">root.onmousemove = getUserAction;</span><br></pre></td></tr></tbody></table></figure><p>效果如下</p><p><a href="https://github.com/mqyqingfeng/Blog/raw/master/Images/debounce/debounce.gif" class="fancybox fancybox.image" rel="external" target="_blank"><img src="https://github.com/mqyqingfeng/Blog/raw/master/Images/debounce/debounce.gif" alt=""></a></p><p>从图上可以看到从左边到右边一共触发了160多次onmousemove事件，同样执行了160多次getUserAction函数。<br>因为这个例子简单，浏览器可以处理的过来，如果换成请求， 频繁触发就会出现卡顿。</p><p>修改一下</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> dome.js</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> conut = <span class="number">1</span>; <span class="comment">// 声明一个变量储存触发次数</span></span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.getElementById(<span class="string">‘root’</span>); <span class="comment">// 获取id为root的div</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserAction</span>(<span class="params"></span>) </span>{ <span class="comment">// 声明一个函数更改root的HTML为conut的值并将conut值++</span></span><br><span class="line">        root.innerHTML = conut++;</span><br><span class="line">    }</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn, wait</span>) </span>{ <span class="comment">// 声明一个函数，函数接受两个参数。</span></span><br><span class="line">    <span class="keyword">var</span> timeout; <span class="comment">// 声明一个变量储存定时器的返回值；</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{</span><br><span class="line">        clearTimeout(timeout) 函数被执行了先清除先前定时器的返回值(传入一个错误的ID 给 clearTime 不会有任何影响（也不会抛出异常）)</span><br><span class="line">        timeout = setTimeout(fn, wait); <span class="comment">// 定时器会返回一个id给timeout</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">root.onmousemove = debounce(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure><p>上面这个函数</p><p>分析一下上面的操作</p><ol><li>鼠标移动触发onmousemove事件。</li><li>onmousemove事件调用debounce函数</li><li>debounce函数接收到getUserAction， 1000函数之后返回一个匿名函数-清除前面的定时器-执行新的定时器</li></ol><p>然后只要鼠标移动就会1-2-3执行，直至鼠标停留超过一秒，才会执行getUserAction函数。</p><h3 id="JavaScript节流"><a href="#JavaScript节流" class="headerlink" title="JavaScript节流"></a>JavaScript节流</h3><p>节流就是如果持续触发事件，则每个一段时间，只执行一次事件。</p><p>主流有两种方法：<code>使用时间戳</code>， <code>设置定时器</code></p><p>使用时间戳</p><p>使用时间戳，当事件触发时，去除当前的时间戳，然后减去之前的时间戳，最开始可以设置为0，如果大于设置的时间周期，就执行函数，然后更新时间戳为当前时间戳，如果小于，则不执行。</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fu, wait</span>) </span>{</span><br><span class="line">    <span class="keyword">var</span> previos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> {</span><br><span class="line">        <span class="keyword">var</span> now = +<span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// new Date()做一个+运算，触发对象执行valueOf进行求值得到为毫秒数</span></span><br><span class="line">        <span class="keyword">if</span> (now - previous &gt; wait) { <span class="comment">// 判断当前的毫秒数减去预制的毫秒数是否大于传入参数的设置</span></span><br><span class="line">            fu(); <span class="comment">// 执行传入的函数</span></span><br><span class="line">            previous = now; <span class="comment">// 更新储存的毫秒数为此次执行的</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">root.onmousemove = throttle(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure><p>使用定时器</p><p>当事件被触发的时候设置一个定时器，在触发事件，如果定时器存在则不执行，直至定时器执行然后执行函数，清空定时器。</p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, wait</span>) </span>{</span><br><span class="line">    <span class="keyword">var</span> timeout; <span class="comment">// 声明一个变量储存定时器返回值</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> {  <span class="comment">// 返回一个函数</span></span><br><span class="line">        <span class="keyword">if</span>(!timeout) { <span class="comment">// 判断timeout是否存有定时器返回值</span></span><br><span class="line">            timeout = setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>{</span><br><span class="line">                timeout = <span class="literal">null</span>;<span class="comment">// 定时器执行</span></span><br><span class="line">                fun(); <span class="comment">// 执行传入函数</span></span><br><span class="line">            }, wait) <span class="comment">// 延迟多久</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">root.onmousemove = throttle(getUserAction, <span class="number">1000</span>);</span><br></pre></td></tr></tbody></table></figure></div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/03/Javascript节流和防抖[转载]/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-html 文本框onfocus（获得焦点） 执行了多次原因" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">html 文本框onfocus（获得焦点） 执行了多次原因</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/" class="archive-article-date">
+  	<time datetime="2018-03-03T02:24:54.645Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代码如下，非常的简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line"></div><div class="line">&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;</div><div class="line"></div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;文本框获得焦点&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line"></div><div class="line">&lt;input id=&quot;text&quot; type=&quot;text&quot;onfocus=&quot;alert(&apos;你点击了&apos;)&quot; &gt;&lt;/input&gt;</div><div class="line"></div><div class="line">&lt;/body&gt;</div><div class="line"></div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>效果图如下：<br><img src="http://img.blog.csdn.net/20180303102426403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>实际上运行的效果并不是我想的那样，而是一直都在弹出 alert（）提示框</p>
+<p>终于知道什么原因了，都是我的这个alert() 写的，因为我的 onfocus =” “ 这个属性是文本框获得焦点的属性，而alert 这个是</p>
+<p>弹出对话框，当你点击弹出框的“确定”时，你的文本框就失去焦点了，而你点击了之后文本框又获得焦点了，这个时候就陷入死循环了</p>
+<p>解决的办法： 不用这个onfocus =” “ 属性，换成 onclick=””属性，就O了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/03/html 文本框onfocus（获得焦点） 执行了多次原因/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Flux Dispatch.dispatch(…)- Cannot dispatch in the middle of a dispatch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -677,147 +807,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/02/06/POI实现excel的导入导出-[采用反射实现的版本]/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java去除list中重复的数据【distinct】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/05/java去除list中重复的数据【distinct】/">java去除list中重复的数据【distinct】</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/05/java去除list中重复的数据【distinct】/" class="archive-article-date">
-  	<time datetime="2018-02-05T13:54:33.312Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近项目中需要对list集合中的重复值进行处理，大部分是采用两种方法，一种是用遍历list集合判断后赋给另一个list集合，一种是用赋给set集合再返回给list集合。<br>但是赋给set集合后，由于set集合是无序的，原先的顺序就打乱了。所以我又想着能不能用set的特性进行去重又不打乱顺序呢？<br>【注意:set是无序唯一的】<br>试了一下，也是可以的，几种方法在不同情况下都有各自的优势。现在将代码写出来，比较一下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">1、//set集合去重，不打乱顺序</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">         List&lt;String&gt; list  =   new  ArrayList&lt;String&gt;(); </div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;bbb&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;aba&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line"></div><div class="line">         Set set = new  HashSet(); </div><div class="line">         List newList = new  ArrayList(); </div><div class="line">         for (String cd:list) &#123;</div><div class="line">            if(set.add(cd))&#123;</div><div class="line">                newList.add(cd);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">         System.out.println( &quot;去重后的集合： &quot; + newList); </div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">2、 //遍历后判断赋给另一个list集合</div><div class="line">     public static void main(String[] args)&#123;</div><div class="line">         List&lt;String&gt; list  =   new  ArrayList&lt;String&gt;(); </div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;bbb&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;aba&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line"></div><div class="line">         List&lt;String&gt; newList = new  ArrayList&lt;String&gt;(); </div><div class="line">         for (String cd:list) &#123;</div><div class="line">            if(!newList.contains(cd))&#123;</div><div class="line">                newList.add(cd);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">         System.out.println( &quot;去重后的集合： &quot; + newList); </div><div class="line">      &#125;</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">3、//set去重</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">         List&lt;String&gt; list  =   new  ArrayList&lt;String&gt;(); </div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;bbb&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line">         list.add(&quot;aba&quot;);</div><div class="line">         list.add(&quot;aaa&quot;);</div><div class="line"></div><div class="line">        Set set = new  HashSet(); </div><div class="line">         List newList = new  ArrayList(); </div><div class="line">         set.addAll(list);</div><div class="line">         newList.addAll(set);</div><div class="line"></div><div class="line">         System.out.println( &quot;去重后的集合： &quot; + newList); </div><div class="line">     &#125;</div></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">4、 //set去重(缩减为一行)</div><div class="line">        public static void main(String[] args)&#123;</div><div class="line">             List&lt;String&gt; list  =   new  ArrayList&lt;String&gt;(); </div><div class="line">             list.add(&quot;aaa&quot;);</div><div class="line">             list.add(&quot;bbb&quot;);</div><div class="line">             list.add(&quot;aaa&quot;);</div><div class="line">             list.add(&quot;aba&quot;);</div><div class="line">             list.add(&quot;aaa&quot;);</div><div class="line"></div><div class="line">             List newList = new ArrayList(new HashSet(list)); </div><div class="line"></div><div class="line">             System.out.println( &quot;去重后的集合： &quot; + newList); </div><div class="line">         &#125;</div></pre></td></tr></table></figure>
-<hr>
-<p>hashset不进行排序，即hashset是无序唯一的，还有一种方法是用treeset，去重并且按照自然顺序排列，将hashset改为treeset就可以了。（原本的顺序是改变的，只是按照字母表顺序排列而已）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">5、//去重并且按照自然顺序排列</div><div class="line">List newList = new ArrayList(new TreeSet(list));</div></pre></td></tr></table></figure>
-<p>6、参考文章<br><a href="https://www.cnblogs.com/aipan/p/6118129.html" target="_blank" rel="external">Java中List，ArrayList、Vector，map，HashTable，HashMap区别用法</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/05/java去除list中重复的数据【distinct】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java中获取map的key和value的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/05/java中获取map的key和value的方法/">java中获取map的key和value的方法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/05/java中获取map的key和value的方法/" class="archive-article-date">
-  	<time datetime="2018-02-05T13:38:09.246Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近做POI反射方法实现的时候，遇到了map的取值相关的问题，在这里总结下。<br>获取map的key和value的方法分为两种形式：</p>
-<p>map.keySet()：先获取map的key，然后根据key获取对应的value；<br>map..entrySet()：同时查询map的key和value，只需要查询一次；<br>两者的性能比较可以查看map.keySet()和map.EntrySet()的比较。</p>
-<p>1、以下是获取map的key和value，以及map里面的元素通过key或者value来比较大小并排序；<br>【注意：当map的value值相等时，根据key值进行排序】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">public class MapSort &#123;</div><div class="line"> public static void main(String[] args) &#123;</div><div class="line">  Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();</div><div class="line">  map.put(&quot;b&quot;,&quot;4&quot;);</div><div class="line">  map.put(&quot;a&quot;,&quot;5&quot;);</div><div class="line">  map.put(&quot;c&quot;,&quot;3&quot;);</div><div class="line">  map.put(&quot;d&quot;,&quot;5&quot;);</div><div class="line">  //通过map.keySet()方法</div><div class="line">  //方法一：通过得到key的值，然后获取value;</div><div class="line">  /*for(String key : map.keySet())&#123;</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot;  &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //使用迭代器，获取key;</div><div class="line">  /*Iterator&lt;String&gt; iter = map.keySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   String key=iter.next();</div><div class="line">   String value = map.get(key);</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">   */</div><div class="line"></div><div class="line">  //通过map.entrySet()方法</div><div class="line">  //方法一：循环map里面的每一对键值对，然后获取key和value</div><div class="line">  /*for(Entry&lt;String, String&gt; vo : map.entrySet())&#123;</div><div class="line">   vo.getKey();</div><div class="line">   vo.getValue();</div><div class="line">   System.out.println(vo.getKey()+&quot;  &quot;+vo.getValue());</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  /*//使用迭代器，获取key</div><div class="line">  Iterator&lt;Entry&lt;String,String&gt;&gt; iter = map.entrySet().iterator();</div><div class="line">  while(iter.hasNext())&#123;</div><div class="line">   Entry&lt;String,String&gt; entry = iter.next();</div><div class="line">   String key = entry.getKey();</div><div class="line">   String value = entry.getValue();</div><div class="line">   System.out.println(key+&quot; &quot;+value);</div><div class="line">  &#125;*/</div><div class="line">  </div><div class="line">  //将map&lt;String,String&gt; 转化为ArryList,但list里面的元素为Entry&lt;String,String&gt;</div><div class="line">  List&lt;Entry&lt;String,String&gt;&gt; list = new ArrayList&lt;Map.Entry&lt;String,String&gt;&gt;(map.entrySet());</div><div class="line">  //通过匿名比较器的方式进行比较。</div><div class="line">  Collections.sort(list,new Comparator&lt;Entry&lt;String,String&gt;&gt;()&#123;</div><div class="line">   @Override</div><div class="line">   public int compare(Entry&lt;String, String&gt; o1,</div><div class="line">     Entry&lt;String, String&gt; o2) &#123;</div><div class="line">    int flag = o1.getValue().compareTo(o2.getValue());</div><div class="line">    if(flag==0)&#123;</div><div class="line">     return o1.getKey().compareTo(o2.getKey());</div><div class="line">    &#125;</div><div class="line">    return flag;</div><div class="line">   &#125;</div><div class="line">  &#125;);</div><div class="line">  //遍历list得到map里面排序后的元素</div><div class="line">  for(Entry&lt;String, String&gt; en : list)&#123;</div><div class="line">   System.out.println(en.getKey()+&quot; &quot;+en.getValue());</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2、注意Map中的元素是唯一无序的，如果希望根据存入的顺序取出数据，建议使用linkedhashmap,存入其中的数据是唯一且有序的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/05/java中获取map的key和value的方法/">展开全文 >></a>
         </p>
       
 
