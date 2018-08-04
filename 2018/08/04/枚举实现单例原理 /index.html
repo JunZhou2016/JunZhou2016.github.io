@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>枚举实现单例的原理 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="最近因为工作需要需要实现单例模式，考虑到单例模式最简单的实现方式是枚举实现，因此研究了下枚举实现单例模式的原理，下面将从原理、详解两个步骤说明：             一：原理        1、单例模式利用了() 方法在类加载的过程中线程安全的实例化了一个实例；        【 () 是由编译器自动收集类中的所有类变量（static）的赋值动作和静态语句块（static{}）块中的语句合并产">
+<meta property="og:type" content="article">
+<meta property="og:title" content="枚举实现单例的原理">
+<meta property="og:url" content="http://yoursite.com/2018/08/04/枚举实现单例原理 /index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近因为工作需要需要实现单例模式，考虑到单例模式最简单的实现方式是枚举实现，因此研究了下枚举实现单例模式的原理，下面将从原理、详解两个步骤说明：             一：原理        1、单例模式利用了() 方法在类加载的过程中线程安全的实例化了一个实例；        【 () 是由编译器自动收集类中的所有类变量（static）的赋值动作和静态语句块（static{}）块中的语句合并产">
+<meta property="og:updated_time" content="2018-08-04T12:54:47.639Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="枚举实现单例的原理">
+<meta name="twitter:description" content="最近因为工作需要需要实现单例模式，考虑到单例模式最简单的实现方式是枚举实现，因此研究了下枚举实现单例模式的原理，下面将从原理、详解两个步骤说明：             一：原理        1、单例模式利用了() 方法在类加载的过程中线程安全的实例化了一个实例；        【 () 是由编译器自动收集类中的所有类变量（static）的赋值动作和静态语句块（static{}）块中的语句合并产">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -161,295 +165,161 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-枚举实现单例原理 " class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      枚举实现单例的原理
+    </h1>
+  
+
+        
+        <a href="/2018/08/04/枚举实现单例原理 /" class="archive-article-date">
+  	<time datetime="2018-08-04T12:54:15.708Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-04</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近因为工作需要需要实现单例模式，考虑到单例模式最简单的实现方式是枚举实现，因此研究了下枚举实现单例模式的原理，下面将从原理、详解两个步骤说明：<br>             一：原理<br>        1、单例模式利用了<clinit>() 方法在类加载的过程中线程安全的实例化了一个实例；<br>        【 <clinit>() 是由编译器自动收集类中的所有类变量（static）的赋值动作和静态语句块（static{}）块中的语句合并产生的。因此，private static Singleton singleton = new Singleton();也会被放入到这个方法中。】<br>        2、枚举类的构造器是private私有的，保障了内存中只有枚举的一个实例；<br>        二：详解<br>        1）、为什么说枚举实例是单例且线程安全的？<br>                        就拿枚举来说，其实Enum就是一个普通的类，它继承自`java.lang.Enum类。</clinit></clinit></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum SingletonEnum&#123;</div><div class="line">			    SINGLETON;</div><div class="line">			&#125;</div></pre></td></tr></table></figure>
+<pre><code>对Singleton进行反编译可以得到如下java类：
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public final class SingletonEnum extends Enum&lt;SingletonEnum&gt; &#123;</div><div class="line">      public static final SingletonEnum SINGLETON;</div><div class="line">      public static SingletonEnum[] values();</div><div class="line">      public static SingletonEnum valueOf(String s);</div><div class="line">      static &#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由反编译后的代码可知，SINGLETON被声明为 static 的【 public static final SingletonEnum SINGLETON&lt;==&gt;public static final SingletonEnum SINGLETON = New SingletonEnum （）;】，<a href="https://blog.csdn.net/gavin_dyson/article/details/69668946" target="_blank" rel="external">根据类加载过程可以知道虚拟机会保证一个类的<clinit>() 方法在多线程环境中被正确的加锁、同步。</clinit></a>所以，枚举实现是在实例化时是线程安全。<br>    2）、如何保证枚举实例的单例？<br>    首先<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum SingletonEnum&#123;</div><div class="line">			    SINGLETON;</div><div class="line">			&#125;</div></pre></td></tr></table></figure></p>
+<p>的实质是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public enum SingletonEnum&#123;</div><div class="line">			    SINGLETON;</div><div class="line">			    ......</div><div class="line">			    private SingletonEnum()&#123;......&#125;</div><div class="line">			&#125;</div></pre></td></tr></table></figure>
+<p>因此外部无法通过构造器创建枚举类的实例，这也是枚举类通常用来保存常量的一个原因之一。<br>其次，枚举类的实例会在类加载的时候线程安全的进行初始实例化，在类加载的时候，<a href="https://blog.csdn.net/gavin_dyson/article/details/69668946" target="_blank" rel="external">JVM会对<clinit>()方法加锁，其他线程都需要阻塞等待，直到活动线程执行<clinit>()方法完毕。需要注意的是，其他线程虽然会被阻塞，但如果执行<clinit>()方法的那条线程退出<clinit>()方法后，其他线程唤醒后不会再次进入<clinit>()方法。同一个类加载器下，一个类型只会初始化一次。</clinit></clinit></clinit></clinit></clinit></a><br>      综上所述，枚举保证了枚举实例的线程安全和单例性;</p>
+<p>参考文章：<br>      <a href="https://blog.csdn.net/huangyuan_xuan/article/details/52193006" target="_blank" rel="external">浅谈使用单元素的枚举类型实现单例模式</a><br>      <a href="https://blog.csdn.net/a907691592/article/details/51668440" target="_blank" rel="external">java回顾篇—static和非static的区别</a><br>      <a href="http://www.cnblogs.com/dqrcsc/p/4671879.html" target="_blank" rel="external">一个简单java程序的运行全过程</a><br>      <a href="https://www.cnblogs.com/dotgua/p/6354151.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="external">static关键字的四种用法</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/20/java中枚举类略解/" class="archive-article-date">
-  	<time datetime="2018-01-20T06:33:03.155Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/20/java中枚举类略解/">java中枚举类略解</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/08/04/枚举实现单例原理 /" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /" class="archive-article-date">
-  	<time datetime="2018-01-19T06:06:34.785Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/16/MySQL优化之------索引原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL优化之------索引原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /">SpringBoot+React前后端分离项目中跨域问题的完美解决方案</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
-  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
-  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/DES加密算法探究【Java版本】/">DES加密算法探究【Java版本】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" class="archive-article-date">
-  	<time datetime="2018-01-18T09:39:59.114Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">react结合d3.js和svg绘制条形统计图</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/" class="archive-article-date">
-  	<time datetime="2018-01-16T14:12:10.070Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/">POI实现excel的导入导出-[未采用反射实现的版本]</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
-  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/Nginx实现文件下载的限速功能/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:46:34.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/Nginx实现文件下载的限速功能/">Nginx实现文件下载限速的功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
-  	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/09/reflux的学习总结/" class="archive-article-date">
-  	<time datetime="2018-01-09T05:15:05.249Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/09/reflux的学习总结/">学习reflux的总结</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="page-number" href="/archives/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/">11</a><a class="extend next" rel="next" href="/archives/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -473,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

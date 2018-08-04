@@ -163,6 +163,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java中枚举类略解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/20/java中枚举类略解/">java中枚举类略解</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/20/java中枚举类略解/" class="archive-article-date">
+  	<time datetime="2018-01-20T06:33:03.155Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为什么在java中要用枚举类呢?<br>我的理解：如果不用枚举类，而用传统的方法，那么如果要定义三个常量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[&#123;0,&quot;服务订单&quot;&#125;,&#123;1,&quot;商品订单&quot;&#125;,&#123;2,&quot;会员卡订单&quot;&#125;]</div></pre></td></tr></table></figure>
+<p>而且在引用的时候做到见名知意,那么就得这么些：<br>OrderType.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 模拟枚举类中元素的底层实现;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午12:32:22</div><div class="line"> */</div><div class="line">public class OrderType &#123;</div><div class="line">	private String type;</div><div class="line">	private int typeCode;</div><div class="line"></div><div class="line">	public OrderType(int typeCode,String type) &#123;</div><div class="line">		super();</div><div class="line">		this.type = type;</div><div class="line">		this.typeCode = typeCode;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getType() &#123;</div><div class="line">		return type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setType(String type) &#123;</div><div class="line">		this.type = type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getTypeCode() &#123;</div><div class="line">		return typeCode;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setTypeCode(int typeCode) &#123;</div><div class="line">		this.typeCode = typeCode;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>SumuOrderEnum.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line">/**</div><div class="line"> * 模拟枚举类中元素的声明;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:08:12</div><div class="line"> */</div><div class="line">public class SumuOrderEnum &#123;</div><div class="line">	public static OrderType orderType1 = new OrderType(0,&quot;服务订单&quot;);</div><div class="line">	public static OrderType orderType2 = new OrderType(1,&quot;商品订单&quot;);</div><div class="line">	public static OrderType orderType3 = new OrderType(2,&quot;会员卡订单&quot;);</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>EnumTest .java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">package com.lz.orign.enums;</div><div class="line"></div><div class="line">public class EnumTest &#123;</div><div class="line">/**</div><div class="line"> * 模拟枚举类的调用;</div><div class="line"> * @param args</div><div class="line"> */</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">	SumuOrderEnum sumuOrderEnum = new SumuOrderEnum();</div><div class="line">	System.out.println(sumuOrderEnum.orderType1.getTypeCode()+&quot;-&quot;+sumuOrderEnum.orderType1.getType());</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p>但是用枚举类就方便许多了:<br>OrderTypeEnum.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> *</div><div class="line"> * @(#) OrderTypeEnum.java</div><div class="line"> * @Package cn.lz.life.enums</div><div class="line"> * </div><div class="line"> * Copyright  Icerno Corporation. All rights reserved.</div><div class="line"> *</div><div class="line"> */</div><div class="line"></div><div class="line">package com.lz.enums;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 定义枚举类;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:11:26</div><div class="line"> */</div><div class="line">public enum OrderTypeEnum &#123;</div><div class="line">    </div><div class="line">	//声明枚举类的元素;</div><div class="line">	ORDER_TYPE_IS_ZERO(0,&quot;服务订单&quot;),</div><div class="line">	ORDER_TYPE_IS_ONE(1,&quot;商品订单&quot;),</div><div class="line">	ORDER_TYPE_IS_TWO(2,&quot;会员卡订单&quot;),</div><div class="line">	;</div><div class="line">	//声明枚举类的属性，实际上是</div><div class="line">    private int orderType;</div><div class="line">	</div><div class="line">	private String msg;</div><div class="line"></div><div class="line">	public int getOrderType() &#123;</div><div class="line">		return orderType;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setOrderType(int orderType) &#123;</div><div class="line">		this.orderType = orderType;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getMsg() &#123;</div><div class="line">		return msg;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setMsg(String msg) &#123;</div><div class="line">		this.msg = msg;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	private OrderTypeEnum(int orderType, String msg) &#123;</div><div class="line">		this.orderType = orderType;</div><div class="line">		this.msg = msg;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>EnumTest.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package com.lz.enums;</div><div class="line">/**</div><div class="line"> * 枚举类的调用;</div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月20日@下午2:12:01</div><div class="line"> */</div><div class="line">public class EnumTest &#123;</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">	System.out.println(OrderTypeEnum.ORDER_TYPE_IS_ONE.getOrderType());</div><div class="line">	System.out.println(OrderTypeEnum.ORDER_TYPE_IS_ONE.getMsg());</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>枚举类使用过程中因该注意的地方:<br>一：枚举类中必须定义构造方法;<br>二:枚举类中元素声明的类型必须和构造函数匹配,可以理解为元素的声明就是调用构造方法实例化了一个元素实例;<br>三:枚举类中属性可以没有，如果属性存在的话，枚举类中属性的名称可以随意，最好做到见名知意,但是其类型必须匹配构造函数中的类型;<br>四:元素的声明必须放在枚举类的首部;<br>五:枚举类的存在是为了简化常量的定义和使用;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/20/java中枚举类略解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-SpringBoot+React前后端分离项目中跨域问题的完美解决方案 " class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -761,69 +837,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/09/reflux的学习总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-移动端学习之初始化-angular4的学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/07/移动端学习之初始化-angular4的学习/">移动端学习之初始化-angular4的学习</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/07/移动端学习之初始化-angular4的学习/" class="archive-article-date">
-  	<time datetime="2018-01-07T13:58:30.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在学习angular4感觉也没有那么难啦，好奇移动端到底可以做出啥，继续学习中……<br><img src="http://img.blog.csdn.net/20180107215813837?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/07/移动端学习之初始化-angular4的学习/">展开全文 >></a>
         </p>
       
 
