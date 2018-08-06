@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | Blog4Jun</title>
+  <title>SpringBoot中RabbitMQ的使用详解 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/2018/page/5/index.html">
+  <meta name="description" content="最近在公司的代码里面看到RabbitMQ相关的代码，于是带着好奇心研究了下RabbitMQ.        RabbitMQ的核心是交换机和队列。        交换机的功能主要是接收消息并且转发到绑定的队列，交换机不存     储消息，在启用ack模式后，交换机找不到队列会返回错误。队列用于临时存储消息和转发消息。        交换机有四种类型：Direct, topic, Headers a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot中RabbitMQ的使用详解">
+<meta property="og:url" content="http://yoursite.com/2018/08/06/SpringBoot中RabbitMQ的使用详解/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近在公司的代码里面看到RabbitMQ相关的代码，于是带着好奇心研究了下RabbitMQ.        RabbitMQ的核心是交换机和队列。        交换机的功能主要是接收消息并且转发到绑定的队列，交换机不存     储消息，在启用ack模式后，交换机找不到队列会返回错误。队列用于临时存储消息和转发消息。        交换机有四种类型：Direct, topic, Headers a">
+<meta property="og:image" content="https://img-blog.csdn.net/20180806223014133?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180806224440680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-08-06T15:05:27.438Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="SpringBoot中RabbitMQ的使用详解">
+<meta name="twitter:description" content="最近在公司的代码里面看到RabbitMQ相关的代码，于是带着好奇心研究了下RabbitMQ.        RabbitMQ的核心是交换机和队列。        交换机的功能主要是接收消息并且转发到绑定的队列，交换机不存     储消息，在启用ack模式后，交换机找不到队列会返回错误。队列用于临时存储消息和转发消息。        交换机有四种类型：Direct, topic, Headers a">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180806223014133?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -161,295 +168,212 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-SpringBoot中RabbitMQ的使用详解" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringBoot中RabbitMQ的使用详解
+    </h1>
+  
+
+        
+        <a href="/2018/08/06/SpringBoot中RabbitMQ的使用详解/" class="archive-article-date">
+  	<time datetime="2018-08-06T15:04:48.018Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在公司的代码里面看到RabbitMQ相关的代码，于是带着好奇心研究了下RabbitMQ.<br>        <strong>RabbitMQ的核心是交换机和队列。</strong><br>        交换机的功能主要是接收消息并且转发到绑定的队列，交换机不存     储消息，在启用ack模式后，交换机找不到队列会返回错误。队列用于临时存储消息和转发消息。<br>        <strong>交换机有四种类型：Direct, topic, Headers and Fanout。</strong><br>         Direct：direct 类型的行为是”先匹配, 再投送”. 即在绑定时设定一个 routing_key, 消息的routing_key 匹配时, 才会被交换器投送到绑定的队列中去.[精确匹配类型]<br>        Topic：按规则转发消息（最灵活）[模式匹配]<br>        Headers：设置header attribute参数类型的交换机<br>        <strong>RabbitMQ的队列类型有两种，即时队列和延时队列【DelayQueue】。</strong><br>         即时队列：队列中的消息会被立即消费;<br>         延时队列：队列中的消息会在指定的时间延时之后被消费。<br>        下面将从即时队列和延时队列的具体实现来详解RabbitMQ.</p>
+<p>   <strong>即时队列详解：</strong><br>              DirectExchange：</p>
+<pre><code>DirectExchangeTest.java
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void helloTest() throws Exception &#123;</div><div class="line">		helloSender.send();</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>HelloSender.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.hello;</div><div class="line"></div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.AmqpTemplate;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class HelloSender &#123;</div><div class="line"></div><div class="line">	@Autowired</div><div class="line">	private AmqpTemplate rabbitTemplate;</div><div class="line"></div><div class="line">	public void send() &#123;</div><div class="line">		String context = &quot;hello &quot; + new Date()+&quot; sender is JunZhou&quot;;</div><div class="line">		System.out.println(&quot;Sender/this messag is send by zj : &quot; + context);</div><div class="line">		this.rabbitTemplate.convertAndSend(&quot;hello&quot;, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HelloReceiver.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.hello;</div><div class="line"></div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;hello&quot;)</div><div class="line">public class HelloReceiver &#123;</div><div class="line"></div><div class="line">    @RabbitHandler</div><div class="line">    public void process(String hello) &#123;</div><div class="line">        System.out.println(&quot;Receiver  : &quot; + hello);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>RabbitConfig.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.Binding;</div><div class="line">import org.springframework.amqp.core.BindingBuilder;</div><div class="line">import org.springframework.amqp.core.DirectExchange;</div><div class="line">import org.springframework.amqp.core.Queue;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.beans.factory.annotation.Qualifier;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line">//@Configuration这个注解是必须的，保证在基本类实例化之前该类已经被实例化</div><div class="line">@Configuration</div><div class="line">public class RabbitConfig &#123;</div><div class="line">	</div><div class="line">	@Autowired</div><div class="line">	@Qualifier(&quot;defaultDirectExchange&quot;)</div><div class="line">	private DirectExchange exchange;</div><div class="line">	//创建队列,注意加注解;</div><div class="line">    @Bean</div><div class="line">    public Queue hiQueue() &#123;</div><div class="line">        return new Queue(&quot;hello&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue neoQueue() &#123;</div><div class="line">        return new Queue(&quot;neo&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue objectQueue() &#123;</div><div class="line">        return new Queue(&quot;object&quot;);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    //绑定队列;</div><div class="line">    @Bean</div><div class="line">	public Binding  helloBinding() &#123;</div><div class="line">		return BindingBuilder.bind(hiQueue()).to(exchange).with(&quot;hello&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>FanoutExchange：</strong></p>
+<p>FanoutExchangeTest.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void fanoutSenderTest()&#123;</div><div class="line">		fanoutSender.send();</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>FanoutSender .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.fanout;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.AmqpTemplate;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class FanoutSender &#123;</div><div class="line"></div><div class="line">	@Autowired</div><div class="line">	private AmqpTemplate rabbitTemplate;</div><div class="line">	</div><div class="line">	public void send() &#123;</div><div class="line">		String context = &quot;Sender from JunZhou 20180806 : hi, fanout msg &quot;;</div><div class="line">		System.out.println(&quot;Sender from JunZhou 20180806 : &quot; + context);</div><div class="line">//在fancout模式下，所有绑定到该交换机的队列均会收到交换机发出的消息，因此队列的名称会被忽略不计，因此`convertAndSend(exchangeName,queueName,Msg);`中的第二个参数可以用“”代替;		</div><div class="line">this.rabbitTemplate.convertAndSend(&quot;fanoutExchange&quot;,&quot;&quot;, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>FanoutReceiverA .java……FanoutReceiverC .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.fanout;</div><div class="line"></div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;fanout.A&quot;)</div><div class="line">public class FanoutReceiverA &#123;</div><div class="line"></div><div class="line">    @RabbitHandler</div><div class="line">    public void process(String message) &#123;</div><div class="line">        System.out.println(&quot;fanout Receiver A  : &quot; + message);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>FanoutRabbitConfig.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.Binding;</div><div class="line">import org.springframework.amqp.core.BindingBuilder;</div><div class="line">import org.springframework.amqp.core.FanoutExchange;</div><div class="line">import org.springframework.amqp.core.Queue;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line"></div><div class="line">@Configuration</div><div class="line">public class FanoutRabbitConfig &#123;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue AMessage() &#123;</div><div class="line">        return new Queue(&quot;fanout.A&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue BMessage() &#123;</div><div class="line">        return new Queue(&quot;fanout.B&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue CMessage() &#123;</div><div class="line">        return new Queue(&quot;fanout.C&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    FanoutExchange fanoutExchange() &#123;</div><div class="line">        return new FanoutExchange(&quot;fanoutExchange&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    </div><div class="line">    @Bean</div><div class="line">    Binding bindingExchangeA() &#123;</div><div class="line">        return BindingBuilder.bind(AMessage()).to(fanoutExchange());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    Binding bindingExchangeB() &#123;</div><div class="line">        return BindingBuilder.bind(BMessage()).to(fanoutExchange());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    Binding bindingExchangeC() &#123;</div><div class="line">        return BindingBuilder.bind(CMessage()).to(fanoutExchange());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p>TopicExchangeTest.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void topicSenderTest()&#123;</div><div class="line">		//topicSender.send();</div><div class="line">		//topicSender.send1();</div><div class="line">		topicSender.send2();</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>TopicSender .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.topic;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.AmqpTemplate;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class TopicSender &#123;</div><div class="line"></div><div class="line">	@Autowired</div><div class="line">	private AmqpTemplate rabbitTemplate;</div><div class="line"></div><div class="line">	public void send() &#123;</div><div class="line">		String context = &quot;hi, i am message all&quot;;</div><div class="line">		System.out.println(&quot;Sender : &quot; + context);</div><div class="line">		this.rabbitTemplate.convertAndSend(&quot;topicExchange&quot;, &quot;topic.1&quot;, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void send1() &#123;</div><div class="line">		String context = &quot;hi, i am message 1&quot;;</div><div class="line">		System.out.println(&quot;Sender : &quot; + context);</div><div class="line">		this.rabbitTemplate.convertAndSend(&quot;topicExchange&quot;, &quot;topic.message&quot;, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void send2() &#123;</div><div class="line">		String context = &quot;hi, i am messages 2&quot;;</div><div class="line">		System.out.println(&quot;Sender : &quot; + context);</div><div class="line">		this.rabbitTemplate.convertAndSend(&quot;topicExchange&quot;, &quot;topic.messages&quot;, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>TopicReceiver .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.topic;</div><div class="line"></div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;topic.message&quot;)</div><div class="line">public class TopicReceiver &#123;</div><div class="line"></div><div class="line">    @RabbitHandler</div><div class="line">    public void process(String message) &#123;</div><div class="line">        System.out.println(&quot;Topic Receiver1  : &quot; + message);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>TopicReceiver2 .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.topic;</div><div class="line"></div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;topic.messages&quot;)</div><div class="line">public class TopicReceiver2 &#123;</div><div class="line"></div><div class="line">    @RabbitHandler</div><div class="line">    public void process(String message) &#123;</div><div class="line">        System.out.println(&quot;Topic Receiver2  : &quot; + message);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>TopicRabbitConfig .java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.Binding;</div><div class="line">import org.springframework.amqp.core.BindingBuilder;</div><div class="line">import org.springframework.amqp.core.Queue;</div><div class="line">import org.springframework.amqp.core.TopicExchange;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line"></div><div class="line">@Configuration</div><div class="line">public class TopicRabbitConfig &#123;</div><div class="line"></div><div class="line">    final static String message = &quot;topic.message&quot;;</div><div class="line">    final static String messages = &quot;topic.messages&quot;;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue queueMessage() &#123;</div><div class="line">        return new Queue(TopicRabbitConfig.message);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Queue queueMessages() &#123;</div><div class="line">        return new Queue(TopicRabbitConfig.messages);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    TopicExchange exchange() &#123;</div><div class="line">        return new TopicExchange(&quot;topicExchange&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) &#123;</div><div class="line">        return BindingBuilder.bind(queueMessage).to(exchange).with(&quot;topic.message&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    Binding bindingExchangeMessages(Queue queueMessages, TopicExchange exchange) &#123;</div><div class="line">        return BindingBuilder.bind(queueMessages).to(exchange).with(&quot;topic.#&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>topic 和 direct 类似, 只是匹配上支持了”模式”, 在”点分”的 routing_key 形式中, 可以使用两个通配符:<br>“*”表示一个词.<br>“#”表示零个或多个词.</p>
+</blockquote>
+<p>在上面的TopicExchange中，当调用send1()方法，执行<code>this.rabbitTemplate.convertAndSend(&quot;topicExchange&quot;,&quot;topic.message&quot;, context);</code>时，实际上只有两个队列,即采用with(“topic.#”);和with(“topic.message”);绑定的两个队列会接受到消息;</p>
+<p>以上就是非常简单的即时队列的详解，线面是延时队列的详解。</p>
+<hr>
+<p>延时队列有哪些用处呢？打个比方，加入用户下了单，但是在30分钟内没有支付我们就返回支付失败提示这个情景就可以采用延时队列来处理。<br>延时队列的原理图如下：<br><img src="https://img-blog.csdn.net/20180806223014133?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<blockquote>
+<p>客户端：指具体往MQ发生消息端， 客户端将消息内容进行自定义包装， 将消息中附带目标队列名称。如：客户端向队列Q1发送字符串“hello” , 延时时间为60秒， 包装后修改为{“queueName”:”Q1”,”body”: “hello”}，此时，将消息发送到DLX死信队列，而非Q1队列，并将消息设置为60秒超时。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>DLX：死信队列，用来存储有超时时间信息的消息， 并且可以设置当消息超时时，转发到另一个指定队列(此处设置转发到router), 死信队列无消费者，当接收到客户端消息之后，等待消息超时，将消息转发到指定的Router队列</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Router: 转发队列，用来接收死信队列超时消息， 如上示例消息，在接收到之后，消费者将消息解析，获取queueName，body,再向所获取的queueName队列中发送一条消息，内容为body.</p>
+</blockquote>
+<p>延时队列的具体实现代码如下：<br>DelaySendTest.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Test</div><div class="line">	public void delaySendTest()&#123;</div><div class="line">		System.out.println(&quot;发送延迟消息...&quot;);</div><div class="line">		QueueMessage message = new QueueMessage(&quot;app.queue.hello&quot;,&quot;测试延时消息...&quot;);</div><div class="line">		message.setType(20);//20代表延时消息队列;</div><div class="line">		message.setSeconds(600);//设置延时时间,单位为毫秒;</div><div class="line">		messageQueueService.send(message);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>QueueMessage.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.Model;</div><div class="line"></div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">public class QueueMessage &#123;</div><div class="line">	private String exchange;</div><div class="line"></div><div class="line">	private String queueName;</div><div class="line"></div><div class="line">	private Integer type;</div><div class="line"></div><div class="line">	private Integer group;</div><div class="line"></div><div class="line">	private Date timestamp;</div><div class="line"></div><div class="line">	private String message;</div><div class="line"></div><div class="line">	private Integer status;</div><div class="line"></div><div class="line">	private int retry = 0;</div><div class="line"></div><div class="line">	private int maxRetry = 10;</div><div class="line"></div><div class="line">	private int seconds = 1;</div><div class="line"></div><div class="line">	public QueueMessage() &#123;</div><div class="line">		super();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public QueueMessage(String queueName, String message) &#123;</div><div class="line">		super();</div><div class="line">		this.queueName = queueName;</div><div class="line">		this.message = message;</div><div class="line">		this.exchange = &quot;default.direct.exchange&quot;;</div><div class="line">		this.type = 10;</div><div class="line">		this.group = 10;</div><div class="line">		this.timestamp = new Date();</div><div class="line">		this.status = 10;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getExchange() &#123;</div><div class="line">		return exchange;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setExchange(String exchange) &#123;</div><div class="line">		this.exchange = exchange;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getQueueName() &#123;</div><div class="line">		return queueName;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setQueueName(String queueName) &#123;</div><div class="line">		this.queueName = queueName;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Integer getType() &#123;</div><div class="line">		return type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setType(Integer type) &#123;</div><div class="line">		this.type = type;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Integer getGroup() &#123;</div><div class="line">		return group;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setGroup(Integer group) &#123;</div><div class="line">		this.group = group;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Date getTimestamp() &#123;</div><div class="line">		return timestamp;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setTimestamp(Date timestamp) &#123;</div><div class="line">		this.timestamp = timestamp;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getMessage() &#123;</div><div class="line">		return message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setMessage(String message) &#123;</div><div class="line">		this.message = message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Integer getStatus() &#123;</div><div class="line">		return status;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setStatus(Integer status) &#123;</div><div class="line">		this.status = status;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getRetry() &#123;</div><div class="line">		return retry;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRetry(int retry) &#123;</div><div class="line">		this.retry = retry;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getMaxRetry() &#123;</div><div class="line">		return maxRetry;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setMaxRetry(int maxRetry) &#123;</div><div class="line">		this.maxRetry = maxRetry;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getSeconds() &#123;</div><div class="line">		return seconds;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setSeconds(int seconds) &#123;</div><div class="line">		this.seconds = seconds;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>MessageException.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.exception;</div><div class="line"></div><div class="line">public class MessageException extends RuntimeException&#123;</div><div class="line"></div><div class="line">	private static final long serialVersionUID = 140085406084367372L;</div><div class="line"></div><div class="line">	private int code ;</div><div class="line">	</div><div class="line">	private String message;</div><div class="line">	</div><div class="line">	private String data;</div><div class="line">	</div><div class="line">	public MessageException() &#123;</div><div class="line">		super();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public MessageException(int code, String message) &#123;</div><div class="line">		super(message);</div><div class="line">		this.code = code;</div><div class="line">		this.message = message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getCode() &#123;</div><div class="line">		return code;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setCode(int code) &#123;</div><div class="line">		this.code = code;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getMessage() &#123;</div><div class="line">		return message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setMessage(String message) &#123;</div><div class="line">		this.message = message;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getData() &#123;</div><div class="line">		return data;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setData(String data) &#123;</div><div class="line">		this.data = data;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>DeafaultMessageServiceImpl.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.service.impl;</div><div class="line"></div><div class="line">import org.springframework.amqp.AmqpException;</div><div class="line">import org.springframework.amqp.core.Message;</div><div class="line">import org.springframework.amqp.core.MessagePostProcessor;</div><div class="line">import org.springframework.amqp.rabbit.core.RabbitTemplate;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Service;</div><div class="line"></div><div class="line">import com.neo.rabbit.DelayMQ.Model.QueueMessage;</div><div class="line">import com.neo.rabbit.DelayMQ.exception.MessageException;</div><div class="line">import com.neo.rabbit.DelayMQ.service.IMessageQueueService;</div><div class="line">import com.neo.rabbit.DelayMQ.utils.JSONUtils;</div><div class="line">import com.neo.rabbit.DelayMQ.utils.StringUtils;</div><div class="line">@Service(&quot;deafaultMessageService&quot;)</div><div class="line">public class DeafaultMessageServiceImpl implements IMessageQueueService&#123;</div><div class="line"></div><div class="line">	@Autowired</div><div class="line">	private RabbitTemplate rabbitTemplate;</div><div class="line">	</div><div class="line">	@Override</div><div class="line">	public void send(QueueMessage message) &#123;</div><div class="line">		this.checkMessage(message);</div><div class="line">		if(message.getType() == 10)&#123;//即时消息</div><div class="line">			this.sendMessage(message.getExchange(),message.getQueueName(),message.getMessage());</div><div class="line">		&#125;</div><div class="line">		if(message.getType() == 20)&#123;//延时消息</div><div class="line">			sendTimeMessage(message);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//发送即时消息;</div><div class="line">	private void sendMessage(String exchange,String queueName,String msg)&#123;</div><div class="line">		rabbitTemplate.convertAndSend(exchange,queueName, msg);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//发送延时消息;</div><div class="line">	public void sendTimeMessage(QueueMessage message) &#123;</div><div class="line">		int seconds = message.getSeconds();</div><div class="line">		if(seconds &lt;= 0)&#123;// 直接发送，无需进入死信队列</div><div class="line">			sendMessage(message.getExchange(),message.getQueueName(), message.getMessage());</div><div class="line">		&#125;else&#123;</div><div class="line">			long times = seconds * 1000;//rabbit默认为毫秒级</div><div class="line">			//这里需要字符定义延时处理器;</div><div class="line">			MessagePostProcessor processor = new MessagePostProcessor()&#123;</div><div class="line">				@Override</div><div class="line">				public Message postProcessMessage(Message message) throws AmqpException &#123;</div><div class="line">					message.getMessageProperties().setExpiration(times + &quot;&quot;);</div><div class="line">					return message;</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">			rabbitTemplate.convertAndSend(&quot;default.direct.exchange&quot;,&quot;default.dead.letter.queue&quot;, JSONUtils.toJson(message), processor);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void checkMessage(QueueMessage message)&#123;</div><div class="line">		if (StringUtils.isNullOrEmpty(message.getExchange())) &#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息交换机(exchange)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">		if(message.getGroup() == null)&#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息组(group)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">		if(message.getType() == null)&#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息类型(type)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">		if(message.getStatus() == null)&#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息状态(status)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">		if(StringUtils.isNullOrEmpty(message.getQueueName()))&#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息目标名称(queueName)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">		if (StringUtils.isNullOrEmpty(message.getMessage())) &#123;</div><div class="line">			throw new MessageException(10, &quot;发送消息格式错误: 消息内容(message)不能为空!&quot;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>QueueConfiguration.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.mqconfig;</div><div class="line"></div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">import org.springframework.amqp.core.Binding;</div><div class="line">import org.springframework.amqp.core.BindingBuilder;</div><div class="line">import org.springframework.amqp.core.DirectExchange;</div><div class="line">import org.springframework.amqp.core.Queue;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line"></div><div class="line">@Configuration</div><div class="line">public class QueueConfiguration &#123;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 默认即时消息交换机</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	@Bean(&quot;defaultDirectExchange&quot;)</div><div class="line">	public DirectExchange defaultDirectExchange() &#123;</div><div class="line">		return new DirectExchange(&quot;default.direct.exchange&quot;, true, false);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 默认延迟消息死信队列</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	@Bean</div><div class="line">	public Queue defaultDeadLetterQueue() &#123;</div><div class="line">		Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();</div><div class="line">		arguments.put(&quot;x-dead-letter-exchange&quot;,&quot;default.direct.exchange&quot;);//设置交换机路由</div><div class="line">		arguments.put(&quot;x-dead-letter-routing-key&quot;, &quot;default.repeat.trade.queue&quot;);//设置转发队列名称</div><div class="line">		Queue queue = new Queue(&quot;default.dead.letter.queue&quot;,true,false,false,arguments);</div><div class="line">		return queue; </div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Bean</div><div class="line">	public Binding  defaultDeadLetterBinding() &#123;</div><div class="line">		Binding bind = BindingBuilder.bind(defaultDeadLetterQueue()).to(defaultDirectExchange()).with(&quot;default.dead.letter.queue&quot;);</div><div class="line">		return bind;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 默认延迟消息死信接受转发消息队列</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	@Bean</div><div class="line">	public Queue defaultRepeatTradeQueue() &#123;</div><div class="line">		Queue queue = new Queue(&quot;default.repeat.trade.queue&quot;,true,false,false);</div><div class="line">		return queue; </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	/**</div><div class="line">	 * 转发队列和默认交换机的绑定;</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	@Bean</div><div class="line">	public Binding  defaultRepeatTradeBinding() &#123;</div><div class="line">		return BindingBuilder.bind(defaultRepeatTradeQueue()).to(defaultDirectExchange()).with(&quot;default.repeat.trade.queue&quot;);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	@Bean</div><div class="line">	public Queue helloQueue() &#123;</div><div class="line">		Queue queue = new Queue(&quot;app.queue.hello&quot;,true,false,false);</div><div class="line">		return queue; </div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	@Bean</div><div class="line">	public Binding  helloBinding() &#123;</div><div class="line">		return BindingBuilder.bind(helloQueue()).to(defaultDirectExchange()).with(&quot;app.queue.hello&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>TradeProcessor.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.receiver;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">import com.neo.rabbit.DelayMQ.Model.QueueMessage;</div><div class="line">import com.neo.rabbit.DelayMQ.service.IMessageQueueService;</div><div class="line">import com.neo.rabbit.DelayMQ.utils.JSONUtils;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line"> * @author victor</div><div class="line"> * @desc 死信接收处理消费者</div><div class="line"> */</div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;default.repeat.trade.queue&quot;)</div><div class="line">public class TradeProcessor &#123;</div><div class="line">	</div><div class="line">	@Autowired</div><div class="line">	private IMessageQueueService messageQueueService;</div><div class="line"></div><div class="line">	@RabbitHandler</div><div class="line">    public void process(String content) &#123;</div><div class="line">		System.out.println(&quot;-----------延时结束--------------&quot;);</div><div class="line">		QueueMessage message = JSONUtils.toBean(content, QueueMessage.class);</div><div class="line">		message.setType(10);</div><div class="line">		messageQueueService.send(message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HelloProcessor.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">package com.neo.rabbit.DelayMQ.receiver;</div><div class="line"></div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitHandler;</div><div class="line">import org.springframework.amqp.rabbit.annotation.RabbitListener;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">@RabbitListener(queues = &quot;app.queue.hello&quot;)</div><div class="line">public class HelloProcessor &#123;</div><div class="line"></div><div class="line">	@RabbitHandler</div><div class="line">    public void process(String content) &#123;</div><div class="line">		System.out.println(&quot;hello 接受消息：&quot; + content);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>延时队列在可视化界面的表现形式为：<br><img src="https://img-blog.csdn.net/20180806224440680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>其实最终的原理非常简单：<br>归纳起来就是：客户端发送消息到指定的交换机，进入死信队列【死信队列没有消费者】，在死信队列里超时处理器等待消息超时，消息超时后转发消息给转发队列，转发队列的消息消费者监听到消息后进行对应的逻辑处理即可。</p>
+<p>参考文章：<br><a href="http://www.ityouknow.com/springboot/2016/11/30/spring-boot-rabbitMQ.html" target="_blank" rel="external">RabbitMQ详解</a><br><a href="https://blog.csdn.net/i_vic/article/details/72742277" target="_blank" rel="external">Rabbitmq集成,延时消息队列实现</a><br><a href="https://segmentfault.com/a/1190000004401870" target="_blank" rel="external">SpringBoot应用之消息队列</a></p>
+<p>源码：<br><a href="https://download.csdn.net/download/zj20142213/10587291" target="_blank" rel="external">rabbitmq延时队列和四种交换机模式下队列的简单实现</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/20/springboot+mybatis多数据源最简解决方案/" class="archive-article-date">
-  	<time datetime="2018-01-20T13:52:48.642Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/20/springboot+mybatis多数据源最简解决方案/">springboot+mybatis多数据源最简解决方案</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/08/06/SpringBoot中RabbitMQ的使用详解/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/20/java中枚举类略解/" class="archive-article-date">
-  	<time datetime="2018-01-20T06:33:03.155Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-20</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/04/枚举实现单例原理 /" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">枚举实现单例的原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/20/java中枚举类略解/">java中枚举类略解</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /" class="archive-article-date">
-  	<time datetime="2018-01-19T06:06:34.785Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/SpringBoot+React前后端分离项目中跨域问题的完美解决方案 /">SpringBoot+React前后端分离项目中跨域问题的完美解决方案</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/" class="archive-article-date">
-  	<time datetime="2018-01-19T03:07:34.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/Des加密中错误Input length not multiple of 8 bytes的解决办法/">Des加密中错误Input length not multiple of 8 bytes的解决办法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/19/DES加密算法探究【Java版本】/" class="archive-article-date">
-  	<time datetime="2018-01-19T01:41:32.119Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/19/DES加密算法探究【Java版本】/">DES加密算法探究【Java版本】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" class="archive-article-date">
-  	<time datetime="2018-01-18T09:39:59.114Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">react结合d3.js和svg绘制条形统计图</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/" class="archive-article-date">
-  	<time datetime="2018-01-16T14:12:10.070Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/POI实现excel的导入导出-[未采用反射实现的版本]/">POI实现excel的导入导出-[未采用反射实现的版本]</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/nginx解决跨域问题详解/" class="archive-article-date">
-  	<time datetime="2018-01-14T14:16:38.355Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/nginx解决跨域问题详解/">nginx跨域详解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/14/Nginx实现文件下载的限速功能/" class="archive-article-date">
-  	<time datetime="2018-01-14T13:46:34.208Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/14/Nginx实现文件下载的限速功能/">Nginx实现文件下载限速的功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/10/幂等性[或者http幂等性]的理解/" class="archive-article-date">
-  	<time datetime="2018-01-10T14:30:25.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/10/幂等性[或者http幂等性]的理解/">幂等性[或者http幂等性]的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2018/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/2018/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/3/">3</a><a class="page-number" href="/archives/2018/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/2018/page/6/">6</a><a class="extend next" rel="next" href="/archives/2018/page/6/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -473,8 +397,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
