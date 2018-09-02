@@ -163,6 +163,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-reflux中一个小error[error-linstenner is no a function]总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">reflux中一个小error[error-linstenner is no a function]总结</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/" class="archive-article-date">
+  	<time datetime="2018-02-07T14:53:57.738Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用reflux的时候，我想为事件监听的callback函数添加参数，如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData(param));</div><div class="line">2、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData.bind(this,param));</div></pre></td></tr></table></figure>
+<p>但是，事实证明，这样是不行的，这样写将会报：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error:listenner is not a function</div></pre></td></tr></table></figure>
+<p>的错误。<br>3、解决方案<br>老老实实使用flux推荐的方式ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData);不进行参数的传递，真需要参数的话在回调函数内部用常量解决【常量代替参数】。<br>4、原因【个人理解】<br>flux的回调函数本来就是为了从store【数据中心】中回调数据的，在监听器的回调函数中添加参数是没有必要的。真需要参数的话，可以通过回调函数内部的目标函数的调用并传参解决。<br>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">callback()&#123;</div><div class="line">target(parm);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-POI实现excel的导入导出-[采用反射实现的版本]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -779,72 +846,6 @@ java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/27/Springboot中定时任务的实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Jrebel热部署插件的安装、破解和使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">Jrebel热部署插件的安装、破解和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/" class="archive-article-date">
-  	<time datetime="2018-01-23T14:23:58.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、什么是jrebel？<br>Jrebel是一款热部署插件，用于提高开发效率。一般我们在开发j2ee项目的时候，每次代码跟新就得重启服务，这样效率很低，尤其是对于大项目的，启动很慢，白白浪费了很多时间。使用jrebel插件后可以在java【配置文件更新后还是得重启服务】代码更新后自动编译更新而不用重启项目。但是jrebel的破解码很难搞，下面介绍jrebel的安装、破解和使用.。</p>
-<hr>
-<p>2、jrebel的安装、破解和使用.<br>(1、)安装<br>可以直接去eclipse的应用商店中下载，如图:<br><img src="http://img.blog.csdn.net/20180123211934330?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(2、)破解<br>jrebel理论上是收费的，但是我们可以破解，不是通过破解码和破解工具破解，因为这些方大都是无效的，老旧的。幸好，jrebel爱好者【可能是jrebe官方】搭建了一个网站，专门用于破解激活jrebel.<br>破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a><br>登录这个网站，使用facebook 或者推特登录（需要翻墙），然后输入邮箱，会要求验证（登录邮箱验证，点击验证链接），在输入手机号，不需要验证手机号。之后会进入破解网站:<a href="https://my.jrebel.com/" target="_blank" rel="external">MyJrebel</a>,登录后按照如下步骤操作即可获取激活码：<br>A、<img src="http://img.blog.csdn.net/20180123213841967?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>B、<img src="http://img.blog.csdn.net/20180123213954522?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>C、<img src="http://img.blog.csdn.net/20180123214111441?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>(3、)使用<br>3.1、将jrebel插件作用于选中的项目;</p>
-<p><img src="http://img.blog.csdn.net/20180123220751006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>3.2、更新代码，jrebel自动重新编译，无需重新启动。<br><img src="http://img.blog.csdn.net/20180123222138572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/23/Jrebel热部署插件的安装、破解和使用/">展开全文 >></a>
         </p>
       
 

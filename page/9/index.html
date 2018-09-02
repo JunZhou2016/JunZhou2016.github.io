@@ -163,6 +163,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用Jenkins配置Git+Maven的自动化构建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">使用Jenkins配置Git+Maven的自动化构建</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/" class="archive-article-date">
+  	<time datetime="2017-09-06T08:51:57.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>最近安装Jenkins，参照网上的各种资料进行尝试，折腾了好久，但是查找了这么多资料，相似度在90%以上！！！，相同的安装过程，测试了几台机器，未曾成功，不得不感慨自己能力有限，最终慢慢摸索，形成思路，现分享给大家，希望大家在安装的时候少走弯路。</p>
+<p>PS：本人很痛恨那种粘贴复制，毫无思考的博主，本想着拿着解决问题的心态，但结果还是一样，不但浪费了大家的时间，还浪费了大家的感情，所以，我把我遇到的问题和解决的方式记录下来和大家分享。</p>
+<p>转载链接:亲测可行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://blog.csdn.net/xlgen157387/article/details/50353317</div></pre></td></tr></table></figure>
+<p>配置过程中遇到的一些问题:一：wget命令提示找不到，其实wget和unzip一样，都是linux中的小插件，也就是工具类，提示命令没找到，多半是程序没有安装，安装一下就是了：</p>
+<blockquote>
+<p>  wget插件的安装命令:<br>      yum install wget</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>今天，使用unzip的时候，提示用不了，结果蒙逼。。。，还是问度娘，发现没有安装unzip软件，具体步骤如下：</p>
+<pre><code> #yum list | grep zip/unzip 
+ #yum install zip
+ #yum install unzip
+ 基本完成，如果在编译的时候出现错误：gcc : error trying to exec &apos;cc1plus&apos;: execvp : No sunch file or directory
+可以用gcc -v/g++ -v 来查看gcc 版本，会发现没有安装。安装如下：
+#yum list | grep gcc
+#yum install gcc-c++
+#yum install unzip
+</code></pre></blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/06/使用Jenkins配置Git+Maven的自动化构建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux(Centos)之安装tomcat并且部署Java Web项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1117,135 +1200,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用hexo+github搭建个人微博" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/使用hexo+github搭建个人微博/">hexo+github搭建个人博客</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/使用hexo+github搭建个人微博/" class="archive-article-date">
-  	<time datetime="2017-08-29T02:39:50.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   <strong>使用hexo+github搭建博客的步骤为：</strong><br>       1.软件的安装；<br>                 (1.)安装Node；<br>                 (2.)安装Hexo;<br>                 (3.)安装Git;<br>                 (4.)安装主题；<br>       2.内容的发布;<br>                 使用hexo插件发布博客内容;<br>      <em>详细步骤如下：</em>    </p>
-<hr>
-<p><strong>前提条件</strong><br>需要有个github账号。<br>一般做为一个开发人员，github肯定是访问过的，相信绝大多数开发人员会注册拥有一个github账号，因为这是全球知名的代码托管网站。全世界均可访问到它。若还没有可以到Github注册。</p>
-<p>基本软件NodeJS，Git，Hexo<br>在机子上需要使用到NodeJS进行部署，安装插件等。下载NodeJs。<br>安装Git，进入Git下载页面选择合适的版本进行下载。<br>如果不清楚Hexo是什么？？她是一个快速，简介，高效的博客框架。更多详情可以到Hexo官网读下这个文档就知道了。</p>
-<p>安装完成Git及NodeJs后，那么就可以开始准备安装Hexo了。<br>打开GitBash，使用npm命令来安装Hexo程序。</p>
-<p>安装Hexo</p>
-<hr>
-<p>在命令行输入如下命令:<br>$ npm install -g hexo-cli<br>由于众所周知的原因,可能你执行这条命令会报错，如果你不会调整姿势上网，可以使用淘宝 npm 镜像，执行如下命令即可：<br>$ npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="external">https://registry.npm.taobao.org</a><br>之后很多 npm 命令可以使用 cnpm 代替。执行下面命令即可安装 Hexo :<br>$ cnpm install -g hexo-cli<br>可能出现一些 WARN ,可以不用理会，然后执行：<br>$ cnpm install hexo –save<br>输入$ hexo -v命令，出现下面所示的版本信息，则说明安装成功</p>
-<p><img src="http://img.blog.csdn.net/20170829093934795?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>这样表示Hexo安装成功了。<br>到此，搭建个人微博需要的3个软件就安装完成了。</p>
-<p>接下来就需要进行相关配置及插件安装了。<br>所有的操作均在GitBash命令行中进行操作。</p>
-<p><strong>建站</strong><br>首先简历一个简单的站，创建初始化一个简单的文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo init myGitPages</div><div class="line">$ cd myGitPages</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<p>这样就可以新建所需要的文件。<br>安装完成后，可以看到如下的几个主要文件。</p>
-<p>   <img src="http://img.blog.csdn.net/20170829094415438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>其中:<br>_config.xml 可以配置网站信息。可以参考配置<br>package.json 应用程序信息。有默认配置一些组件，可以自己根据需要添加或者移除。<br>scaffolds 模板文件夹。当新建文章时，Hexo会根据scaffold来建立文件。<br>source 资源文件夹，存放用户资源的地方。<br>themes 主题文件夹。Hexo会根据主题来生成静态页面。</p>
-<p><strong>主题</strong></p>
-<hr>
-<p>Hexo可以有很多主题，在Github首页搜索框内输入”hexo theme”，可以搜索到很多主题，目前我使用的是litten的yilia主题。</p>
-<p>可以在进入到建立的站点文件夹下（我的是myGitPages）下，下载yilia主题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</div></pre></td></tr></table></figure>
-<p>下载完成后，打开站点个目录下（myGitPages）的_config.xml文件，修改其中的theme属性成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: yilia</div></pre></td></tr></table></figure>
-<p>这样就可以在发布文章的手看到修改的主题，或者通过hexo server进行查看。</p>
-<p><strong>发布</strong></p>
-<hr>
-<p>发布文章前一定要确认已经安装了hexo-deployer-git插件，否则无法正常发文章到git上的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>来安装git插件。</p>
-<p>到目前基本上需要的从博客站点建立，到发布所需要的软件准备工作都就绪了。</p>
-<p>PS：yilia要显示所有文章还需要进行一个配置，下文会写到。</p>
-<p>在开始写文章发布之前可以，先查本地运行查看Hexo运行情况，运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>在dos窗口的命令为（对应的安装路径下）:hexo s;[启动hexo]</p>
-<p>启动服务器。默认情况下，端口地址是4000。打开浏览器，访问：<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a><br>查看效果。若访问出错，没有打开页面，那么可能是端口被占用导致。此时可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server -p 5000</div></pre></td></tr></table></figure>
-<p>修改端口，然后重新输入端口号进行查看。<br>若访问成功，默认看到的是hello-wold.md（即source/_post文件夹下的默认创建文件）文件发布后的效果。</p>
-<p><strong>准备工作结束，可以开始写文章发布</strong></p>
-<hr>
-<p>用github+hexo搭建完个人博客后，朋友们应该很想知道怎么在上面写博文吧，这里介绍一个很简单的方法</p>
-<p>你可以使用CSDN网上面提供的MarkDown编辑器 <a href="http://write.blog.csdn.net/mdeditor" target="_blank" rel="external">http://write.blog.csdn.net/mdeditor</a> (在csdn博客写新文章的时候能切换到这种编辑器)，写好文章后，找到菜单栏的“导出到本地”选项<br><img src="http://img.blog.csdn.net/20170829100749122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>以md格式导出到本地，然后copy该md文件，粘贴到你当初建的博客站点文件夹下的source\ _posts目录下，一个md文件对应一篇博客文章。</p>
-<hr>
-<p>在写完文章之后就需要将写的文章部署到GitHub上去了。<br>来看下这个过程。</p>
-<p>由于要发布博客到GitHub实际上使用了GitHub Pages功能，因此可以到这里来查看相关的介绍。其中详细介绍了Pages概念，及如何建立自己的站点。</p>
-<p>一下先简绍下我自己的建立过程。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">建立GitHub仓库</div></pre></td></tr></table></figure>
-<p>建立仓库，用以部署Hexo生成的博客。如果还没有GitHub账号就需要注册了。<br>有GitHub账号的小伙伴可以到Github网站创建一个新仓库，如下显示。</p>
-<p><img src="http://img.blog.csdn.net/20170829101340431?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">新仓库</div></pre></td></tr></table></figure>
-<p>其中仓库名有所讲究，它必须是username.github.io ，这里的username有两种情况，其一是你的用户名即注册时使用的名称，其二是组织名称（此处组织名称并未尝试）。如下图可以看下位置。</p>
-<p><img src="http://img.blog.csdn.net/20170829101515174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hexo发布前需要配置_config.xml</div></pre></td></tr></table></figure>
-<p>在站点根目录下（myGitPages），找到并编辑_config.xml文件，如下部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">deploy:</div><div class="line">    type: git</div><div class="line">    repository: git@github.com:yourname/yourname.github.io.git</div><div class="line">    branch: master</div></pre></td></tr></table></figure>
-<p>将新建的仓库信息及分支信息配置到_config.xml，让Hexo知道部署到GitHub的那个仓库。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">发布</div></pre></td></tr></table></figure>
-<p>最后，就需要发布了。可以在站点根目录下（myGitPages）下运行一下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean #清除原有生成的相关文件</div><div class="line">$ hexo generate #重新生成静态页面</div><div class="line">$ hexo deploy #进行部署</div></pre></td></tr></table></figure>
-<p>在运行部署命令时，会弹出ssh密码输入确认框，输入username.github.io仓库密码，点击OK即可进行顺利发布。</p>
-<p>然后就去访问你的个人站点吧。你会看到发布的文章。</p>
-<p> PS: 不同的主题可能在主题中还需要进行一定的配置，这个看个人喜好使用哪个主题，我使用的是yilia主题，其在初次查看所有文章时会发现展示的不是文章列表。那么按照主题作者提示进行配置后，重新部署就可以了。</p>
-<p>1.nodejs版本大于6.2（最新的nodejs肯定符合）。<br>2.在博客根目录下（不是yilia根目录下）执行如下命令： npm i hexo-<code>generator-json-content --save</code><br>3.在根目录_config.xml文件内配置：</p>
-<h1 id="查看yilia主题下所有文章配置"><a href="#查看yilia主题下所有文章配置" class="headerlink" title="查看yilia主题下所有文章配置"></a>查看yilia主题下所有文章配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">      meta: false</div><div class="line">      pages: false</div><div class="line">      posts:</div><div class="line">          title: true</div><div class="line">          date: true</div><div class="line">          path: true</div><div class="line">          text: false</div><div class="line">          raw: false</div><div class="line">          content: false</div><div class="line">          slug: false</div><div class="line">          updated: false</div><div class="line">          comments: false</div><div class="line">          link: false</div><div class="line">          permalink: false</div><div class="line">         excerpt: false</div><div class="line">          categories: false</div><div class="line">          tags: true</div></pre></td></tr></table></figure>
-<p><strong>PS：设置个人头像注意的要点</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1.注意相对路径 绝对路径 根路径 的区别</div><div class="line">2.注意yilia主题对格式的严格要求，比如空格什么的;</div></pre></td></tr></table></figure>
-<p>  具体配置步骤如下：<br>         1.将图片资源放置指定的文件夹下：<br>         <img src="http://img.blog.csdn.net/20170829103613535?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>         2.注意图片路径的格式：<br>         <img src="http://img.blog.csdn.net/20170829103743288?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/使用hexo+github搭建个人微博/">展开全文 >></a>
         </p>
       
 

@@ -163,6 +163,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用JSOUP爬取国家统计局的地理位置数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/">使用JSOUP爬取国家统计局的地理位置数据</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/" class="archive-article-date">
+  	<time datetime="2018-09-02T09:01:17.929Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近因工作需要，我需要爬取国家统计局的最新统计数据。因此参照网上的例子使用JSOUP爬取了国家统计局的省、市、县、镇、村的数据。因为要爬取的数据较多，因此在里面使用了多线程的相关技术。下面首先讲解下多线程相关的东西。</p>
+<hr>
+<blockquote>
+<p> 首先理解下什么是线程池？<br>             因为创建和销毁线程是一件非常耗费时间的工作，因此，如果线程可以再一定程度上复用，那么肯定可以再节省不少的时间。线程池的作用可以类比MYSQL中的连接池理解。<br>             参考文章：<a href="https://www.jianshu.com/p/ae67972d1156" target="_blank" rel="external">Java常用四大线程池用法以及ThreadPoolExecutor详解</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>  其次是多线程中的Future模式。<br>  因为爬取的省份较多，因此需要多个线程并发执行，但是必须保证在IO操作的写操作执行前，所有的数据都已经爬取完毕。因此，必须使用多线程的Future模式，Future模式可以保证多个线程并发执行，并且可以通过future.get()方法在适当的地方进行线程堵塞，保证在结果输出前各个子线程已经执行结束。因为在调用到某个子线程的future.get()方法之前，各个子线程会继续并发执行，因此，调用future.get()方法阻塞主线程消耗的时间会非常的少，因此可以再一定的程度上节省时间开销。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      /**</div><div class="line"> * 等待所有的子线程执行完毕</div><div class="line"> */</div><div class="line">for (Future future : futureList) &#123;</div><div class="line">	future.get();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Future模式的参考文章：<a href="https://www.jianshu.com/p/949d44f3d9e3" target="_blank" rel="external">Java多线程 - Future模式</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>最后讲述下说说Runnable与Callable的区别：<br>  二者的实际异同为以下几点：<br>     相同点：<br>    1、 两者都是接口；（废话）<br>    2、两者都可用来编写多线程程序；<br>    3、两者都需要调用Thread.start()启动线程；<br>    不同点：<br>    1、两者最大的不同点是：实现Callable接口的任务线程能返回执行结果；而实现Runnable接口的任务线程不能返回结果；<br>    2、Callable接口的call()方法允许抛出异常；而Runnable接口的run()方法的异常只能在内部消化，不能继续上抛；<br>    注意点：<br>    Callable接口支持返回执行结果，此时需要调用FutureTask.get()方法实现，此方法会阻塞主线程直到获取‘将来’结果；当不调用此方法时，主线程不会阻塞！</p>
+</blockquote>
+<p>参考文章：<a href="https://www.cnblogs.com/frinder6/p/5507082.html" target="_blank" rel="external">说说Runnable与Callable</a></p>
+<hr>
+<p>下面是使用Jsoup爬取国家统计局数据的具体代码：<br><img src="http://ouuy81imh.bkt.clouddn.com/tjsu.png" alt="这里写图片描述"></p>
+<p>源码：<a href="https://download.csdn.net/download/zj20142213/10641389" target="_blank" rel="external">Jsoup爬取国家统计局的数据</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-SpringBoot中RabbitMQ的使用详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -833,82 +916,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/06/25/SSO单点登录探究【基于cookie共享】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-API扫描工具类的实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/07/API扫描工具类的实现/">API扫描工具类的实现</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/07/API扫描工具类的实现/" class="archive-article-date">
-  	<time datetime="2018-06-07T13:40:48.321Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>公司的架构师开发了一套接口扫描工具类，我想着，如果自己以后开公司了可能也用得着，所以研究了下，整理出了下面的开发思路和相关技术代码。<br>     API扫描工具类的主要开发思路如下：<br>     1、定义接口上的注解；<br>     2、引用注解<br>     3、扫描注解<br>     首先定义注解：</p>
-<p>定义接口上的注解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">package com.fs.comment;</div><div class="line"></div><div class="line">import java.lang.annotation.Documented;</div><div class="line">import java.lang.annotation.ElementType;</div><div class="line">import java.lang.annotation.Retention;</div><div class="line">import java.lang.annotation.RetentionPolicy;</div><div class="line">import java.lang.annotation.Target;</div><div class="line"></div><div class="line">@Documented</div><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(value = &#123;ElementType.METHOD, ElementType.FIELD,ElementType.LOCAL_VARIABLE,ElementType.PARAMETER&#125;)</div><div class="line">public @interface PersistenceContext &#123;</div><div class="line">	String unitName();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>关于注解：请参照下面的文章：<br><a href="https://blog.csdn.net/forezp/article/details/78026146" target="_blank" rel="external">Java注解详解</a><br><a href="https://blog.csdn.net/limj625/article/details/70242773" target="_blank" rel="external">Java注解之Retention、Documented、Target介绍</a><br><a href="https://blog.csdn.net/shao_zhiqiang/article/details/51764296" target="_blank" rel="external">实用的java注解工具类</a><br>如果想要动态的修改注解的值【如动态切换数据源】，一般看来注解的值是不能动态修改的，但是借助特殊工具还是可以的，参照下面的文章：<br><a href="https://blog.csdn.net/jly4758/article/details/44774217" target="_blank" rel="external">JAVAssist—动态修改注解</a></p>
-<p>引用注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">package com.fs.model.model2.model3.model4.model5;</div><div class="line"></div><div class="line">import com.fs.comment.PersistenceContext;</div><div class="line">import com.fs.model.EntityManager;</div><div class="line"></div><div class="line">public class CollectionBase&#123;  </div><div class="line">    /** </div><div class="line">     * 注入实体单元 </div><div class="line">     */  </div><div class="line">    @PersistenceContext(unitName=&quot;collection-entity&quot;)  </div><div class="line">    protected EntityManager em;  </div><div class="line">    /**EntityManger </div><div class="line">     * 实例化 </div><div class="line">     */</div><div class="line">    @PersistenceContext(unitName=&quot;collection-entity-01-01-01-01-01-01&quot;)  </div><div class="line">    public EntityManager getEntityManager() &#123;          </div><div class="line">        return this.em;  </div><div class="line">    &#125;  </div><div class="line">    </div><div class="line">    @PersistenceContext(unitName=&quot;collection-entity-01-02-02-01-01-01&quot;)</div><div class="line">    public EntityManager getEntityManager2() &#123;          </div><div class="line">        return this.em;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>扫描注解<br>扫描注解的工具类是参考了别人的代码写出来的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div></pre></td><td class="code"><pre><div class="line">package com.fs.commentUtils;</div><div class="line"></div><div class="line">import java.io.File;</div><div class="line">import java.io.FileFilter;</div><div class="line">import java.io.IOException;</div><div class="line">import java.lang.reflect.Method;</div><div class="line">import java.net.URL;</div><div class="line">import java.net.URLDecoder;</div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Enumeration;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">import com.fs.comment.PersistenceContext;</div><div class="line"></div><div class="line">/**</div><div class="line"> * </div><div class="line"> * 注解扫描工具类;</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class CommentScanUtil &#123;</div><div class="line">	/**    </div><div class="line">	   * getRequestMappingValue方法描述:  </div><div class="line">	   * 作者:JunJun</div><div class="line">	   * 日期:2018年6月7日 下午5:41:00         </div><div class="line">	   * 异常对象:@param packageName</div><div class="line">	   * 异常对象:@return </div><div class="line">	*/</div><div class="line">	    public static List&lt;String&gt; getRequestMappingValue(String packageName) &#123;</div><div class="line"></div><div class="line">	   // GetAnnotationValueUtil getAnnotationValueUtil = new GetAnnotationValueUtil();</div><div class="line"></div><div class="line">	         //第一个class类的集合  </div><div class="line">	        List&lt;Class&lt;?&gt;&gt; classes = new ArrayList&lt;Class&lt;?&gt;&gt;();  </div><div class="line"></div><div class="line">	        //是否循环迭代  </div><div class="line">	        boolean recursive = true;  </div><div class="line"></div><div class="line">	        //获取包的名字 并进行替换  </div><div class="line">	        String packageDirName = packageName.replace(&apos;.&apos;, &apos;/&apos;);  </div><div class="line"></div><div class="line">	        //定义一个枚举的集合 并进行循环来处理这个目录下的文件 </div><div class="line">	        Enumeration&lt;URL&gt; dirs;</div><div class="line">	        try &#123;  </div><div class="line">	            //读取指定package下的所有class</div><div class="line">	            dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName); </div><div class="line">	            while (dirs.hasMoreElements())&#123;  </div><div class="line">	                URL url = dirs.nextElement();  </div><div class="line">	                //得到协议的名称  </div><div class="line">	                String protocol = url.getProtocol();</div><div class="line">	                //判断是否以文件的形式保存在服务器上  </div><div class="line">	                if (&quot;file&quot;.equals(protocol)) &#123;</div><div class="line">	                    //获取包的物理路径  </div><div class="line">	                     String filePath = URLDecoder.decode(url.getFile(), &quot;UTF-8&quot;);</div><div class="line">	                     filePath = filePath.substring(1);</div><div class="line">	                    //以文件的方式扫描整个包下的文件 并添加到集合中  </div><div class="line">	                    findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);</div><div class="line">	                &#125; </div><div class="line">	            &#125;  </div><div class="line">	        &#125; catch (IOException e) &#123;</div><div class="line">	            e.printStackTrace();  </div><div class="line">	        &#125; </div><div class="line">	        List&lt;String&gt; stringList = new ArrayList&lt;String&gt;();</div><div class="line"></div><div class="line">	        for (Class&lt;?&gt; clazz : classes) &#123;</div><div class="line">	            //循环获取所有的类</div><div class="line">	            Class&lt;?&gt; c = clazz;</div><div class="line">	            //获取类的所有方法</div><div class="line">	            Method[] methods = c.getMethods();</div><div class="line">	            for (Method method : methods) &#123;</div><div class="line">	                //获取RequestMapping注解</div><div class="line">	            	PersistenceContext annotation = method.getAnnotation(PersistenceContext.class);</div><div class="line">	                if (annotation != null) &#123;</div><div class="line">	                    //获取注解的value值</div><div class="line">	                	String value = annotation.unitName();</div><div class="line">	                    System.out.println(&quot;-------anoValue--------&quot;+value);</div><div class="line">	                &#125;</div><div class="line">	            &#125;</div><div class="line">	        &#125;</div><div class="line">	        return stringList;</div><div class="line">	    &#125;</div><div class="line">	    </div><div class="line">	    </div><div class="line">	    /**    </div><div class="line">	     * findAndAddClassesInPackageByFile方法描述:  </div><div class="line">	     * 作者:JunJun</div><div class="line">	     * 日期:2018年6月7日 下午5:41:12         </div><div class="line">	     * 异常对象:@param packageName</div><div class="line">	     * 异常对象:@param packagePath</div><div class="line">	     * 异常对象:@param recursive</div><div class="line">	     * 异常对象:@param classes </div><div class="line">	     */</div><div class="line">	    public static void findAndAddClassesInPackageByFile(String packageName, String packagePath, final boolean recursive, List&lt;Class&lt;?&gt;&gt; classes)&#123;  </div><div class="line">	    	//packagePath = packagePath.trim().substring(1);</div><div class="line">	        //获取此包的目录 建立一个File  </div><div class="line">	        File dir = new File(packagePath);</div><div class="line">	        //如果不存在或者 也不是目录就直接返回  </div><div class="line">	        if (!dir.exists() || !dir.isDirectory()) &#123;</div><div class="line">	            return;  </div><div class="line">	        &#125;  </div><div class="line">	        //如果存在 就获取包下的所有文件 包括目录  </div><div class="line">	        File[] dirfiles = dir.listFiles(new FileFilter() &#123;  </div><div class="line">	              //自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)  </div><div class="line">	              public boolean accept(File file) &#123; </div><div class="line">	                return (recursive &amp;&amp; file.isDirectory()) || (file.getName().endsWith(&quot;.class&quot;));  </div><div class="line">	              &#125;</div><div class="line">	        &#125;); </div><div class="line">	        //循环所有文件 </div><div class="line">	        for (File file : dirfiles) &#123; </div><div class="line">	            //如果是目录 则继续扫描  </div><div class="line">	            if (file.isDirectory()) &#123;</div><div class="line">	                findAndAddClassesInPackageByFile(packageName + &quot;.&quot; + file.getName(),  </div><div class="line">	                                      file.getAbsolutePath(),  </div><div class="line">	                                      recursive,  </div><div class="line">	                                      classes);</div><div class="line">	            &#125;  </div><div class="line">	            else &#123;  </div><div class="line">	                //如果是java类文件 去掉后面的.class 只留下类名  </div><div class="line">	                String className = file.getName().substring(0, file.getName().length() - 6); </div><div class="line">	                try &#123;  </div><div class="line">	                    //添加到集合中去  </div><div class="line">	                    classes.add(Thread.currentThread().getContextClassLoader().loadClass(packageName + &quot;.&quot; + className));  </div><div class="line">	                &#125; catch (ClassNotFoundException e) &#123;  </div><div class="line">	                    e.printStackTrace();  </div><div class="line">	                &#125;  </div><div class="line">	            &#125;  </div><div class="line">	        &#125; </div><div class="line">	    &#125;&#125;</div></pre></td></tr></table></figure>
-<p>经过测试，证实这段代码对深层代码的递归扫描性能很高。测试的递归路径如下图所示：<br><img src="https://img-blog.csdn.net/20180607212933565?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-<p>另外在研究过程中尝试了自动解析API参数为JSON ，虽然最终以失败告终,失败的原因是写出来的代码无法适应参数中泛型以及泛型中属性名的动态匹配。下面是在尝试中总结出来的工具类：</p>
-<p>扫描API中参数的类型工具类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">package com.fs;</div><div class="line"></div><div class="line">import java.lang.reflect.Method;</div><div class="line">import java.lang.reflect.ParameterizedType;</div><div class="line">import java.lang.reflect.Type;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">import com.fs.comment.NoNull;</div><div class="line">import com.fs.model.BlueChartProjectSearchFilter;</div><div class="line">import com.fs.model.ReqObject;</div><div class="line">import com.fs.model.ReqQuery;</div><div class="line">import com.fs.model.Student;</div><div class="line">import com.fs.model.Teacher;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 通过反射获取泛型信息</div><div class="line"> * </div><div class="line"> * @author Administrator</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class Generic &#123;</div><div class="line">	/**</div><div class="line">	 * 方法一</div><div class="line">	 * </div><div class="line">	 * @param map</div><div class="line">	 * @param list</div><div class="line">	 */</div><div class="line">	public static void test01(@NoNull ReqObject&lt;ReqQuery&lt;BlueChartProjectSearchFilter&gt;&gt;  map, @NoNull List&lt;Student&gt; list,</div><div class="line">			@NoNull Teacher&lt;Student&gt; a) &#123;</div><div class="line">		System.out.println(&quot;Generic.test01()&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		try &#123;</div><div class="line">			Method[] methods = Generic.class.getDeclaredMethods();</div><div class="line">			Class&lt;?&gt;[] parameterTypes2 = methods[1].getParameterTypes();</div><div class="line">			Method m = Generic.class.getMethod(&quot;test01&quot;, parameterTypes2);</div><div class="line">			Class&lt;?&gt;[] parameterTypes = m.getParameterTypes();</div><div class="line">			for (Class&lt;?&gt; class1 : parameterTypes) &#123;</div><div class="line">				System.out.println(&quot;---------&gt;&lt;&gt;&lt;&gt;&lt;&gt;&quot; + class1);</div><div class="line">			&#125;</div><div class="line">			Type[] t = m.getGenericParameterTypes();// 获取参数泛型</div><div class="line">			for (Type paramType : t) &#123;</div><div class="line">				System.out.println(&quot;#&quot; + paramType);</div><div class="line">				if (paramType instanceof ParameterizedType) &#123;</div><div class="line">					Type[] genericTypes = ((ParameterizedType) paramType).getActualTypeArguments();</div><div class="line">					for (@SuppressWarnings(&quot;unused&quot;) Type genericType : genericTypes) &#123;</div><div class="line">						System.out.println(&quot;#&quot;+paramType);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125; catch (NoSuchMethodException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; catch (SecurityException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>字符串转化为JAVA代码的工具类:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package com.fs.commentUtils;</div><div class="line"></div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">import org.apache.commons.jexl2.Expression;</div><div class="line">import org.apache.commons.jexl2.JexlContext;</div><div class="line">import org.apache.commons.jexl2.JexlEngine;</div><div class="line">import org.apache.commons.jexl2.MapContext;</div><div class="line"></div><div class="line">import com.fs.model.BlueChartProjectSearchFilter;</div><div class="line">import com.fs.model.ReqObject;</div><div class="line">import com.fs.model.ReqQuery;</div><div class="line"></div><div class="line">import net.sf.json.JSONObject;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 字符串转化为代码;</div><div class="line"> * </div><div class="line"> * @author xdsm</div><div class="line"> *</div><div class="line"> */</div><div class="line">public class StringToCode &#123;</div><div class="line">	/**</div><div class="line">	 * </div><div class="line">	 * @author: Longjun</div><div class="line">	 * @Description: 使用commons的jexl可实现将字符串变成可执行代码的功能</div><div class="line">	 * @date:2016年3月21日 下午1:45:13</div><div class="line">	 */</div><div class="line">	public static Object convertToCode(String jexlExp, Map&lt;String, Object&gt; map) &#123;</div><div class="line">		JexlEngine jexl = new JexlEngine();</div><div class="line">		Expression e = jexl.createExpression(jexlExp);</div><div class="line">		JexlContext jc = new MapContext();</div><div class="line">		for (String key : map.keySet()) &#123;</div><div class="line">			jc.set(key, map.get(key));</div><div class="line">		&#125;</div><div class="line">		if (null == e.evaluate(jc)) &#123;</div><div class="line">			return &quot;&quot;;</div><div class="line">		&#125;</div><div class="line">		return e.evaluate(jc);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException &#123;  </div><div class="line">		/*ReqObject req = (ReqObject) Class.forName(&quot;com.fs.model.ReqObject&quot;).newInstance();</div><div class="line">		ReqQuery reqq = (ReqQuery) Class.forName(&quot;com.fs.model.ReqQuery&quot;).newInstance();</div><div class="line">		BlueChartProjectSearchFilter bcsf = (BlueChartProjectSearchFilter) Class.forName(&quot;com.fs.model.BlueChartProjectSearchFilter&quot;).newInstance();</div><div class="line">		reqq.setObj(bcsf);</div><div class="line">		req.setObj(reqq);</div><div class="line">		JSONObject json = JSONObject.fromObject(req);*/</div><div class="line">		/*Object req = Class.forName(&quot;com.fs.model.ReqObject&quot;).cast(Class.forName(&quot;com.fs.model.ReqObject&quot;).newInstance());</div><div class="line">		Object reqq = Class.forName(&quot;com.fs.model.ReqQuery&quot;).cast(Class.forName(&quot;com.fs.model.ReqQuery&quot;).newInstance());</div><div class="line">		Object bcsf = Class.forName(&quot;com.fs.model.BlueChartProjectSearchFilter&quot;).cast(Class.forName(&quot;com.fs.model.BlueChartProjectSearchFilter&quot;).newInstance());</div><div class="line">		Field[] fields = req.getClass().getDeclaredFields();</div><div class="line">		for (Field field : fields) &#123;</div><div class="line">			String fieldStr = field.toString();</div><div class="line">			String[] fieldPreStrArray = fieldStr.split(&quot; &quot;);</div><div class="line">			String fieldType = fieldPreStrArray[1];</div><div class="line">			String fieldName = fieldPreStrArray[2].substring(fieldPreStrArray[2].lastIndexOf(&quot;.&quot;) + 1);</div><div class="line">			System.out.println(&quot;----fieldType----&quot;+fieldType);</div><div class="line">			System.out.println(&quot;//----fieldName----&quot;+fieldName);</div><div class="line">		&#125;*/</div><div class="line">		ReqObject&lt;ReqQuery&lt;BlueChartProjectSearchFilter&gt;&gt; req = new ReqObject&lt;ReqQuery&lt;BlueChartProjectSearchFilter&gt;&gt;();</div><div class="line">		JSONObject json = JSONObject.fromObject(req);</div><div class="line">		System.out.println(json);</div><div class="line">		/*try &#123;  </div><div class="line">            Map&lt;String,Object&gt; map=new HashMap&lt;String,Object&gt;();   </div><div class="line">            map.put(&quot;money&quot;,2100);    </div><div class="line">            String expression=&quot;money&gt;=2000&amp;&amp;money&lt;=4000&quot;;</div><div class="line">            Object code = convertToCode(expression,map);</div><div class="line">            System.out.println(code);</div><div class="line">        &#125; catch (Exception e) &#123;  </div><div class="line">            // TODO Auto-generated catch block  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125;  */</div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>参考文章：<a href="https://blog.csdn.net/junlong750/article/details/50945883" target="_blank" rel="external">java将字符串转换成可执行代码</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/07/API扫描工具类的实现/">展开全文 >></a>
         </p>
       
 

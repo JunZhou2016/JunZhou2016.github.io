@@ -163,6 +163,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 " class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /">SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /" class="archive-article-date">
+  	<time datetime="2018-03-17T01:44:52.192Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在使用SpringCloud搭建微服务的过程中，发现上传文件经过Zuul网关转发的时候，回应为上传文件名中文乱码导致文件的写操作失败，从而导致文件上传失败，但是不经过Zuul转发的时候，文件上传正常，因此猜测是Zuul对上传的请求的编码进行了处理。最终在网上找到了两种解决方案:</p>
+<hr>
+<p>  方案一、在上传文件的请求路径之前添加字符串“zuul”声明此请求的编码不做处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 各种poi导入导出的请求控制模块;</div><div class="line"> * </div><div class="line"> * @author:JunZhou</div><div class="line"> * @Company:LongZheng</div><div class="line"> * @Email:1769676159@qq.com</div><div class="line"> * @2018年1月16日@下午4:28:49</div><div class="line"> */</div><div class="line">@RestController</div><div class="line">@RequestMapping(&quot;/poi&quot;)</div><div class="line">@ClazzNote(desc = &quot;excel文件&quot;, resource = &quot;input&quot;, modName = &quot;poi&quot;)</div><div class="line">public class POIController &#123;</div><div class="line">	@RequestMapping(&quot;/uploadExcel&quot;)</div><div class="line">	@ServiceNote(desc = &quot;上传考勤明细的excel&quot;, auth = ServiceNote.AUTH.CHECK)</div><div class="line">	public ResObject&lt;ResponseMessage&gt; singleFileUpload(MultipartHttpServletRequest request,</div><div class="line">	    RedirectAttributes redirectAttributes, HttpServletResponse response) &#123;</div><div class="line">		Integer stateCode = poiService.receiveUploadExcel(request, redirectAttributes, response);</div><div class="line">		//根据返回值确定响应信息实体;</div><div class="line">		ResponseMessage responseMessage = UploadStatusEnum.desicideUploadStatusBystateCode(stateCode, response);</div><div class="line">		//设置响应状态为200;</div><div class="line">		response.setStatus(UploadStatusEnum.UPLOAD_OK.getStateCode());</div><div class="line">		return new ResObject&lt;ResponseMessage&gt;(null,responseMessage);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>例如在当前代码下，请求路径是：</p>
+<blockquote>
+<p>localhost:9090/oss/poi/uploadExcel</p>
+</blockquote>
+<p>那么采用方案一解决中文乱码的请求路径就是:</p>
+<blockquote>
+<p>localhost:9090/zuul/oss/poi/uploadExcel</p>
+</blockquote>
+<p>经过测试，中文乱码问题成功解决。</p>
+<hr>
+<p>方案二:<br>在方案一的基础上，不仅要改动后端代码，前端代码也要变更，较为麻烦，<br>因此更简单的方案是在zuul的配置文件中添加一个如下的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">zuul.servlet-path=/</div></pre></td></tr></table></figure>
+<p>注意实在网关的配置文件中添加的，经过本人侧ishi，问题也成功解决了。</p>
+<p>参考文章：<br>1、<a href="https://my.oschina.net/u/3706162/blog/1621014" target="_blank" rel="external">SpringCloud 上传文件，经过Zuul，中文文件名乱码解决办法</a></p>
+<p>2、<a href="https://github.com/spring-cloud/spring-cloud-netflix/issues/1385" target="_blank" rel="external">zuul proxy file upload, file name is Chinese garbled #1385</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/17/SpringCloud上传文件，经过Zuul，中文文件名乱码解决办法 /">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Http状态码详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -729,73 +810,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/02/07/js中this的理解和实践【包含箭头函数中的this】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-reflux中一个小error[error-linstenner is no a function]总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">reflux中一个小error[error-linstenner is no a function]总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/" class="archive-article-date">
-  	<time datetime="2018-02-07T14:53:57.738Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在使用reflux的时候，我想为事件监听的callback函数添加参数，如下所示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData(param));</div><div class="line">2、ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData.bind(this,param));</div></pre></td></tr></table></figure>
-<p>但是，事实证明，这样是不行的，这样写将会报：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error:listenner is not a function</div></pre></td></tr></table></figure>
-<p>的错误。<br>3、解决方案<br>老老实实使用flux推荐的方式ContentStore.removeChangeListener(CHANGE_EVENT_BATCH_DEL_ATTENCE_DETAIL, this.receptBatchDelData);不进行参数的传递，真需要参数的话在回调函数内部用常量解决【常量代替参数】。<br>4、原因【个人理解】<br>flux的回调函数本来就是为了从store【数据中心】中回调数据的，在监听器的回调函数中添加参数是没有必要的。真需要参数的话，可以通过回调函数内部的目标函数的调用并传参解决。<br>如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">callback()&#123;</div><div class="line">target(parm);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/07/reflux中一个小error[error-linstenner is no a function]总结/">展开全文 >></a>
         </p>
       
 

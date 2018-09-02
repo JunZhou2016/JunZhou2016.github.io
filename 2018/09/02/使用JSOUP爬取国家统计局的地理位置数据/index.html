@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Blog4Jun</title>
+  <title>使用JSOUP爬取国家统计局的地理位置数据 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/archives/page/11/index.html">
+  <meta name="description" content="最近因工作需要，我需要爬取国家统计局的最新统计数据。因此参照网上的例子使用JSOUP爬取了国家统计局的省、市、县、镇、村的数据。因为要爬取的数据较多，因此在里面使用了多线程的相关技术。下面首先讲解下多线程相关的东西。    首先理解下什么是线程池？             因为创建和销毁线程是一件非常耗费时间的工作，因此，如果线程可以再一定程度上复用，那么肯定可以再节省不少的时间。线程池的作用可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用JSOUP爬取国家统计局的地理位置数据">
+<meta property="og:url" content="http://yoursite.com/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="最近因工作需要，我需要爬取国家统计局的最新统计数据。因此参照网上的例子使用JSOUP爬取了国家统计局的省、市、县、镇、村的数据。因为要爬取的数据较多，因此在里面使用了多线程的相关技术。下面首先讲解下多线程相关的东西。    首先理解下什么是线程池？             因为创建和销毁线程是一件非常耗费时间的工作，因此，如果线程可以再一定程度上复用，那么肯定可以再节省不少的时间。线程池的作用可以">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/tjsu.png">
+<meta property="og:updated_time" content="2018-09-02T09:04:01.616Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="使用JSOUP爬取国家统计局的地理位置数据">
+<meta name="twitter:description" content="最近因工作需要，我需要爬取国家统计局的最新统计数据。因此参照网上的例子使用JSOUP爬取了国家统计局的省、市、县、镇、村的数据。因为要爬取的数据较多，因此在里面使用了多线程的相关技术。下面首先讲解下多线程相关的东西。    首先理解下什么是线程池？             因为创建和销毁线程是一件非常耗费时间的工作，因此，如果线程可以再一定程度上复用，那么肯定可以再节省不少的时间。线程池的作用可以">
+<meta name="twitter:image" content="http://ouuy81imh.bkt.clouddn.com/tjsu.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -161,160 +167,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-使用JSOUP爬取国家统计局的地理位置数据" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用JSOUP爬取国家统计局的地理位置数据
+    </h1>
+  
+
+        
+        <a href="/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/" class="archive-article-date">
+  	<time datetime="2018-09-02T09:01:17.929Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近因工作需要，我需要爬取国家统计局的最新统计数据。因此参照网上的例子使用JSOUP爬取了国家统计局的省、市、县、镇、村的数据。因为要爬取的数据较多，因此在里面使用了多线程的相关技术。下面首先讲解下多线程相关的东西。</p>
+<hr>
+<blockquote>
+<p> 首先理解下什么是线程池？<br>             因为创建和销毁线程是一件非常耗费时间的工作，因此，如果线程可以再一定程度上复用，那么肯定可以再节省不少的时间。线程池的作用可以类比MYSQL中的连接池理解。<br>             参考文章：<a href="https://www.jianshu.com/p/ae67972d1156" target="_blank" rel="external">Java常用四大线程池用法以及ThreadPoolExecutor详解</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>  其次是多线程中的Future模式。<br>  因为爬取的省份较多，因此需要多个线程并发执行，但是必须保证在IO操作的写操作执行前，所有的数据都已经爬取完毕。因此，必须使用多线程的Future模式，Future模式可以保证多个线程并发执行，并且可以通过future.get()方法在适当的地方进行线程堵塞，保证在结果输出前各个子线程已经执行结束。因为在调用到某个子线程的future.get()方法之前，各个子线程会继续并发执行，因此，调用future.get()方法阻塞主线程消耗的时间会非常的少，因此可以再一定的程度上节省时间开销。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">      /**</div><div class="line"> * 等待所有的子线程执行完毕</div><div class="line"> */</div><div class="line">for (Future future : futureList) &#123;</div><div class="line">	future.get();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Future模式的参考文章：<a href="https://www.jianshu.com/p/949d44f3d9e3" target="_blank" rel="external">Java多线程 - Future模式</a></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>最后讲述下说说Runnable与Callable的区别：<br>  二者的实际异同为以下几点：<br>     相同点：<br>    1、 两者都是接口；（废话）<br>    2、两者都可用来编写多线程程序；<br>    3、两者都需要调用Thread.start()启动线程；<br>    不同点：<br>    1、两者最大的不同点是：实现Callable接口的任务线程能返回执行结果；而实现Runnable接口的任务线程不能返回结果；<br>    2、Callable接口的call()方法允许抛出异常；而Runnable接口的run()方法的异常只能在内部消化，不能继续上抛；<br>    注意点：<br>    Callable接口支持返回执行结果，此时需要调用FutureTask.get()方法实现，此方法会阻塞主线程直到获取‘将来’结果；当不调用此方法时，主线程不会阻塞！</p>
+</blockquote>
+<p>参考文章：<a href="https://www.cnblogs.com/frinder6/p/5507082.html" target="_blank" rel="external">说说Runnable与Callable</a></p>
+<hr>
+<p>下面是使用Jsoup爬取国家统计局数据的具体代码：<br><img src="http://ouuy81imh.bkt.clouddn.com/tjsu.png" alt="这里写图片描述"></p>
+<p>源码：<a href="https://download.csdn.net/download/zj20142213/10641389" target="_blank" rel="external">Jsoup爬取国家统计局的数据</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/7.springmvc与struts2不同/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.191Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/7.springmvc与struts2不同/">springmvc与struts2不同</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/09/02/使用JSOUP爬取国家统计局的地理位置数据/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/用JAVA判断一个URL是否有效/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.189Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/06/SpringBoot中RabbitMQ的使用详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringBoot中RabbitMQ的使用详解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/用JAVA判断一个URL是否有效/">用JAVA判断一个URL是否有效</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/J2EE中session的深入理解/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:49:30.098Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/J2EE中session的深入理解/">J2EE中session的深入理解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/FirstBlog/" class="archive-article-date">
-  	<time datetime="2017-08-29T00:00:21.716Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/FirstBlog/">Hello JunZhou</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/hello-world/" class="archive-article-date">
-  	<time datetime="2017-08-28T23:52:51.266Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/10/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><span class="page-number current">11</span>
-    </nav>
   
 
 
@@ -338,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
