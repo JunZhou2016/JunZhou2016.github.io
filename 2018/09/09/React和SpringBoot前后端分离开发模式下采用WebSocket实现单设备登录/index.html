@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog4Jun</title>
+  <title>React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录 | Blog4Jun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog4Jun">
-<meta property="og:url" content="http://yoursite.com/page/10/index.html">
+  <meta name="description" content="首先介绍下，什么是单设备登录？单设备登录可以理解为同一个应用某一时刻只允许单一用户使用处于登录状态。单设备登录可以类比QQ的踢出第二者登录模式，可以在一定的程度上保障账号的安全。       单设备登录的难点在哪？   单设备登录的难点在于如何主动、准确的推动消息到客户端。但是幸运的是我们可以通过WebSocket实现消息的准确推送，并且React中也有对应的WebSocket的Js依赖包可以使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录">
+<meta property="og:url" content="http://yoursite.com/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/index.html">
 <meta property="og:site_name" content="Blog4Jun">
+<meta property="og:description" content="首先介绍下，什么是单设备登录？单设备登录可以理解为同一个应用某一时刻只允许单一用户使用处于登录状态。单设备登录可以类比QQ的踢出第二者登录模式，可以在一定的程度上保障账号的安全。       单设备登录的难点在哪？   单设备登录的难点在于如何主动、准确的推动消息到客户端。但是幸运的是我们可以通过WebSocket实现消息的准确推送，并且React中也有对应的WebSocket的Js依赖包可以使">
+<meta property="og:image" content="http://ouuy81imh.bkt.clouddn.com/singleDeviceLogin001.gif">
+<meta property="og:updated_time" content="2018-09-09T10:09:12.841Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog4Jun">
+<meta name="twitter:title" content="React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录">
+<meta name="twitter:description" content="首先介绍下，什么是单设备登录？单设备登录可以理解为同一个应用某一时刻只允许单一用户使用处于登录状态。单设备登录可以类比QQ的踢出第二者登录模式，可以在一定的程度上保障账号的安全。       单设备登录的难点在哪？   单设备登录的难点在于如何主动、准确的推动消息到客户端。但是幸运的是我们可以通过WebSocket实现消息的准确推送，并且React中也有对应的WebSocket的Js依赖包可以使">
+<meta name="twitter:image" content="http://ouuy81imh.bkt.clouddn.com/singleDeviceLogin001.gif">
   
     <link rel="alternative" href="/atom.xml" title="Blog4Jun" type="application/atom+xml">
   
@@ -161,53 +167,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-面向对象程序设计六大原则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/面向对象程序设计六大原则/">面向对象程序设计原则</a>
+    <h1 class="article-title" itemprop="name">
+      React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录
     </h1>
   
 
         
-        <a href="/2017/08/29/面向对象程序设计六大原则/" class="archive-article-date">
-  	<time datetime="2017-08-29T09:50:22.302Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
+        <a href="/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/" class="archive-article-date">
+  	<time datetime="2018-09-09T10:08:22.049Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>面向对象程序设计原则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">一、单一职责原则：</div></pre></td></tr></table></figure>
-<p>全称：“Single-Responsibility Principle”<br>说明：就一个类而言，应该只专注于做一件事和仅有一个引起它变化的原因。所谓职责，我们可以理解他为功能，就是设计的这个类功能应该只有一个，而不是两个或更多。也可以理解为引用变化的原因，当你发现有两个变化会要求我们修改这个类，那么你就要考虑撤分这个类了。因为职责是变化的一个轴线，当需求变化时，该变化会反映类的职责的变化。<br>使用SRP注意点：<br>1、一个合理的类，应该仅有一个引起它变化的原因，即单一职责；<br>2、在没有变化征兆的情况下应用SRP或其他原则是不明智的；<br>3、在需求实际发生变化时就应该应用SRP等原则来重构代码；<br>4、使用测试驱动开发会迫使我们在设计出现臭味之前分离不合理代码；<br>5、如果测试不能迫使职责分离，僵化性和脆弱性的臭味会变得很强烈，那就应该用Facade或Proxy模式对代码重构；SRP优点：消除耦合，减小因需求变化引起代码僵化。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">二、里氏代换原则</div></pre></td></tr></table></figure>
-<p>全称：“Liskov Substitution Principle”<br>说明：子类型必须能够替换它们的基类型。一个软件实体如果使用的是一个基类，那么当把这个基类替换成继承该基类的子类，程序的行为不会发生任何变化。软件实体察觉不出基类对象和子类对象的区别。<br>优点：可以很容易的实现同一父类下各个子类的互换，而客户端可以毫不察觉。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">三、依赖倒置原则</div></pre></td></tr></table></figure>
-<p>全称：“Dependence Inversion Principle”<br>说明：<br>1、高层模块不应该依赖低层模块，两者都应该依赖于抽象（抽象类或接口）</p>
-<p>2、抽象（抽象类或接口）不应该依赖于细节（具体实现类）</p>
-<p>3、细节（具体实现类）应该依赖抽象</p>
-<p>抽象：即抽象类或接口，两者是不能够实例化的</p>
-<p>细节：即具体的实现类，实现接口或者继承抽象类所产生的类，两者可以通过关键字new直接被实例化</p>
-<p>而依赖倒置原则的本质骑士就是通过抽象（抽象类或接口）使各个类或模块的实现彼此独立，不相互影响，实现模块间的松耦合。但是这个原则也是6个设计原则中最难以实现的了，如果没有实现这个原则，那么也就意味着开闭原则（对扩展开发，对修改关闭）也无法实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">四、接口隔离原则</div></pre></td></tr></table></figure>
-<p>全称：“Interface Segregation Principle”<br>说明：使用多个专一功能的接口比使用一个的总接口总要好。从一个客户类的角度来讲：一个类对另外一个类的依赖性应当是建立在最小接口上的。过于臃肿的接口是对接口的污染，不应该强迫客户依赖于它们不用的方法。<br>优点：会使一个软件系统功能扩展时，修改的压力不会传到别的对象那里。<br>如何实现接口隔离原则<br>不应该强迫用户依赖于他们不用的方法。<br>1、利用委托分离接口。<br>2、利用多继承分离接口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">五、迪米特原则</div></pre></td></tr></table></figure>
-<p>全称：“Law of Demeter”<br>说明：对象与对象之间应该使用尽可能少的方法来关联，避免千丝万缕的关系。<br>如何实现迪米特法则？<br>迪米特法则的主要用意是控制信息的过载，在将其运用到系统设计中应注意以下几点：<br>1) 在类的划分上，应当创建有弱耦合的类。类之间的耦合越弱，就越有利于复用。<br>2) 在类的结构设计上，每一个类都应当尽量降低成员的访问权限。一个类不应当public自己的属性，而应当提供取值和赋值的方法让外界间接访问自己的属性。<br>3) 在类的设计上，只要有可能，一个类应当设计成不变类。<br>4) 在对其它对象的引用上，一个类对其它对象的引用应该降到最低。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">六、开放－封闭原则</div></pre></td></tr></table></figure>
-<p>全称：“Open-Closed Principle”<br>说明：所谓开放封闭原则就是软件实体应该对扩展开发，而对修改封闭。开放封闭原则是所有面向对象原则的核心。软件设计本身所追求的目标就是封装变化，降低耦合，而开放封闭原则正是对这一目标的最直接体现。<br>   开放封闭原则主要体现在两个方面：</p>
-<p>   对扩展开放，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。</p>
-<p>   对修改封闭，意味着类一旦设计完成，就可以独立其工作，而不要对类尽任何修改。</p>
-<p>为什么要用到开放封闭原则呢？</p>
-<p>软件需求总是变化的，世界上没有一个软件的是不变的，因此对软件设计人员来说，必须在不需要对原有系统进行修改的情况下，实现灵活的系统扩展。</p>
+        <blockquote>
+<p>首先介绍下，什么是单设备登录？<br>单设备登录可以理解为同一个应用某一时刻只允许单一用户使用处于登录状态。单设备登录可以类比QQ的踢出第二者登录模式，可以在一定的程度上保障账号的安全。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>   单设备登录的难点在哪？<br>   单设备登录的难点在于如何主动、准确的推动消息到客户端。但是幸运的是我们可以通过WebSocket实现消息的准确推送，并且React中也有对应的WebSocket的Js依赖包可以使用。</p>
+</blockquote>
+<p>下面将介绍详细的实现流程：<br>A、前端开发准备流程：<br>   1、使用npm 安装正确的js依赖包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install websockt</div></pre></td></tr></table></figure>
+<p>参考文章：<a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="external">阮一峰的WebSocket 教程</a></p>
+<p>2、websocket前端实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line">  * 建立WS链接相关的方法;jSESSIONID:&apos;&apos;</div><div class="line">  * @param &#123;*&#125; wsUrl :建立webSocket链接的Url;</div><div class="line">  */</div><div class="line">  estabConnectWithWS(wsUrl) &#123;</div><div class="line">  const ws = new WebSocket(wsUrl);</div><div class="line">  </div><div class="line">  let result = &quot;&quot;;</div><div class="line"></div><div class="line">  ws.onopen = function (e) &#123;</div><div class="line">    console.log(&apos;连接上 ws 服务端了&apos;);</div><div class="line">    ws.send(JSON.stringify(&#123; flag: wsUrl, data: &quot;Hello WebSocket!&quot; &#125;));</div><div class="line">  &#125;</div><div class="line">  ws.onmessage = (msg)=&gt; &#123; </div><div class="line">      console.log(&apos;接收服务端发过来的消息: %o&apos;, msg); </div><div class="line">      var msgJson = JSON.parse(msg.data);</div><div class="line">      result += msgJson.MsgBody + &apos;\n&apos;;</div><div class="line">      if (msgJson.MsgCode == &quot;999999&quot;) &#123;//多设备在线的异常发生时;</div><div class="line">         window.location.href = &apos;/#/&apos;;</div><div class="line">      &#125; else if (msgJson.MsgCode == &quot;555555&quot;) &#123;//用户退出系统的时候;</div><div class="line">          ws.close();</div><div class="line">          window.location.href = &apos;/#/&apos;;</div><div class="line">      &#125;</div><div class="line">      alert(msgJson.MsgBody);</div><div class="line">  &#125;; </div><div class="line">  ws.onclose = function (e) &#123;</div><div class="line">      console.log(&apos;ws 连接关闭了&apos;);</div><div class="line">      console.log(e);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要步骤就是在登录校验通过后就建立和WebSocket服务终端的链接，并启动消息监听，在多用户登录的时候，前端弹出提示消息并跳转到登录页面，在用户执行退出操作的时候终断websocket链接并跳转到登录页面。</p>
+<p>具体情境如下图所示：<br><img src="http://ouuy81imh.bkt.clouddn.com/singleDeviceLogin001.gif" alt="这里写图片描述"><br>B、websocket后端开发流程<br>1、在用户成功登录后创建session并存储用户的登录信息；<br>2、websocket客户端和websocket服务端握手成功之后，将第一步中的session中的数据放入WebSocketSession中，便于在MyWebSocketHandler中创建在线用户表，最终将根据在线用户表中的userId实现一对一的消息推送。<br>3、ws请求进入MyWebSocketHandler【ws处理】中，在ws链接建立的生命周期中进行合理的数据处理。</p>
+<p>WebSocketInterceptor.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">package com.sds.socketInterceptor;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpSession;</div><div class="line"></div><div class="line">import org.springframework.http.server.ServerHttpRequest;</div><div class="line">import org.springframework.http.server.ServerHttpResponse;</div><div class="line">import org.springframework.http.server.ServletServerHttpRequest;</div><div class="line">import org.springframework.web.socket.TextMessage;</div><div class="line">import org.springframework.web.socket.WebSocketHandler;</div><div class="line">import org.springframework.web.socket.WebSocketSession;</div><div class="line">import org.springframework.web.socket.server.HandshakeInterceptor;</div><div class="line"></div><div class="line">import com.sds.enums.MsgEnum;</div><div class="line">import com.sds.model.LoginerInfo;</div><div class="line">import com.sds.model.WSMsg;</div><div class="line">import com.sds.socketHandle.MyWebSocketHandler;</div><div class="line"></div><div class="line">public class WebSocketInterceptor implements HandshakeInterceptor &#123;</div><div class="line">	@Override</div><div class="line">	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,</div><div class="line">			Map&lt;String, Object&gt; map) throws Exception &#123;</div><div class="line">		if (request instanceof ServletServerHttpRequest) &#123;</div><div class="line">			HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();</div><div class="line">			HttpSession session = servletRequest.getSession(false);</div><div class="line">			if (session != null) &#123;</div><div class="line">				// 处理已经建立的链接;</div><div class="line">				dealWithConnectioned(session);</div><div class="line">				// 添加自定义的属性值到wobsocket中，便于进行访问控制，注意逻辑上的先后顺序;</div><div class="line">				map.put(&quot;userInfo&quot;, session.getAttribute(&quot;userInfo&quot;));</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,</div><div class="line">			Exception exception) &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 处理多设备登录;</div><div class="line">	 */</div><div class="line">	public static boolean dealWithConnectioned(HttpSession userInfoStore) &#123;</div><div class="line"></div><div class="line">		boolean isConnectioned = false;</div><div class="line"></div><div class="line">		LoginerInfo currentUserInfo = ((LoginerInfo) userInfoStore.getAttribute(&quot;userInfo&quot;));</div><div class="line">		String userId = null;</div><div class="line">		if (null != currentUserInfo) &#123;</div><div class="line">			userId = ((LoginerInfo) userInfoStore.getAttribute(&quot;userInfo&quot;)).getUserId();</div><div class="line">		&#125; else &#123;</div><div class="line">			System.out.println(&quot;--CurrentUserInfo--Is----Null--&quot;);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		Map&lt;String, WebSocketSession&gt; users = MyWebSocketHandler.users;</div><div class="line">		if (null != users) &#123;</div><div class="line">			if (users.containsKey(userId)) &#123;</div><div class="line">				// 如果已经登录过，则推送&quot;已登录过的提示&quot;到客户端;</div><div class="line">				// 客户端接受信息，请求退出系统的接口;</div><div class="line">				// 清除session中保存的用户信息;</div><div class="line">				WebSocketSession webSocketSession = users.get(userId);</div><div class="line">				WSMsg wsMsg = new WSMsg(MsgEnum.FORCE_LOFOUT_MSG.getMsgCode(), MsgEnum.FORCE_LOFOUT_MSG.getMsgBody());</div><div class="line">				TextMessage promptMsg = new TextMessage(wsMsg.getMsgJson());</div><div class="line">				try &#123;</div><div class="line">					webSocketSession.sendMessage(promptMsg);</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">				// 从已登录用户列表中清除已经登录过的用户的信息记录;</div><div class="line">				users.remove(userId);</div><div class="line">				isConnectioned = true;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return isConnectioned;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>MyWebSocketHandler.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div></pre></td><td class="code"><pre><div class="line">package com.sds.socketHandle;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.Map;</div><div class="line">import java.util.Set;</div><div class="line"></div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.socket.CloseStatus;</div><div class="line">import org.springframework.web.socket.TextMessage;</div><div class="line">import org.springframework.web.socket.WebSocketSession;</div><div class="line">import org.springframework.web.socket.handler.TextWebSocketHandler;</div><div class="line"></div><div class="line">import com.sds.enums.MsgEnum;</div><div class="line">import com.sds.model.LoginerInfo;</div><div class="line">import com.sds.model.WSMsg;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class MyWebSocketHandler extends TextWebSocketHandler &#123;</div><div class="line">	// 在线用户列表</div><div class="line">	public static final Map&lt;String, WebSocketSession&gt; users = new HashMap&lt;String, WebSocketSession&gt;();</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 连接已关闭，移除在Map集合中的记录</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception &#123;</div><div class="line">		users.remove(getUserId(session));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception &#123;</div><div class="line">		if (session.isOpen()) &#123;</div><div class="line">			session.close();</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;连接出错&quot;);</div><div class="line">		users.remove(getUserId(session));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 连接建立成功之后，记录用户的连接标识，便于后面发信息</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public void afterConnectionEstablished(WebSocketSession session) throws Exception &#123;</div><div class="line">		System.out.println(&quot;成功建立连接&quot;);</div><div class="line">		String userId = getUserId(session);</div><div class="line">		System.out.println(userId);</div><div class="line">		if (userId != null) &#123;</div><div class="line">			users.put(userId, session);</div><div class="line">			WSMsg wsMsg = new WSMsg(MsgEnum.CONNECTION_SUCCESS_MSG.getMsgCode(),</div><div class="line">					MsgEnum.CONNECTION_SUCCESS_MSG.getMsgBody());</div><div class="line">			TextMessage promptMsg = new TextMessage(wsMsg.getMsgJson());</div><div class="line">			session.sendMessage(promptMsg);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 处理收到的websocket信息</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 发送信息给指定用户</div><div class="line">	 * </div><div class="line">	 * @param clientId</div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToUser(String userId, String message) &#123;</div><div class="line">		if (users.get(userId) == null) &#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		WebSocketSession session = users.get(userId);</div><div class="line">		System.out.println(&quot;sendMessage:&quot; + session);</div><div class="line"></div><div class="line">		if (!session.isOpen()) &#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">		try &#123;</div><div class="line">			int count = 1;</div><div class="line">			TextMessage textMessage = null;</div><div class="line">			@SuppressWarnings(&quot;unused&quot;)</div><div class="line">			String newMessage = &quot;&quot;;</div><div class="line"></div><div class="line">			// 循环向客户端发送数据</div><div class="line">			// while (true) &#123;</div><div class="line">			newMessage = message + String.valueOf(count);</div><div class="line">			textMessage = new TextMessage(message);</div><div class="line">			session.sendMessage(textMessage);</div><div class="line">			Thread.sleep(500);</div><div class="line">			newMessage = &quot;&quot;;</div><div class="line">			// &#125;</div><div class="line">			return true;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return false;</div><div class="line">		&#125; catch (InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 发送信息给指定用户的浏览器;</div><div class="line">	 * </div><div class="line">	 * @param clientId</div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToTargetFront(String userId, TextMessage message) &#123;</div><div class="line">		boolean isSendSuccessfully = true;</div><div class="line">		WebSocketSession webSocketSession = users.get(userId);</div><div class="line">		try &#123;</div><div class="line">			webSocketSession.sendMessage(message);</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			isSendSuccessfully = false;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		return isSendSuccessfully;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 广播信息</div><div class="line">	 * </div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToAllUsers(TextMessage message) &#123;</div><div class="line">		boolean allSendSuccess = true;</div><div class="line">		Set&lt;String&gt; clientIds = users.keySet();</div><div class="line">		WebSocketSession session = null;</div><div class="line">		for (String clientId : clientIds) &#123;</div><div class="line">			try &#123;</div><div class="line">				session = users.get(clientId);</div><div class="line">				if (session.isOpen()) &#123;</div><div class="line">					session.sendMessage(message);</div><div class="line">				&#125;</div><div class="line">			&#125; catch (IOException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">				allSendSuccess = false;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return allSendSuccess;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取用户标识</div><div class="line">	 * </div><div class="line">	 * @param session</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	private String getUserId(WebSocketSession session) &#123;</div><div class="line">		try &#123;</div><div class="line">			String userId = ((LoginerInfo) session.getAttributes().get(&quot;userInfo&quot;)).getUserId();</div><div class="line">			return userId;</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>源码：<br><a href="https://download.csdn.net/download/zj20142213/10655466" target="_blank" rel="external">React前端源码</a><br>           <a href="https://download.csdn.net/download/zj20142213/10655470" target="_blank" rel="external">SpringBoot后端源码</a></p>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -216,16 +238,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/面向对象程序设计六大原则/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/09/SpringBoot中Session监听器的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringBoot中Session监听器的使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -245,1154 +326,12 @@
 
 
 
-
-  
-    <article id="post-Spring+quartz实现任务调度的小例子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">Spring+quartz实现任务调度的小例子</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Spring+quartz实现任务调度的小例子/" class="archive-article-date">
-  	<time datetime="2017-08-29T03:11:50.899Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>实现任务调度分为三大模块：1.任务调度器Scheduler;<br>                                            2.触发器cronTrigger；<br>                                            3.自定义任务JobtTask；</p>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">*自定义任务JobtTask*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import org.quartz.Job;</div><div class="line">import org.quartz.JobExecutionContext;</div><div class="line">import org.quartz.JobExecutionException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 自定义任务;</div><div class="line"> */</div><div class="line">public class MyJob implements Job &#123;</div><div class="line">	// 自定义任务Task;</div><div class="line">	public void execute(JobExecutionContext context) throws JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;当前任务开始执行: &quot; +</div><div class="line">	     new SimpleDateFormat(&quot;yyyy-MM-dd HH-mm-ss&quot;)</div><div class="line">	     .format(new Date()));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">*测试类*</div><div class="line"></div><div class="line">package com.zjt.quartz;</div><div class="line"></div><div class="line">import java.text.ParseException;</div><div class="line"></div><div class="line">import org.quartz.JobExecutionException;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line">/**</div><div class="line"> *  测试类</div><div class="line"> */</div><div class="line">public class Test &#123;</div><div class="line">	@SuppressWarnings(&quot;resource&quot;)</div><div class="line">	public static void main(String[] args) throws ParseException, JobExecutionException &#123;</div><div class="line">		System.out.println(&quot;--------------------------------&quot;);</div><div class="line">		new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">配置文件</div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; </div><div class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans  </div><div class="line">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  </div><div class="line">	http://www.springframework.org/schema/context  </div><div class="line">	http://www.springframework.org/schema/context/spring-context-2.5.xsd&quot;</div><div class="line">	default-autowire=&quot;byName&quot;&gt;</div><div class="line"></div><div class="line">	&lt;!-- 调度器 --&gt;</div><div class="line">	&lt;bean class=&quot;org.springframework.scheduling.quartz.SchedulerFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;triggers&quot;&gt;</div><div class="line">			&lt;list&gt;</div><div class="line">				&lt;!-- 触发器列表 --&gt;</div><div class="line">				&lt;ref bean=&quot;cronTrigger&quot; /&gt;</div><div class="line">			&lt;/list&gt;</div><div class="line">		&lt;/property&gt;</div><div class="line">		&lt;!-- 加载配置文件, 如果不配置, 将会使用quartz默认的配置 --&gt;</div><div class="line">		&lt;property name=&quot;configLocation&quot; value=&quot;classpath:quartz.properties&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;!-- 触发器 --&gt;</div><div class="line">	&lt;bean id=&quot;cronTrigger&quot; class=&quot;org.springframework.scheduling.quartz.CronTriggerFactoryBean&quot;&gt;</div><div class="line">		&lt;!-- 指向我们的任务 --&gt;</div><div class="line">		&lt;property name=&quot;jobDetail&quot; ref=&quot;myJobtTask&quot; /&gt;</div><div class="line">		&lt;!-- 每天11点1分到59分,每分钟运行一次 --&gt;</div><div class="line">		&lt;property name=&quot;cronExpression&quot; value=&quot;0 0/1 9 * * ?&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	</div><div class="line">	&lt;!-- 处理类 --&gt;</div><div class="line">	&lt;bean name=&quot;myJobtTask&quot; class=&quot;org.springframework.scheduling.quartz.JobDetailFactoryBean&quot;&gt;</div><div class="line">		&lt;property name=&quot;jobClass&quot; value=&quot;com.zjt.quartz.MyJob&quot; /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">*quartz.properties*</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure Main Scheduler Properties  </div><div class="line">#============================================================================</div><div class="line">org.quartz.scheduler.instanceName = DefaultQuartzScheduler</div><div class="line">org.quartz.scheduler.instanceId = AUTO</div><div class="line">org.quartz.scheduler.rmi.export = false</div><div class="line">org.quartz.scheduler.rmi.proxy = false</div><div class="line">org.quartz.scheduler.wrapJobExecutionInUserTransaction = false</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure ThreadPool  </div><div class="line">#============================================================================</div><div class="line">org.quartz.threadPool.threadCount = 10</div><div class="line">org.quartz.threadPool.threadPriority = 5</div><div class="line"></div><div class="line">#============================================================================</div><div class="line"># Configure JobStore  </div><div class="line">#============================================================================</div><div class="line">org.quartz.jobStore.misfireThreshold = 60000</div></pre></td></tr></table></figure>
-<p><strong>下载链接：<a href="http://download.csdn.net/my" target="_blank" rel="external">http://download.csdn.net/my</a></strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Spring+quartz实现任务调度的小例子/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用hexo+github搭建个人微博" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/使用hexo+github搭建个人微博/">hexo+github搭建个人博客</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/使用hexo+github搭建个人微博/" class="archive-article-date">
-  	<time datetime="2017-08-29T02:39:50.121Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   <strong>使用hexo+github搭建博客的步骤为：</strong><br>       1.软件的安装；<br>                 (1.)安装Node；<br>                 (2.)安装Hexo;<br>                 (3.)安装Git;<br>                 (4.)安装主题；<br>       2.内容的发布;<br>                 使用hexo插件发布博客内容;<br>      <em>详细步骤如下：</em>    </p>
-<hr>
-<p><strong>前提条件</strong><br>需要有个github账号。<br>一般做为一个开发人员，github肯定是访问过的，相信绝大多数开发人员会注册拥有一个github账号，因为这是全球知名的代码托管网站。全世界均可访问到它。若还没有可以到Github注册。</p>
-<p>基本软件NodeJS，Git，Hexo<br>在机子上需要使用到NodeJS进行部署，安装插件等。下载NodeJs。<br>安装Git，进入Git下载页面选择合适的版本进行下载。<br>如果不清楚Hexo是什么？？她是一个快速，简介，高效的博客框架。更多详情可以到Hexo官网读下这个文档就知道了。</p>
-<p>安装完成Git及NodeJs后，那么就可以开始准备安装Hexo了。<br>打开GitBash，使用npm命令来安装Hexo程序。</p>
-<p>安装Hexo</p>
-<hr>
-<p>在命令行输入如下命令:<br>$ npm install -g hexo-cli<br>由于众所周知的原因,可能你执行这条命令会报错，如果你不会调整姿势上网，可以使用淘宝 npm 镜像，执行如下命令即可：<br>$ npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="external">https://registry.npm.taobao.org</a><br>之后很多 npm 命令可以使用 cnpm 代替。执行下面命令即可安装 Hexo :<br>$ cnpm install -g hexo-cli<br>可能出现一些 WARN ,可以不用理会，然后执行：<br>$ cnpm install hexo –save<br>输入$ hexo -v命令，出现下面所示的版本信息，则说明安装成功</p>
-<p><img src="http://img.blog.csdn.net/20170829093934795?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>这样表示Hexo安装成功了。<br>到此，搭建个人微博需要的3个软件就安装完成了。</p>
-<p>接下来就需要进行相关配置及插件安装了。<br>所有的操作均在GitBash命令行中进行操作。</p>
-<p><strong>建站</strong><br>首先简历一个简单的站，创建初始化一个简单的文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo init myGitPages</div><div class="line">$ cd myGitPages</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<p>这样就可以新建所需要的文件。<br>安装完成后，可以看到如下的几个主要文件。</p>
-<p>   <img src="http://img.blog.csdn.net/20170829094415438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>其中:<br>_config.xml 可以配置网站信息。可以参考配置<br>package.json 应用程序信息。有默认配置一些组件，可以自己根据需要添加或者移除。<br>scaffolds 模板文件夹。当新建文章时，Hexo会根据scaffold来建立文件。<br>source 资源文件夹，存放用户资源的地方。<br>themes 主题文件夹。Hexo会根据主题来生成静态页面。</p>
-<p><strong>主题</strong></p>
-<hr>
-<p>Hexo可以有很多主题，在Github首页搜索框内输入”hexo theme”，可以搜索到很多主题，目前我使用的是litten的yilia主题。</p>
-<p>可以在进入到建立的站点文件夹下（我的是myGitPages）下，下载yilia主题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</div></pre></td></tr></table></figure>
-<p>下载完成后，打开站点个目录下（myGitPages）的_config.xml文件，修改其中的theme属性成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: yilia</div></pre></td></tr></table></figure>
-<p>这样就可以在发布文章的手看到修改的主题，或者通过hexo server进行查看。</p>
-<p><strong>发布</strong></p>
-<hr>
-<p>发布文章前一定要确认已经安装了hexo-deployer-git插件，否则无法正常发文章到git上的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-<p>来安装git插件。</p>
-<p>到目前基本上需要的从博客站点建立，到发布所需要的软件准备工作都就绪了。</p>
-<p>PS：yilia要显示所有文章还需要进行一个配置，下文会写到。</p>
-<p>在开始写文章发布之前可以，先查本地运行查看Hexo运行情况，运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>在dos窗口的命令为（对应的安装路径下）:hexo s;[启动hexo]</p>
-<p>启动服务器。默认情况下，端口地址是4000。打开浏览器，访问：<a href="http://localhost:4000" target="_blank" rel="external">http://localhost:4000</a><br>查看效果。若访问出错，没有打开页面，那么可能是端口被占用导致。此时可以使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server -p 5000</div></pre></td></tr></table></figure>
-<p>修改端口，然后重新输入端口号进行查看。<br>若访问成功，默认看到的是hello-wold.md（即source/_post文件夹下的默认创建文件）文件发布后的效果。</p>
-<p><strong>准备工作结束，可以开始写文章发布</strong></p>
-<hr>
-<p>用github+hexo搭建完个人博客后，朋友们应该很想知道怎么在上面写博文吧，这里介绍一个很简单的方法</p>
-<p>你可以使用CSDN网上面提供的MarkDown编辑器 <a href="http://write.blog.csdn.net/mdeditor" target="_blank" rel="external">http://write.blog.csdn.net/mdeditor</a> (在csdn博客写新文章的时候能切换到这种编辑器)，写好文章后，找到菜单栏的“导出到本地”选项<br><img src="http://img.blog.csdn.net/20170829100749122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>以md格式导出到本地，然后copy该md文件，粘贴到你当初建的博客站点文件夹下的source\ _posts目录下，一个md文件对应一篇博客文章。</p>
-<hr>
-<p>在写完文章之后就需要将写的文章部署到GitHub上去了。<br>来看下这个过程。</p>
-<p>由于要发布博客到GitHub实际上使用了GitHub Pages功能，因此可以到这里来查看相关的介绍。其中详细介绍了Pages概念，及如何建立自己的站点。</p>
-<p>一下先简绍下我自己的建立过程。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">建立GitHub仓库</div></pre></td></tr></table></figure>
-<p>建立仓库，用以部署Hexo生成的博客。如果还没有GitHub账号就需要注册了。<br>有GitHub账号的小伙伴可以到Github网站创建一个新仓库，如下显示。</p>
-<p><img src="http://img.blog.csdn.net/20170829101340431?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">新仓库</div></pre></td></tr></table></figure>
-<p>其中仓库名有所讲究，它必须是username.github.io ，这里的username有两种情况，其一是你的用户名即注册时使用的名称，其二是组织名称（此处组织名称并未尝试）。如下图可以看下位置。</p>
-<p><img src="http://img.blog.csdn.net/20170829101515174?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hexo发布前需要配置_config.xml</div></pre></td></tr></table></figure>
-<p>在站点根目录下（myGitPages），找到并编辑_config.xml文件，如下部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">deploy:</div><div class="line">    type: git</div><div class="line">    repository: git@github.com:yourname/yourname.github.io.git</div><div class="line">    branch: master</div></pre></td></tr></table></figure>
-<p>将新建的仓库信息及分支信息配置到_config.xml，让Hexo知道部署到GitHub的那个仓库。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">发布</div></pre></td></tr></table></figure>
-<p>最后，就需要发布了。可以在站点根目录下（myGitPages）下运行一下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean #清除原有生成的相关文件</div><div class="line">$ hexo generate #重新生成静态页面</div><div class="line">$ hexo deploy #进行部署</div></pre></td></tr></table></figure>
-<p>在运行部署命令时，会弹出ssh密码输入确认框，输入username.github.io仓库密码，点击OK即可进行顺利发布。</p>
-<p>然后就去访问你的个人站点吧。你会看到发布的文章。</p>
-<p> PS: 不同的主题可能在主题中还需要进行一定的配置，这个看个人喜好使用哪个主题，我使用的是yilia主题，其在初次查看所有文章时会发现展示的不是文章列表。那么按照主题作者提示进行配置后，重新部署就可以了。</p>
-<p>1.nodejs版本大于6.2（最新的nodejs肯定符合）。<br>2.在博客根目录下（不是yilia根目录下）执行如下命令： npm i hexo-<code>generator-json-content --save</code><br>3.在根目录_config.xml文件内配置：</p>
-<h1 id="查看yilia主题下所有文章配置"><a href="#查看yilia主题下所有文章配置" class="headerlink" title="查看yilia主题下所有文章配置"></a>查看yilia主题下所有文章配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">      meta: false</div><div class="line">      pages: false</div><div class="line">      posts:</div><div class="line">          title: true</div><div class="line">          date: true</div><div class="line">          path: true</div><div class="line">          text: false</div><div class="line">          raw: false</div><div class="line">          content: false</div><div class="line">          slug: false</div><div class="line">          updated: false</div><div class="line">          comments: false</div><div class="line">          link: false</div><div class="line">          permalink: false</div><div class="line">         excerpt: false</div><div class="line">          categories: false</div><div class="line">          tags: true</div></pre></td></tr></table></figure>
-<p><strong>PS：设置个人头像注意的要点</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1.注意相对路径 绝对路径 根路径 的区别</div><div class="line">2.注意yilia主题对格式的严格要求，比如空格什么的;</div></pre></td></tr></table></figure>
-<p>  具体配置步骤如下：<br>         1.将图片资源放置指定的文件夹下：<br>         <img src="http://img.blog.csdn.net/20170829103613535?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>         2.注意图片路径的格式：<br>         <img src="http://img.blog.csdn.net/20170829103743288?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/使用hexo+github搭建个人微博/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-父类和子类的相互转换及父类调用子类的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">父类和子类的相互转换及父类调用子类的方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.219Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>父类和子类的相互转换及父类调用子类的方法</strong></p>
-<ol>
-<li>父类转换为子类的前提条件是：<strong>父类引用指向子类</strong>;<br>Parent   p=new   Son()<br>Son   s=(Son)p;  –正确<br>Parent   p=new   Parent()<br>Son   s=(Son)p;  –错误搜索  </li>
-</ol>
-<hr>
-<p>根本原因：因为继承的概念就是<strong>子孙类会越来越比祖先类详细</strong>，所以可以将子孙类强制转换成祖先类，因为祖先有的行为子孙类示例都有了（重新定义的或者是默认的）；但是当将祖先类示例强制转换成子孙类示例的时候，一些<strong>子孙类有的行为祖先是没有的</strong>（即使的是默认的实现也没有）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/父类和子类的相互转换及父类调用子类的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Windows服务器端软件的安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Windows服务器端软件的安装/">Windows服务器端软件的安装</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Windows服务器端软件的安装/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.216Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Windows服务器端软件的安装"><a href="#Windows服务器端软件的安装" class="headerlink" title="*Windows服务器端软件的安装*"></a><strong>*</strong>Windows服务器端软件的安装<strong>*</strong></h2><p><strong><em>MYSQL的操作安装</em></strong></p>
-<p>1.将下载下载的包解压到指定目录，（本人）解压到：D:\Program Files (x86) 目录下。<br>因此，MySQL的(安装)包的完整路径为：D:\Program Files (x86)\mysql-5.7.18-winx64<br>2.<br>2.解压后，配置好系统环境变量。<br>新增系统环境变量：<br>键名：MYSQL_HOME<br>值为：D:\Program Files (x86)\mysql-5.7.18-winx64<br>接着在 Path 中添加：%MYSQL_HOME%\bin</p>
-<p>3.解压后，准备好 my.ini 文件。<br>注意：（据说）以前版本解压后，在解压目录下都会有 my-default.ini 或 my.ini 文件，不过，v5.7.18 版本中解压后，是没有这些文件的。因此，需要手动创建好 my.ini 文件，文件的具体（完整的）内容如下：</p>
-<p>[client]port=3306default-character-set=utf8[mysqld]port=3306character_set_server=utf8basedir=%MYSQL_HOME%datadir=%MYSQL_HOME%\data[WinMySQLAdmin]%MYSQL_HOME%\bin\mysqld.exe</p>
-<p>编辑好 my.ini 文件后，将 my.ini 放在 bin 目录下</p>
-<p>4.以管理员身份打开 cmd 命令窗口，将目录切到MySQL安装包下的bin目录下</p>
-<p>5.安装MySQL数据库，执行如下命令：<br>mysqld.exe -install<br>执行命令后，提示：Service successfully installed. 表示安装成功<br>6.初始化mysql数据，并创建一个具有空密码的root用户，执行如下命令：<br>mysqld –initialize-insecure –user=mysql<br>注意：最后的参数 –user=mysql 在 windows 也可以不用添加，但在 unix 等系统下好像很重要。<br>执行命令后，等一会后，系统会自动生成相应的 data 目录，并自动创建好空密码的 root 用户。此时表示初始化成功。<br>7.启动 mysql 服务，执行如下命令：<br>net start mysql<br>执行后，提示：<br>MySQL服务正在启动..<br>MySQL服务已经启动成功。<br>注意：要想登录使用 mysql，服务是必需要先启动的。以后也一样。<br>8.在服务启动后，因为刚创建的 root 用户是空密码的，因此，需要先进行密码设定。可执行如下命令：<br>mysqladmin -u root -p password 此处输入新的密码<br>Enter password: 此处输入旧的密码<br>执行完以上两条命令后，只要 Enter password: 后输入的旧密码正确，则 root 用户的新密码就算设定成功了。此后，要想登录 root 用户，则都需要使用新密码。<br>注意：刚创建的 root 用户是空密码的，因此，在第一次修改 root 用户的密码时，在 Enter password: 后面不需要输入任何密码，直接回车即可。</p>
-<p>9.至此，MySQL v5.7.18 的解压安装就已经全部完成，因此，需要把先前已经启的 MySQL 服务给停止掉，执行如下命令：<br>net stop mysql<br>//———————————————<br>登录并使用MySQL</p>
-<p>前面已经完成对MySQL数据库的安装，只要安装成功后，就可以正常登录 root 用户，并进行数据的相关操作，如：建表、增、删、改、查等等。下面是简单的流程：</p>
-<p>以管理员身份打开 cmd，并切到 mysql 安装目录的 bin 目录下<br>net start mysql                // 说明：该命令是启动 mysql 服务<br>mysql -u root -p               // 说明：该命令是登录 root 用户<br>Enter password: 先前设置的 root 用户的密码<br>正确登录后，就可以对数据进行操作了如：增、删、改、查等等。示例：<br>mysql&gt; show databases;   // 显示所有数据库<br>mysql&gt; select 语句…………<br>…<br>不再使用数据库时，要退出用户，并停止服务，执行如下命令：<br>mysql&gt; quit;<br>net stop mysql<br>//———————————–</p>
-<p><strong><em>Mysql5.7解压版的安装和卸载及常见问题</em></strong></p>
-<hr>
-<p><img src="http://img.blog.csdn.net/20170709223332467?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p><strong><em>Tomcat解压版的安装配置</em></strong></p>
-<p>1.修改service.bat文件，更新服务名称</p>
-<p>2.管理员身份打开命令窗口：<br> 注意：SERVICE_NAME的更改不需要空格;<br>  进入bin目录， 执行命令:service.bat install;</p>
-<p><strong><em>JDK的安装配置</em></strong></p>
-<p>1.系统变量→新建 JAVA_HOME 变量 。<br>变量值填写jdk的安装目录（本人是 E:\Java\jdk1.7.0)<br>2.系统变量→寻找 Path 变量→编辑<br>在变量值最后输入 %JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;<br>（注意原来Path的变量值末尾有没有;号，如果没有，先输入；号再输入上面的代码）</p>
-<p>3.系统变量→新建 CLASSPATH 变量<br>变量值填写   .;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar（注意最前面有一点）<br>系统变量配置完毕</p>
-<p>4.检验是否配置成功 运行cmd 输入 java -version （java 和 -version 之间有空格）<br>若如图所示 显示版本信息 则说明安装和配置成功。</p>
-<p><strong><em>新建出站入站规则</em></strong></p>
-<p>1.注意防火墙配置;</p>
-<p><strong><em>固定IP的分配</em></strong></p>
-<p> 作为服务器的电脑切记IP应该分配为固定的,否则将出现访问出错的情况.</p>
-<p> <img src="http://img.blog.csdn.net/20170709222659854?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Windows服务器端软件的安装/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tomcat配置外部静态资源映射路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/tomcat配置外部静态资源映射路径/">tomcat配置外部静态资源映射路径</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/tomcat配置外部静态资源映射路径/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.214Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="tomcat配置外部静态资源映射路径"><a href="#tomcat配置外部静态资源映射路径" class="headerlink" title="tomcat配置外部静态资源映射路径"></a>tomcat配置外部静态资源映射路径</h2><p>修改apache-tomcat-7.0.56\conf文件夹下的server.xml即可；<br><em>注意修改服务器中的配置文件的过程中切忌出现中文，注释中文可能导致服务无法启动</em></p>
-<p>修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;Host name=&quot;localhost&quot; appBase=&quot;webapps&quot; unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- SingleSignOn valve, share authentication between web applications Documentation at: /docs/config/valve.html --&gt;</div><div class="line">&lt;!--</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;</div><div class="line">--&gt;</div><div class="line"></div><div class="line">&lt;!-- Access log processes all example.Documentation at: /docs/config/valve.html Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;</div><div class="line">　　&lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;</div><div class="line">　　　　prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;</div><div class="line">　　　　pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;</div><div class="line">　　</div><div class="line"></div><div class="line">　　&lt;!-- 增加的静态资源映射配置 --&gt;</div><div class="line">　　&lt;Context path=&quot;/RecordFile&quot; docBase=&quot;/home/lings/recordings&quot; reloadable=&quot;true&quot; crossContext=&quot;true&quot;&gt;&lt;/Context&gt;</div><div class="line"></div><div class="line">&lt;/Host&gt;</div></pre></td></tr></table></figure></p>
-<p>红色那一行就是增加的静态资源映射配置。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/tomcat配置外部静态资源映射路径/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Struts2中接收表单数据的三种驱动方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">Struts2中接收表单数据的三种驱动方式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.211Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Struts2中接收表单数据的三种驱动方式</strong><br>  1.属性驱动<br>   前台表单中字段的name和后台action中的属性字段的名称必须保持一致；</p>
-<p>2.域驱动<br>前台表单中字段的name应该为：objectName.attribute的形式;<br>后台action中以object为单位进行数据的接收，前台页面的取值方式为：</p>
-<p>3.模型驱动<br>前台表单中字段的name应该为：attribute的形式;<br>后台action实行ModelDriven接口，并重写getModel方法；前台页面的取值方式为：<br>${attribute};</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Struts2中接收表单数据的三种驱动方式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Shiro的学习Helloworld" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/Shiro的学习Helloworld/">Shiro的学习Helloworld</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/Shiro的学习Helloworld/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.209Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Shiro的学习Helloworld"><a href="#Shiro的学习Helloworld" class="headerlink" title="Shiro的学习Helloworld"></a>Shiro的学习Helloworld</h2><p>8月 18, 2017   框架相关, 权限管理</p>
-<ol>
-<li>Apache Shiro是Java的一个安全框架<br>1.1. Shiro可以帮助我们完成：认证、授权、加密、会话管理、与Web集成、缓存等</li>
-<li>Shiro基本功能</li>
-<li>1.身份认证</li>
-<li>2.权限认证<br>4.1. 核心要素：（资源，）权限，角色，用户</li>
-<li>3.集成web进行测试<br>5.0.1. 1.新建一个maven的web项目<br>5.0.1.1. 1.authc.loginUrl配置身份认证不通过(未登录时)跳转的地址…(loginUrl是authc的一个属性)<br>5.0.1.2. 2.roles.unauthorizeUrl配置角色认证不通过跳转的地址…(noAuth.jsp页面目前只有一行字)<br>5.0.1.3. 3.perms.unauthorizeUrl配置权限认证不通过跳转的地址<br>5.0.1.4. 4.[users]下配置用户身份信息以及用户角色<br>5.0.1.5. 5.[roles]下配置角色以及角色的控制权限<br>5.0.1.6. 6.[urls]下配置访问地址所需的权限, 其中值为”anon过滤器”表示地址不需要登录即可访问; “authc过滤器”表示地址登录才能访问<br>5.0.1.7. 7.值为 roles[admin] 表示 必须有角色为admin的用户才能范围<br>5.0.1.8. 8.值为 perms[“student:create”] 表示 必须有权限为”student:create”的用户才能范围<br>5.0.1.9. 9.多个过滤器用”,”隔开 而且相互为”且”的关系(必须同时满足才能访问)<br>5.0.1.10. 10.地址可以使用?表示匹配单个任意字符(eg: /home?=authc 表示可过滤 /home1; /homef…..)<br>5.0.1.11. 11.地址可以使用表示匹配任意个任意字符(eg: /home=authc 表示可过滤 /home123; /homeef…..)<br>5.0.1.12. 12.地址可以使用表示匹配多路径(eg: /home/=authc 表示可过滤 /home/abc; /home/aaa/bbb…..)<br>5.0.2. 2.编写sevlet代码<br>5.0.3. 3.启动项目<br>5.0.3.1. 测试身份认证<br>5.0.3.2. 测试角色认证<br>5.0.3.3. 测试权限认证</li>
-<li>—<br>6.0.1. 自定义Realm<br>6.0.1.1. 测试开发步骤<br>6.0.1.2. 1.myRealm指向自定义Realm的位置<br>6.0.1.3. 2.securityManager.realms指向自定义Realm的引用(表明使用自定义Realms进行安全认证),可以指向多个,用”,”隔开<br>Apache Shiro是Java的一个安全框架<br>Shiro可以帮助我们完成：认证、授权、加密、会话管理、与Web集成、缓存等<br>图片说明<br>Shiro基本功能<br>Authentication：身份认证/登录，验证用户是不是拥有相应的身份；</li>
-</ol>
-<p>Authorization：授权，即权限验证，验证某个已认证的用户是否拥有某个权限；即判断用户是否能做事情，常见的如：验证某个用户是否拥有某个角色。或者细粒度的验证某个用户对某个资源是否具有某个权限；</p>
-<p>Session Manager：会话管理，即用户登录后就是一次会话，在没有退出之前，它的所有信息都在会话中；会话可以是普通JavaSE环境的，也可以是如Web环境的；</p>
-<p>Cryptography：加密，保护数据的安全性，如密码加密存储到数据库，而不是明文存储；</p>
-<p>Web Support：Web支持，可以非常容易的集成到Web环境；</p>
-<p>Caching：缓存，比如用户登录后，其用户信息、拥有的角色/权限不必每次去查，这样可以提高效率；</p>
-<p>Concurrency：shiro支持多线程应用的并发验证，即如在一个线程中开启另一个线程，能把权限自动传播过去；</p>
-<p>Testing：提供测试支持；</p>
-<p>Run As：允许一个用户假装为另一个用户（如果他们允许）的身份进行访问；</p>
-<p>Remember Me：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了。</p>
-<hr>
-<p>1.身份认证<br>配置文件：</p>
-<pre><code>********************************
-[users]
-zj2626=123456
-ay2626=456789
-********************************
-</code></pre><p>package com.em;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.authc.UsernamePasswordToken;<br>import org.apache.shiro.config.IniSecurityManagerFactory;<br>import org.apache.shiro.mgt.SecurityManager;<br>import org.apache.shiro.subject.Subject;<br>import org.apache.shiro.util.Factory;</p>
-<p>public class Hello {</p>
-<pre><code>public static void main(String args[]) {
-    //初始化SecurityManager工厂      读取配置文件中的用户名密码
-    Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);
-    //获取SecurityManager实例
-    SecurityManager manager = factory.getInstance();
-    //把SecurityManager实例绑定到SecurityUtils
-    SecurityUtils.setSecurityManager(manager);
-    //得到当前执行的用户
-    Subject subject = SecurityUtils.getSubject();
-    //创建token令牌, 用户/密码
-    UsernamePasswordToken token = new UsernamePasswordToken(&quot;zj2626&quot;, &quot;123456&quot;);
-
-    try {
-        //身份认证 登录
-        subject.login(token);
-
-        System.out.println(&quot;登录成功&quot;);
-    } catch (Exception e) {
-        System.out.println(&quot;登录失败&quot;);
-        e.printStackTrace();
-    }
-
-    subject.logout();
-}
-
-/*
-    Subject: 认证主体
-    Principals:  身份: 用户名
-    Credentials: 凭证: 密码
-
-    Realm: 域
-        1.jdbc realm | 2.jndi realm | 3.text realm
-
- */
-</code></pre><p>}<br>从数据库中读取用户名密码 实现登录</p>
-<p>1.配置文件: jdbc_realm.ini （代码只需把读取的文件改成此文件即可测试使用）</p>
-<p>[main]<br>jdbcRealm=org.apache.shiro.realm.jdbc.JdbcRealm<br>dataSource=com.mchange.v2.c3p0.ComboPooledDataSource<br>dataSource.driverClass=com.mysql.jdbc.Driver<br>dataSource.jdbcUrl=jdbc:mysql://127.0.0.1:3306/test<br>dataSource.user=root<br>dataSource.password=123456<br>jdbcRealm.dataSource=$dataSource<br>securityManager.realms=$jdbcRealm<br>2.权限认证<br>核心要素：（资源，）权限，角色，用户<br>用户–（分配）–&gt;角色–（拥有）–&gt;权限–（控制）—-&gt;资源</p>
-<p>用户代表访问系统的用户，即subject。<br>三种授权方式</p>
-<ol>
-<li>编程式授权<br> 1.1. 基于角色的访问控制<br> 1.2. 基于权限的访问控制</li>
-<li>注解式授权<br>3.JSP标签授权<br>####步骤1: 封装一个工具类</li>
-</ol>
-<p>public class ShiroUtils {<br>    public static Subject login(String conf, String username, String passowrd) {<br>        //初始化SecurityManager工厂 conf是配置文件名称<br>        Factory<securitymanager> factory = new IniSecurityManagerFactory(“classpath:” + conf + “.ini”);<br>        //获取SecurityManager实例<br>        SecurityManager manager = factory.getInstance();<br>        //把SecurityManager实例绑定到SecurityUtils<br>        SecurityUtils.setSecurityManager(manager);<br>        //得到当前执行的用户<br>        Subject subject = SecurityUtils.getSubject();<br>        //创建token令牌, 用户/密码<br>        UsernamePasswordToken token = new UsernamePasswordToken(username, passowrd);</securitymanager></p>
-<pre><code>    try {
-        //身份认证 登录
-        subject.login(token);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return subject;
-}
-</code></pre><p>}</p>
-<p>####步骤2: 测试多种访问控制</p>
-<p>/*<br>    基于角色的访问控制方式1</p>
-<pre><code>配置文件：shiro_role.ini
-******************************
-[users]
-zj2626=123456,role1,role2
-py2626=123456,role1
-ay2626=456789,role3
-******************************
- */
-@Test
-public void testHas() {
-    Subject sub = ShiroUtils.login(&quot;shiro_config/shiro_role&quot;, &quot;zj2626&quot;, &quot;123456&quot;);
-
-    //判断有没有权限 返回布尔 表示验证的成功与否
-    boolean bool = sub.hasRole(&quot;role1&quot;);
-    if (bool) {
-        System.out.println(&quot;HAS&quot;);
-    }
-
-    //判断有没有权限,一次多个分别判断 返回布尔数组
-    boolean[] booleans = sub.hasRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;));
-    int i = 0;
-    while (booleans[i]) {
-        i++;
-
-        if (booleans.length &lt;= i) {
-            break;
-        }
-    }
-
-    //所有的角色都有才返回true
-    System.out.println(sub.hasAllRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;)));
-
-    //判断有没有权限 没有则抛异常
-    sub.checkRole(&quot;role1&quot;);
-    sub.checkRole(&quot;role3&quot;);
-
-    //判断多个权限 有一个没有就抛异常 (2种参数形式)
-    sub.checkRoles(Arrays.asList(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;));
-    sub.checkRoles(&quot;role1&quot;, &quot;role2&quot;, &quot;role3&quot;);
-
-    //退出登陆
-    sub.logout();
-}
-
-/*
-基于权限的访问控制方式(过程同上)
-
-配置文件：shiro_permision.ini
-******************************
-[users]
-zj2626=123456,role1,role2
-py2626=123456,role1
-ay2626=456789,role3
-[roles]
-role1=user:select
-role2=user:add,user:update,user:delete
-******************************
- */
-@Test
-public void testPermition() {
-    Subject sub = ShiroUtils.login(&quot;shiro_config/shiro_permision&quot;, &quot;py2626&quot;, &quot;123456&quot;);
-
-    System.out.println(&quot;用户是否有权限 user:select:&quot; + sub.isPermitted(&quot;user:select&quot;));    //true
-    System.out.println(&quot;用户是否有权限 user:update:&quot; + sub.isPermitted(&quot;user:update&quot;));    //false
-
-    boolean[] booleans = sub.isPermitted(&quot;user:add&quot;, &quot;user:select&quot;);
-    System.out.println(booleans[0] + &quot;____&quot; + booleans[1]);
-
-    System.out.println(sub.isPermittedAll(&quot;user:add&quot;, &quot;user:select&quot;));
-
-    //没有会抛出异常
-    sub.checkPermission(&quot;user:select&quot;);
-    sub.checkPermissions(&quot;user:select&quot;, &quot;user:update&quot;);
-
-    sub.logout();
-}
-</code></pre><p>3.集成web进行测试<br>1.新建一个maven的web项目</p>
-<p>项目目录文件</p>
-<p>web.xml 配置shiro的必须的配置: 监听器,过滤器</p>
-<p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
-<p><web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"><br>    <display-name>Archetype Created Web Application</display-name></web-app></p>
-<pre><code>&lt;!--三个servlet配置   /login跳转到登陆页面  /home跳转到主页,即登陆成功页面 /admin用来测试角色和权限--&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;loginServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.LoginServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;loginServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/login&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;homeServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.HomeServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;homeServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/home&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-&lt;servlet&gt;
-    &lt;servlet-name&gt;adminServlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.servlet.AdminServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;adminServlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/admin&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;
-
-&lt;!--shiro监听--&gt;
-&lt;listener&gt;
-    &lt;listener-class&gt;org.apache.shiro.web.env.EnvironmentLoaderListener&lt;/listener-class&gt;
-&lt;/listener&gt;
-
-&lt;!--shiro过滤器 这里过滤所有的地址 并且指定权限配置文件(一般项目中权限的配置存放在数据库中)--&gt;
-&lt;filter&gt;
-    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
-    &lt;filter-class&gt;org.apache.shiro.web.servlet.ShiroFilter&lt;/filter-class&gt;
-    &lt;init-param&gt;
-        &lt;param-name&gt;config&lt;/param-name&gt;
-        &lt;param-value&gt;classpath:shiro.ini&lt;/param-value&gt;
-    &lt;/init-param&gt;
-&lt;/filter&gt;
-&lt;filter-mapping&gt;
-    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
-    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;
-</code></pre><p><br>pom.xml :所需依赖</p>
-<p><dependencies><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-web</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-core</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.shiro</groupid><br>        <artifactid>shiro-spring</artifactid><br>        <version>1.3.2</version><br>    </dependency><br>    <dependency><br>        <groupid>org.apache.tomcat</groupid><br>        <artifactid>tomcat-servlet-api</artifactid><br>        <version>8.5.4</version><br>        <scope>provided</scope><br>    </dependency><br>    <dependency><br>        <groupid>org.slf4j</groupid><br>        <artifactid>slf4j-log4j12</artifactid><br>        <version>1.7.7</version><br>        <scope>compile</scope><br>    </dependency><br>    <dependency><br>        <groupid>commons-logging</groupid><br>        <artifactid>commons-logging</artifactid><br>        <version>1.2</version><br>    </dependency><br>    <dependency><br>        <groupid>commons-beanutils</groupid><br>        <artifactid>commons-beanutils</artifactid><br>        <version>1.9.3</version><br>    </dependency><br>    <dependency><br>        <groupid>commons-collections</groupid><br>        <artifactid>commons-collections</artifactid><br>        <version>3.2.1</version><br>    </dependency><br>    <dependency><br>        <groupid>jstl</groupid><br>        <artifactid>jstl</artifactid><br>        <version>1.2</version><br>    </dependency><br></dependencies><br>shiro.ini: 权限配置文件,配置什么用户有什么角色,什么角色有什么权限</p>
-<p>[main]<br>authc.loginUrl=/login<br>perms.unauthorizedUrl=/noAuth.jsp<br>roles.unauthorizedUrl=/noAuth.jsp<br>[users]<br>zj2626=123456,admin<br>ay2626=456789,student<br>[roles]<br>admin=user:<em>,student:select<br>student:student:</em><br>[urls]<br>/login=anon<br>/home=authc<br>/admin=roles[admin]<br>1.authc.loginUrl配置身份认证不通过(未登录时)跳转的地址…(loginUrl是authc的一个属性)</p>
-<p>2.roles.unauthorizeUrl配置角色认证不通过跳转的地址…(noAuth.jsp页面目前只有一行字)</p>
-<p>3.perms.unauthorizeUrl配置权限认证不通过跳转的地址</p>
-<p>4.[users]下配置用户身份信息以及用户角色</p>
-<p>5.[roles]下配置角色以及角色的控制权限</p>
-<p>6.[urls]下配置访问地址所需的权限, 其中值为”anon过滤器”表示地址不需要登录即可访问; “authc过滤器”表示地址登录才能访问</p>
-<p>7.值为 roles[admin] 表示 必须有角色为admin的用户才能范围</p>
-<p>8.值为 perms[“student:create”] 表示 必须有权限为”student:create”的用户才能范围</p>
-<p>9.多个过滤器用”,”隔开 而且相互为”且”的关系(必须同时满足才能访问)</p>
-<p>10.地址可以使用?表示匹配单个任意字符(eg: /home?=authc 表示可过滤 /home1; /homef…..)</p>
-<p>11.地址可以使用表示匹配任意个任意字符(eg: /home=authc 表示可过滤 /home123; /homeef…..)</p>
-<p>12.地址可以使用表示匹配多路径(eg: /home/=authc 表示可过滤 /home/abc; /home/aaa/bbb…..)</p>
-<p>2.编写sevlet代码</p>
-<p>LoginServlet.java :身份验证地址</p>
-<p>package com.servlet;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.authc.UsernamePasswordToken;<br>import org.apache.shiro.subject.Subject;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br><em>/<br>public class LoginServlet extends HttpServlet {<br> /*</em></p>
-<ul>
-<li>跳转登录界面<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“user no login”);<br> resp.sendRedirect(“login.jsp”);<br>}</p>
-<p>/**</p>
-</li>
-<li>进行登录<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“登录”);<br> String userName = req.getParameter(“userName”);<br> String password = req.getParameter(“password”);</p>
-<p> Subject subject = SecurityUtils.getSubject();<br> //创建token令牌, 用户/密码<br> UsernamePasswordToken token = new UsernamePasswordToken(userName, password);<br> try {</p>
-<pre><code>//身份认证 登录
-subject.login(token);
-System.out.println(&quot;登录成功&quot;);
-resp.sendRedirect(&quot;success.jsp&quot;);
-</code></pre><p> } catch (Exception e) {</p>
-<pre><code>System.out.println(&quot;账号密码不对&quot;);
-e.printStackTrace();
-resp.sendRedirect(&quot;login.jsp&quot;);
-</code></pre><p> }<br>}<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>//<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>login.jsp</p>
-<p>&lt;%@ page language=”java” pageEncoding=”UTF-8” %&gt;<br>&lt;%@ taglib uri=”<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="external">http://java.sun.com/jsp/jstl/core</a>“ prefix=”c” %&gt;<br>&lt;!DOCTYPE HTML&gt;</p>
-<p><html></html></p>
-<p><body></body></p>
-<p></p><h2>Hello World</h2><br>登录:<p></p>
-<p><form action="/login" method="post"><br>    <input type="text" value="" name="userName"><br>    <input type="password" value="" name="password"><br>    <input type="submit" value="登录"><br></form><br><br><br>HomeServlet.java :登录成功以及退出登录地址</p>
-<p>package com.servlet;</p>
-<p>import org.apache.shiro.SecurityUtils;<br>import org.apache.shiro.subject.Subject;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br><em>/<br>public class HomeServlet extends HttpServlet {<br> /*</em></p>
-<ul>
-<li>进入主页(登陆成功界面)<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“主页 get”);</p>
-<p> req.getRequestDispatcher(“success.jsp”).forward(req, resp);</p>
-<p>}</p>
-<p>/**</p>
-</li>
-<li>用来退出登陆<br>*</li>
-<li>@param req</li>
-<li>@param resp</li>
-<li>@throws ServletException</li>
-<li><p>@throws IOException<br>*/<br>@Override<br>protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {<br> System.out.println(“主页 post”);</p>
-<p> System.out.println(“login out”);</p>
-<p> //退出登录<br> Subject subject = SecurityUtils.getSubject();<br> subject.logout();</p>
-<p> resp.sendRedirect(“login.jsp”);<br>}<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>//<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>success.jsp</p>
-<p>&lt;%@ page contentType=”text/html;charset=UTF-8” language=”java” %&gt;</p>
-<p><html></html></p>
-<p><body></body></p>
-<p></p><h2>Hello World!</h2> 成功!!!<p></p>
-<p><form action="/home" method="post"><br>    <input type="submit" value="退出登陆"><br></form><br><br><br>AdminServlet.java</p>
-<p>package com.servlet;</p>
-<p>import javax.servlet.ServletException;<br>import javax.servlet.http.HttpServlet;<br>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletResponse;<br>import java.io.IOException;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/10.<br>*/<br>public class AdminServlet extends HttpServlet {<br> protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</p>
-<pre><code>System.out.println(&quot;ADMIN GET&quot;);
-</code></pre><p> }</p>
-<p> protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {</p>
-<pre><code>System.out.println(&quot;ADMIN POST&quot;);
-</code></pre><p> }<br>}<br>3.启动项目</p>
-</li>
-</ul>
-<p>测试身份认证</p>
-<p>不登录情况下输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到 /login地址转向的jsp页面</p>
-<p>输入正确的用户名(ay2626)密码 点击登录 成功; 再次输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到成功的jsp</p>
-<p>点击退出登录 成功; 再次输入地址 <a href="http://localhost:8080/home" target="_blank" rel="external">http://localhost:8080/home</a> 跳转到 /login地址转向的jsp页面</p>
-<p>测试角色认证</p>
-<p>登录 :进行其他认证前先进行身份认证 使用ay2626用户登录(其角色只有student) 登录成功 跳转到success.jsp</p>
-<p>输入地址<a href="http://localhost:8080/admin" target="_blank" rel="external">http://localhost:8080/admin</a> 跳转到 <a href="http://localhost:8080/noAuth.jsp" target="_blank" rel="external">http://localhost:8080/noAuth.jsp</a> 表示没有权限访问此地址</p>
-<p>退出登录 用zj2626再次登录测试 登录成功 再次输入<a href="http://localhost:8080/admin" target="_blank" rel="external">http://localhost:8080/admin</a> 控制台打印”ADMIN POST” 表示访问成功</p>
-<p>测试权限认证</p>
-<p>可把配置文件中 /admin的过滤器改为 /admin=perms[“student:create”] 进行测试</p>
-<p>测试发现 有权限的ay2626用户可以访问而没有权限的zj2626不能访问</p>
-<p>—<br>自定义Realm</p>
-<p>实际开发中用户权限的配置要存放在数据库,so需要使用自定义realm来读取数据库中权限配置然后为用户赋予权限</p>
-<p>测试开发步骤</p>
-<p>1.添加数据库依赖</p>
-<p><dependency><br>    <groupid>mysql</groupid><br>    <artifactid>mysql-connector-java</artifactid><br>    <version>5.1.39</version><br>    <scope>compile</scope><br></dependency><br>2.设计构建测试的数据库表:有三个表:分别存储用户,角色,权限 并其他两个都与角色关联, 然后存入部分数据 ,再根据三个表建立对应实体(简单实体)</p>
-<p>3.添加数据库操作类(写的并不完善 仅测试使用)</p>
-<p>package com.servlet;</p>
-<p>import java.sql.*;</p>
-<p>/**</p>
-<ul>
-<li><p>Created by zj on 2017/4/11.<br>*/<br>public class DBUtil {</p>
-<p> //获取数据库连接<br> private static Connection getConnection() {</p>
-<pre><code>try {
-    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
-
-    Connection connection = DriverManager.getConnection(&quot;jdbc:mysql://127.0.0.1:3306/test&quot;, &quot;root&quot;, &quot;fangshuoit&quot;);
-
-    return connection;
-} catch (ClassNotFoundException | SQLException e) {
-    e.printStackTrace();
-}
-return null;
-</code></pre><p> }</p>
-<p> /**</p>
-<ul>
-<li>通过用户名获取用户信息<br>*</li>
-<li>@param name</li>
-<li>@return</li>
-<li><p>@throws SQLException<br><em>/<br>public static User getByUserName(String name) throws SQLException {<br> String sql = “select </em> from ay_user where loginName = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setString(1, name);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>return new User(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;loginName&quot;), resultSet.getString(&quot;password&quot;));
-</code></pre><p> }</p>
-<p> return null;<br>}</p>
-<p>/**</p>
-</li>
-<li>通过用户名获取用户角色<br>*</li>
-<li>@param name</li>
-<li>@return</li>
-<li><p>@throws SQLException<br>*/<br>public static Role getRolesByUserName(String name) throws SQLException {<br> String sql = “select roleId from ay_user where loginName = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setString(1, name);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>Integer id = resultSet.getInt(&quot;roleId&quot;);
-
-sql = &quot;select * from ay_role where id = ?&quot;;
-preparedStatement = getConnection().prepareStatement(sql);
-preparedStatement.setInt(1, id);
-resultSet = preparedStatement.executeQuery();
-if (resultSet.next()) {
-    return new Role(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;name&quot;));
-}
-</code></pre><p> }</p>
-<p> return null;<br>}</p>
-<p>/**</p>
-</li>
-<li>通过角色id获取角色权限<br>*</li>
-<li>@param roleId</li>
-<li>@return</li>
-<li><p>@throws SQLException<br><em>/<br>public static Perms getPermsByRole(Integer roleId) throws SQLException {<br> String sql = “select </em> from ay_perms where roleId = ?”;</p>
-<p> PreparedStatement preparedStatement = getConnection().prepareStatement(sql);<br> preparedStatement.setInt(1, roleId);</p>
-<p> ResultSet resultSet = preparedStatement.executeQuery();<br> if (resultSet.next()) {</p>
-<pre><code>return new Perms(resultSet.getInt(&quot;id&quot;), resultSet.getString(&quot;name&quot;), resultSet.getInt(&quot;roleId&quot;));
-</code></pre><p> }</p>
-<p> return null;<br>}<br>}<br>3.编写自定义的Realm类 需要AuthorizingRealm类并实现两个方法; 第一个是用来身份验证,第二是用来角色权限验证</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>public class MyRealm extends AuthorizingRealm {</p>
-<pre><code>/**
- * 验证当前登录的用户(身份认证), 不再需要在配置文件中配置用户的信息和其角色信息
- * 
- * @param token 封装有用户的信息
- * @return
- * @throws AuthenticationException
- */
-@Override
-protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-    String userName = (String) token.getPrincipal();
-
-    System.out.println(&quot;要登录的用户 : &quot; + userName);
-
-    try {
-        User user = DBUtil.getByUserName(userName);//这里只是通过用户名验证并获取用户信息,实际开发中需要用户名以及加密的密码
-        if (user != null) {
-            return new SimpleAuthenticationInfo(user.getLoginName(), user.getPassword(), &quot;XX&quot;);//返回登录信息
-        } else
-            return null;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return null;
-}
-
-/**( 身份验证(登录)以后 )
- * 为当前用户授予角色和权限(根据登录的用户名,读取数据库中其角色和权限)
- *
- * @param principals 封装了身份信息
- * @return
- */
-@Override
-protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-    String userName = (String) principals.getPrimaryPrincipal();
-    System.out.println(&quot;要权限的用户 : &quot; + userName);
-
-    SimpleAuthorizationInfo authenticationInfo = new SimpleAuthorizationInfo();
-
-    try {
-        Role role = DBUtil.getRolesByUserName(userName);
-        if (null != role) {
-            Set&lt;String&gt; set = new HashSet&lt;&gt;();
-            System.out.println(&quot;获得的角色: &quot;+ role.getName());
-            set.add(role.getName());
-            authenticationInfo.setRoles(set);//赋予角色
-
-            Perms perms = DBUtil.getPermsByRole(role.getId());
-            Set&lt;String&gt; set2 = new HashSet&lt;&gt;();
-            set2.add(perms.getName());
-            System.out.println(&quot;获得的权限: &quot;+ perms.getName());
-            authenticationInfo.setStringPermissions(set2);//赋予权限
-
-            return authenticationInfo;
-        }
-    } catch (SQLException e) {
-
-    }
-
-    return null;
-}
-</code></pre><p>}<br>4.修改配置文件shiro.ini ,引入自定义Realms,并去掉原来的 [users]和[roles]下的配置</p>
-<p>[main]<br>authc.loginUrl=/login<br>perms.unauthorizedUrl=/noAuth.jsp<br>roles.unauthorizedUrl=/noAuth.jsp</p>
-<p>myRealm=com.servlet.MyRealm<br>securityManager.realms=$myRealm<br>[urls]<br>/login=anon<br>/home=authc<br>/admin=roles[admin]<br>1.myRealm指向自定义Realm的位置</p>
-<p>2.securityManager.realms指向自定义Realm的引用(表明使用自定义Realms进行安全认证),可以指向多个,用”,”隔开</p>
-<p>5.启动项目测试 发现:使用zj2626登录可以访问 /admin地址;而ay2626登录不能访问(没有user角色);而且每次请求都会进行认证(控制台打印信息)</p>
-<p>Shiro</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/Shiro的学习Helloworld/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-POI的基本使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/POI的基本使用/">POI的基本使用</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/POI的基本使用/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.207Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em>POI的基本使用</em></p>
-<p>首先，理解一下一个Excel的文件的组织形式，一个Excel文件对应于一个workbook(HSSFWorkbook)，一个workbook可以有多个sheet（HSSFSheet）组成，一个sheet是由多个row（HSSFRow）组成，一个row是由多个cell（HSSFCell）组成。 </p>
-<p>POI可以到www.apache.org下载到。实际运行时，需要有poi包就可以了。HSSF提供给用户使用的对象在<em>rg.apache.poi.hssf.usermodel</em>包中,主要部分包括Excel对象，样式和格式，还有辅助操作。有以下几种对象</p>
-<p><img src="http://img.blog.csdn.net/20170707174737152?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<p><strong>下面详细介绍POI操作的具体实例和思路:</strong></p>
-<hr>
-<p><strong><em>导出大体思路如下：</em></strong><br>1.先创建文件对象，<br>2.文件对象创建sheet页对象，<br>3.sheet页对象创建行对象，<br>4.行对象创建单元格填入数据<br>5.保存文档使用流将文件导出到服务器中转站<br>6.在由服务器中转站导出（下载功能）到指定文件夹<br>7.导出完成</p>
-<p>实际操作poi报表进行导出excel文档时的实例如下：<br>第一步，创建一个webbook，对应一个Excel文件<br>步骤1：HSSFWorkbook wb = new HSSFWorkbook();<br>第二步，在webbook中添加一个sheet页,对应Excel文件中的sheet页</p>
-<p>以下createSheet中填写sheet页名称  并非文件名称<br>步骤2：HSSFSheet sheet = wb.createSheet(“学生表一”);<br>第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short<br>步骤3：HSSFRow row = sheet.createRow((int) 0);<br>第四步，创建一个居中格式，在创建单元格是设置居中格式<br>步骤4：<br>HSSFCellStyle style = wb.createCellStyle();<br>style.setAlignment(HSSFCellStyle.ALIGN_CENTER);<br>第五步，创建单元格填入数据并设置居中格式<br>步骤5：<br>①创建单元格：<br>HSSFCell cell = row.createCell((short) 0);<br>②设置单元格内容：<br>cell.setCellValue(“内容”);<br>③将以上创建好的居中格式添加进单元格：cell.setCellStyle(style);<br>第六步，使用字节输出流将文件存入指定路径<br>FileOutputStream fout = new FileOutputStream(“指定路径”);<br>wb.write(fout);<br>fout.close();</p>
-<p>注意：区分创建行使用（int）创建列使用（short）<br>基本操作：<br>创建Excel对象：new HSSFWorkbook();<br>创建sheet页：<strong>(Excel对象).createSheet(“学生表一”);<br>创建行：</strong>（sheet对象）.createRow((int) 0);<br>创建列：<strong>(行对象).createCell((short) 0);<br>创建一个样式对象：</strong>（Excel对象）.createCellStyle();<br>添加居中格式：**（样式对象）.setAlignment(HSSFCellStyle.ALIGN_CENTER);</p>
-<hr>
-<p><strong><em>导入大体思路如下</em></strong><br>1.使用 BufferedInputStream输入流 读取Excel文档<br>2.得到文件后采用POIFSFileSystem 进行解析并转为HSSFWorkbook对象<br>3.使用HSSFWorkbook对象.getSheetAt(0);获取该Excel的第一个sheet页<br>4.Sheet. getLastRowNum()获取该sheet页的数据条数进行for循环每一条数据【for（int i= 0 ； i&lt; Sheet. getLastRowNum();i++）】<br>5.HSSFRow row =Sheet.getRow(i)获取此行数据<br>6.Row. getLastCellNum()获取本行有N条数据<br>7.row.getCell(columnIndex);获取单元格并导出值存入相应的对象中<br>8.使用存好的对象进行数据库添加操作<br>9.导入完成</p>
-<p>具体导入操作实例：<br>第一步、创建输入流并转换为HSSFWorkbook对象<br>1、BufferedInputStream  in = new<br>BufferedInputStream(new FileInputStream(new File(“文件路径”)));<br>2、POIFSFileSystem fs = new POIFSFileSystem(in);<br>3、HSSFWorkbook wb = new HSSFWorkbook(fs);<br>第二步、用HSSFWorkbook获取第一个sheet页（sheet页下标从0开始）<br>HSSFSheet st = wb.getSheetAt(0);<br>第三步使用for循环循环每条数据（行）并获取行对象<br>for (int rowIndex = 0; rowIndex &lt;= st.getLastRowNum(); rowIndex++) {<br>            HSSFRow row = st.getRow(rowIndex);<br>}<br>第四步循环行对象并获取单元格对象<br>for (short columnIndex = 0, size = row.getLastCellNum(); columnIndex &lt;= size; columnIndex++) {<br>                cell = row.getCell(columnIndex);<br>}<br>第五步将单元格中不同格式的的值以不同方式导出（可以直接复制使用）最终value为单元中的值可进行任意操作<br>if (cell != null) {<br>                    switch (cell.getCellType()) {<br>                    case HSSFCell.CELL_TYPE_STRING:<br>                        value = cell.getStringCellValue();<br>                        break;<br>                    case HSSFCell.CELL_TYPE_NUMERIC:<br>                        if (HSSFDateUtil.isCellDateFormatted(cell)) {<br>                            Date date = cell.getDateCellValue();<br>                            if (date != null) {<br>                                value = new SimpleDateFormat(“yyyy-MM-dd HH:mm:SS”)<br>                                .format(date);<br>                            } else {<br>                                value = “”;<br>                            }<br>                        } else {<br>                            value = new DecimalFormat(“0”).format(cell<br>                                    .getNumericCellValue());<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_FORMULA:<br>                        // 导入时如果为公式生成的数据则无值<br>                        if (!cell.getStringCellValue().equals(“”)) {<br>                            value = cell.getStringCellValue();<br>                        } else {<br>                            value = cell.getNumericCellValue() + “”;<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BLANK:<br>                        break;<br>                    case HSSFCell.CELL_TYPE_ERROR:<br>                        value = “”;<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BOOLEAN:<br>                        value = (cell.getBooleanCellValue() == true ? “Y”<br>                                : “N”);<br>                        break;<br>                    default:<br>                        value = “”;<br>                    }</p>
-<p>} </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/POI的基本使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mysql中文乱码的解决方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/mysql中文乱码的解决方法/">mysql中文乱码的解决方法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/mysql中文乱码的解决方法/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.204Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>mysql中文乱码的解决方法</strong></p>
-<pre><code>请参考博客：http://blog.csdn.net/tomcat_2014/article/details/75006600
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/mysql中文乱码的解决方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -1415,8 +354,8 @@ protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

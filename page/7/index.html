@@ -163,6 +163,314 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-React组件生命周期小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/19/React组件生命周期小结/">React组件生命周期小结</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/19/React组件生命周期小结/" class="archive-article-date">
+  	<time datetime="2017-12-19T03:37:45.889Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p><em>这篇博客是我在简书上看到的，写的实在是太好了，<a href="http://www.jianshu.com/p/4784216b8194" target="_blank" rel="external">这是原文地址</a>。</em><br>          </p><p><strong>下面所写的，只适合前端的React。（React也支持后端渲染，而且和前端有点小区别，不过我没用过。）</strong></p><p></p>
+<p></p><h1>相关函数</h1><p></p>
+<p></p><p>简单地说，React Component通过其定义的几个函数来控制组件在生命周期的各个阶段的动作。</p><p></p>
+<p></p><p>在ES6中，一个React组件是用一个class来表示的（具体可以参考<a href="https://link.jianshu.com?t=http://facebook.github.io/react/docs/reusable-components.html#es6-classes" target="_blank" rel="nofollow">官方文档</a>），如下：</p><p></p>
+<pre class="hljs undefined"><code>// 定义一个TodoList的React组件，通过继承React.Component来实现
+class TodoList extends React.Component {
+  ...
+}
+</code></pre>
+<p>这几个生命周期相关的函数有：</p>
+<pre class="hljs undefined"><code>constructor(props, context)
+</code></pre>
+<p>构造函数，在创建组件的时候调用一次。</p>
+<pre class="hljs undefined"><code>void componentWillMount()
+</code></pre>
+<p>在组件挂载之前调用一次。如果在这个函数里面调用setState，本次的render函数可以看到更新后的state，并且只渲染一次。</p>
+<pre class="hljs undefined"><code>void componentDidMount()
+</code></pre>
+<p>在组件挂载之后调用一次。这个时候，子主键也都挂载好了，可以在这里使用refs。</p>
+<pre class="hljs undefined"><code>void componentWillReceiveProps(nextProps)
+</code></pre>
+<p>props是父组件传递给子组件的。父组件发生render的时候子组件就会调用componentWillReceiveProps（不管props有没有更新，也不管父子组件之间有没有数据交换）。</p>
+<pre class="hljs undefined"><code>bool shouldComponentUpdate(nextProps, nextState)
+</code></pre>
+<p>组件挂载之后，每次调用setState后都会调用shouldComponentUpdate判断是否需要重新渲染组件。默认返回true，需要重新render。在比较复杂的应用里，有一些数据的改变并不影响界面展示，可以在这里做判断，优化渲染效率。</p>
+<pre class="hljs undefined"><code>void componentWillUpdate(nextProps, nextState)
+</code></pre>
+<p>shouldComponentUpdate返回true或者调用forceUpdate之后，componentWillUpdate会被调用。</p>
+<pre class="hljs undefined"><code>void componentDidUpdate()
+</code></pre>
+<p>除了首次render之后调用componentDidMount，其它render结束之后都是调用componentDidUpdate。</p>
+<p>componentWillMount、componentDidMount和componentWillUpdate、componentDidUpdate可以对应起来。区别在于，前者只有在挂载的时候会被调用；而后者在以后的每次更新渲染之后都会被调用。</p>
+<pre class="hljs undefined"><code>ReactElement render()
+</code></pre>
+<p>render是一个React组件所必不可少的核心函数（上面的其它函数都不是必须的）。记住，不要在render里面修改state。</p>
+<pre class="hljs undefined"><code>void componentWillUnmount()
+</code></pre>
+<p>组件被卸载的时候调用。一般在componentDidMount里面注册的事件需要在这里删除。</p>
+<h1>更新方式</h1>
+<p>在react中，触发render的有4条路径。</p>
+<p><strong>以下假设shouldComponentUpdate都是按照默认返回true的方式。</strong></p>
+<ol>
+<li>首次渲染Initial Render</li>
+<li>调用this.setState （并不是一次setState会触发一次render，React可能会合并操作，再一次性进行render）</li>
+<li>父组件发生更新（一般就是props发生改变，但是就算props没有改变或者父子组件之间没有数据交换也会触发render）</li>
+<li>调用this.forceUpdate</li>
+</ol>
+<p></p>
+<img src="http://img.blog.csdn.net/20171219130718397?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+React组件更新路径.png
+
+<p>注意，如果在shouldComponentUpdate里面返回false可以提前退出更新路径。</p>
+<h1>一个React组件生命周期的测试例子</h1>
+<p>代码比较简单，没有逻辑，只是在每个相关函数里面alert一下。<a href="https://link.jianshu.com?t=http://wximg.gtimg.com/shake_tv/test/lifeCycle2113.html" target="_blank" rel="nofollow">点击链接</a>来试试这个例子。<br>
+源码：</p>
+<pre class="hljs undefined"><code>class LifeCycle extends React.Component {
+    constructor(props) {
+        super(props);
+        alert("Initial render");
+        alert("constructor");
+        this.state = {str: "hello"};
+    }
+
+    componentWillMount() {
+        alert("componentWillMount");
+    }
+
+    componentDidMount() {
+        alert("componentDidMount");
+    }
+
+    componentWillReceiveProps(nextProps) {
+        alert("componentWillReceiveProps");
+    }
+
+    shouldComponentUpdate() {
+        alert("shouldComponentUpdate");
+        return true;        // 记得要返回true
+    }
+
+    componentWillUpdate() {
+        alert("componentWillUpdate");
+    }
+
+    componentDidUpdate() {
+        alert("componentDidUpdate");
+    }
+
+    componentWillUnmount() {
+        alert("componentWillUnmount");
+    }
+
+    setTheState() {
+        let s = "hello";
+        if (this.state.str === s) {
+            s = "HELLO";
+        }
+        this.setState({
+            str: s
+        });
+    }
+
+    forceItUpdate() {
+        this.forceUpdate();
+    }
+
+    render() {
+        alert("render");
+        return(
+            &lt;div&gt;
+                &lt;span&gt;{"Props:"}&lt;h2&gt;{parseInt(this.props.num)}&lt;/h2&gt;&lt;/span&gt;
+                &lt;br /&gt;
+                &lt;span&gt;{"State:"}&lt;h2&gt;{this.state.str}&lt;/h2&gt;&lt;/span&gt;
+            &lt;/div&gt;
+        );
+    }
+}
+
+class Container  extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            num: Math.random() * 100
+        };
+    }
+
+    propsChange() {
+        this.setState({
+            num: Math.random() * 100
+        });
+    }
+
+    setLifeCycleState() {
+        this.refs.rLifeCycle.setTheState();
+    }
+
+    forceLifeCycleUpdate() {
+        this.refs.rLifeCycle.forceItUpdate();
+    }
+
+    unmountLifeCycle() {
+        // 这里卸载父组件也会导致卸载子组件
+        React.unmountComponentAtNode(document.getElementById("container"));
+    }
+
+    parentForceUpdate() {
+        this.forceUpdate();
+    }
+
+    render() {
+        return (
+            &lt;div&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.propsChange.bind(this)}&gt;propsChange&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.setLifeCycleState.bind(this)}&gt;setState&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.forceLifeCycleUpdate.bind(this)}&gt;forceUpdate&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.unmountLifeCycle.bind(this)}&gt;unmount&lt;/a&gt;
+                &lt;a href="javascript:;" className="weui_btn weui_btn_primary" onClick={this.parentForceUpdate.bind(this)}&gt;parentForceUpdateWithoutChange&lt;/a&gt;
+                &lt;LifeCycle ref="rLifeCycle" num={this.state.num}&gt;&lt;/LifeCycle&gt;
+            &lt;/div&gt;
+        );
+    }
+}
+
+ReactDom.render(
+    &lt;Container&gt;&lt;/Container&gt;,
+    document.getElementById('container')
+);
+
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/19/React组件生命周期小结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-react中-create-react-app不是内部或者外部命令...-解决方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/">react中“create-react-app”不是内部或者外部命令也不是可运行程序的解决办法</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/" class="archive-article-date">
+  	<time datetime="2017-12-15T08:33:29.264Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>1.分析问题的原因：<br>           出现这种问题一般是因为命令所在路径和配置的环境变量的路径不统一所导致的，即命令所在的位置不是环境变量所指向的位置；<br> 2解决方案:<br>         (1.)使用npm自带的命令npm config list查看npm相关的环境变量(如果没有手动配置，则npm的环境变量一般配置的是默认路径：<img src="http://img.blog.csdn.net/20171215161443549?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述">)，采用默认路径一般是在系统盘，这样不太好，下面将详细介绍自定义环境变,通过对比当前的安装路径：<img src="http://img.blog.csdn.net/20171215161847450?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述">，会发现两者确实不同，只要将命令安装路径和命令运行路径（环境变量指向的路径）统一即可。<br>       (2.)  通过命令：<code>npm config set prefix &quot;D:\XXXXXX\XXXXX\XXX&quot;</code>即可设置命令的安装路径（该路径和环境变量指向的路径应该保持一致）；</p>
+<hr>
+<p><strong>node.js的自定义配置：</strong></p>
+<p> (1.)安装</p>
+<ol><br><li>双击安装包，一路下一步，路径最好别放C盘，因为我是强迫症，不喜欢C盘被乱七八糟的东西塞满。</li><br><li>安装完成后，建议再找个喜欢的地方创建一个全局包文件夹，这样你的全局包与缓存会放在这个文件夹下，比较好找。比如我的路径：<code>D:\software\dev\Node</code> <br><br><ul><li><img src="http://img.blog.csdn.net/20170322224905671?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></li><br><li>Cache：缓存目录</li><br><li>Lib：全局包目录</li></ul></li><br><li>包目录创建好后，在nodejs安装目录下的<code>node_modules\npm</code>下找到npmrc文件，并修改： <br><br><ul><li><img src="http://img.blog.csdn.net/20170322225147238?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></li><br><li>修改全局包与缓存的目录配置为刚刚我们创建的文件夹。</li></ul></li><br></ol>
+
+
+
+<p>(3) 配置环境变量</p>
+<ol><br><li>右键我的电脑-属性-高级系统设置-高级-环境变量，打开环境变量设置窗口 <br><br><ul><li><img src="http://img.blog.csdn.net/20170322225344460?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXE0NTEzNTQ=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></li></ul></li><br><li>在下面的系统变量中找到Path，点击编辑，在后面加入nodejs的安装目录，我这里就是<code>D:\software\dev\nodeJS\</code></li><br><li>然后打开cmd，输入node -v回车显示node版本，输入npm -v回车，显示npm版本，则表示node安装成功。</li><br><li>在用户变量Path中，修改默认配置为刚刚设置的<strong>prefix</strong>路径。</li><br></ol>
+
+
+<hr>
+<p><strong>注意</strong>：prefix指向的路径中，应该包含<code>全局安装包的文件夹</code>和<code>缓存文件夹</code>,这两个文件夹应该是同级的文件，层次结构如下所示：<img src="http://img.blog.csdn.net/20171215163304642?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述">。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/15/react中-create-react-app不是内部或者外部命令...-解决方案/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-react中常见问题的汇总，收藏别人的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -809,174 +1117,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/11/06/mybatis中#{}【占位符】和${}【字符串】拼接的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java实现二叉树的前序、中序、后序以及层次遍历" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">建立一颗二叉排序树，并输出它的前序、中序、后序以及层次遍历结</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/" class="archive-article-date">
-  	<time datetime="2017-09-13T15:22:07.911Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">5</div><div class="line">6 9 1 5 8</div><div class="line">输出：</div><div class="line">6 1 5 9 8 //前序</div><div class="line">1 5 6 8 9 //中序</div><div class="line">5 1 8 9 6 //后序</div><div class="line">6 1 9 5 8 //层次</div></pre></td></tr></table></figure>
-<p><code class="java"><span class="hljs-comment">//Main函数</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);<br>        <span class="hljs-keyword">while</span>(scanner.hasNextInt()){<br>            <span class="hljs-keyword">int</span> num = scanner.nextInt();<br>            <span class="hljs-keyword">int</span>[] array = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[num];<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num; i++){<br>                array[i] = scanner.nextInt();<br>            }<br>            TreeNode root = <span class="hljs-keyword">new</span> TreeNode(array[<span class="hljs-number">0</span>]);<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; num; i++){<br>                buildBST(root,array[i]);<br>            }<br>            DLR(root);<span class="hljs-comment">//前序遍历</span><br>            System.out.println();<br>            LDR(root);<span class="hljs-comment">//中序遍历</span><br>            System.out.println();<br>            LRD(root);<span class="hljs-comment">//后序遍历</span><br>            System.out.println();<br>            levelOrder(root);<span class="hljs-comment">//层次遍历</span><br>            System.out.println();<br>        }<br>    }<br><span class="hljs-comment">//前序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">DLR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>            Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>            stack.push(node);<br>            <span class="hljs-keyword">while</span>(!stack.isEmpty()){<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)stack.push(node.right);<br>                <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)stack.push(node.left);<br>            }<br>        }<br>    }<br><span class="hljs-comment">//中序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LDR</span><span class="hljs-params">(TreeNode node)</span></span>{<br>      Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> || !stack.isEmpty()){<br>            <span class="hljs-keyword">if</span>(node!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<span class="hljs-keyword">else</span>{<br>                node = stack.pop();<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                node = node.right;<br>            }<br>        }<br>    }<br><span class="hljs-comment">//后序遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LRD</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Stack&lt;TreeNode&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;TreeNode&gt;();<br>        TreeNode pre = node;<br>        <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span>){<br>            <span class="hljs-keyword">while</span>(node.left!=<span class="hljs-keyword">null</span>){<br>                stack.push(node);<br>                node = node.left;<br>            }<br>            <span class="hljs-keyword">while</span>(node!=<span class="hljs-keyword">null</span> &amp;&amp; (node.right==<span class="hljs-keyword">null</span> || node.right==pre)){<br>                System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>                pre = node;<br>                <span class="hljs-keyword">if</span>(stack.isEmpty()) <span class="hljs-keyword">return</span>;<br>                node = stack.pop();<br>            }<br>            stack.push(node);<br>            node = node.right;<br>        }<br>    }<br><span class="hljs-comment">//层次遍历非递归</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">levelOrder</span><span class="hljs-params">(TreeNode node)</span></span>{<br>        Queue&lt;TreeNode&gt; queue = <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;TreeNode&gt;();<br>        queue.offer(node);<br>        <span class="hljs-keyword">while</span>(!queue.isEmpty()){<br>            node = queue.poll();<br>            System.out.print(node.val+<span class="hljs-string">“ “</span>);<br>            <span class="hljs-keyword">if</span>(node.left!=<span class="hljs-keyword">null</span>)queue.add(node.left);<br>            <span class="hljs-keyword">if</span>(node.right!=<span class="hljs-keyword">null</span>)queue.add(node.right);<br>        }<br>    }<br><span class="hljs-comment">//构建二叉排序树</span><br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buildBST</span><span class="hljs-params">(TreeNode node,<span class="hljs-keyword">int</span> val)</span></span>{<br>        <span class="hljs-keyword">if</span>(node.val == val) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-keyword">if</span>(val &lt; node.val){<br>            <span class="hljs-keyword">if</span>(node.left==<span class="hljs-keyword">null</span>) node.left = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.left,val);<br>        }<span class="hljs-keyword">else</span>{<br>            <span class="hljs-keyword">if</span>(node.right==<span class="hljs-keyword">null</span>) node.right = <span class="hljs-keyword">new</span> TreeNode(val);<br>            <span class="hljs-keyword">else</span> buildBST(node.right,val);<br>        }<br>    }<br></code></p>
-<p><code class="java"><span class="hljs-comment">//二叉树节点结构</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span></span>{<br> <span class="hljs-keyword">int</span> val = <span class="hljs-number">0</span>;<br>TreeNode left = <span class="hljs-keyword">null</span>;<br>TreeNode right = <span class="hljs-keyword">null</span>;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TreeNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span></span>{<br><span class="hljs-keyword">this</span>.val = val;<br>}<br>}```</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/13/Java实现二叉树的前序、中序、后序以及层次遍历/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Mysql优化之索引类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/12/Mysql优化之索引类型/">Mysql优化之索引</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/12/Mysql优化之索引类型/" class="archive-article-date">
-  	<time datetime="2017-09-12T12:24:09.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Mysql中索引的类型：</div></pre></td></tr></table></figure>
-<pre><code> Mysql中的索引分为三种类型：
-
-       1.Normal:该类型的索引对建立索引的字段基本不做特殊要求【唯一性、有序性】
-       2.Unique:要求建立索引的字段必须是唯一的;
-       3.Full Text:当建立索引的字段是长文本类型等数据长度较长的字段时，建议使用该类型的索引;
-
-Mysql中索引的方法:
-      Mysql中的索引方法有Hash和BTree两种：
-
-      Hash索引方法：
-</code></pre><hr>
-<p><a href="http://pic002.cnblogs.com/images/2012/288799/2012092709470640.jpg" target="_blank" rel="external">Hash图解</a></p>
-<pre><code>Hash 索引的缺点：
-</code></pre><p>（1）Hash 索引仅仅能满足”=”,”IN”和”&lt;=&gt;”查询，不能使用范围查询。</p>
-<p>由于 Hash 索引比较的是进行 Hash 运算之后的 Hash 值，所以它只能用于等值的过滤，不能用于基于范围的过滤，因为经过相应的 Hash 算法处理之后的 Hash 值的大小关系，并不能保证和Hash运算前完全一样。</p>
-<p>（2）Hash 索引无法被用来避免数据的排序操作。</p>
-<p>由于 Hash 索引中存放的是经过 Hash 计算之后的 Hash 值，而且Hash值的大小关系并不一定和 Hash 运算前的键值完全一样，所以数据库无法利用索引的数据来避免任何排序运算；</p>
-<p>（3）Hash 索引不能利用部分索引键查询。</p>
-<p>对于组合索引，Hash 索引在计算 Hash 值的时候是组合索引键合并后再一起计算 Hash 值，而不是单独计算 Hash 值，所以通过组合索引的前面一个或几个索引键进行查询的时候，Hash 索引也无法被利用。</p>
-<p>（4）Hash 索引在任何时候都不能避免表扫描。</p>
-<p>前面已经知道，Hash 索引是将索引键通过 Hash 运算之后，将 Hash运算结果的 Hash 值和所对应的行指针信息存放于一个 Hash 表中，由于不同索引键存在相同 Hash 值，所以即使取满足某个 Hash 键值的数据的记录条数，也无法从 Hash 索引中直接完成查询，还是要通过访问表中的实际数据进行相应的比较，并得到相应的结果。</p>
-<p>（5）Hash 索引遇到大量Hash值相等的情况后性能并不一定就会比B-Tree索引高。</p>
-<p>对于选择性比较低的索引键，如果创建 Hash 索引，那么将会存在大量记录指针信息存于同一个 Hash 值相关联。这样要定位某一条记录时就会非常麻烦，会浪费多次表数据的访问，而造成整体性能低下。<br>           2.BTree:<br>           二叉查找树</p>
-<blockquote>
-<p>二叉搜索树，也称有序二叉树,排序二叉树，是指一棵空树或者具有下列性质的二叉树：</p>
-<ol>
-<li><p>若任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；</p>
-</li>
-<li><p>若任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；</p>
-</li>
-<li><p>任意节点的左、右子树也分别为二叉查找树。</p>
-</li>
-<li><p>没有键值相等的节点。</p>
-</li>
-</ol>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20170912200040959?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>总结：两种索引方法的最终目的都是通过减少查询次数增加了查询的效率，最终达到了数据库优化的效果，但两者都在一定程度上增加了数据库的系统开销，或是内存上的，或是执行效率撒谎那个的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/12/Mysql优化之索引类型/">展开全文 >></a>
         </p>
       
 

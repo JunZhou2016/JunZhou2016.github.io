@@ -163,6 +163,159 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/">React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/" class="archive-article-date">
+  	<time datetime="2018-09-09T10:08:22.049Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>首先介绍下，什么是单设备登录？<br>单设备登录可以理解为同一个应用某一时刻只允许单一用户使用处于登录状态。单设备登录可以类比QQ的踢出第二者登录模式，可以在一定的程度上保障账号的安全。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>   单设备登录的难点在哪？<br>   单设备登录的难点在于如何主动、准确的推动消息到客户端。但是幸运的是我们可以通过WebSocket实现消息的准确推送，并且React中也有对应的WebSocket的Js依赖包可以使用。</p>
+</blockquote>
+<p>下面将介绍详细的实现流程：<br>A、前端开发准备流程：<br>   1、使用npm 安装正确的js依赖包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install websockt</div></pre></td></tr></table></figure>
+<p>参考文章：<a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="external">阮一峰的WebSocket 教程</a></p>
+<p>2、websocket前端实现代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line">  * 建立WS链接相关的方法;jSESSIONID:&apos;&apos;</div><div class="line">  * @param &#123;*&#125; wsUrl :建立webSocket链接的Url;</div><div class="line">  */</div><div class="line">  estabConnectWithWS(wsUrl) &#123;</div><div class="line">  const ws = new WebSocket(wsUrl);</div><div class="line">  </div><div class="line">  let result = &quot;&quot;;</div><div class="line"></div><div class="line">  ws.onopen = function (e) &#123;</div><div class="line">    console.log(&apos;连接上 ws 服务端了&apos;);</div><div class="line">    ws.send(JSON.stringify(&#123; flag: wsUrl, data: &quot;Hello WebSocket!&quot; &#125;));</div><div class="line">  &#125;</div><div class="line">  ws.onmessage = (msg)=&gt; &#123; </div><div class="line">      console.log(&apos;接收服务端发过来的消息: %o&apos;, msg); </div><div class="line">      var msgJson = JSON.parse(msg.data);</div><div class="line">      result += msgJson.MsgBody + &apos;\n&apos;;</div><div class="line">      if (msgJson.MsgCode == &quot;999999&quot;) &#123;//多设备在线的异常发生时;</div><div class="line">         window.location.href = &apos;/#/&apos;;</div><div class="line">      &#125; else if (msgJson.MsgCode == &quot;555555&quot;) &#123;//用户退出系统的时候;</div><div class="line">          ws.close();</div><div class="line">          window.location.href = &apos;/#/&apos;;</div><div class="line">      &#125;</div><div class="line">      alert(msgJson.MsgBody);</div><div class="line">  &#125;; </div><div class="line">  ws.onclose = function (e) &#123;</div><div class="line">      console.log(&apos;ws 连接关闭了&apos;);</div><div class="line">      console.log(e);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要步骤就是在登录校验通过后就建立和WebSocket服务终端的链接，并启动消息监听，在多用户登录的时候，前端弹出提示消息并跳转到登录页面，在用户执行退出操作的时候终断websocket链接并跳转到登录页面。</p>
+<p>具体情境如下图所示：<br><img src="http://ouuy81imh.bkt.clouddn.com/singleDeviceLogin001.gif" alt="这里写图片描述"><br>B、websocket后端开发流程<br>1、在用户成功登录后创建session并存储用户的登录信息；<br>2、websocket客户端和websocket服务端握手成功之后，将第一步中的session中的数据放入WebSocketSession中，便于在MyWebSocketHandler中创建在线用户表，最终将根据在线用户表中的userId实现一对一的消息推送。<br>3、ws请求进入MyWebSocketHandler【ws处理】中，在ws链接建立的生命周期中进行合理的数据处理。</p>
+<p>WebSocketInterceptor.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">package com.sds.socketInterceptor;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpSession;</div><div class="line"></div><div class="line">import org.springframework.http.server.ServerHttpRequest;</div><div class="line">import org.springframework.http.server.ServerHttpResponse;</div><div class="line">import org.springframework.http.server.ServletServerHttpRequest;</div><div class="line">import org.springframework.web.socket.TextMessage;</div><div class="line">import org.springframework.web.socket.WebSocketHandler;</div><div class="line">import org.springframework.web.socket.WebSocketSession;</div><div class="line">import org.springframework.web.socket.server.HandshakeInterceptor;</div><div class="line"></div><div class="line">import com.sds.enums.MsgEnum;</div><div class="line">import com.sds.model.LoginerInfo;</div><div class="line">import com.sds.model.WSMsg;</div><div class="line">import com.sds.socketHandle.MyWebSocketHandler;</div><div class="line"></div><div class="line">public class WebSocketInterceptor implements HandshakeInterceptor &#123;</div><div class="line">	@Override</div><div class="line">	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,</div><div class="line">			Map&lt;String, Object&gt; map) throws Exception &#123;</div><div class="line">		if (request instanceof ServletServerHttpRequest) &#123;</div><div class="line">			HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();</div><div class="line">			HttpSession session = servletRequest.getSession(false);</div><div class="line">			if (session != null) &#123;</div><div class="line">				// 处理已经建立的链接;</div><div class="line">				dealWithConnectioned(session);</div><div class="line">				// 添加自定义的属性值到wobsocket中，便于进行访问控制，注意逻辑上的先后顺序;</div><div class="line">				map.put(&quot;userInfo&quot;, session.getAttribute(&quot;userInfo&quot;));</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line">		return true;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,</div><div class="line">			Exception exception) &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 处理多设备登录;</div><div class="line">	 */</div><div class="line">	public static boolean dealWithConnectioned(HttpSession userInfoStore) &#123;</div><div class="line"></div><div class="line">		boolean isConnectioned = false;</div><div class="line"></div><div class="line">		LoginerInfo currentUserInfo = ((LoginerInfo) userInfoStore.getAttribute(&quot;userInfo&quot;));</div><div class="line">		String userId = null;</div><div class="line">		if (null != currentUserInfo) &#123;</div><div class="line">			userId = ((LoginerInfo) userInfoStore.getAttribute(&quot;userInfo&quot;)).getUserId();</div><div class="line">		&#125; else &#123;</div><div class="line">			System.out.println(&quot;--CurrentUserInfo--Is----Null--&quot;);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		Map&lt;String, WebSocketSession&gt; users = MyWebSocketHandler.users;</div><div class="line">		if (null != users) &#123;</div><div class="line">			if (users.containsKey(userId)) &#123;</div><div class="line">				// 如果已经登录过，则推送&quot;已登录过的提示&quot;到客户端;</div><div class="line">				// 客户端接受信息，请求退出系统的接口;</div><div class="line">				// 清除session中保存的用户信息;</div><div class="line">				WebSocketSession webSocketSession = users.get(userId);</div><div class="line">				WSMsg wsMsg = new WSMsg(MsgEnum.FORCE_LOFOUT_MSG.getMsgCode(), MsgEnum.FORCE_LOFOUT_MSG.getMsgBody());</div><div class="line">				TextMessage promptMsg = new TextMessage(wsMsg.getMsgJson());</div><div class="line">				try &#123;</div><div class="line">					webSocketSession.sendMessage(promptMsg);</div><div class="line">				&#125; catch (IOException e) &#123;</div><div class="line">					// TODO Auto-generated catch block</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">				// 从已登录用户列表中清除已经登录过的用户的信息记录;</div><div class="line">				users.remove(userId);</div><div class="line">				isConnectioned = true;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return isConnectioned;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>MyWebSocketHandler.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div></pre></td><td class="code"><pre><div class="line">package com.sds.socketHandle;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.Map;</div><div class="line">import java.util.Set;</div><div class="line"></div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.socket.CloseStatus;</div><div class="line">import org.springframework.web.socket.TextMessage;</div><div class="line">import org.springframework.web.socket.WebSocketSession;</div><div class="line">import org.springframework.web.socket.handler.TextWebSocketHandler;</div><div class="line"></div><div class="line">import com.sds.enums.MsgEnum;</div><div class="line">import com.sds.model.LoginerInfo;</div><div class="line">import com.sds.model.WSMsg;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class MyWebSocketHandler extends TextWebSocketHandler &#123;</div><div class="line">	// 在线用户列表</div><div class="line">	public static final Map&lt;String, WebSocketSession&gt; users = new HashMap&lt;String, WebSocketSession&gt;();</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 连接已关闭，移除在Map集合中的记录</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception &#123;</div><div class="line">		users.remove(getUserId(session));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception &#123;</div><div class="line">		if (session.isOpen()) &#123;</div><div class="line">			session.close();</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;连接出错&quot;);</div><div class="line">		users.remove(getUserId(session));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 连接建立成功之后，记录用户的连接标识，便于后面发信息</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	public void afterConnectionEstablished(WebSocketSession session) throws Exception &#123;</div><div class="line">		System.out.println(&quot;成功建立连接&quot;);</div><div class="line">		String userId = getUserId(session);</div><div class="line">		System.out.println(userId);</div><div class="line">		if (userId != null) &#123;</div><div class="line">			users.put(userId, session);</div><div class="line">			WSMsg wsMsg = new WSMsg(MsgEnum.CONNECTION_SUCCESS_MSG.getMsgCode(),</div><div class="line">					MsgEnum.CONNECTION_SUCCESS_MSG.getMsgBody());</div><div class="line">			TextMessage promptMsg = new TextMessage(wsMsg.getMsgJson());</div><div class="line">			session.sendMessage(promptMsg);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 处理收到的websocket信息</div><div class="line">	 */</div><div class="line">	@Override</div><div class="line">	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception &#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 发送信息给指定用户</div><div class="line">	 * </div><div class="line">	 * @param clientId</div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToUser(String userId, String message) &#123;</div><div class="line">		if (users.get(userId) == null) &#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		WebSocketSession session = users.get(userId);</div><div class="line">		System.out.println(&quot;sendMessage:&quot; + session);</div><div class="line"></div><div class="line">		if (!session.isOpen()) &#123;</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">		try &#123;</div><div class="line">			int count = 1;</div><div class="line">			TextMessage textMessage = null;</div><div class="line">			@SuppressWarnings(&quot;unused&quot;)</div><div class="line">			String newMessage = &quot;&quot;;</div><div class="line"></div><div class="line">			// 循环向客户端发送数据</div><div class="line">			// while (true) &#123;</div><div class="line">			newMessage = message + String.valueOf(count);</div><div class="line">			textMessage = new TextMessage(message);</div><div class="line">			session.sendMessage(textMessage);</div><div class="line">			Thread.sleep(500);</div><div class="line">			newMessage = &quot;&quot;;</div><div class="line">			// &#125;</div><div class="line">			return true;</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return false;</div><div class="line">		&#125; catch (InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			return false;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 发送信息给指定用户的浏览器;</div><div class="line">	 * </div><div class="line">	 * @param clientId</div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToTargetFront(String userId, TextMessage message) &#123;</div><div class="line">		boolean isSendSuccessfully = true;</div><div class="line">		WebSocketSession webSocketSession = users.get(userId);</div><div class="line">		try &#123;</div><div class="line">			webSocketSession.sendMessage(message);</div><div class="line">		&#125; catch (IOException e) &#123;</div><div class="line">			// TODO Auto-generated catch block</div><div class="line">			isSendSuccessfully = false;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		return isSendSuccessfully;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 广播信息</div><div class="line">	 * </div><div class="line">	 * @param message</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	public boolean sendMessageToAllUsers(TextMessage message) &#123;</div><div class="line">		boolean allSendSuccess = true;</div><div class="line">		Set&lt;String&gt; clientIds = users.keySet();</div><div class="line">		WebSocketSession session = null;</div><div class="line">		for (String clientId : clientIds) &#123;</div><div class="line">			try &#123;</div><div class="line">				session = users.get(clientId);</div><div class="line">				if (session.isOpen()) &#123;</div><div class="line">					session.sendMessage(message);</div><div class="line">				&#125;</div><div class="line">			&#125; catch (IOException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">				allSendSuccess = false;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return allSendSuccess;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 获取用户标识</div><div class="line">	 * </div><div class="line">	 * @param session</div><div class="line">	 * @return</div><div class="line">	 */</div><div class="line">	private String getUserId(WebSocketSession session) &#123;</div><div class="line">		try &#123;</div><div class="line">			String userId = ((LoginerInfo) session.getAttributes().get(&quot;userInfo&quot;)).getUserId();</div><div class="line">			return userId;</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			return null;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>源码：<br><a href="https://download.csdn.net/download/zj20142213/10655466" target="_blank" rel="external">React前端源码</a><br>           <a href="https://download.csdn.net/download/zj20142213/10655470" target="_blank" rel="external">SpringBoot后端源码</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/09/React和SpringBoot前后端分离开发模式下采用WebSocket实现单设备登录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-SpringBoot中Session监听器的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/09/SpringBoot中Session监听器的使用/">SpringBoot中Session监听器的使用</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/09/SpringBoot中Session监听器的使用/" class="archive-article-date">
+  	<time datetime="2018-09-09T10:08:21.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当需要统计应用的试试在线人数的时候，统计成功登录后创建的session的数量是最为准确的数据。SpringBoot通过SessionListener可以很方便的监听session的生命周期。在SpringBoot中监听session的步骤如下：<br>1、创建session监听器.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">package com.sds.listenner;</div><div class="line"></div><div class="line">import java.util.HashSet;</div><div class="line"></div><div class="line">import javax.servlet.ServletContext;</div><div class="line">import javax.servlet.annotation.WebListener;</div><div class="line">import javax.servlet.http.HttpSession;</div><div class="line">import javax.servlet.http.HttpSessionAttributeListener;</div><div class="line">import javax.servlet.http.HttpSessionBindingEvent;</div><div class="line">import javax.servlet.http.HttpSessionEvent;</div><div class="line">import javax.servlet.http.HttpSessionListener;</div><div class="line"></div><div class="line">@WebListener</div><div class="line">public class SessionListener implements HttpSessionListener, HttpSessionAttributeListener &#123;</div><div class="line"></div><div class="line">	public Logger logger = new Logger();</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void attributeAdded(HttpSessionBindingEvent httpSessionBindingEvent) &#123;</div><div class="line">		logger.info(&quot;--attributeAdded--&quot;);</div><div class="line">		@SuppressWarnings(&quot;unused&quot;)</div><div class="line">		HttpSession session = httpSessionBindingEvent.getSession();</div><div class="line">		logger.info(&quot;key----:&quot; + httpSessionBindingEvent.getName());</div><div class="line">		logger.info(&quot;value---:&quot; + httpSessionBindingEvent.getValue());</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void attributeRemoved(HttpSessionBindingEvent httpSessionBindingEvent) &#123;</div><div class="line">		logger.info(&quot;--attributeRemoved--&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void attributeReplaced(HttpSessionBindingEvent httpSessionBindingEvent) &#123;</div><div class="line">		logger.info(&quot;--attributeReplaced--&quot;);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void sessionCreated(HttpSessionEvent event) &#123;</div><div class="line">		logger.info(&quot;---sessionCreated----&quot;);</div><div class="line">		HttpSession session = event.getSession();</div><div class="line">		ServletContext application = session.getServletContext();</div><div class="line">		// 在application范围由一个HashSet集保存所有的session</div><div class="line">		@SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">		HashSet&lt;HttpSession&gt; sessions = (HashSet&lt;HttpSession&gt;) application.getAttribute(&quot;sessions&quot;);</div><div class="line">		if (sessions == null) &#123;</div><div class="line">			sessions = new HashSet&lt;HttpSession&gt;();</div><div class="line">			application.setAttribute(&quot;sessions&quot;, sessions);</div><div class="line">		&#125;</div><div class="line">		// 新创建的session均添加到HashSet集中</div><div class="line">		sessions.add(session);</div><div class="line">		// 可以在别处从application范围中取出sessions集合</div><div class="line">		// 然后使用sessions.size()获取当前活动的session数，即为“在线人数”</div><div class="line">		</div><div class="line">		//添加新建的session到MySessionContext中;</div><div class="line">		MySessionContext.AddSession(event.getSession());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void sessionDestroyed(HttpSessionEvent event) throws ClassCastException &#123;</div><div class="line">		logger.info(&quot;---sessionDestroyed----&quot;);</div><div class="line">		HttpSession session = event.getSession();</div><div class="line">		logger.info(&quot;deletedSessionId: &quot; + session.getId());</div><div class="line">		System.out.println(session.getCreationTime());</div><div class="line">		System.out.println(session.getLastAccessedTime());</div><div class="line">		ServletContext application = session.getServletContext();</div><div class="line">		HashSet&lt;?&gt; sessions = (HashSet&lt;?&gt;) application.getAttribute(&quot;sessions&quot;);</div><div class="line">		// 销毁的session均从HashSet集中移除</div><div class="line">		sessions.remove(session);</div><div class="line">		</div><div class="line">		//添加新建的session到MySessionContext中;</div><div class="line">        MySessionContext.DelSession(session);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2、创建session处理工具类，里面需要一个静态的HashMap存储应用中登录后创建的有效的session.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">package com.sds.listenner;</div><div class="line"></div><div class="line">import java.util.HashMap;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpSession;</div><div class="line"></div><div class="line">public class MySessionContext &#123;</div><div class="line">    private static HashMap&lt;String, HttpSession&gt; mymap = new HashMap&lt;String, HttpSession&gt;();</div><div class="line">        public static synchronized void AddSession(HttpSession session) &#123;</div><div class="line">                if (session != null) &#123;</div><div class="line">                        mymap.put(session.getId(), session);</div><div class="line">                     &#125;</div><div class="line">             &#125;</div><div class="line">         public static synchronized void DelSession(HttpSession session) &#123;</div><div class="line">                 if (session != null) &#123;</div><div class="line">                         mymap.remove(session.getId());</div><div class="line">                     &#125;</div><div class="line">             &#125;</div><div class="line">         public static synchronized HttpSession getSession(String session_id) &#123;</div><div class="line">                if (session_id == null)</div><div class="line">                     return null;</div><div class="line">                 return mymap.get(session_id);</div><div class="line">             &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Logger.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">package com.sds.listenner;</div><div class="line"></div><div class="line">public class Logger &#123;</div><div class="line">	public void info(String info) &#123;</div><div class="line">		System.out.println(info);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3、添加SessionListener到系统配置中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">package com.sds.cfg;</div><div class="line"></div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.web.servlet.config.annotation.CorsRegistry;</div><div class="line">import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;</div><div class="line">@Configuration</div><div class="line">public class SessionConfiguration extends WebMvcConfigurerAdapter&#123;</div><div class="line">    //注册session监听器;</div><div class="line">    @Bean</div><div class="line">    public ServletListenerRegistrationBean&lt;SessionListener&gt; servletListenerRegistrationBean() &#123;</div><div class="line">        ServletListenerRegistrationBean&lt;SessionListener&gt; slrBean = new ServletListenerRegistrationBean&lt;SessionListener&gt;();</div><div class="line">        slrBean.setListener(new SessionListener());</div><div class="line">        return slrBean;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>原理：通过SessionListener监听session的创建和销毁，并在对应的session生命周期中从静态的HashMap【自定义的session容器】中添加或者删除对应的session，从而实现session的动态管理，提供准确的统计数据。</p>
+<p>注意：在本例中提供了根据sessionId获取session的方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/09/SpringBoot中Session监听器的使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-使用JSOUP爬取国家统计局的地理位置数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -778,144 +931,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/06/28/JAVA实现对包含数字、字母、中文的字符串按首字母排序/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringBoot中AOP的简单实现。" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/SpringBoot中AOP的简单实现。/">SpringBoot中AOP的简单实现。</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/25/SpringBoot中AOP的简单实现。/" class="archive-article-date">
-  	<time datetime="2018-06-25T14:33:36.295Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在SpringBoot中实现AOP很简单。<br>      1、添加依赖：</p>
-<p>//注意依赖的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
-<p>   2、定义切面：<br>    WebLogAspect.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">package com.fangshuo.Aspect;</div><div class="line"></div><div class="line">import java.util.Arrays;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">import org.apache.log4j.Logger;</div><div class="line">import org.aspectj.lang.JoinPoint;</div><div class="line">import org.aspectj.lang.annotation.AfterReturning;</div><div class="line">import org.aspectj.lang.annotation.Aspect;</div><div class="line">import org.aspectj.lang.annotation.Before;</div><div class="line">import org.aspectj.lang.annotation.Pointcut;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.context.request.RequestContextHolder;</div><div class="line">import org.springframework.web.context.request.ServletRequestAttributes;</div><div class="line"></div><div class="line">@Aspect  </div><div class="line">@Component  </div><div class="line">public class WebLogAspect &#123;  </div><div class="line">  </div><div class="line">    private Logger logger = Logger.getLogger(getClass());  </div><div class="line">    @Pointcut(&quot;execution(public * com.fangshuo.controller.*.*(..))&quot;)  </div><div class="line">    public void webLog()&#123;&#125;  </div><div class="line">  </div><div class="line">    @Before(&quot;webLog()&quot;)  </div><div class="line">    public void doBefore(JoinPoint joinPoint) throws Throwable &#123;  </div><div class="line">        // 接收到请求，记录请求内容  </div><div class="line">        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();  </div><div class="line">        HttpServletRequest request = attributes.getRequest();  </div><div class="line">  </div><div class="line">        // 记录下请求内容  </div><div class="line">        logger.info(&quot;URL : &quot; + request.getRequestURL().toString());  </div><div class="line">        logger.info(&quot;HTTP_METHOD : &quot; + request.getMethod());  </div><div class="line">        logger.info(&quot;IP : &quot; + request.getRemoteAddr());  </div><div class="line">        logger.info(&quot;CLASS_METHOD : &quot; + joinPoint.getSignature().getDeclaringTypeName() + &quot;.&quot; + joinPoint.getSignature().getName());  </div><div class="line">        logger.info(&quot;ARGS : &quot; + Arrays.toString(joinPoint.getArgs()));  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)  </div><div class="line">    public void doAfterReturning(Object ret) throws Throwable &#123;  </div><div class="line">        // 处理完请求，返回内容  </div><div class="line">        logger.info(&quot;RESPONSE : &quot; + ret);</div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>整个AOP的代码结构如下:<br>     <img src="https://img-blog.csdn.net/20180625223007389?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
-<p>注意点：</p>
-<p>在后置通知中returning = “ret”中定义的参数名必须和通知方法受那个的参数匹配，即returning = “ret”中定义的是ret,通知方法中也必须是”ret”,否则将抛出异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)  </div><div class="line">  public void doAfterReturning(Object ret) throws Throwable &#123;  </div><div class="line">      // 处理完请求，返回内容  </div><div class="line">      logger.info(&quot;RESPONSE : &quot; + ret);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>3、参考文章：<br><a href="https://www.cnblogs.com/lic309/p/4079194.html" target="_blank" rel="external">spring aop 面向切面编程初接触</a><br><a href="https://blog.csdn.net/owen_william/article/details/50812771" target="_blank" rel="external">Spring AOP(二)之AfterReturning增强处理</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/25/SpringBoot中AOP的简单实现。/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SSO单点登录探究【基于cookie共享】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/SSO单点登录探究【基于cookie共享】/">SSO单点登录探究【基于cookie共享】</a>
-    </h1>
-  
-
-        
-        <a href="/2018/06/25/SSO单点登录探究【基于cookie共享】/" class="archive-article-date">
-  	<time datetime="2018-06-25T14:19:35.486Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近看到公司的需求里面有单点登录，就去了解了一下。下面将从SSO单点登录的原理、实现步骤以及实现demo几个方面来讲述自己的理解。</p>
-<hr>
-<p>   1、SSO根本原理:<br>               登录状态的共享;<br>            1)、登录状态的共享有两种实现方式:<br>            一：cookie共享【但是cookie原则上不能跨域，通过合理的配置在二级域名相同的情况下可以跨域共享】。<br>            二：通过Session共享登录状态。【Spring Session共享方案，分布式系统中常用】<br>            三：通过IP+Agent+User的方式实现状态共享，实际上是模仿了cookie合session机制。【我自己研究的，适合绝对跨域的分布式系统】因为通过IP+Agent+User的形式理论上可以模仿cookie合session识别一次会话。<br>            <img src="http://ouuy81imh.bkt.clouddn.com/sso01.png" alt="这里写图片描述"><br>    2、实现的概要步骤【网络上的步骤乱七八糟各种不合理，自己整理了下】<br>            1）、子系统一登陆，未登陆则进入SSO认证中心认证，成功则更新登陆状态【创建全局会话】，返回共享媒介；<br>            2）、子系统二携带共享媒介，获取全局会话，读取登陆信息和登陆状态，实质是通过共享媒介保持了会话状态。<br>            ３）、退出时只需要注销全局会话状态即可。</p>
-<pre><code>【以上的概要步骤对SSO根本原理的一、二、三都适用】
-</code></pre><p>   ３、SSＯ登陆的demo[通过cookie共享实现的]<br>       SSOAuth：<br><img src="http://ouuy81imh.bkt.clouddn.com/sso02.png" alt="这里写图片描述"><br>     SSOWebDemo1：<br>     <img src="http://ouuy81imh.bkt.clouddn.com/sso03.png" alt="这里写图片描述"><br>     SSOWebDemo2：<br>     <img src="http://ouuy81imh.bkt.clouddn.com/sso04.png" alt="这里写图片描述"></p>
-<p> <a href="https://download.csdn.net/download/zj20142213/10499008" target="_blank" rel="external">SSO单点登录的源码。</a></p>
-<p>   四：参考文章:<br>         <a href="https://www.cnblogs.com/ywlaker/p/6113927.html" target="_blank" rel="external">单点登录原理与简单实现</a><br>         <a href="https://baike.baidu.com/item/%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/4940767?fr=aladdin" target="_blank" rel="external">单点登录</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/25/SSO单点登录探究【基于cookie共享】/">展开全文 >></a>
         </p>
       
 
