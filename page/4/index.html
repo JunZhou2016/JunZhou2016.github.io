@@ -163,6 +163,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql中使用递归实现父级部门所有子级信息的查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/">mysql中使用递归实现父级部门所有子级信息的查询</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/" class="archive-article-date">
+  	<time datetime="2018-03-02T14:05:04.868Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在项目中遇到了根据父级部门的部门id查询其所有子级部门的需求，下面介绍其详细过程和原理。<br>1、创建部门表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Navicat MySQL Data Transfer</div><div class="line"></div><div class="line">Source Server         : LongZheng</div><div class="line">Source Server Version : 50718</div><div class="line">Source Host           : localhost:3306</div><div class="line">Source Database       : ljy</div><div class="line"></div><div class="line">Target Server Type    : MYSQL</div><div class="line">Target Server Version : 50718</div><div class="line">File Encoding         : 65001</div><div class="line"></div><div class="line">Date: 2018-03-02 21:39:04</div><div class="line">*/</div><div class="line"></div><div class="line">SET FOREIGN_KEY_CHECKS=0;</div><div class="line"></div><div class="line">-- ----------------------------</div><div class="line">-- Table structure for hr_dept</div><div class="line">-- ----------------------------</div><div class="line">DROP TABLE IF EXISTS `hr_dept`;</div><div class="line">CREATE TABLE `hr_dept` (</div><div class="line">  `deptId` bigint(200) NOT NULL,</div><div class="line">  `parent_id` bigint(200) DEFAULT NULL,</div><div class="line">  `dept_name` varchar(128) DEFAULT NULL,</div><div class="line">  `dept_code` varchar(24) DEFAULT NULL,</div><div class="line">  `dept_desc` varchar(512) DEFAULT NULL,</div><div class="line">  `dept_office_address` varchar(128) DEFAULT NULL,</div><div class="line">  `is_delete` varchar(255) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`deptId`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line"></div><div class="line">-- ----------------------------</div><div class="line">-- Records of hr_dept</div><div class="line">-- ----------------------------</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;1&apos;, &apos;3&apos;, &apos;行政部门&apos;, &apos;100004&apos;, &apos;管理公司事物&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;2&apos;, &apos;3&apos;, &apos;人事部门&apos;, &apos;100003&apos;, &apos;管理公司员工&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;3&apos;, &apos;1&apos;, &apos;测试部门&apos;, &apos;100005&apos;, &apos;前后台测试&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;4&apos;, &apos;1&apos;, &apos;移动应用部&apos;, &apos;100006&apos;, &apos;手机端开发&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;5&apos;, &apos;1&apos;, &apos;金融业务部门&apos;, &apos;100007&apos;, &apos;银行业务&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;6&apos;, &apos;1&apos;, &apos;战略规划部&apos;, &apos;100001&apos;, &apos;研发软件架构&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;7&apos;, &apos;2&apos;, &apos;应用开发部&apos;, &apos;100002&apos;, &apos;PC端后台开发&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;8&apos;, &apos;2&apos;, &apos;咨询部&apos;, &apos;100008&apos;, &apos;接洽外部项目&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div><div class="line">INSERT INTO `hr_dept` VALUES (&apos;9&apos;, &apos;2&apos;, &apos;华北交付中心&apos;, &apos;100009&apos;, &apos;调试软件项目&apos;, &apos;江苏无锡菱湖大道&apos;, &apos;1&apos;);</div></pre></td></tr></table></figure>
+<p>2、创建存储过程.<br>执行下面的语句就可以创建function了，也就是执行语句创建存储过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">create function getChildrenOrgOfHr(orgid INT)</div><div class="line">returns varchar(4000)</div><div class="line">BEGIN</div><div class="line">DECLARE oTemp VARCHAR(4000);</div><div class="line">DECLARE oTempChild VARCHAR(4000);</div><div class="line"></div><div class="line">SET oTemp = &apos;&apos;;</div><div class="line">SET oTempChild = CAST(orgid AS CHAR);</div><div class="line"></div><div class="line">WHILE oTempChild IS NOT NULL</div><div class="line">DO</div><div class="line">SET oTemp = CONCAT(oTemp,&apos;,&apos;,oTempChild);</div><div class="line">SELECT GROUP_CONCAT(deptId) INTO oTempChild FROM hr_dept WHERE FIND_IN_SET(parent_id,oTempChild) &gt; 0;</div><div class="line">END WHILE;</div><div class="line">RETURN oTemp;</div><div class="line">END</div></pre></td></tr></table></figure></p>
+<p>3、测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from  hr_dept where FIND_IN_SET(deptId,getChildrenOrgOfHr(2));</div></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20180302220013439?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>4、原理<br>其实就是一个递归的过程，在存储过程中最终返回的是一个字符串数组，这个字符串数组中包含当前父级节点和所有子级节点的id,而这个字符串数组是通过递归进行拼接逐次增加的哦。<br>5、可能会出现的问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Data too long for column &apos;oTemp&apos; at row 1</div></pre></td></tr></table></figure>
+<p>6、参考文章<br><a href="http://blog.csdn.net/moyanxuan_1993_2_24/article/details/52790314" target="_blank" rel="external">mysql递归查询组织机构</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/02/mysql中使用递归实现父级部门所有子级信息的查询/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JS中常用方法的封装【转载】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -767,83 +838,6 @@ java -jar JekinsTestDemo3-0.0.1-SNAPSHOT.jar</code>，这段脚本的命令是�
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/29/Java8之lambda表达式略解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java中对List中的存储对象根据属性进行排序的办法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/">Java中对List中的存储对象根据属性进行排序的办法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/" class="archive-article-date">
-  	<time datetime="2018-01-27T13:46:23.893Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有时候需要对集合中的元素按照一定的规则进行排序，对于比较简单单一的数据可以用Java中提供的对集合进行操作的工具类Collections中的sort方法,对于对象，如果要一依据属性进行排序，就需要参与比较的对象实现Comparable<t>T接口，或者使用匿名比较器的方式实现比较。<br>先看一个简单的例子：<br>1、简单数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;  </div><div class="line">    List&lt;Integer&gt; nums = new ArrayList&lt;Integer&gt;();  </div><div class="line">        nums.add(3);  </div><div class="line">        nums.add(5);  </div><div class="line">        nums.add(1);  </div><div class="line">        nums.add(0);  </div><div class="line">        System.out.println(nums);  </div><div class="line">        Collections.sort(nums);  </div><div class="line">        System.out.println(nums);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></t></p>
-<blockquote>
-<p>输出结果：<br>[3, 5, 1, 0]<br>[0, 1, 3, 5]<br>稍微复杂的List里面放一个复杂的对象</p>
-</blockquote>
-<p>2、复杂数据<br>(1、)通过实现接口进行比较</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class User implements Comparable&lt;User&gt;&#123;  </div><div class="line">      </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">      </div><div class="line">    public User(int score, int age)&#123;  </div><div class="line">        super();  </div><div class="line">        this.score = score;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public int compareTo(User o) &#123;  </div><div class="line">        int i = this.getAge() - o.getAge();//先按照年龄排序  </div><div class="line">        if(i == 0)&#123;  </div><div class="line">            return this.score - o.getScore();//如果年龄相等了再用分数进行排序  </div><div class="line">        &#125;  </div><div class="line">        return i;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;User&gt; users = new ArrayList&lt;User&gt;();  </div><div class="line">        users.add(new User(78, 26));  </div><div class="line">        users.add(new User(67, 23));  </div><div class="line">        users.add(new User(34, 56));  </div><div class="line">        users.add(new User(55, 23));  </div><div class="line">        Collections.sort(users);  </div><div class="line">        for(User user : users)&#123;  </div><div class="line">            System.out.println(user.getScore() + &quot;,&quot; + user.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>输出结果：<br>55,23<br>67,23<br>78,26<br>34,56<br>我们会发现sort(List<t>)方法中List中的T必须实现Comparable<t>接口，然后实现<br>compareTo（）方法，该方法的返回值0代表相等，1表示大于，-1表示小于；为什么<br>在简单例子中没有看到实现Comparable接口呢？是因为Integer类其实自己已经实现<br>了Comparable接口，Java已经给我们做好了。</t></t></p>
-</blockquote>
-<p>(2、)通过匿名比较器实现比较<br>Collections提供的第二种排序方法sort(List<t> list, Comparator&lt;? super T&gt; c)<br>先看例子：</t></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">package core.java.collection.collections;  </div><div class="line">  </div><div class="line">public class Students &#123;  </div><div class="line">      </div><div class="line">    private int age;  </div><div class="line">    private int score;  </div><div class="line">      </div><div class="line">    public Students(int age, int score)&#123;  </div><div class="line">        super();  </div><div class="line">        this.age = age;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">public static void main(String[] args) &#123;  </div><div class="line">        List&lt;Students&gt; students = new ArrayList&lt;Students&gt;();  </div><div class="line">        students.add(new Students(23, 100));  </div><div class="line">        students.add(new Students(27, 98));  </div><div class="line">        students.add(new Students(29, 99));  </div><div class="line">        students.add(new Students(29, 98));  </div><div class="line">        students.add(new Students(22, 89));  </div><div class="line">        Collections.sort(students, new Comparator&lt;Students&gt;() &#123;  </div><div class="line">  </div><div class="line">            @Override  </div><div class="line">            public int compare(Students o1, Students o2) &#123;  </div><div class="line">                int i = o1.getScore() - o2.getScore();  </div><div class="line">                if(i == 0)&#123;  </div><div class="line">                    return o1.getAge() - o2.getAge();  </div><div class="line">                &#125;  </div><div class="line">                return i;  </div><div class="line">            &#125;  </div><div class="line">        &#125;);  </div><div class="line">        for(Students stu : students)&#123;  </div><div class="line">            System.out.println(&quot;score:&quot; + stu.getScore() + &quot;:age&quot; + stu.getAge());  </div><div class="line">        &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>输出结果：<br>score:89:age22<br>score:98:age27<br>score:98:age29<br>score:99:age29<br>score:100:age23</p>
-</blockquote>
-<p>3、总结<br>两种方式都可以实现数据的比较，从上面的例子我们可以看出Students类没有实现Comparable<t>接口，只是在sort()方法中多传入一个参数，只不过该参数是一个接口我们需要实现其compare方法，但是通过实现接口的方式代码结构将更加清晰。</t></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/27/Java中对List中的存储对象根据属性进行排序的办法/">展开全文 >></a>
         </p>
       
 

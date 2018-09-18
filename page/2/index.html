@@ -163,6 +163,78 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JAVA实现对包含数字、字母、中文的字符串按首字母排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/28/JAVA实现对包含数字、字母、中文的字符串按首字母排序/">JAVA实现对包含数字、字母、中文的字符串按首字母排序</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/28/JAVA实现对包含数字、字母、中文的字符串按首字母排序/" class="archive-article-date">
+  	<time datetime="2018-06-28T13:29:37.660Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目中有新的需求，需要对包含数字、字母、中文的字符串按首字母排序。看似简单，但是实现起来却很难。因为这里面包含了中文，不能单纯的取首字母的ASSIC值进行比较。考虑到最终是根据英文字母进行比较的，索性将字符串统统转化成拼音字符串进行处理。具体的代码如下。</p>
+<hr>
+<pre><code>PinyinUtils.java
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line">package com.fangshuo;</div><div class="line"></div><div class="line">import net.sourceforge.pinyin4j.PinyinHelper;</div><div class="line">import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;</div><div class="line">import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;</div><div class="line">import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;</div><div class="line">import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 汉字转换为拼音</div><div class="line"> * @author Red</div><div class="line"> */</div><div class="line">public class PinyinUtils &#123;</div><div class="line">    /**</div><div class="line">     * 获取字符串拼音的第一个字母</div><div class="line">     * @param chinese</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public static String ToFirstChar(String chinese)&#123;         </div><div class="line">        String pinyinStr = &quot;&quot;;  </div><div class="line">        char[] newChar = chinese.toCharArray();  //转为单个字符</div><div class="line">        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat(); </div><div class="line">        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);  </div><div class="line">        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);  </div><div class="line">        for (int i = 0; i &lt; newChar.length; i++) &#123;  </div><div class="line">            if (newChar[i] &gt; 128) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    pinyinStr += PinyinHelper.toHanyuPinyinStringArray(newChar[i], defaultFormat)[0].charAt(0);  </div><div class="line">                &#125; catch (BadHanyuPinyinOutputFormatCombination e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;else&#123;  </div><div class="line">                pinyinStr += newChar[i];  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return pinyinStr;  </div><div class="line">    &#125;  </div><div class="line">   </div><div class="line">    /**</div><div class="line">     * 汉字转为拼音</div><div class="line">     * @param chinese</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public static String ToPinyin(String chinese)&#123;          </div><div class="line">        String pinyinStr = &quot;&quot;;  </div><div class="line">        char[] newChar = chinese.toCharArray();  </div><div class="line">        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();  </div><div class="line">        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);  </div><div class="line">        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);  </div><div class="line">        for (int i = 0; i &lt; newChar.length; i++) &#123;  </div><div class="line">            if (newChar[i] &gt; 128) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    pinyinStr += PinyinHelper.toHanyuPinyinStringArray(newChar[i], defaultFormat)[0];  </div><div class="line">                &#125; catch (BadHanyuPinyinOutputFormatCombination e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;else&#123;  </div><div class="line">                pinyinStr += newChar[i];  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return pinyinStr;  </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    /**</div><div class="line">     * 汉字转为拼音并获取大写的首字母;</div><div class="line">     * @param chinese</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public static String ToPinyinAndGetFirstChar(String chinese)&#123;          </div><div class="line">        String pinyinStr = &quot;&quot;;  </div><div class="line">        char[] newChar = chinese.toCharArray();  </div><div class="line">        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();  </div><div class="line">        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);  </div><div class="line">        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);  </div><div class="line">        for (int i = 0; i &lt; newChar.length; i++) &#123;  </div><div class="line">            if (newChar[i] &gt; 128) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    pinyinStr += PinyinHelper.toHanyuPinyinStringArray(newChar[i], defaultFormat)[0];  </div><div class="line">                &#125; catch (BadHanyuPinyinOutputFormatCombination e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;else&#123;  </div><div class="line">                pinyinStr += newChar[i];  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return pinyinStr.toUpperCase();</div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试载体Students.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">package com.fangshuo;</div><div class="line"></div><div class="line">public class Students &#123;  </div><div class="line">	private int age;  </div><div class="line">    private int score;</div><div class="line">    private String name;</div><div class="line">    </div><div class="line">    public Students() &#123;</div><div class="line">		super();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Students(int age, int score, String name) &#123;</div><div class="line">		super();</div><div class="line">		this.age = age;</div><div class="line">		this.score = score;</div><div class="line">		this.name = name;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    public Students(int age, int score)&#123;  </div><div class="line">        super();  </div><div class="line">        this.age = age;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    public int getAge() &#123;  </div><div class="line">        return age;  </div><div class="line">    &#125;  </div><div class="line">    public void setAge(int age) &#123;  </div><div class="line">        this.age = age;  </div><div class="line">    &#125;  </div><div class="line">    public int getScore() &#123;  </div><div class="line">        return score;  </div><div class="line">    &#125;  </div><div class="line">    public void setScore(int score) &#123;  </div><div class="line">        this.score = score;  </div><div class="line">    &#125;</div><div class="line">    public String getName() &#123;</div><div class="line">		return name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setName(String name) &#123;</div><div class="line">		this.name = name;</div><div class="line">	&#125;  </div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">package com.fangshuo;</div><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.Comparator;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class SortTest &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">    	 List&lt;Students&gt; students = new ArrayList&lt;Students&gt;();  </div><div class="line">         students.add(new Students(23, 100,&quot;阿里azj001&quot;));  </div><div class="line">         students.add(new Students(27, 98,&quot;腾讯bzj002&quot;));  </div><div class="line">         students.add(new Students(29, 99,&quot;百度dzj003&quot;));  </div><div class="line">         students.add(new Students(29, 98,&quot;华为czj004&quot;));  </div><div class="line">         students.add(new Students(22, 89,&quot;择天ezj005&quot;));  </div><div class="line">         </div><div class="line">         students.add(new Students(22, 89,&quot;a择天ezj005&quot;));  </div><div class="line">         students.add(new Students(22, 89,&quot;A择天ezj005&quot;));  </div><div class="line">         </div><div class="line">         students.add(new Students(22, 89,&quot;8择天ezj005&quot;));  </div><div class="line">         students.add(new Students(22, 89,&quot;0择天ezj005&quot;));  </div><div class="line">         </div><div class="line">         students.add(new Students(22, 89,&quot;z择天ezj005&quot;));  </div><div class="line">         </div><div class="line">         students.add(new Students(22, 89,&quot;_z择天ezj005&quot;));  </div><div class="line">         Collections.sort(students, new Comparator&lt;Students&gt;() &#123;  </div><div class="line">             @Override  </div><div class="line">             public int compare(Students o1, Students o2) &#123;</div><div class="line">             	Students newo1 = new Students();</div><div class="line">             	newo1.setName(PinyinUtils.ToPinyinAndGetFirstChar(o1.getName()));</div><div class="line">             	Students newo2 = new Students();</div><div class="line">             	newo2.setName(PinyinUtils.ToPinyinAndGetFirstChar(o2.getName()));</div><div class="line">             	int i = newo1.getName().substring(0, 1).compareTo(newo2.getName().substring(0, 1));</div><div class="line">                 return i;</div><div class="line">             &#125;</div><div class="line">         &#125;);  </div><div class="line">         for(Students stu : students)&#123;  </div><div class="line">             System.out.println(&quot;score:&quot; + stu.getScore() + &quot;:age&quot; + stu.getAge()+&quot;:name:&quot;+stu.getName());  </div><div class="line">         &#125;  </div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行结果如下：<br><img src="https://img-blog.csdn.net/2018062821285871?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>知识点：<br>字符串比较大小，可以使用现有的工具类：int result = str1.compareTo(str2);该方法返回两者的ASSIC 码的差值;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/28/JAVA实现对包含数字、字母、中文的字符串按首字母排序/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-SpringBoot中AOP的简单实现。" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -794,70 +866,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java 对象的存储区域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/15/Java 对象的存储区域/">Java 对象的存储区域</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/15/Java 对象的存储区域/" class="archive-article-date">
-  	<time datetime="2018-04-15T13:34:11.015Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>程序运行时，我们最好对数据保存到什么地方做到心中有数。特别要注意的是内存的分配。有六个地方都可以保存数据：<br>       转载自：<a href="https://blog.csdn.net/kdnuggets/article/details/1901144" target="_blank" rel="external">Java 对象的存储区域</a><br>  (1)寄存器；<br>    这是最快的保存区域，因为它位于和其他所有保存方式不同的地方：处理器内部。然而，寄存器的数量十分有限，所以寄存器是根据需要由编译器分配。我们对此没有直接的控制权，也不可能在自己的程序里找到寄存器存在的任何踪迹。<br>    (2)堆栈；<br>        驻留于常规RAM（随机访问存储器）区域，但可通过它的“堆栈指针”获得处理的直接支持。堆栈指针若向下移，会创建新的内存；若向上移，则会释放那些内存。这是一种特别快、特别有效的数据保存方式，仅次于寄存器。创建程序时，Java编译器必须准确地知道堆栈内保存的所有数据的“长度”以及“存在时间”。这是由于它必须生成相应的代码，以便向上和向下移动指针。这一限制无疑影响了程序的灵活性，所以尽管有些Java数据要保存在堆栈里——特别是对象句柄，但Java对象并不放到其中。<br>    (3) 堆；<br>       一种常规用途的内存池（也在RAM区域），其中保存了Java对象。和堆栈不同，“内存堆”或“堆”（Heap）最吸引人的地方在于编译器不必知道要从堆里分配多少存储空间，也不必知道存储的数据要在堆里停留多长的时间。因此，用堆保存数据时会得到更大的灵活性。要求创建一个对象时，只需用new命令编制相关的代码即可。执行这些代码时，会在堆里自动进行数据的保存。当然，为达到这种灵活性，必然会付出一定的代价：在堆里分配存储空间时会花掉更长的时间！<br>    (4)静态存储；<br>        这儿的“静态”（Static）是指“位于固定位置”（尽管也在RAM里）。程序运行期间，静态存储的数据将随时等候调用。可用static关键字指出一个对象的特定元素是静态的。但Java对象本身永远都不会置入静态存储空间。<br>    (5)常数存储；<br>      常数值通常直接置于程序代码内部。这样做是安全的，因为它们永远都不会改变。有的常数需要严格地保护，所以可考虑将它们置入只读存储器（ROM）。<br>    (6)非RAM存储；<br>       若数据完全独立于一个程序之外，则程序不运行时仍可存在，并在程序的控制范围之外。其中两个最主要的例子便是“流式对象”和“固定对象”。对于流式对象，对象会变成字节流，通常会发给另一台机器。而对于固定对象，对象保存在磁盘中。即使程序中止运行，它们仍可保持自己的状态不变。对于这些类型的数据存储，一个特别有用的技巧就是它们能存在于其他媒体中。一旦需要，甚至能将它们恢复成普通的、基于RAM的对象。Java 1.1提供了对Lightweight persistence的支持。未来的版本甚至可能提供更完整的方案。</p>
-<p>《Think in Java》Chapter 2</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/15/Java 对象的存储区域/">展开全文 >></a>
         </p>
       
 
