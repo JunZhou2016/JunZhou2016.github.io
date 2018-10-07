@@ -163,88 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-redis集群批量删除指定的key" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/02/redis集群批量删除指定的key/">redis集群批量删除指定的key</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/02/redis集群批量删除指定的key/" class="archive-article-date">
-  	<time datetime="2018-07-02T00:47:53.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作中遇到一个问题,redis中存储了大量的key,而且没有设置时效,其中很大一部分后来都没用了,导致redis体积庞大,查询缓慢。服务器版本为windows,网上搜索到很多批量删除的方法都是Linux下的,几番寻找,终于找到了在windows下批量删除超大量key的方法。<br>   首先贴一下Linux下的方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli keys&quot;*&quot; |xargs redis-cli del</div></pre></td></tr></table></figure>
-<p>   //如果redis-cli没有设置成系统变量,需要指定redis-cli的完整路径,加入redis-cli的安装路径如下：<br>   <img src="http://ouuy81imh.bkt.clouddn.com/redis0120180702082947583.png" alt="这里写图片描述"><br>   那么在gitbash上模拟的linux命令则如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-cli keys &quot;*lz*&quot;|xargs ./redis-cli del</div></pre></td></tr></table></figure>
-<p>原理就是通过xargs工具将前半部分的查询结果借助管道传递给后面的删除命令，进而实现循环删除，达到批量删除的结果。<br>But,测试的时候趣发现这条命令不好使,测试结果如下图所示，具体的原因不明:<br><img src="http://ouuy81imh.bkt.clouddn.com/redis02.png" alt="这里写图片描述"></p>
-<hr>
-<p>作为替代方案，我找到了windows、Linux下均试用的方法:<br>使用lua脚本:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*&apos;)))&quot; 0</div></pre></td></tr></table></figure>
-<p>但这种处理方式,量大的情况下,lua函数unpack会出现问题,会报错误</p>
-<blockquote>
-<p>(error) ERR Error running script (call to f_e177a091510d969af3b388ee986dbe6658df6b57): user_script:1: too many results to unpack</p>
-</blockquote>
-<p>解决方法:<br>一次性unpack太多会出问题,那就干脆一次5000吧,这样就不会有问题了,实测速度非常快哦。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;value*&apos;</div></pre></td></tr></table></figure>
-<p>所以最终实现我的需求的代码就是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*lz*&apos;)))&quot; 0</div><div class="line"></div><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;*lz*&apos;</div></pre></td></tr></table></figure>
-<p>上述语句的执行原理其实是递归调用，通过递归最终实现了批量删除。</p>
-<hr>
-<p>在redis集群中可以借助脚本实现集群上的批量删除，这个还没测试过。参考文章如下:<br><a href="http://blog.51cto.com/ganbing/2050111" target="_blank" rel="external">redis集群批量删除指定的key</a></p>
-<p>本文参考文章:<br><a href="https://www.aliyun.com/jiaocheng/874744.html" target="_blank" rel="external">redis批量删除key （windows适用）</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/02/redis集群批量删除指定的key/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-JAVA实现对包含数字、字母、中文的字符串按首字母排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -862,6 +780,92 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/04/17/springboot配置文件的读取方式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-使用XShell部署SpringBoot的jar文件到Linux服务器上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">使用XShell部署SpringBoot的jar文件到Linux服务器上</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" class="archive-article-date">
+  	<time datetime="2018-04-15T14:15:22.231Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近师傅教我了通过jenkins发布项目，但是发现公司的Maven出了点问题，因此就用XShell进行项目的发布操作。发布的步骤如下：</p>
+<ol>
+<li>在eclipse中通过Maven命令Clean–&gt;Install生成jar文件；<br>clean:清楚tartget目录下的文件;<br>install:编译项目并生成jar文件存储于target文件夹下【默认的额编译输出路径】；</li>
+<li>通过XSheel上传jar文件到指定的服务器；<br>上传命令有两个：<br>rz:上传文件，当有重复文件的时候不执行覆盖；<br>ra -y 上传并覆盖；</li>
+<li><p>进行醒目发布的前期处理操作；<br>每次发布都必须关闭原有服务，因此可以执行如下脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs   kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div></pre></td></tr></table></figure>
+<p>4.执行发布脚本，发布项目；</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
+<p>其实发布项目执行一个脚本就好了，我们只需要在上传窗口打开的时候选择文件上传就好了。<br>综合脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
+<p>发布脚本里的内容也没啥，就是执行在后台执行【nohup】java -jar xxx.jar命令，并把执行中相应级别的输出信息【’2&gt;&amp;1 ‘:1、标准输出信息；2、error输出信息】的信息写入日志就好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup java -jar ../lz-gooflow-service-0.0.1-SNAPSHOT.jar &gt; /home/d5000/logs/lz-gooflow-service 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>参考文章：</p>
+<ol>
+<li><a href="https://zhidao.baidu.com/question/446932678.html" target="_blank" rel="external">linux命令ps -ef | grep httpd 是啥意思</a></li>
+<li><a href="https://blog.csdn.net/kingo0/article/details/38036957" target="_blank" rel="external">linux获得进程id号并迅速杀死进程</a></li>
+<li><a href="http://www.jb51.net/LINUXjishu/351683.html" target="_blank" rel="external">Linux中Kill掉进程的10种方法</a></li>
+<li>r<a href="https://segmentfault.com/q/1010000005793523" target="_blank" rel="external">z 能否强制覆盖掉文件?</a></li>
+<li><a href="http://blog.51cto.com/oldboy/588592" target="_blank" rel="external">Linux系统上传下载命令rz和sz</a></li>
+<li><a href="https://www.cnblogs.com/sos-blue/p/6798810.html" target="_blank" rel="external">bash中 2&gt;&amp;1 &amp; 的解释</a></li>
+<li><a href="https://junzhou2016.github.io/2017/09/05/linux%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">我的个人Linux笔记。</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">展开全文 >></a>
         </p>
       
 

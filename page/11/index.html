@@ -163,83 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-POI的基本使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/POI的基本使用/">POI的基本使用</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/POI的基本使用/" class="archive-article-date">
-  	<time datetime="2017-08-29T01:03:36.207Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em>POI的基本使用</em></p>
-<p>首先，理解一下一个Excel的文件的组织形式，一个Excel文件对应于一个workbook(HSSFWorkbook)，一个workbook可以有多个sheet（HSSFSheet）组成，一个sheet是由多个row（HSSFRow）组成，一个row是由多个cell（HSSFCell）组成。 </p>
-<p>POI可以到www.apache.org下载到。实际运行时，需要有poi包就可以了。HSSF提供给用户使用的对象在<em>rg.apache.poi.hssf.usermodel</em>包中,主要部分包括Excel对象，样式和格式，还有辅助操作。有以下几种对象</p>
-<p><img src="http://img.blog.csdn.net/20170707174737152?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<hr>
-<p><strong>下面详细介绍POI操作的具体实例和思路:</strong></p>
-<hr>
-<p><strong><em>导出大体思路如下：</em></strong><br>1.先创建文件对象，<br>2.文件对象创建sheet页对象，<br>3.sheet页对象创建行对象，<br>4.行对象创建单元格填入数据<br>5.保存文档使用流将文件导出到服务器中转站<br>6.在由服务器中转站导出（下载功能）到指定文件夹<br>7.导出完成</p>
-<p>实际操作poi报表进行导出excel文档时的实例如下：<br>第一步，创建一个webbook，对应一个Excel文件<br>步骤1：HSSFWorkbook wb = new HSSFWorkbook();<br>第二步，在webbook中添加一个sheet页,对应Excel文件中的sheet页</p>
-<p>以下createSheet中填写sheet页名称  并非文件名称<br>步骤2：HSSFSheet sheet = wb.createSheet(“学生表一”);<br>第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short<br>步骤3：HSSFRow row = sheet.createRow((int) 0);<br>第四步，创建一个居中格式，在创建单元格是设置居中格式<br>步骤4：<br>HSSFCellStyle style = wb.createCellStyle();<br>style.setAlignment(HSSFCellStyle.ALIGN_CENTER);<br>第五步，创建单元格填入数据并设置居中格式<br>步骤5：<br>①创建单元格：<br>HSSFCell cell = row.createCell((short) 0);<br>②设置单元格内容：<br>cell.setCellValue(“内容”);<br>③将以上创建好的居中格式添加进单元格：cell.setCellStyle(style);<br>第六步，使用字节输出流将文件存入指定路径<br>FileOutputStream fout = new FileOutputStream(“指定路径”);<br>wb.write(fout);<br>fout.close();</p>
-<p>注意：区分创建行使用（int）创建列使用（short）<br>基本操作：<br>创建Excel对象：new HSSFWorkbook();<br>创建sheet页：<strong>(Excel对象).createSheet(“学生表一”);<br>创建行：</strong>（sheet对象）.createRow((int) 0);<br>创建列：<strong>(行对象).createCell((short) 0);<br>创建一个样式对象：</strong>（Excel对象）.createCellStyle();<br>添加居中格式：**（样式对象）.setAlignment(HSSFCellStyle.ALIGN_CENTER);</p>
-<hr>
-<p><strong><em>导入大体思路如下</em></strong><br>1.使用 BufferedInputStream输入流 读取Excel文档<br>2.得到文件后采用POIFSFileSystem 进行解析并转为HSSFWorkbook对象<br>3.使用HSSFWorkbook对象.getSheetAt(0);获取该Excel的第一个sheet页<br>4.Sheet. getLastRowNum()获取该sheet页的数据条数进行for循环每一条数据【for（int i= 0 ； i&lt; Sheet. getLastRowNum();i++）】<br>5.HSSFRow row =Sheet.getRow(i)获取此行数据<br>6.Row. getLastCellNum()获取本行有N条数据<br>7.row.getCell(columnIndex);获取单元格并导出值存入相应的对象中<br>8.使用存好的对象进行数据库添加操作<br>9.导入完成</p>
-<p>具体导入操作实例：<br>第一步、创建输入流并转换为HSSFWorkbook对象<br>1、BufferedInputStream  in = new<br>BufferedInputStream(new FileInputStream(new File(“文件路径”)));<br>2、POIFSFileSystem fs = new POIFSFileSystem(in);<br>3、HSSFWorkbook wb = new HSSFWorkbook(fs);<br>第二步、用HSSFWorkbook获取第一个sheet页（sheet页下标从0开始）<br>HSSFSheet st = wb.getSheetAt(0);<br>第三步使用for循环循环每条数据（行）并获取行对象<br>for (int rowIndex = 0; rowIndex &lt;= st.getLastRowNum(); rowIndex++) {<br>            HSSFRow row = st.getRow(rowIndex);<br>}<br>第四步循环行对象并获取单元格对象<br>for (short columnIndex = 0, size = row.getLastCellNum(); columnIndex &lt;= size; columnIndex++) {<br>                cell = row.getCell(columnIndex);<br>}<br>第五步将单元格中不同格式的的值以不同方式导出（可以直接复制使用）最终value为单元中的值可进行任意操作<br>if (cell != null) {<br>                    switch (cell.getCellType()) {<br>                    case HSSFCell.CELL_TYPE_STRING:<br>                        value = cell.getStringCellValue();<br>                        break;<br>                    case HSSFCell.CELL_TYPE_NUMERIC:<br>                        if (HSSFDateUtil.isCellDateFormatted(cell)) {<br>                            Date date = cell.getDateCellValue();<br>                            if (date != null) {<br>                                value = new SimpleDateFormat(“yyyy-MM-dd HH:mm:SS”)<br>                                .format(date);<br>                            } else {<br>                                value = “”;<br>                            }<br>                        } else {<br>                            value = new DecimalFormat(“0”).format(cell<br>                                    .getNumericCellValue());<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_FORMULA:<br>                        // 导入时如果为公式生成的数据则无值<br>                        if (!cell.getStringCellValue().equals(“”)) {<br>                            value = cell.getStringCellValue();<br>                        } else {<br>                            value = cell.getNumericCellValue() + “”;<br>                        }<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BLANK:<br>                        break;<br>                    case HSSFCell.CELL_TYPE_ERROR:<br>                        value = “”;<br>                        break;<br>                    case HSSFCell.CELL_TYPE_BOOLEAN:<br>                        value = (cell.getBooleanCellValue() == true ? “Y”<br>                                : “N”);<br>                        break;<br>                    default:<br>                        value = “”;<br>                    }</p>
-<p>} </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/POI的基本使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-mysql中文乱码的解决方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -261,7 +184,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>mysql中文乱码的解决方法</strong></p>
-<pre><code>请参考博客：http://blog.csdn.net/tomcat_2014/article/details/75006600
+<pre><code>参考文章：http://blog.csdn.net/tomcat_2014/article/details/75006600
+          https://blog.csdn.net/u011421398/article/details/51992148/
 </code></pre>
       
 
