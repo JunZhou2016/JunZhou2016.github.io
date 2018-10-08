@@ -163,6 +163,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用XShell部署SpringBoot的jar文件到Linux服务器上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">使用XShell部署SpringBoot的jar文件到Linux服务器上</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/" class="archive-article-date">
+  	<time datetime="2018-04-15T14:15:22.231Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近师傅教我了通过jenkins发布项目，但是发现公司的Maven出了点问题，因此就用XShell进行项目的发布操作。发布的步骤如下：</p>
+<ol>
+<li>在eclipse中通过Maven命令Clean–&gt;Install生成jar文件；<br>clean:清楚tartget目录下的文件;<br>install:编译项目并生成jar文件存储于target文件夹下【默认的额编译输出路径】；</li>
+<li>通过XSheel上传jar文件到指定的服务器；<br>上传命令有两个：<br>rz:上传文件，当有重复文件的时候不执行覆盖；<br>ra -y 上传并覆盖；</li>
+<li><p>进行醒目发布的前期处理操作；<br>每次发布都必须关闭原有服务，因此可以执行如下脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs   kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div></pre></td></tr></table></figure>
+<p>4.执行发布脚本，发布项目；</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
+<p>其实发布项目执行一个脚本就好了，我们只需要在上传窗口打开的时候选择文件上传就好了。<br>综合脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ps -ef|grep -v grep|grep gooflow|awk &apos;$2~/[0-9]+/ &#123;print $2&#125;&apos;/xargs kill -s 9</div><div class="line">cd /home/d5000/server rz -y</div><div class="line">cd bin </div><div class="line">sh lz-gooflow-service.sh</div></pre></td></tr></table></figure>
+<p>发布脚本里的内容也没啥，就是执行在后台执行【nohup】java -jar xxx.jar命令，并把执行中相应级别的输出信息【’2&gt;&amp;1 ‘:1、标准输出信息；2、error输出信息】的信息写入日志就好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup java -jar ../lz-gooflow-service-0.0.1-SNAPSHOT.jar &gt; /home/d5000/logs/lz-gooflow-service 2&gt;&amp;1 &amp;</div></pre></td></tr></table></figure>
+<p>参考文章：</p>
+<ol>
+<li><a href="https://zhidao.baidu.com/question/446932678.html" target="_blank" rel="external">linux命令ps -ef | grep httpd 是啥意思</a></li>
+<li><a href="https://blog.csdn.net/kingo0/article/details/38036957" target="_blank" rel="external">linux获得进程id号并迅速杀死进程</a></li>
+<li><a href="http://www.jb51.net/LINUXjishu/351683.html" target="_blank" rel="external">Linux中Kill掉进程的10种方法</a></li>
+<li>r<a href="https://segmentfault.com/q/1010000005793523" target="_blank" rel="external">z 能否强制覆盖掉文件?</a></li>
+<li><a href="http://blog.51cto.com/oldboy/588592" target="_blank" rel="external">Linux系统上传下载命令rz和sz</a></li>
+<li><a href="https://www.cnblogs.com/sos-blue/p/6798810.html" target="_blank" rel="external">bash中 2&gt;&amp;1 &amp; 的解释</a></li>
+<li><a href="https://junzhou2016.github.io/2017/09/05/linux%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">我的个人Linux笔记。</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/15/使用XShell部署SpringBoot的jar文件到Linux服务器上/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java 对象的存储区域" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -785,69 +871,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/03/03/CSS中margin边界叠加问题及解决方案【转载】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-快速掌握react-motion动画库[转载]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/02/快速掌握react-motion动画库[转载]/">react-motion动画库</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/02/快速掌握react-motion动画库[转载]/" class="archive-article-date">
-  	<time datetime="2018-03-02T14:24:05.618Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <div class="preview"><br>                <div class="show-content"><br>                    <div><b>react-motion</b>是一个强大的react动画库。</div><div><br></div><div>官网：<a href="https://github.com/chenglou/react-motion" target="_blank" rel="external">react-motion</a><br></div><div><br></div><div>基于<b>react-motion</b>，写了三个简单的动画来讲解使用方法。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><ol><li><b>方块移动</b></li><li><b>跟随鼠标</b></li><li><b>折叠</b></li></ol></div><div><br></div><div>在开始讲解实例之前，我们先来了解一个重要的函数：<span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">spring()</span><br></div><div><br></div><div>语法：<br></div><div><pre><code class="hljs http"><p><span class="hljs-attribute">spring(val</span>: number, config?: SpringHelperConfig)<br></p></code></pre></div><div><ul><li><code class="inline-code">val</code>：number, 终点值</li><li><code class="inline-code">config</code>: 用于生成动画缓动效果的配置</li></ul>    - <code class="inline-code">stiffness</code>：默认值170<br>    - <code class="inline-code">damping</code>：默认值26<br>    - <code class="inline-code">precision</code>： 默认值0.01，用于配置val的精确度，一般不需改动<br></div><div><br></div><div>仅从文字很慢描述，一起来感受一下效果：<br></div><div><a href="http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser" target="_blank">http://chenglou.github.io/react-motion/demos/demo5-spring-parameters-chooser</a></div><div><br>对比下面两个弹簧：<br></div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion.jpg" alt=""><br></div><div><br></div><div> 我们可以将设置动画物体想象成弹簧，而<code class="inline-code">stiffness</code>就相当于弹簧的强度，也可理解为弹簧被拉伸的长度（有效范围）；<code class="inline-code">damping</code>就相当于弹簧的硬度。</div><div><ul><li>相同硬度下，你拉的越长，它的回弹速度就越快；</li><li>相同强度下，硬度越大，回弹（缓冲）的次数就越少。</li></ul></div><div><br></div><div>Github：<a href="https://github.com/IronPans/react-motion-demo" target="_blank" rel="external">react-motion-demo</a></div><div><br></div><div><b>1. 方块移动</b><br></div><div><br></div><div>方块移动实例使用了Motion组件。<br></div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;Motion&gt;</span>适合编写单个组件的形变动画。</div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">style</code>：Object，动画样式</li><li><code class="inline-code">defaultStyle</code>：Object，初始样式</li><li><code class="inline-code">children</code>：子元素</li><li><code class="inline-code">onRest</code>：动画结束时触发回调</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-Motion.gif" alt=""><br></div><div><br></div><div><br></div><div><b>2. 跟随鼠标</b><br></div><div><br></div><div>跟随鼠标实例使用了StaggeredMotion组件。</div><div><br></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;StaggeredMotion&gt;</span>用于编写一串有相互关联关系的实体的动画。<br></div><div><br></div><div>属性：</div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-StaggeredMotion.gif" alt=""><br></div><div><br></div><div><b>3. 折叠</b></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">折叠实例使用了TransitionMOtion组件。</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="background-color: rgb(248, 248, 248); color: rgb(221, 17, 68); font-family: &quot;Source Code Pro&quot;, Consolas, Menlo, Monaco, &quot;Courier New&quot;, monospace; font-size: 0.85em;">&lt;TransitionMotion&gt;</span><span style="font-size: 1.8rem;">则是用来编写组件mount和unmount的动画</span></div><div><span style="font-size: 1.8rem;"><br></span></div><div><span style="font-size: 1.8rem;">属性：</span></div><div><ul><li><code class="inline-code">styles</code>：Array，动画样式</li><li><code class="inline-code">defaultStyles</code>：Array，初始样式</li><li><code class="inline-code">children</code>：子元素</li></ul></div><div><br></div><div>实例图：</div><div><img class="ww-ky-photo" src="http://oumfrpm5j.bkt.clouddn.com/react-motion-TransitionMotion.gif" alt=""><br></div><div><br></div><div><br></div>                </div>
-</div>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/02/快速掌握react-motion动画库[转载]/">展开全文 >></a>
         </p>
       
 
