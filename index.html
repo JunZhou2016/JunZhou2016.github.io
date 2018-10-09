@@ -163,71 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-写入mysql的中文乱码问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/07/写入mysql的中文乱码问题/">写入mysql的中文乱码问题</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/07/写入mysql的中文乱码问题/" class="archive-article-date">
-  	<time datetime="2018-10-07T06:20:16.525Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><div class="blog-content-box"><br>    <div class="article-header-box"><br>        <div class="article-header"><br>            <div class="article-title-box"><br>            <h4 class="title-article">写入mysql的中文乱码问题《【转载】》</h4><br>            </div><br>            <div class="article-info-box"><br>                                                                                                                            </div><br>                <div class="operating"><br>                                                        </div><br>            </div><br>        </div><br>    </div><br>    <article><br>        <div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog" data-mod="popu_307" data-dsm="post"><br>                                <div class="article-copyright"><br>                    版权声明：本文为博主原创文章，未经博主允许不得转载。                    <a href="https://blog.csdn.net/u011421398/article/details/51992148" target="_blank" rel="external">https://blog.csdn.net/u011421398/article/details/51992148</a>                </div><br>                                            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css"><br>                        <div class="htmledit_views"></div></div></article></p>
-<p>提前说明我的问题，我一开始发现写入数据库的中文乱码，便连续进行了各种操作：</p><br><p>l&nbsp; 修改mysql的配置文件my.ini，设定了所有编码格式为utf-8，确认了表的字符集也为utf-8；</p><br><p>l&nbsp; 在每一次请求转发时都设置了请求与响应的编码为utf-8；</p><br><p>l&nbsp; 增加了过滤器类，拦截所有请求，也是设置请求与响应为utf-8；</p><br><p>l&nbsp; 而且考虑到了JSP页面与tomcat服务器的编码不统一问题，修改了相关配置文件；</p><br><p>&nbsp;</p><br><p>但是乱码依然没有解决，此时我想到了最后一个问题:</p><br><p>因为我提取的是带文件的表单数据信息，这个与一般的post的普通表单不同(可以采用request.getParameter()获取参数值)，必须使用item.getString()方法获得，而该方法有个重载方法为item.getString(“utf-8”)，修改了此处，自己的问题终于得到解决。</p><br><p>&nbsp;</p><br><p>相信使用数据库进行存储的大家都遇到过中文乱码问题，如何彻底解决？我百度了很多资料与博客，想把自己的经历总结起来给大家参考一下，接下来我先罗列一下大部分修改乱码问题的方法：</p><br><h2><a name="t0"></a>1.&nbsp;&nbsp;&nbsp;修改mysql数据库的整体编码</h2><br><p>引用自：<a href="http://www.cnblogs.com/24la/p/update-mysql-default-character.html" target="_blank" rel="external">http://www.cnblogs.com/24la/p/update-mysql-default-character.html</a></p><br><p align="left">查看方式数据库编码：</p><br><table border="1" cellspacing="0" cellpadding="0"><tbody><tr><td><br><p align="left">1</p><br></td><br><td><br><p align="left">show variables like ‘character%’;</p><br></td><br></tr></tbody></table><p align="left">&nbsp;<img src="https://img-blog.csdn.net/20160722101501981" alt=""></p><br><p align="left"></p><br><p>该图是复制的(我的已经改好了)</p><br><p>出现上图情况时，可以进行数据库配置文件my.ini 文件修改：</p><br><p>打开my.ini找到[client]添加一行</p><br><p>default-character-set=utf8 </p><br><p>&nbsp;</p><br><p>&nbsp;找到[mysqld]这行添加代码如下</p><br><p>character_set_server=utf8</p><br><p>init_connect=’SET NAMES utf8’</p><br><p>要记住，一般该配置文件是拒绝访问的，更别提修改了，此时可以将该文件复制到桌面，修改为txt格式强行修改内容，然后改回ini文件格式并将之前的my.ini文件删除，然后将桌面上已经修改好的my.ini复制进去（这一系列操作都需要管理员权限才行）</p><br><p align="left">&nbsp;这样我们再查看下数据库的编码（我们必须关闭mysql服务和关闭mysql现有会话，保证我们以新的字符编码打开了）</p><br><p align="left"></p><br><p>&nbsp;<img src="https://img-blog.csdn.net/20160722101511699" alt=""></p><br><p>但此时我的乱码问题依然没有解决，于是我将目光转向了eclipse。</p><br><h2><a name="t1"></a>2.&nbsp;&nbsp;&nbsp;修改eclipse的页面编码</h2><br><p>在eclipse中的window—preferences—General—workspace—页面左下角中的Text file encoding 设置为utf-8，这样只能保证新建文件和打开文件时不会出现乱码。</p><br><p>&nbsp;</p><br><h2><a name="t2"></a>3.&nbsp;&nbsp;&nbsp;修改jdbc连接属性编码</h2><br><p>有一次乱码问题是通过在jdbc连接属性中的url=jdbc:mysql://localhost:3306/contact_sys的最后加入?useUnicode=true&amp;characterEncoding=utf-8，就像是在Get请求在url下加入一下参数一样，这样就确保了java与mysql进行连接时的编码统一，很遗憾，还是没解决我的问题。</p><br><p>&nbsp;</p><br><h2><a name="t3"></a>4.&nbsp;&nbsp;&nbsp;修改JSP页面编码和tomcat服务器编码</h2><br><p>引用自：<a href="http://blog.csdn.net/lhfeng/article/details/6311787" rel="nofollow" target="_blank">http://blog.csdn.net/lhfeng/article/details/6311787</a></p><br><p>&nbsp;</p><br><p>里面的一句话成功的吸引了我的注意：<span style="background:#D9D9D9;">tomcat</span><span style="background:#D9D9D9;">默认使用</span><span style="background:#D9D9D9;">iso-8859-1</span><span style="background:#D9D9D9;">进行提交的数据解码</span><span style="background:#D9D9D9;">,</span><span style="background:#D9D9D9;">而提交的数据是使用</span><span style="background:#D9D9D9;">utf-8</span><span style="background:#D9D9D9;">编码的</span><span style="background:#D9D9D9;">,</span><span style="background:#D9D9D9;">编解码对不上自然会出现乱码</span><span style="background:#D9D9D9;">.</span><span style="background:#D9D9D9;">解决办法就是指定解码方式。</span></p><br><p>于是我决定彻底解决问题:在tomcat/cof/server.xml配置文件中，修改其默认编码</p><br><p>找到如下代码：&nbsp;&nbsp;&nbsp; </p><br><p>&lt;Connector port=”8080”protocol=”HTTP/1.1” connectionTimeout=”20000” redirectPort=”8443”/&gt;</p><br><p>在其中加入如下代码：</p><br><p>useBodyEncodingForURI=”true”URIEncoding=”UTF-8”</p><br><p>&nbsp;</p><br><p>其实该方法的作用很局限：当你已经设置了<span style="color:rgb(51,51,51);">request.setCharacterEncoding(“UTF-8”);</span><span style="color:rgb(51,51,51);">时，所有的</span><span style="color:rgb(51,51,51);">post</span><span style="color:rgb(51,51,51);">请求都会按照</span><span style="color:rgb(51,51,51);">utf-8</span><span style="color:rgb(51,51,51);">的编码来编解码，只有</span><span style="color:rgb(51,51,51);">Get</span><span style="color:rgb(51,51,51);">请求在处理时会按照</span><span style="color:rgb(51,51,51);">tomcat</span><span style="color:rgb(51,51,51);">的默认编码来解码，因此这项措施是针对获取</span><span style="color:rgb(51,51,51);">get</span><span style="color:rgb(51,51,51);">请求参数数据中文乱码的问题方法。</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;</span></p><br><h2><a name="t4"></a>5.&nbsp;&nbsp;&nbsp;增加过滤器类</h2><br><p>为了彻底杜绝所有请求与响应数据的编码不一致问题，第一个想到的解决方案应该就是添加过滤器了。</p><br><p>&nbsp;</p><br><p><span style="color:rgb(51,51,51);">public classSetEncodingFilter implements Filter {</span></p><br><p><span style="color:rgb(51,51,51);">public voiddoFilter(ServletRequest request, ServletResponse response, FilterChain chain)throws IOException, ServletException {</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color:#333333;background:#D9D9D9;">request.setCharacterEncoding(“UTF-8”);</span></p><br><p><span style="color:#333333;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="background:#D9D9D9;">response.setCharacterEncoding(“UTF-8”);</span></span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chain.doFilter(request, response);</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></p><br><p><span style="color:rgb(51,51,51);">}</span></p><br><p><span style="color:rgb(51,51,51);">我设置了拦截所有资源，即在项目的</span><span style="color:rgb(51,51,51);">web.xml</span><span style="color:rgb(51,51,51);">中进行如下配置：</span></p><br><p><span style="color:rgb(51,51,51);">&lt;filter-mapping&gt;</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp;&lt;filter-name&gt;SetEncodingFilter&lt;/filter-name&gt;</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;&nbsp;&nbsp; &lt;url-pattern&gt;<span style="background:#00FF00;">/*</span>&lt;/url-pattern&gt;</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp; &lt;/filter-mapping&gt;</span></p><br><p><span style="color:rgb(51,51,51);">满心欢喜的以为应该解决问题了，结果空欢喜一场。</span></p><br><p><span style="color:rgb(51,51,51);">&nbsp;</span></p><br><h2><a name="t5"></a>6.&nbsp;&nbsp;&nbsp;修改fileupload获取带文件的表单数据编码</h2><br><p>引用：<a href="http://blog.csdn.net/jingyuwang1/article/details/21829605" rel="nofollow" target="_blank">http://blog.csdn.net/jingyuwang1/article/details/21829605</a></p><br><p>这个兄弟给了一个想法：既然前前后后所有的问题都设置好了，会不会是这里出了问题？</p><br><p><span style="color:rgb(51,51,51);">&nbsp;</span><span style="color:rgb(51,51,51);">将</span><span style="color:rgb(51,51,51);">&nbsp;</span><span style="color:rgb(51,51,51);">item.getString();</span><span style="color:rgb(51,51,51);">改为</span><span style="color:rgb(51,51,51);">item.getString(‘utf-8’);</span></p><br><p>结果真的是这里的问题！终于解决了眼下的乱码问题。</p><br><p>&nbsp;</p><br><p>&nbsp;</p><br><h2><a name="t6"></a>7.&nbsp;&nbsp;&nbsp;总结</h2><br><div>mysql写入的中文乱码很有可能是jsp页面提取数据时乱码或者数据库编码与写入数据的编码不一致导致的，其他的地方一般不会出错，向上面一步步设置应该可以杜绝几乎所有的乱码问题了吧。</div><br><p>这次解决乱码问题让我觉得处理问题时对整个流程的理解和掌握特别重要，这样你就可以一步步的检查，修改，对照，一定会把问题给找出来，并且会学到很多深层的知识，对后期解决新的问题提供了经验。</p><br><p>当然了，出现问题多上百度查一下，从不同的角度搜索，也是很重要的，很多问题大家都遇到过了，耐心找一找就会得到答案。</p>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/07/写入mysql的中文乱码问题/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-基于Vue2.x的自定义博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -909,6 +844,88 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/07/04/nodejs npm install -g 全局安装和非全局安装的区别/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-redis集群批量删除指定的key" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/redis集群批量删除指定的key/">redis集群批量删除指定的key</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/redis集群批量删除指定的key/" class="archive-article-date">
+  	<time datetime="2018-07-02T00:47:53.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作中遇到一个问题,redis中存储了大量的key,而且没有设置时效,其中很大一部分后来都没用了,导致redis体积庞大,查询缓慢。服务器版本为windows,网上搜索到很多批量删除的方法都是Linux下的,几番寻找,终于找到了在windows下批量删除超大量key的方法。<br>   首先贴一下Linux下的方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli keys&quot;*&quot; |xargs redis-cli del</div></pre></td></tr></table></figure>
+<p>   //如果redis-cli没有设置成系统变量,需要指定redis-cli的完整路径,加入redis-cli的安装路径如下：<br>   <img src="http://ouuy81imh.bkt.clouddn.com/redis0120180702082947583.png" alt="这里写图片描述"><br>   那么在gitbash上模拟的linux命令则如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-cli keys &quot;*lz*&quot;|xargs ./redis-cli del</div></pre></td></tr></table></figure>
+<p>原理就是通过xargs工具将前半部分的查询结果借助管道传递给后面的删除命令，进而实现循环删除，达到批量删除的结果。<br>But,测试的时候趣发现这条命令不好使,测试结果如下图所示，具体的原因不明:<br><img src="http://ouuy81imh.bkt.clouddn.com/redis02.png" alt="这里写图片描述"></p>
+<hr>
+<p>作为替代方案，我找到了windows、Linux下均试用的方法:<br>使用lua脚本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*&apos;)))&quot; 0</div></pre></td></tr></table></figure>
+<p>但这种处理方式,量大的情况下,lua函数unpack会出现问题,会报错误</p>
+<blockquote>
+<p>(error) ERR Error running script (call to f_e177a091510d969af3b388ee986dbe6658df6b57): user_script:1: too many results to unpack</p>
+</blockquote>
+<p>解决方法:<br>一次性unpack太多会出问题,那就干脆一次5000吧,这样就不会有问题了,实测速度非常快哦。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;value*&apos;</div></pre></td></tr></table></figure>
+<p>所以最终实现我的需求的代码就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*lz*&apos;)))&quot; 0</div><div class="line"></div><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;*lz*&apos;</div></pre></td></tr></table></figure>
+<p>上述语句的执行原理其实是递归调用，通过递归最终实现了批量删除。</p>
+<hr>
+<p>在redis集群中可以借助脚本实现集群上的批量删除，这个还没测试过。参考文章如下:<br><a href="http://blog.51cto.com/ganbing/2050111" target="_blank" rel="external">redis集群批量删除指定的key</a></p>
+<p>本文参考文章:<br><a href="https://www.aliyun.com/jiaocheng/874744.html" target="_blank" rel="external">redis批量删除key （windows适用）</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/redis集群批量删除指定的key/">展开全文 >></a>
         </p>
       
 

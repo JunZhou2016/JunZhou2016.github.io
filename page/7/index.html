@@ -163,73 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-nginx反向代理机制解决跨域问题详解【windows上的】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">nginx反向代理机制解决跨域问题详解【windows上的】</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/" class="archive-article-date">
-  	<time datetime="2017-12-21T01:38:27.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前学过linux服务器上的配置，感觉linux上的比较好用。下面是windows上的详细配置、案例和原理图:<br>        1.背景<br>            我要在本地服务器上的jsp【react】页面上访问聚合网上的数据，但是由于端口、域名、协议的不同导致浏览器识别为跨域请求，因此需要借用nginx的反向代理机制实现跨域请求【其实用jsonp是最简单的方法，但是生产方必须提供必要的回调api】。<a href="http://blog.csdn.net/lambert310/article/details/51683775" target="_blank" rel="external">【什么是跨域】</a><br>         2.解决方案<br>         使用ngin反向代理实现跨域请求：<br>         nginx.conf配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#user  nobody;</div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">#error_log  logs/error.log;</div><div class="line">#error_log  logs/error.log  notice;</div><div class="line">#error_log  logs/error.log  info;</div><div class="line"></div><div class="line">#pid        logs/nginx.pid;</div><div class="line"></div><div class="line"></div><div class="line">events &#123;</div><div class="line">    worker_connections  1024;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">http &#123;</div><div class="line">    include       mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">    #access_log  logs/access.log  main;</div><div class="line"></div><div class="line">    sendfile        on;</div><div class="line">    #tcp_nopush     on;</div><div class="line"></div><div class="line">    #keepalive_timeout  0;</div><div class="line">    keepalive_timeout  65;</div><div class="line"></div><div class="line">    #gzip  on;</div><div class="line">    #反向代理的配置; </div><div class="line">    server &#123;</div><div class="line">        listen       8081;</div><div class="line">        server_name  127.0.0.1;</div><div class="line">        #charset koi8-r;</div><div class="line">        #access_log  logs/host.access.log  main;</div><div class="line">        location /juhe &#123;</div><div class="line">        proxy_pass   http://api.shujuzhihui.cn/api/invokingApi/searchExpress?appKey=0c98fbe6005e4c09b398bf9fcaf9cd3d&amp;expressNo=9891754549340;</div><div class="line">        //------------------必须设置部分---------------------------</div><div class="line">		proxy_redirect default;</div><div class="line">		proxy_connect_timeout 1s;</div><div class="line">		proxy_read_timeout 30s;</div><div class="line">		proxy_send_timeout 1s;</div><div class="line">		add_header &apos;Access-Control-Allow-Headers&apos; &apos;Content-Type&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Origin&apos; &apos;*&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Methods&apos; &apos;GET&apos;;</div><div class="line">		//-------------------必须设置部分--------------------------</div><div class="line">        index  index.html index.htm;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">	   	</div><div class="line"></div><div class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       8000;</div><div class="line">    #    listen       somename:8080;</div><div class="line">    #    server_name  somename  alias  another.alias;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line"></div><div class="line">    # HTTPS server</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       443 ssl;</div><div class="line">    #    server_name  localhost;</div><div class="line"></div><div class="line">    #    ssl_certificate      cert.pem;</div><div class="line">    #    ssl_certificate_key  cert.key;</div><div class="line"></div><div class="line">    #    ssl_session_cache    shared:SSL:1m;</div><div class="line">    #    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</div><div class="line">    #    ssl_prefer_server_ciphers  on;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>不要忘了设置请求方式，否则参数的传递可能会出现问题</em><br><img src="http://img.blog.csdn.net/20171222091925231?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>前端访问案例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">  &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</div><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;script  src=&quot;http://libs.baidu.com/jquery/1.8.2/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    $(function()&#123;</div><div class="line">	alert(&apos;Hello&apos;);</div><div class="line">        //按钮单击时执行</div><div class="line">        $(&quot;#testAjax&quot;).click(function()&#123;</div><div class="line">              </div><div class="line">              //Ajax调用处理</div><div class="line">            $.ajax(&#123;</div><div class="line">               type: &quot;POST&quot;,</div><div class="line">               url: &quot;http://127.0.0.1:8081/juhe/&quot;,</div><div class="line">               data: &quot;&quot;,</div><div class="line">               success: function(data)&#123;</div><div class="line">                        $(&quot;#myDiv&quot;).html(&apos;&lt;h2&gt;&apos;+data+&apos;&lt;/h2&gt;&apos;);</div><div class="line">                  &#125;</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">         &#125;);</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;    </div><div class="line">&lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;myDiv&quot;&gt;&lt;h2&gt;通过 AJAX 改变文本&lt;/h2&gt;&lt;/div&gt;</div><div class="line">        &lt;button id=&quot;testAjax&quot; type=&quot;button&quot;&gt;Ajax改变内容&lt;/button&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>   3.根本原理<br>   <img src="http://img.blog.csdn.net/20171221093523848?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br> 4.参考文档:<a href="http://m.blog.csdn.net/kkgbn/article/details/52276866" target="_blank" rel="external">Nginx 配置Ajax跨域访问</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Object.assign() 方法详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1136,6 +1069,105 @@ ReactDom.render(
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/03/明天就要学转前端了，收集了一些资料放这里了/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-AOP中的概念通知、切点、切面" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/AOP中的概念通知、切点、切面/">AOP中的概念通知、切点、切面</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/07/AOP中的概念通知、切点、切面/" class="archive-article-date">
+  	<time datetime="2017-11-07T08:06:01.157Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong><strong>通知、增强处理（Advice）</strong></strong></p>
+<hr>
+<p>通知、增强处理（Advice） 就是你想要的功能，也就是上说的安全、事物、日子等。你给先定义好，然后再想用的地方用一下。包含Aspect的一段处理代码</p>
+<p><strong><em>连接点（JoinPoint）</em></strong></p>
+<hr>
+<p>连接点（JoinPoint） 这个就更好解释了，就是spring允许你是通知（Advice）的地方，那可就真多了，基本每个方法的钱、后（两者都有也行），或抛出异常是时都可以是连接点，spring只支持方法连接点。其他如AspectJ还可以让你在构造器或属性注入时都行，不过那不是咱们关注的，只要记住，和方法有关的前前后后都是连接点。</p>
+<p><strong><em>切入点（Pointcut）</em></strong> </p>
+<hr>
+<p>切入点（Pointcut） 上面说的连接点的基础上，来定义切入点，你的一个类里，有15个方法，那就有十几个连接点了对吧，但是你并不想在所有方法附件都使用通知（使用叫织入，下面再说），你只是想让其中几个，在调用这几个方法之前、之后或者抛出异常时干点什么，那么就用切入点来定义这几个方法，让切点来筛选连接点，选中那几个你想要的方法。</p>
+<p><strong><em>切面（Aspect）</em></strong></p>
+<hr>
+<p>切面（Aspect） 切面是通知和切入点的结合。现在发现了吧，没连接点什么事，链接点就是为了让你好理解切点搞出来的，明白这个概念就行了。通知说明了干什么和什么时候干（什么时候通过方法名中的befor，after，around等就能知道），二切入点说明了在哪干（指定到底是哪个方法），这就是一个完整的切面定义。</p>
+<hr>
+<blockquote>
+<p>引入（introduction）</p>
+<p>引入（introduction） 允许我们向现有的类添加新方法属性。这不就是把切面（也就是新方法属性：通知定义的）用到目标类中吗</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>目标（target）</p>
+<p>目标（target）<br>引入中所提到的目标类，也就是要被通知的对象，也就是真正的业务逻辑，他可以在毫不知情的情况下，被咋们织入切面。二自己专注于业务本身的逻辑。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>代理（proxy）</p>
+<p>代理（proxy） 怎么实现整套AOP机制的，都是通过代理，这个一会儿给细说。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>织入（weaving）</p>
+<p>织入（weaving） 把切面应用到目标对象来创建新的代理对象的过程。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">目标对象 – 项目原始的Java组件。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理  – 由AOP框架生成java对象。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AOP代理方法 = advice +　目标对象的方法。</div></pre></td></tr></table></figure>
+<p>example :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 通知 --&gt;</div><div class="line">	&lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;</div><div class="line">		&lt;tx:attributes&gt;</div><div class="line">			&lt;!-- 传播行为 --&gt;</div><div class="line">			&lt;tx:method name=&quot;save*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;insert*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;delete*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;find*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;get*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">			&lt;tx:method name=&quot;query*&quot; propagation=&quot;SUPPORTS&quot; read-only=&quot;true&quot; /&gt;</div><div class="line">		&lt;/tx:attributes&gt;</div><div class="line">	&lt;/tx:advice&gt;</div><div class="line"></div><div class="line">	&lt;!-- 切面 --&gt;</div><div class="line">	&lt;aop:config&gt;</div><div class="line">		&lt;aop:advisor advice-ref=&quot;txAdvice&quot;[具体的增强逻辑，此处是事物，上面已经定义好了]</div><div class="line">			pointcut=&quot;execution(* cn.itcast.ssm.service.*.*(..))&quot; [增强逻辑的具体作用位置]/&gt;</div><div class="line">	&lt;/aop:config&gt;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/07/AOP中的概念通知、切点、切面/">展开全文 >></a>
         </p>
       
 
