@@ -163,6 +163,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-单页面面应用【SPA】和多页面应用【MPA】之间的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/28/单页面面应用【SPA】和多页面应用【MPA】之间的区别/">单页面面应用【SPA】和多页面应用【MPA】之间的区别</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/28/单页面面应用【SPA】和多页面应用【MPA】之间的区别/" class="archive-article-date">
+  	<time datetime="2018-10-28T03:10:45.197Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://ouuy81imh.bkt.clouddn.com/spa&amp;mpa.png,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqMjAxNDIyMTM=,size_27,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/28/单页面面应用【SPA】和多页面应用【MPA】之间的区别/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-基于Vue2.x的自定义博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -844,88 +907,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/07/04/nodejs npm install -g 全局安装和非全局安装的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-redis集群批量删除指定的key" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/02/redis集群批量删除指定的key/">redis集群批量删除指定的key</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/02/redis集群批量删除指定的key/" class="archive-article-date">
-  	<time datetime="2018-07-02T00:47:53.496Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>工作中遇到一个问题,redis中存储了大量的key,而且没有设置时效,其中很大一部分后来都没用了,导致redis体积庞大,查询缓慢。服务器版本为windows,网上搜索到很多批量删除的方法都是Linux下的,几番寻找,终于找到了在windows下批量删除超大量key的方法。<br>   首先贴一下Linux下的方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli keys&quot;*&quot; |xargs redis-cli del</div></pre></td></tr></table></figure>
-<p>   //如果redis-cli没有设置成系统变量,需要指定redis-cli的完整路径,加入redis-cli的安装路径如下：<br>   <img src="http://ouuy81imh.bkt.clouddn.com/redis0120180702082947583.png" alt="这里写图片描述"><br>   那么在gitbash上模拟的linux命令则如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./redis-cli keys &quot;*lz*&quot;|xargs ./redis-cli del</div></pre></td></tr></table></figure>
-<p>原理就是通过xargs工具将前半部分的查询结果借助管道传递给后面的删除命令，进而实现循环删除，达到批量删除的结果。<br>But,测试的时候趣发现这条命令不好使,测试结果如下图所示，具体的原因不明:<br><img src="http://ouuy81imh.bkt.clouddn.com/redis02.png" alt="这里写图片描述"></p>
-<hr>
-<p>作为替代方案，我找到了windows、Linux下均试用的方法:<br>使用lua脚本:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*&apos;)))&quot; 0</div></pre></td></tr></table></figure>
-<p>但这种处理方式,量大的情况下,lua函数unpack会出现问题,会报错误</p>
-<blockquote>
-<p>(error) ERR Error running script (call to f_e177a091510d969af3b388ee986dbe6658df6b57): user_script:1: too many results to unpack</p>
-</blockquote>
-<p>解决方法:<br>一次性unpack太多会出问题,那就干脆一次5000吧,这样就不会有问题了,实测速度非常快哦。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;value*&apos;</div></pre></td></tr></table></figure>
-<p>所以最终实现我的需求的代码就是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-cli eval &quot;redis.call(&apos;del&apos;, unpack(redis.call(&apos;keys&apos;,&apos;*lz*&apos;)))&quot; 0</div><div class="line"></div><div class="line">redis-cli eval &quot;local keys = redis.call(&apos;keys&apos;, ARGV[1]) for i=1,#keys,5000 do redis.call(&apos;del&apos;, unpack(keys, i, math.min(i+4999, #keys))) end return #keys&quot; 0 &apos;*lz*&apos;</div></pre></td></tr></table></figure>
-<p>上述语句的执行原理其实是递归调用，通过递归最终实现了批量删除。</p>
-<hr>
-<p>在redis集群中可以借助脚本实现集群上的批量删除，这个还没测试过。参考文章如下:<br><a href="http://blog.51cto.com/ganbing/2050111" target="_blank" rel="external">redis集群批量删除指定的key</a></p>
-<p>本文参考文章:<br><a href="https://www.aliyun.com/jiaocheng/874744.html" target="_blank" rel="external">redis批量删除key （windows适用）</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/02/redis集群批量删除指定的key/">展开全文 >></a>
         </p>
       
 

@@ -163,6 +163,76 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-react结合d3.js和svg绘制条形统计图" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">react结合d3.js和svg绘制条形统计图</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/18/react结合d3.js和svg绘制条形统计图/" class="archive-article-date">
+  	<time datetime="2018-01-18T09:39:59.114Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近学习了下D3.js并仿照别人的案例写了个小demo【参考文章》<a href="http://wiki.jikexueyuan.com/project/d3wiki/chart.html】，遇到了一些问题，在这里记录下" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/d3wiki/chart.html】，遇到了一些问题，在这里记录下</a>:<br>1.遇到的一些坑:<br>(1.)D3.js中V3和V4的版本差别很大,所以一定要注意版本;<br>(2.)引用D3.js的js库文件的时候，应该通过npm安装库依赖，虽然D3.js不咋出名，但是npm还是可以安装它，安装命令是:<br><code>npm安装：npm install d3
+前端导入：import * as d3 from &#39;d3&#39;;</code><br>(3.)react中css的解析和导入：<br>一：如果是通过create-react-app创建的项目，可以直接通过命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import &apos;./styles.css&apos;;</div></pre></td></tr></table></figure>
+<p>导入，可以参考蚂蚁金服的样式导入和操作；<br>二:非create-react-app项目，可以参考文章:<br><a href="http://echizen.github.io/tech/2017/03-09-css-in-react" target="_blank" rel="external">http://echizen.github.io/tech/2017/03-09-css-in-react</a><br>2.demo的源码：<br>animSVG.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import React, &#123; Component &#125; from &apos;react&apos;;</div><div class="line">import * as SimulationData from &apos;./svgData&apos;;</div><div class="line">import * as d3 from &apos;d3&apos;;</div><div class="line">import &apos;./styles.css&apos;;</div><div class="line">//需要注意的问题：v3和v4版本差别很大，需要高度注意;</div><div class="line">class AnimSVG extends React.Component &#123;</div><div class="line">   </div><div class="line">    render() &#123;</div><div class="line">        &#123;/* 定义柱状图的颜色数组; */ &#125;</div><div class="line">        const colors = [&quot;#39D1DE&quot;, &quot;#1CDB62&quot;, &quot;#1FE015&quot;, &quot;#A7E51F&quot;, &quot;#E3E312&quot;, &quot;#EA6A1F&quot;, &quot;#29A0E3&quot;];</div><div class="line">        &#123;/* 画布大小 */ &#125;</div><div class="line">        var width = 400;</div><div class="line">        var height = 400;</div><div class="line"></div><div class="line">        &#123;/* 在 body 里添加一个 SVG 画布 */ &#125;</div><div class="line">        var svg = d3.select(&quot;body&quot;)</div><div class="line">            .append(&quot;svg&quot;)</div><div class="line">            .attr(&quot;width&quot;, width)</div><div class="line">            .attr(&quot;height&quot;, height);</div><div class="line"></div><div class="line">        &#123;/* 画布周边的空白 */ &#125;</div><div class="line">        var padding = &#123; left: 30, right: 30, top: 20, bottom: 20 &#125;;</div><div class="line"></div><div class="line">        &#123;/* 定义一个数组 */ &#125;</div><div class="line">        var dataset = [10, 20, 30, 40, 33, 24, 12, 5];</div><div class="line"></div><div class="line">        &#123;/* x轴的比例尺 */ &#125;</div><div class="line">        var xScale = d3.scale.ordinal()</div><div class="line">            .domain(d3.range(dataset.length))</div><div class="line">            .rangeRoundBands([0, width - padding.left - padding.right]);</div><div class="line"></div><div class="line">        &#123;/* y轴的比例尺 */ &#125;</div><div class="line">        var yScale = d3.scale.linear()</div><div class="line">            .domain([0, d3.max(dataset)])</div><div class="line">            .range([height - padding.top - padding.bottom, 0]);</div><div class="line"></div><div class="line">        &#123;/* 定义x轴 */ &#125;</div><div class="line">        var xAxis = d3.svg.axis()</div><div class="line">            .scale(xScale)</div><div class="line">            .orient(&quot;bottom&quot;);</div><div class="line"></div><div class="line">        &#123;/* 定义y轴 */ &#125;</div><div class="line">        var yAxis = d3.svg.axis()</div><div class="line">            .scale(yScale)</div><div class="line">            .orient(&quot;left&quot;);</div><div class="line"></div><div class="line">        &#123;/* 矩形之间的空白间距的宽度; */ &#125;</div><div class="line">        var rectPadding = 4;</div><div class="line"></div><div class="line">        //添加矩形元素</div><div class="line">        var rects = svg.selectAll(&quot;.MyRect&quot;)</div><div class="line">            .data(dataset)</div><div class="line">            .enter()</div><div class="line">            .append(&quot;rect&quot;)</div><div class="line">            .attr(&quot;class&quot;, &quot;MyRect&quot;)</div><div class="line">            .attr(&quot;transform&quot;, &quot;translate(&quot; + padding.left + &quot;,&quot; + padding.top + &quot;)&quot;)</div><div class="line">            .attr(&quot;x&quot;, function (d, i) &#123;</div><div class="line">                return xScale(i) + rectPadding / 2;</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;width&quot;, xScale.rangeBand() - rectPadding)</div><div class="line">            .attr(&quot;y&quot;, function (d) &#123;</div><div class="line">                var min = yScale.domain()[0];</div><div class="line">                return yScale(min);</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;height&quot;, function (d) &#123;</div><div class="line">                return 0;</div><div class="line">            &#125;)</div><div class="line">            .transition()</div><div class="line">            .delay(function (d, i) &#123;</div><div class="line">                return i * 200;</div><div class="line">            &#125;)</div><div class="line">            .duration(2000)</div><div class="line">            .ease(&quot;bounce&quot;)</div><div class="line">            .style(&quot;fill&quot;, function (uselsssVO, index) &#123;</div><div class="line">                var currentColorIndex = index % (colors.length);</div><div class="line">                return colors[currentColorIndex];</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;y&quot;, function (d) &#123;</div><div class="line">                return yScale(d);</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;height&quot;, function (d) &#123;</div><div class="line">                return height - padding.top - padding.bottom - yScale(d);</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">        &#123;/* 添加文字元素 */ &#125;</div><div class="line">        var texts = svg.selectAll(&quot;.MyText&quot;)</div><div class="line">            .data(dataset)</div><div class="line">            .enter()</div><div class="line">            .append(&quot;text&quot;)</div><div class="line">            .attr(&quot;class&quot;, &quot;MyText&quot;)</div><div class="line">            .attr(&quot;transform&quot;, &quot;translate(&quot; + padding.left + &quot;,&quot; + padding.top + &quot;)&quot;)</div><div class="line">            .attr(&quot;x&quot;, function (d, i) &#123;</div><div class="line">                return xScale(i) + rectPadding / 2;</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;dx&quot;, function () &#123;</div><div class="line">                return (xScale.rangeBand() - rectPadding) / 2;</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;dy&quot;, function (d) &#123;</div><div class="line">                return 20;</div><div class="line">            &#125;)</div><div class="line">            .text(function (d) &#123;</div><div class="line">                return d;</div><div class="line">            &#125;)</div><div class="line">            .attr(&quot;y&quot;, function (d) &#123;</div><div class="line">                var min = yScale.domain()[0];</div><div class="line">                return yScale(min);</div><div class="line">            &#125;)</div><div class="line">            .transition()</div><div class="line">            .delay(function (d, i) &#123;</div><div class="line">                return i * 200;</div><div class="line">            &#125;)</div><div class="line">            .duration(2000)</div><div class="line">            .ease(&quot;bounce&quot;)</div><div class="line">            .attr(&quot;y&quot;, function (d) &#123;</div><div class="line">                return yScale(d);</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">        &#123;/* 添加x轴 */ &#125;</div><div class="line">        svg.append(&quot;g&quot;)</div><div class="line">            .attr(&quot;class&quot;, &quot;axis&quot;)</div><div class="line">            .attr(&quot;transform&quot;, &quot;translate(&quot; + padding.left + &quot;,&quot; + (height - padding.bottom) + &quot;)&quot;)</div><div class="line">            .call(xAxis); </div><div class="line"></div><div class="line">        &#123;/* 添加y轴 */ &#125;</div><div class="line">        svg.append(&quot;g&quot;)</div><div class="line">            .attr(&quot;class&quot;, &quot;axis&quot;)</div><div class="line">            .attr(&quot;transform&quot;, &quot;translate(&quot; + padding.left + &quot;,&quot; + padding.top + &quot;)&quot;)</div><div class="line">            .call(yAxis);</div><div class="line"></div><div class="line">        return (</div><div class="line">            &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;/svg&gt;</div><div class="line">        );</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default AnimSVG;</div></pre></td></tr></table></figure>
+<p>styles.css</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">.axis path,</div><div class="line">.axis line &#123;</div><div class="line">    fill: none;</div><div class="line">    stroke: black;</div><div class="line">    shape-rendering: crispEdges;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.axis text &#123;</div><div class="line">    font-family: sans-serif;</div><div class="line">    font-size: 11px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.MyRect &#123;</div><div class="line">    fill: steelblue;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.MyText &#123;</div><div class="line">    fill: white;</div><div class="line">    text-anchor: middle;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3.demo的效果:<br><img src="http://img.blog.csdn.net/20180118173937870?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/18/react结合d3.js和svg绘制条形统计图/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-POI实现excel的导入导出-[未采用反射实现的版本]" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -756,73 +826,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/24/自己对react中flux框架部分底层原理的理解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx反向代理机制解决跨域问题详解【windows上的】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">nginx反向代理机制解决跨域问题详解【windows上的】</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/" class="archive-article-date">
-  	<time datetime="2017-12-21T01:38:27.188Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以前学过linux服务器上的配置，感觉linux上的比较好用。下面是windows上的详细配置、案例和原理图:<br>        1.背景<br>            我要在本地服务器上的jsp【react】页面上访问聚合网上的数据，但是由于端口、域名、协议的不同导致浏览器识别为跨域请求，因此需要借用nginx的反向代理机制实现跨域请求【其实用jsonp是最简单的方法，但是生产方必须提供必要的回调api】。<a href="http://blog.csdn.net/lambert310/article/details/51683775" target="_blank" rel="external">【什么是跨域】</a><br>         2.解决方案<br>         使用ngin反向代理实现跨域请求：<br>         nginx.conf配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#user  nobody;</div><div class="line">worker_processes  1;</div><div class="line"></div><div class="line">#error_log  logs/error.log;</div><div class="line">#error_log  logs/error.log  notice;</div><div class="line">#error_log  logs/error.log  info;</div><div class="line"></div><div class="line">#pid        logs/nginx.pid;</div><div class="line"></div><div class="line"></div><div class="line">events &#123;</div><div class="line">    worker_connections  1024;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">http &#123;</div><div class="line">    include       mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</div><div class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</div><div class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</div><div class="line"></div><div class="line">    #access_log  logs/access.log  main;</div><div class="line"></div><div class="line">    sendfile        on;</div><div class="line">    #tcp_nopush     on;</div><div class="line"></div><div class="line">    #keepalive_timeout  0;</div><div class="line">    keepalive_timeout  65;</div><div class="line"></div><div class="line">    #gzip  on;</div><div class="line">    #反向代理的配置; </div><div class="line">    server &#123;</div><div class="line">        listen       8081;</div><div class="line">        server_name  127.0.0.1;</div><div class="line">        #charset koi8-r;</div><div class="line">        #access_log  logs/host.access.log  main;</div><div class="line">        location /juhe &#123;</div><div class="line">        proxy_pass   http://api.shujuzhihui.cn/api/invokingApi/searchExpress?appKey=0c98fbe6005e4c09b398bf9fcaf9cd3d&amp;expressNo=9891754549340;</div><div class="line">        //------------------必须设置部分---------------------------</div><div class="line">		proxy_redirect default;</div><div class="line">		proxy_connect_timeout 1s;</div><div class="line">		proxy_read_timeout 30s;</div><div class="line">		proxy_send_timeout 1s;</div><div class="line">		add_header &apos;Access-Control-Allow-Headers&apos; &apos;Content-Type&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Origin&apos; &apos;*&apos;;</div><div class="line">		add_header &apos;Access-Control-Allow-Methods&apos; &apos;GET&apos;;</div><div class="line">		//-------------------必须设置部分--------------------------</div><div class="line">        index  index.html index.htm;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">	   	</div><div class="line"></div><div class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       8000;</div><div class="line">    #    listen       somename:8080;</div><div class="line">    #    server_name  somename  alias  another.alias;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line"></div><div class="line">    # HTTPS server</div><div class="line">    #</div><div class="line">    #server &#123;</div><div class="line">    #    listen       443 ssl;</div><div class="line">    #    server_name  localhost;</div><div class="line"></div><div class="line">    #    ssl_certificate      cert.pem;</div><div class="line">    #    ssl_certificate_key  cert.key;</div><div class="line"></div><div class="line">    #    ssl_session_cache    shared:SSL:1m;</div><div class="line">    #    ssl_session_timeout  5m;</div><div class="line"></div><div class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</div><div class="line">    #    ssl_prefer_server_ciphers  on;</div><div class="line"></div><div class="line">    #    location / &#123;</div><div class="line">    #        root   html;</div><div class="line">    #        index  index.html index.htm;</div><div class="line">    #    &#125;</div><div class="line">    #&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>不要忘了设置请求方式，否则参数的传递可能会出现问题</em><br><img src="http://img.blog.csdn.net/20171222091925231?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>前端访问案例:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">  &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</div><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;script  src=&quot;http://libs.baidu.com/jquery/1.8.2/jquery.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    $(function()&#123;</div><div class="line">	alert(&apos;Hello&apos;);</div><div class="line">        //按钮单击时执行</div><div class="line">        $(&quot;#testAjax&quot;).click(function()&#123;</div><div class="line">              </div><div class="line">              //Ajax调用处理</div><div class="line">            $.ajax(&#123;</div><div class="line">               type: &quot;POST&quot;,</div><div class="line">               url: &quot;http://127.0.0.1:8081/juhe/&quot;,</div><div class="line">               data: &quot;&quot;,</div><div class="line">               success: function(data)&#123;</div><div class="line">                        $(&quot;#myDiv&quot;).html(&apos;&lt;h2&gt;&apos;+data+&apos;&lt;/h2&gt;&apos;);</div><div class="line">                  &#125;</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">         &#125;);</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;    </div><div class="line">&lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;myDiv&quot;&gt;&lt;h2&gt;通过 AJAX 改变文本&lt;/h2&gt;&lt;/div&gt;</div><div class="line">        &lt;button id=&quot;testAjax&quot; type=&quot;button&quot;&gt;Ajax改变内容&lt;/button&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>   3.根本原理<br>   <img src="http://img.blog.csdn.net/20171221093523848?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemoyMDE0MjIxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br> 4.参考文档:<a href="http://m.blog.csdn.net/kkgbn/article/details/52276866" target="_blank" rel="external">Nginx 配置Ajax跨域访问</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/21/nginx反向代理机制解决跨域问题详解【windows上的】/">展开全文 >></a>
         </p>
       
 
